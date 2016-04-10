@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>images/DownArrow8x8.png</file>
+	<file>images/sine_sweep-32x32-buttonized.png</file>
+</qresource>
+</RCC>
