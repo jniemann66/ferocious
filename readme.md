@@ -9,7 +9,7 @@ It provides a convenient and easy-to-use graphical interface for converting audi
 
 ## Description of Code
 
-Ferocious File Converter was developed using Qt 5.5 on Windows, with the 32-bit minGW compiler version 4.9.2
+Ferocious File Converter was developed using Qt 5.5 on Windows, with the 32-bit minGW compiler version 4.9.2.
 Since Qt is cross-platfrom, and resampler.exe is command-line only, it would be quite feasible to port this project to other OSes (hint: fork my project :-) ) 
 
 ## Motivation
