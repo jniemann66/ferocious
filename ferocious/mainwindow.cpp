@@ -143,6 +143,19 @@ void MainWindow::on_convertButton_clicked()
     if(ui->DoublePrecisionCheckBox->isChecked())
         args << "--doubleprecision";
 
+    // format args: Dithering
+    if(ui->DitherCheckBox->isChecked()){
+        if(!ui->DitherAmountEdit->text().isEmpty()){
+            double DitherAmount=ui->DitherAmountEdit->text().toDouble();
+            if((DitherAmount>0.0) && (DitherAmount<=8.0)){
+                args << "--dither" << QString::number(DitherAmount);
+            }
+        }else{
+            args << "--dither";
+        }
+    }
+
+
     Converter.setProcessChannelMode(QProcess::MergedChannels);
     Converter.start(ConverterPath,args);
 }
@@ -208,4 +221,16 @@ void MainWindow::PopulateBitFormats(const QString& fileName)
 void MainWindow::on_OutfileEdit_editingFinished()
 {
     PopulateBitFormats(ui->OutfileEdit->text());
+}
+
+void MainWindow::on_DitherCheckBox_clicked()
+{
+    ui->DitherAmountEdit->setEnabled(ui->DitherCheckBox->isChecked());
+}
+
+void MainWindow::on_DitherAmountEdit_editingFinished()
+{
+    double DitherAmount = ui->DitherAmountEdit->text().toDouble();
+    if(DitherAmount <0.0 || DitherAmount >8.0)
+        ui->DitherAmountEdit->setText("1.0");
 }

@@ -31,6 +31,10 @@ private slots:
     void on_BitDepthCheckBox_clicked();
     void on_OutfileEdit_editingFinished();
 
+    void on_DitherCheckBox_clicked();
+
+    void on_DitherAmountEdit_editingFinished();
+
 private:
     Ui::MainWindow *ui;
     QProcess Converter;

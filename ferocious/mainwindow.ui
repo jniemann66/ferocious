@@ -932,7 +932,7 @@ QComboBox::drop-down:disabled {
     </property>
     <property name="geometry">
      <rect>
-      <x>216</x>
+      <x>215</x>
       <y>130</y>
       <width>100</width>
       <height>22</height>
@@ -1336,7 +1336,7 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
    <widget class="QCheckBox" name="BitDepthCheckBox">
     <property name="geometry">
      <rect>
-      <x>114</x>
+      <x>115</x>
       <y>110</y>
       <width>71</width>
       <height>18</height>
@@ -1344,6 +1344,54 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
     </property>
     <property name="text">
      <string>Bit Format:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="DitherAmountEdit">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>130</y>
+      <width>100</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+	background-color: rgb(0, 0, 0);
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+	border-width: 2px;
+	border-style: inset;
+	border-color: #2b3126;;
+}
+
+QLineEdit:disabled {
+	background-color:   #32392d;
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+	border-width: 2px;
+	border-style: inset;
+	color: #3a4234;
+	border-color: #2b3126;
+}</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="DitherCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>325</x>
+      <y>110</y>
+      <width>71</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dither:</string>
     </property>
    </widget>
   </widget>
