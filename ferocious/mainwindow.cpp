@@ -75,8 +75,10 @@ void MainWindow::readSettings()
 {
     QSettings settings(QSettings::IniFormat,QSettings::SystemScope,"JuddSoft","Ferocious");
 
-    settings.beginGroup("MainWindow");
+    settings.beginGroup("Paths");
     MainWindow::ConverterPath = settings.value("ConverterPath", MainWindow::ConverterPath).toString();
+    MainWindow::inFileBrowsePath = settings.value("InputFileBrowsePath", MainWindow::inFileBrowsePath).toString();
+    MainWindow::outFileBrowsePath = settings.value("OutputFileBrowsePath", MainWindow::outFileBrowsePath).toString();
     settings.endGroup();
 }
 
@@ -85,8 +87,10 @@ void MainWindow::writeSettings()
 {
     QSettings settings(QSettings::IniFormat,QSettings::SystemScope,"JuddSoft","Ferocious");
 
-    settings.beginGroup("MainWindow");
+    settings.beginGroup("Paths");
     settings.setValue("ConverterPath", MainWindow::ConverterPath);
+    settings.setValue("InputFileBrowsePath",MainWindow::inFileBrowsePath);
+    settings.setValue("OutputFileBrowsePath",MainWindow::outFileBrowsePath);
     settings.endGroup();
 }
 
@@ -112,10 +116,14 @@ void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitSta
 void MainWindow::on_browseInfileButton_clicked()
 {   
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Select Input File"), "e:\\", tr("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
+        tr("Select Input File"), inFileBrowsePath, tr("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
-    ui->InfileEdit->setText(QDir::toNativeSeparators(fileName));
-
+    if(!fileName.isNull()){
+        QDir path(fileName);
+        inFileBrowsePath = path.absolutePath(); // remember this browse session (unix separators)
+       // inFileBrowsePath = QDir::toNativeSeparators(path.absolutePath()); // remember this browse session (in native Format)
+        ui->InfileEdit->setText(QDir::toNativeSeparators(fileName));
+    }
 }
 
 void MainWindow::on_convertButton_clicked()
@@ -155,7 +163,6 @@ void MainWindow::on_convertButton_clicked()
         }
     }
 
-
     Converter.setProcessChannelMode(QProcess::MergedChannels);
     Converter.start(ConverterPath,args);
 }
@@ -174,10 +181,15 @@ void MainWindow::on_InfileEdit_editingFinished()
 void MainWindow::on_browseOutfileButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Select Output File"), "e:\\", tr("Audio Files (*.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
+        tr("Select Output File"), outFileBrowsePath, tr("Audio Files (*.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
-    ui->OutfileEdit->setText(QDir::toNativeSeparators(fileName));
-    PopulateBitFormats(ui->OutfileEdit->text());
+    if(!fileName.isNull()){
+        QDir path(fileName);
+         outFileBrowsePath = path.absolutePath(); // remember this browse session (Unix separators)
+       //  outFileBrowsePath = QDir::toNativeSeparators(path.absolutePath()); // remember this browse session (native separators)
+        ui->OutfileEdit->setText(QDir::toNativeSeparators(fileName));
+        PopulateBitFormats(ui->OutfileEdit->text());
+    }
 }
 
 void MainWindow::on_NormalizeCheckBox_clicked()
@@ -220,7 +232,16 @@ void MainWindow::PopulateBitFormats(const QString& fileName)
 
 void MainWindow::on_OutfileEdit_editingFinished()
 {
-    PopulateBitFormats(ui->OutfileEdit->text());
+    // if user has changed the extension (ie type) of the filename, then repopulate subformats combobox:
+    QString fileName=ui->OutfileEdit->text();
+    int extidx = fileName.lastIndexOf(".");
+    if(extidx > -1){ // filename must have a "." to contain a file extension ...
+        QString ext = fileName.right(fileName.length()-extidx-1); // get file extension from file name
+        if(ext != lastOutputFileExt){
+            PopulateBitFormats(fileName);
+            lastOutputFileExt=ext;
+        }
+    }
 }
 
 void MainWindow::on_DitherCheckBox_clicked()

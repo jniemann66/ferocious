@@ -39,10 +39,13 @@ private:
     Ui::MainWindow *ui;
     QProcess Converter;
 
-    void PopulateBitFormats(const QString& fileName);
-    bool fileExists(const QString& path);
-    void writeSettings();
-    void readSettings();
+    void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
+    bool fileExists(const QString& path);   // detect if file represented by path exists
+    void writeSettings();       // write settings to ini file
+    void readSettings();        // read settings from ini file
+    QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
+    QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
+    QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
 };
 
 #endif // MAINWINDOW_H
