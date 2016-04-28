@@ -56,7 +56,6 @@ MainWindow::MainWindow(QWidget *parent) :
     pal.setColor(QPalette::Disabled, QPalette::Light, QColor(0, 0, 0, 0));
 
     QApplication::setPalette(pal);
-
 }
 
 MainWindow::~MainWindow()
@@ -180,7 +179,7 @@ void MainWindow::on_InfileEdit_editingFinished()
 
 void MainWindow::on_browseOutfileButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
+    QString fileName = QFileDialog::getSaveFileName(this,
         tr("Select Output File"), outFileBrowsePath, tr("Audio Files (*.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
     if(!fileName.isNull()){
