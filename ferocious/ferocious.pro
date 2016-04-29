@@ -13,12 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    outputfileoptions_dialog.cpp
 
 HEADERS  += mainwindow.h \
-    flashingpushbutton.h
+    flashingpushbutton.h \
+    outputfileoptions_dialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    outputfileoptions_dialog.ui
 
 
 

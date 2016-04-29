@@ -1396,6 +1396,50 @@ QLineEdit:disabled {
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>740</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <widget class="QMenu" name="menuOptions">
+    <property name="styleSheet">
+     <string notr="true">QMenu {
+color: #fff;
+border: 1px solid #1b2018;
+/*border-radius: 9px;*/
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+
+/*min-width: 66px;*/
+}</string>
+    </property>
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionConverter_Location"/>
+    <addaction name="actionOutput_File_Options"/>
+   </widget>
+   <addaction name="menuOptions"/>
+  </widget>
+  <action name="actionConverter_Location">
+   <property name="text">
+    <string>Converter Location ...</string>
+   </property>
+  </action>
+  <action name="actionOutput_File_Options">
+   <property name="text">
+    <string>Output File Options ...</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

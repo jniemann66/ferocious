@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QProcess>
 
+#include "outputfileoptions_dialog.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -35,6 +37,10 @@ private slots:
 
     void on_DitherAmountEdit_editingFinished();
 
+    void on_actionConverter_Location_triggered();
+
+    void on_actionOutput_File_Options_triggered();
+
 private:
     Ui::MainWindow *ui;
     QProcess Converter;
@@ -46,6 +52,9 @@ private:
     QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
     QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
+    OutFileNamer outfileNamer;
 };
+
+
 
 #endif // MAINWINDOW_H

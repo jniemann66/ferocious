@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "outputfileoptions_dialog.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -69,7 +70,6 @@ bool MainWindow::fileExists(const QString& path) {
     return (fi.exists() && fi.isFile());
 }
 
-
 void MainWindow::readSettings()
 {
     QSettings settings(QSettings::IniFormat,QSettings::SystemScope,"JuddSoft","Ferocious");
@@ -79,6 +79,8 @@ void MainWindow::readSettings()
     MainWindow::inFileBrowsePath = settings.value("InputFileBrowsePath", MainWindow::inFileBrowsePath).toString();
     MainWindow::outFileBrowsePath = settings.value("OutputFileBrowsePath", MainWindow::outFileBrowsePath).toString();
     settings.endGroup();
+
+    outfileNamer.loadSettings(settings);
 }
 
 
@@ -91,6 +93,8 @@ void MainWindow::writeSettings()
     settings.setValue("InputFileBrowsePath",MainWindow::inFileBrowsePath);
     settings.setValue("OutputFileBrowsePath",MainWindow::outFileBrowsePath);
     settings.endGroup();
+
+    outfileNamer.saveSettings(settings);
 }
 
 void MainWindow::on_StdoutAvailable()
@@ -169,18 +173,19 @@ void MainWindow::on_convertButton_clicked()
 void MainWindow::on_InfileEdit_editingFinished()
 {
     if(ui->OutfileEdit->text().isEmpty() && !ui->InfileEdit->text().isEmpty()){
-        std::string destFilename(ui->InfileEdit->text().toStdString());         // convert to a std::string
-        if(destFilename.find(".")!=std::string::npos){
-            destFilename.insert(destFilename.find_last_of("."), "(converted)");     // insert "(converted)" just before file extension
-            ui->OutfileEdit->setText(QString(destFilename.c_str()));
-        }
+        QString outFileName;
+        outfileNamer.generateOutputFilename(outFileName,ui->InfileEdit->text());
+        if(!outFileName.isNull() && !outFileName.isEmpty())
+            ui->OutfileEdit->setText(outFileName);
     }
 }
 
 void MainWindow::on_browseOutfileButton_clicked()
 {
+    QString path = ui->OutfileEdit->text().isEmpty() ? outFileBrowsePath : ui->OutfileEdit->text(); // if OutfileEdit is populated, use that. Otherwise, use last output file browse path
+
     QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Select Output File"), outFileBrowsePath, tr("Audio Files (*.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
+        tr("Select Output File"), path, tr("Audio Files (*.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
     if(!fileName.isNull()){
         QDir path(fileName);
@@ -253,4 +258,20 @@ void MainWindow::on_DitherAmountEdit_editingFinished()
     double DitherAmount = ui->DitherAmountEdit->text().toDouble();
     if(DitherAmount <0.0 || DitherAmount >8.0)
         ui->DitherAmountEdit->setText("1.0");
+}
+
+void MainWindow::on_actionConverter_Location_triggered()
+{
+    QString cp =QFileDialog::getOpenFileName(this,
+                                               "Please locate the file: resampler.exe",
+                                              ConverterPath,
+                                               "*.exe");
+    if(!cp.isNull())
+        ConverterPath = cp;
+}
+
+void MainWindow::on_actionOutput_File_Options_triggered()
+{
+    OutputFileOptions_Dialog D(outfileNamer);
+    D.exec();
 }
