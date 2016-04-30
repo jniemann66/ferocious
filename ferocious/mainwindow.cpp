@@ -124,8 +124,17 @@ void MainWindow::on_browseInfileButton_clicked()
     if(!fileName.isNull()){
         QDir path(fileName);
         inFileBrowsePath = path.absolutePath(); // remember this browse session (unix separators)
-       // inFileBrowsePath = QDir::toNativeSeparators(path.absolutePath()); // remember this browse session (in native Format)
+        // inFileBrowsePath = QDir::toNativeSeparators(path.absolutePath()); // remember this browse session (in native Format)
         ui->InfileEdit->setText(QDir::toNativeSeparators(fileName));
+
+        // conditionally auto-generate output filename:
+        if(ui->OutfileEdit->text().isEmpty() && !ui->InfileEdit->text().isEmpty()){
+            QString outFileName;
+            outfileNamer.generateOutputFilename(outFileName,ui->InfileEdit->text());
+            if(!outFileName.isNull() && !outFileName.isEmpty())
+                ui->OutfileEdit->setText(outFileName);
+                ui->OutfileEdit->update();
+        }
     }
 }
 
@@ -177,6 +186,7 @@ void MainWindow::on_InfileEdit_editingFinished()
         outfileNamer.generateOutputFilename(outFileName,ui->InfileEdit->text());
         if(!outFileName.isNull() && !outFileName.isEmpty())
             ui->OutfileEdit->setText(outFileName);
+            ui->OutfileEdit->update();
     }
 }
 

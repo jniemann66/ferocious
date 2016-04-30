@@ -1402,24 +1402,354 @@ QLineEdit:disabled {
      <x>0</x>
      <y>0</y>
      <width>740</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Button">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Button">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Button">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="RadialGradientPattern">
+        <gradient centralx="0.300000000000000" centraly="-0.400000000000000" focalx="0.300000000000000" focaly="-0.400000000000000" radius="1.350000000000000" type="RadialGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+         <gradientstop position="0.000000000000000">
+          <color alpha="255">
+           <red>70</red>
+           <green>80</green>
+           <blue>63</blue>
+          </color>
+         </gradientstop>
+         <gradientstop position="1.000000000000000">
+          <color alpha="255">
+           <red>45</red>
+           <green>51</green>
+           <blue>40</blue>
+          </color>
+         </gradientstop>
+        </gradient>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="font">
+    <font>
+     <stylestrategy>PreferAntialias</stylestrategy>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">QMenuBar {
+color: #fff;
+border: 1px solid #1b2018;
+border-radius: 6px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+
+min-width: 66px;
+max-height: 30px;
+}
+
+/*QMenuBar:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
+}*/
+
+/*QMenuBar:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
+}*/
+
+QMenuBar::item {
+color: #fff;
+border: 1px solid #1b2018;
+border-radius: 9px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+padding: 2px;
+min-width: 66px;
+}
+
+QMenuBar::item:pressed {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
+}</string>
    </property>
    <widget class="QMenu" name="menuOptions">
     <property name="styleSheet">
      <string notr="true">QMenu {
 color: #fff;
 border: 1px solid #1b2018;
-/*border-radius: 9px;*/
+border-radius: 9px;
 padding: 5px;
 background: qradialgradient(cx: 0.3, cy: -0.4,
 fx: 0.3, fy: -0.4,
 radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
 
-/*min-width: 66px;*/
+min-width: 66px;
+}
+
+QMenu:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
+}
+
+QMenu:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
 }</string>
     </property>
     <property name="title">
