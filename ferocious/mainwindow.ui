@@ -1394,6 +1394,30 @@ QLineEdit:disabled {
      <string>Dither:</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="AutoBlankCheckBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>325</x>
+      <y>153</y>
+      <width>71</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <stylestrategy>PreferAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Autoblank</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -1402,7 +1426,7 @@ QLineEdit:disabled {
      <x>0</x>
      <y>0</y>
      <width>740</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="palette">

@@ -56,6 +56,10 @@ MainWindow::MainWindow(QWidget *parent) :
     pal.setColor(QPalette::Disabled, QPalette::Text, QColor(80, 80, 80));
     pal.setColor(QPalette::Disabled, QPalette::Light, QColor(0, 0, 0, 0));
 
+    // hide context-sensitive widgets:
+    ui->AutoBlankCheckBox->setEnabled(ui->DitherCheckBox->isChecked());
+    ui->AutoBlankCheckBox->setVisible(ui->DitherCheckBox->isChecked());
+
     QApplication::setPalette(pal);
 }
 
@@ -165,6 +169,7 @@ void MainWindow::on_convertButton_clicked()
 
     // format args: Dithering
     if(ui->DitherCheckBox->isChecked()){
+
         if(!ui->DitherAmountEdit->text().isEmpty()){
             double DitherAmount=ui->DitherAmountEdit->text().toDouble();
             if((DitherAmount>0.0) && (DitherAmount<=8.0)){
@@ -173,7 +178,11 @@ void MainWindow::on_convertButton_clicked()
         }else{
             args << "--dither";
         }
+
+        if(ui->AutoBlankCheckBox->isChecked())
+            args << "--autoblank";
     }
+
 
     Converter.setProcessChannelMode(QProcess::MergedChannels);
     Converter.start(ConverterPath,args);
@@ -261,6 +270,9 @@ void MainWindow::on_OutfileEdit_editingFinished()
 void MainWindow::on_DitherCheckBox_clicked()
 {
     ui->DitherAmountEdit->setEnabled(ui->DitherCheckBox->isChecked());
+    ui->AutoBlankCheckBox->setEnabled(ui->DitherCheckBox->isChecked());
+    ui->AutoBlankCheckBox->setVisible(ui->DitherCheckBox->isChecked());
+
 }
 
 void MainWindow::on_DitherAmountEdit_editingFinished()
