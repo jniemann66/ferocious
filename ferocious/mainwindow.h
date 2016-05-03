@@ -57,6 +57,7 @@ private:
     OutFileNamer outfileNamer;
     QString ResamplerVersion;
     void getResamplerVersion(QString &v);
+    void ProcessOutfileExtension();
 };
 
 

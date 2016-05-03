@@ -142,6 +142,9 @@ void MainWindow::on_browseInfileButton_clicked()
             if(!outFileName.isNull() && !outFileName.isEmpty())
                 ui->OutfileEdit->setText(outFileName);
                 ui->OutfileEdit->update();
+
+            // trigger an update of options if file extension changed:
+            ProcessOutfileExtension();
         }
     }
 }
@@ -200,6 +203,9 @@ void MainWindow::on_InfileEdit_editingFinished()
         if(!outFileName.isNull() && !outFileName.isEmpty())
             ui->OutfileEdit->setText(outFileName);
             ui->OutfileEdit->update();
+
+        // trigger an update of options if output file extension changed:
+        ProcessOutfileExtension();
     }
 }
 
@@ -216,6 +222,9 @@ void MainWindow::on_browseOutfileButton_clicked()
        //  outFileBrowsePath = QDir::toNativeSeparators(path.absolutePath()); // remember this browse session (native separators)
         ui->OutfileEdit->setText(QDir::toNativeSeparators(fileName));
         PopulateBitFormats(ui->OutfileEdit->text());
+
+        // trigger an update of options if file extension changed:
+        ProcessOutfileExtension();
     }
 }
 
@@ -275,6 +284,12 @@ void MainWindow::getResamplerVersion(QString& v)
 
 void MainWindow::on_OutfileEdit_editingFinished()
 {
+   ProcessOutfileExtension(); // trigger an update of options if user changed the file extension
+}
+
+// ProcessoutFileExtension() - analyze extension of outfile and update subformats dropdown accordingly
+void MainWindow::ProcessOutfileExtension()
+{
     // if user has changed the extension (ie type) of the filename, then repopulate subformats combobox:
     QString fileName=ui->OutfileEdit->text();
     int extidx = fileName.lastIndexOf(".");
@@ -286,6 +301,7 @@ void MainWindow::on_OutfileEdit_editingFinished()
         }
     }
 }
+
 
 void MainWindow::on_DitherCheckBox_clicked()
 {
