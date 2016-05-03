@@ -55,12 +55,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QPalette pal = QApplication::palette();
     pal.setColor(QPalette::Disabled, QPalette::Text, QColor(80, 80, 80));
     pal.setColor(QPalette::Disabled, QPalette::Light, QColor(0, 0, 0, 0));
+    QApplication::setPalette(pal);
 
     // hide context-sensitive widgets:
     ui->AutoBlankCheckBox->setEnabled(ui->DitherCheckBox->isChecked());
     ui->AutoBlankCheckBox->setVisible(ui->DitherCheckBox->isChecked());
 
-    QApplication::setPalette(pal);
+    // get converter version:
+    getResamplerVersion(ResamplerVersion);
+    qDebug() << ResamplerVersion;
+
 }
 
 MainWindow::~MainWindow()
@@ -253,6 +257,22 @@ void MainWindow::PopulateBitFormats(const QString& fileName)
     }
 }
 
+// Query Converter for version number:
+void MainWindow::getResamplerVersion(QString& v)
+{
+    QProcess ConverterQuery;
+
+    ConverterQuery.start(ConverterPath, QStringList() << "--version"); // ask converter for its version number
+
+    if (!ConverterQuery.waitForFinished())
+        return;
+
+    ConverterQuery.setReadChannel(QProcess::StandardOutput);
+    while(ConverterQuery.canReadLine()){
+        v += (QString::fromLocal8Bit(ConverterQuery.readLine())).simplified();
+    }
+}
+
 void MainWindow::on_OutfileEdit_editingFinished()
 {
     // if user has changed the extension (ie type) of the filename, then repopulate subformats combobox:
@@ -296,4 +316,42 @@ void MainWindow::on_actionOutput_File_Options_triggered()
 {
     OutputFileOptions_Dialog D(outfileNamer);
     D.exec();
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QString info("Ferocious File Conversion\n By J.Niemann\n\n");
+
+    info += "GUI Version: " + QString(APP_VERSION) + "\n";
+    info += "Converter Vesion: " + ResamplerVersion + "\n";
+
+    QMessageBox msgBox;
+    msgBox.setText("About");
+    msgBox.setInformativeText(info);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setPalette(this->palette());
+    msgBox.setIconPixmap(QPixmap(":/images/sine_sweep-32x32-buttonized.png"));
+    msgBox.setStyleSheet(
+                "QPushButton {\
+                color: #fff;\
+                border: 1px solid #1b2018;\
+                border-radius: 9px;\
+                padding: 5px;\
+                background: qradialgradient(cx: 0.3, cy: -0.4,\
+                fx: 0.3, fy: -0.4,\
+                radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);\
+                min-width: 66px;\
+                }\
+                QPushButton:hover {\
+                background: qradialgradient(cx: 0.3, cy: -0.4,\
+                fx: 0.3, fy: -0.4,\
+                radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);\
+                }\
+                QPushButton:pressed {\
+                background: qradialgradient(cx: 0.4, cy: -0.1,\
+                fx: 0.4, fy: -0.1,\
+                radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);\
+                }");
+    \
+    msgBox.exec();
 }

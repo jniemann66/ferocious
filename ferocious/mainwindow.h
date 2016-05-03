@@ -41,6 +41,8 @@ private slots:
 
     void on_actionOutput_File_Options_triggered();
 
+    void on_actionAbout_triggered();
+
 private:
     Ui::MainWindow *ui;
     QProcess Converter;
@@ -53,6 +55,8 @@ private:
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
     QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
     OutFileNamer outfileNamer;
+    QString ResamplerVersion;
+    void getResamplerVersion(QString &v);
 };
 
 

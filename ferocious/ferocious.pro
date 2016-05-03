@@ -4,13 +4,19 @@
 #
 #-------------------------------------------------
 
+# Application version:
+VERSION = 1.0.4
+
+# Define a preprocessor macro for the version:
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+
+
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ferocious
 TEMPLATE = app
-
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -22,7 +28,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui
-
 
 
 RC_FILE = ferocious.rc

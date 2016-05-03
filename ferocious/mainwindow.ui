@@ -1736,7 +1736,7 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
 QMenuBar::item {
 color: #fff;
 border: 1px solid #1b2018;
-border-radius: 9px;
+border-radius: 6px;
 background: qradialgradient(cx: 0.3, cy: -0.4,
 fx: 0.3, fy: -0.4,
 radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
@@ -1782,7 +1782,39 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
     <addaction name="actionConverter_Location"/>
     <addaction name="actionOutput_File_Options"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="styleSheet">
+     <string notr="true">QMenu {
+color: #fff;
+border: 1px solid #1b2018;
+border-radius: 9px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+
+min-width: 66px;
+}
+
+QMenu:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
+}
+
+QMenu:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
+}</string>
+    </property>
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuOptions"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionConverter_Location">
    <property name="text">
@@ -1792,6 +1824,11 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
   <action name="actionOutput_File_Options">
    <property name="text">
     <string>Output File Options ...</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About ...</string>
    </property>
   </action>
  </widget>
