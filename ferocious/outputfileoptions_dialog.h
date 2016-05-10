@@ -26,6 +26,7 @@ public:
     bool useSpecificFileExt;
     QString fileExt;
     OutFileNamer();
+    OutFileNamer(const OutFileNamer& O);
     void generateOutputFilename(QString& outFilename, const QString& inFilename);
 
     void saveSettings(QSettings& settings);
@@ -33,7 +34,7 @@ public:
 };
 
 namespace Ui {
-class OutputFileOptions_Dialog;
+    class OutputFileOptions_Dialog;
 }
 
 class OutputFileOptions_Dialog : public QDialog
@@ -46,23 +47,15 @@ public:
 
 private slots:
     void on_FilenameSuffix_checkBox_clicked();
-
     void on_useOutputDirectory_checkBox_clicked();
-
     void on_setFileExt_radioButton_clicked();
-
     void on_SameFileExt_radioButton_clicked();
-
     void on_OutputFileOptions_buttonBox_accepted();
-
     void on_pushButton_clicked();
 
 private:
     Ui::OutputFileOptions_Dialog *ui;
     OutFileNamer* pOutFileNamer;
 };
-
-
-
 
 #endif // OUTPUTFILEOPTIONS_DIALOG_H

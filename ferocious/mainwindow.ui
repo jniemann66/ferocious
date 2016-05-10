@@ -1317,9 +1317,9 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
    <widget class="QLabel" name="StatusLabel">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>60</x>
       <y>620</y>
-      <width>111</width>
+      <width>651</width>
       <height>20</height>
      </rect>
     </property>
@@ -1426,7 +1426,7 @@ QLineEdit:disabled {
      <x>0</x>
      <y>0</y>
      <width>740</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="palette">

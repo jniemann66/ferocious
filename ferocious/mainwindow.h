@@ -32,15 +32,10 @@ private slots:
     void on_NormalizeAmountEdit_editingFinished();
     void on_BitDepthCheckBox_clicked();
     void on_OutfileEdit_editingFinished();
-
     void on_DitherCheckBox_clicked();
-
     void on_DitherAmountEdit_editingFinished();
-
     void on_actionConverter_Location_triggered();
-
     void on_actionOutput_File_Options_triggered();
-
     void on_actionAbout_triggered();
 
 private:
@@ -54,12 +49,12 @@ private:
     QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
     QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
-    OutFileNamer outfileNamer;
-    QString ResamplerVersion;
-    void getResamplerVersion(QString &v);
-    void ProcessOutfileExtension();
+    OutFileNamer outfileNamer;  // output filename generator
+    QString ResamplerVersion;   // version string of main external converter
+    void getResamplerVersion(QString &v);   // function to retrieve version number of main external converter
+    void ProcessOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
+    void convert(const QString &outfn, const QString &infn); // execute a conversion task
+    void wildcardConvert();
 };
-
-
 
 #endif // MAINWINDOW_H

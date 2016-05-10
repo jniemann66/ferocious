@@ -13,11 +13,35 @@ OutFileNamer::OutFileNamer(){
     fileExt=QString("wav");
 }
 
+OutFileNamer::OutFileNamer(const OutFileNamer &O)
+    : appendSuffix(O.appendSuffix),
+      Suffix(O.Suffix),
+      useSpecificOutputDirectory(O.useSpecificOutputDirectory),
+      outputDirectory(O.outputDirectory),
+      useSpecificFileExt(O.useSpecificFileExt),
+      fileExt(O.fileExt)
+
+{
+    //
+}
+
 void OutFileNamer::generateOutputFilename(QString &outFilename, const QString &inFilename){
 
-    // I'm more familiar std::string, so converting it all to std::string :-)
-    std::string strInFilename = inFilename.toStdString();   // std::string version of inFilename
-    std::string strOutFilename = inFilename.toStdString();  // std::string version of outFilename (start with copy of inFilename)
+    outFilename = inFilename;
+
+    // if outFilename contains a wildcard, replace everything between last separator and file extension with a wildcard ('*'):
+    int outLastDot = outFilename.lastIndexOf(".");
+    if((inFilename.indexOf("*")>-1) && (outLastDot > -1)){
+        int outLastStarBeforeDot = outFilename.left(outLastDot).lastIndexOf(QDir::separator());
+        if(outLastStarBeforeDot > -1){
+            QString s = outFilename.mid(outLastStarBeforeDot+1,outLastDot-outLastStarBeforeDot-1); // get what is between last '*' and last '.'
+            if(!s.isEmpty() && !s.isNull()){
+                outFilename.replace(s,"*");
+            }
+        }
+    }
+
+    std::string strOutFilename = outFilename.toStdString();  // std::string version of outFilename (start with copy of inFilename)
     std::string sep(QString(QDir::separator()).toStdString()); // separator: '\' for windows, '/' for 'nix
 
     // conditionally replace input file path with user's output directory:
