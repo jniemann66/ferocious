@@ -179,21 +179,39 @@ void MainWindow::wildcardConvert(){
     int inLastSepIndex = ui->InfileEdit->text().lastIndexOf(QDir::separator());     // position of last separator in Infile
     int outLastSepIndex = ui->OutfileEdit->text().lastIndexOf(QDir::separator());   // position of last separator in Outfile
 
-    QString tail = ui->InfileEdit->text().right(ui->InfileEdit->text().length()-inLastSepIndex-1); // isolate everything after last separator
+    QString inDir;
+    QString outDir;
+    QString tail;
 
-    // get directories:
-    QString inDir = ui->InfileEdit->text().left(inLastSepIndex); // isolate directory
-    QString outDir = ui->OutfileEdit->text().left(outLastSepIndex); // isolate directory
+    if(inLastSepIndex >-1){
+        tail = ui->InfileEdit->text().right(ui->InfileEdit->text().length()-inLastSepIndex-1); // isolate everything after last separator
 
-    // strip any wildcards out of directory names:
-    inDir.replace(QString("*"),QString(""));
-    outDir.replace(QString("*"),QString(""));
+        // get input directory:
+        inDir = ui->InfileEdit->text().left(inLastSepIndex); // isolate directory
 
-    // append slash to the end of Windows drive letters:
-    if(inDir.length()==2 && inDir.right(1)==":"){
-        qDebug() << "Drive Letter";
-        inDir += "\\";
+        // strip any wildcards out of directory name:
+        inDir.replace(QString("*"),QString(""));
+
+        // append slash to the end of Windows drive letters:
+        if(inDir.length()==2 && inDir.right(1)==":"){
+            qDebug() << "Drive Letter";
+            inDir += "\\";
+        }
+    } else { // No separators in input Directory
+        tail = ui->InfileEdit->text();
+        inDir = "";
     }
+
+    if(outLastSepIndex >-1){
+        // get output directory:
+        outDir = ui->OutfileEdit->text().left(outLastSepIndex); // isolate directory
+
+        // strip any wildcards out of directory name:
+        outDir.replace(QString("*"),QString(""));
+    }
+    else
+        outDir="";
+
 
     qDebug() << "in Directory:" << inDir;
     qDebug() << "tail: " << tail;
