@@ -42,4 +42,45 @@ converter will automatically create an output filename, based on input filename,
 
 converter will automatically infer the output file format (and subformat) based on the file extension you choose for the output file. The converter's output messages are always displayed in the "Converter Output" box.
 
-Note: when you choose a new output file type, ferocious will run resampler.exe with the --listformats <extension> command to retrieve a list of valid sub-formats and automatically populate the bit format dropdown box with the valid sub-formats for the chosen file type. 
+Note: when you choose a new output file type, ferocious will run resampler.exe with the --listformats <extension> command to retrieve a list of valid sub-formats and automatically populate the bit format dropdown box with the valid sub-formats for the chosen file type.
+
+## Menu Items
+
+**Options/Converter Location ...**   Use this to specify the location of the **resampler.exe** converter
+
+**Options/Output File Options ...** This allows you to control the settings that govern the generation of automatically-generated output file names:
+
+**Append this suffix To Output File name:**
+
+When enabled, this will add the text you specify to the automatically-generated output filename. For example, you could add something like "Converted-to-44k" to distinguish the output file from the original.
+
+**Use this output directory:**
+
+When enabled, the automatically-generated output filename will use the directory path you specify.
+
+**Default to same file type as Input File**
+
+Don't change the file type
+
+**Default to this File Type:**
+
+Make the format of the automatically-generated output file be the format you specify.
+
+**Help/about ...**
+
+Display the version of Ferocious and the version of resampler.
+
+
+## Explanation of controls and options
+
+**Bit Format:** specify the bit depth / output subformat of the output file. The items available in the dropdown will vary dynamically, depending on the output file type you specify
+
+**Normalize:** set the maximum peak level of the output file to be what you specify (1.0 is maximum)
+
+**Dither:** Activates dithering. Specify amount of bits of dither to add.
+
+**Autoblank** (only active when dithering is activated). Causes dither to be switched-off whenever digital silence is encountered in the source material.
+
+**Double-Precision** Causes all processing calculations to be performed in 64-bit double-precision. (By default, 32-bit single precision is used).
+
+
