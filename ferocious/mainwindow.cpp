@@ -527,3 +527,8 @@ void MainWindow::on_actionAbout_triggered()
     \
     msgBox.exec();
 }
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QApplication::aboutQt();
+}

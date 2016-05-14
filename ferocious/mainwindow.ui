@@ -1812,6 +1812,7 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
+    <addaction name="actionAbout_Qt"/>
    </widget>
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
@@ -1829,6 +1830,11 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
   <action name="actionAbout">
    <property name="text">
     <string>About ...</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About Qt ...</string>
    </property>
   </action>
  </widget>
