@@ -66,6 +66,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // get converter version:
     getResamplerVersion(ResamplerVersion);
+
+    // set up event filter:
+    qApp->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -89,9 +92,12 @@ void MainWindow::readSettings()
     MainWindow::outFileBrowsePath = settings.value("OutputFileBrowsePath", MainWindow::outFileBrowsePath).toString();
     settings.endGroup();
 
+    settings.beginGroup("Ui");
+    ui->actionEnable_Tooltips->setChecked(settings.value("EnableToolTips",true).toBool());
+    settings.endGroup();
+
     outfileNamer.loadSettings(settings);
 }
-
 
 void MainWindow::writeSettings()
 {
@@ -101,6 +107,10 @@ void MainWindow::writeSettings()
     settings.setValue("ConverterPath", MainWindow::ConverterPath);
     settings.setValue("InputFileBrowsePath",MainWindow::inFileBrowsePath);
     settings.setValue("OutputFileBrowsePath",MainWindow::outFileBrowsePath);
+    settings.endGroup();
+
+    settings.beginGroup("Ui");
+    settings.setValue("EnableToolTips",ui->actionEnable_Tooltips->isChecked());
     settings.endGroup();
 
     outfileNamer.saveSettings(settings);
@@ -324,6 +334,11 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             args << "--autoblank";
     }
 
+    // format args: Minimum Phase
+    if(ui->minPhase_radioBtn->isChecked()){
+        args << "--minphase";
+    }
+
     Converter.setProcessChannelMode(QProcess::MergedChannels);
     Converter.start(ConverterPath,args);
 }
@@ -531,4 +546,14 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QApplication::aboutQt();
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+
+    if (event->type() == QEvent::ToolTip) // Intercept tooltip event
+        return (!ui->actionEnable_Tooltips->isChecked());
+
+    else
+        return QMainWindow::eventFilter(obj, event);	// pass control to base class' eventFilter
 }

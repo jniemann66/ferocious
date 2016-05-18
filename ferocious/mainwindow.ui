@@ -471,6 +471,11 @@
       <stylestrategy>PreferAntialias</stylestrategy>
      </font>
     </property>
+    <property name="toolTip">
+     <string>Input File specification:
+Wildcards (*) may be used in the filename or file extension
+to process multiple files.</string>
+    </property>
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
@@ -508,6 +513,11 @@ QLineEdit:disabled {
       <width>611</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Output File specification:
+Wildcards (*) may be used in in the filename or file extension,
+provided they are also used in the input file specification.</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
@@ -548,6 +558,9 @@ QLineEdit:disabled {
      <font>
       <stylestrategy>PreferAntialias</stylestrategy>
      </font>
+    </property>
+    <property name="toolTip">
+     <string>Select an input file for processing.</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
@@ -610,6 +623,9 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
       <stylestrategy>PreferAntialias</stylestrategy>
      </font>
     </property>
+    <property name="toolTip">
+     <string>Select location and name of output file.</string>
+    </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
 color: #fff;
@@ -656,9 +672,13 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
      <rect>
       <x>20</x>
       <y>130</y>
-      <width>81</width>
+      <width>86</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Set the output sample-rate.
+(Note: you can type in a non-standard rate, if desired)</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QComboBox {
@@ -917,10 +937,14 @@ QComboBox::drop-down:disabled {
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>110</y>
+      <y>108</y>
       <width>71</width>
       <height>18</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Set the peak level of the output file
+(1.0 is maximum)</string>
     </property>
     <property name="text">
      <string>Normalize:</string>
@@ -937,6 +961,9 @@ QComboBox::drop-down:disabled {
       <width>100</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Enter an amount between 0 and 1.0</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
@@ -964,11 +991,15 @@ QLineEdit:disabled {
    <widget class="QCheckBox" name="DoublePrecisionCheckBox">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>526</x>
       <y>130</y>
       <width>101</width>
       <height>18</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Use 64-bit Floating-Point arithmetic during conversion
+(instead of 32-bit single-precision)</string>
     </property>
     <property name="text">
      <string>Double Precision</string>
@@ -987,6 +1018,9 @@ QLineEdit:disabled {
      <font>
       <stylestrategy>PreferAntialias</stylestrategy>
      </font>
+    </property>
+    <property name="toolTip">
+     <string>Begin conversion using files and settings as currently displayed.</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
@@ -1275,6 +1309,9 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
       <stylestrategy>PreferAntialias</stylestrategy>
      </font>
     </property>
+    <property name="toolTip">
+     <string>Notifications from the converter will appear in here.</string>
+    </property>
     <property name="styleSheet">
      <string notr="true">QTextBrowser {
 	background-color: rgb(0, 0, 0);
@@ -1292,10 +1329,13 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
     <property name="geometry">
      <rect>
       <x>24</x>
-      <y>110</y>
+      <y>108</y>
       <width>61</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string/>
     </property>
     <property name="text">
      <string>Sample rate:</string>
@@ -1337,10 +1377,14 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
     <property name="geometry">
      <rect>
       <x>115</x>
-      <y>110</y>
+      <y>108</y>
       <width>71</width>
       <height>18</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Set the output file sub-format.
+(Available sub-formats will depend on file type)</string>
     </property>
     <property name="text">
      <string>Bit Format:</string>
@@ -1357,6 +1401,10 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
       <width>100</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Specify the number of bits of dither to add
+(1.0 is default)</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
@@ -1385,10 +1433,15 @@ QLineEdit:disabled {
     <property name="geometry">
      <rect>
       <x>325</x>
-      <y>110</y>
+      <y>108</y>
       <width>71</width>
       <height>18</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Generate dither.
+Only recommended when converting to a lower bit depth
+(eg: 24bit-&gt;16bit or 16bit-&gt;8bit)</string>
     </property>
     <property name="text">
      <string>Dither:</string>
@@ -1411,11 +1464,71 @@ QLineEdit:disabled {
       <stylestrategy>PreferAntialias</stylestrategy>
      </font>
     </property>
+    <property name="toolTip">
+     <string>Deactivate dither during periods of digital silence (zeros)</string>
+    </property>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
     <property name="text">
      <string>Autoblank</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="minPhase_radioBtn">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>153</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Minimum Phase Filter:
+No delay, but will introduce phase distortion.
+Post- ringing only.</string>
+    </property>
+    <property name="text">
+     <string>Minimum Phase</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="LinearPhase_radioBtn">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>130</y>
+      <width>82</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Linear Phase Filter:
+No phase distortion, but some latency (delay).
+Pre- and Post- ringing,</string>
+    </property>
+    <property name="text">
+     <string>Linear Phase</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>108</y>
+      <width>81</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Selects the type of impulse response used in the Lowpass Filter
+Each type has its advantages and disadvanatges.
+Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
+    </property>
+    <property name="text">
+     <string>Converter type:</string>
     </property>
    </widget>
   </widget>
@@ -1781,6 +1894,7 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
     </property>
     <addaction name="actionConverter_Location"/>
     <addaction name="actionOutput_File_Options"/>
+    <addaction name="actionEnable_Tooltips"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="styleSheet">
@@ -1835,6 +1949,17 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
   <action name="actionAbout_Qt">
    <property name="text">
     <string>About Qt ...</string>
+   </property>
+  </action>
+  <action name="actionEnable_Tooltips">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Tooltips</string>
    </property>
   </action>
  </widget>

@@ -20,6 +20,8 @@ public:
 
     QString ConverterPath;
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 private slots:
     void on_StdoutAvailable();
     void on_ConverterStarted();
