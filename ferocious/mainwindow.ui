@@ -1067,7 +1067,7 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>180</y>
+      <y>181</y>
       <width>701</width>
       <height>441</height>
      </rect>
@@ -1325,7 +1325,7 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
 }</string>
     </property>
    </widget>
-   <widget class="QLabel" name="InfileLabel_2">
+   <widget class="QLabel" name="SampleRateLabel">
     <property name="geometry">
      <rect>
       <x>24</x>
@@ -1341,7 +1341,7 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
      <string>Sample rate:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="InfileLabel_5">
+   <widget class="QLabel" name="ConverterOutputLabel">
     <property name="geometry">
      <rect>
       <x>24</x>
@@ -1513,7 +1513,7 @@ Pre- and Post- ringing,</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="ConverterTypeLabel">
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -1892,8 +1892,16 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
     <property name="title">
      <string>Options</string>
     </property>
+    <widget class="QMenu" name="menuCompression_Levels">
+     <property name="title">
+      <string>Compression Levels</string>
+     </property>
+     <addaction name="actionFlac"/>
+     <addaction name="actionOgg_Vorbis"/>
+    </widget>
     <addaction name="actionConverter_Location"/>
     <addaction name="actionOutput_File_Options"/>
+    <addaction name="menuCompression_Levels"/>
     <addaction name="actionEnable_Tooltips"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -1960,6 +1968,16 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
    </property>
    <property name="text">
     <string>Enable Tooltips</string>
+   </property>
+  </action>
+  <action name="actionFlac">
+   <property name="text">
+    <string>flac ..</string>
+   </property>
+  </action>
+  <action name="actionOgg_Vorbis">
+   <property name="text">
+    <string>Ogg Vorbis ...</string>
    </property>
   </action>
  </widget>

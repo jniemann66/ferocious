@@ -39,8 +39,9 @@ private slots:
     void on_actionConverter_Location_triggered();
     void on_actionOutput_File_Options_triggered();
     void on_actionAbout_triggered();
-
     void on_actionAbout_Qt_triggered();
+    void on_actionFlac_triggered();
+    void on_actionOgg_Vorbis_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -59,6 +60,8 @@ private:
     void ProcessOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
     void wildcardConvert();
+    int flacCompressionLevel;
+    double vorbisQualityLevel;
 };
 
 #endif // MAINWINDOW_H
