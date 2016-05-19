@@ -103,9 +103,9 @@
      <colorrole role="Base">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
+        <red>58</red>
+        <green>66</green>
+        <blue>52</blue>
        </color>
       </brush>
      </colorrole>
@@ -240,9 +240,9 @@
      <colorrole role="Base">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
+        <red>58</red>
+        <green>66</green>
+        <blue>52</blue>
        </color>
       </brush>
      </colorrole>
@@ -296,9 +296,9 @@
      <colorrole role="WindowText">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>29</red>
-        <green>33</green>
-        <blue>26</blue>
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
        </color>
       </brush>
      </colorrole>
@@ -350,9 +350,9 @@
      <colorrole role="Text">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>29</red>
-        <green>33</green>
-        <blue>26</blue>
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
        </color>
       </brush>
      </colorrole>
@@ -368,9 +368,9 @@
      <colorrole role="ButtonText">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>29</red>
-        <green>33</green>
-        <blue>26</blue>
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
        </color>
       </brush>
      </colorrole>
@@ -451,7 +451,199 @@
    </iconset>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+	color: rgb(255,255,255);
+	background-color: #3a4234;
+}
+
+QDialog {
+	background-color: #3a4234;
+}
+
+QLineEdit {
+	background-color: rgb(0, 0, 0);
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+	border-width: 2px;
+	border-style: inset;
+	border-color: #2b3126;;
+}
+
+QLineEdit:disabled {
+	background-color:   #32392d;
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+	border-width: 2px;
+	border-style: inset;
+	color: #3a4234;
+	border-color: #2b3126;
+}
+
+QPushButton {
+	color: #fff;
+	border: 1px solid #1b2018;
+	border-radius: 9px;
+	padding: 5px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+	min-width: 66px;
+	height: 9px;
+}
+
+QPushButton:hover {
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
+}
+
+QPushButton:pressed {
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
+}
+
+QPushButton:disabled {
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #3a4234, stop: 1#3b770e);
+}
+
+QPushButton:disabled[flashing=&quot;true&quot;] {
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #70e01a, stop: 1#21251d);
+}
+
+QComboBox {
+	background-color: rgb(0, 0, 0);
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+	border-width: 2px;
+	border-style: inset;
+	border-color:  #2b3126;
+}
+
+QComboBox::drop-down:enabled {
+	color: #fff;
+	border: 1px solid #1b2018;
+	padding: 0px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+}
+
+QComboBox::down-arrow:enabled {
+	image: url(:/images/DownArrow8x8.png);
+}
+
+QComboBox::disabled {
+	background-color:   #32392d;
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+	border-width: 2px;
+	border-style: inset;
+	color: #3a4234;
+	border-color: #2b3126;
+}
+
+QComboBox::drop-down:disabled {
+	background-color:   #32392d;
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+	border-width: 0px;
+	border-style: inset;
+	color: #3a4234;
+	border-color: #2b3126;
+}
+
+QComboBox QAbstractItemView {
+	background-color: black;
+    selection-background-color: rgb(0, 0, 127);
+}
+
+QSpinBox {
+	background-color: rgb(0, 0, 0);
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+}
+
+QDoubleSpinBox {
+	background-color: rgb(0, 0, 0);
+	color: rgb(225, 225, 225);
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+}
+
+QTextBrowser {
+	background-color: rgb(0, 0, 0);
+	color: #70e01a;
+	selection-background-color: rgb(0, 0, 127);
+	selection-color: rgb(255, 255, 255);
+	border-width: 2px;
+	border-style: inset;
+	border-color: #2b3126;
+}
+
+QMenuBar {
+	color: #fff;
+	border: 1px solid #1b2018;
+	border-radius: 6px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+	min-width: 66px;
+	max-height: 30px;
+}
+
+QMenuBar::item {
+	color: #fff;
+	border: 1px solid #1b2018;
+	border-radius: 6px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+	padding: 2px;
+	min-width: 66px;
+}
+
+QMenuBar::item:pressed {
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
+}
+
+QMenu {
+	color: #fff;
+	border: 1px solid #1b2018;
+	border-radius: 9px;
+	padding: 5px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+	min-width: 66px;
+}
+
+QMenu:hover {
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
+}
+
+QMenu:pressed {
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
+}</string>
   </property>
   <property name="documentMode">
    <bool>false</bool>
@@ -480,26 +672,7 @@ to process multiple files.</string>
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color: #2b3126;;
-}
-
-QLineEdit:disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
@@ -520,26 +693,7 @@ Wildcards (*) may be used in in the filename or file extension,
 provided they are also used in the input file specification.</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color: #2b3126;;
-}
-
-QLineEdit:disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
@@ -563,41 +717,7 @@ QLineEdit:disabled {
      <string>Select an input file for processing.</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton {
-color: #fff;
-border: 1px solid #1b2018;
-border-radius: 9px;
-padding: 5px;
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-
-min-width: 66px;
-}
-
-QPushButton:hover {
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}
-
-QPushButton:pressed {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}
-
-QPushButton:disabled {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}
-
-QPushButton:disabled[flashing=&quot;true&quot;] {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Browse ...</string>
@@ -627,41 +747,7 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
      <string>Select location and name of output file.</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton {
-color: #fff;
-border: 1px solid #1b2018;
-border-radius: 9px;
-padding: 5px;
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-
-min-width: 66px;
-}
-
-QPushButton:hover {
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}
-
-QPushButton:pressed {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}
-
-QPushButton:disabled {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}
-
-QPushButton:disabled[flashing=&quot;true&quot;] {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Browse ...</string>
@@ -681,30 +767,7 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
 (Note: you can type in a non-standard rate, if desired)</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">QComboBox {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color:  #2b3126;
-}
-
-QComboBox::drop-down {
-	color: #fff;
-	border: 1px solid #1b2018;
-	/*border-radius: 2px;*/
-	padding: 0px;
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-}
-
-QComboBox::down-arrow {
-	image: url(:/images/DownArrow8x8.png);
-}
-</string>
+     <string notr="true"/>
     </property>
     <property name="editable">
      <bool>true</bool>
@@ -786,52 +849,7 @@ QComboBox::down-arrow {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QComboBox {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color:  #2b3126;
-}
-
-QComboBox::drop-down:enabled {
-	color: #fff;
-	border: 1px solid #1b2018;
-	/*border-radius: 2px;*/
-	padding: 0px;
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-}
-
-QComboBox::down-arrow:enabled {
-	image: url(:/images/DownArrow8x8.png);
-}
-
-QComboBox::disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}
-
-QComboBox::drop-down:disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 0px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}
-</string>
+     <string notr="true"/>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -966,26 +984,7 @@ QComboBox::drop-down:disabled {
      <string>Enter an amount between 0 and 1.0</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color: #2b3126;;
-}
-
-QLineEdit:disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}</string>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QCheckBox" name="DoublePrecisionCheckBox">
@@ -1023,41 +1022,7 @@ QLineEdit:disabled {
      <string>Begin conversion using files and settings as currently displayed.</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton {
-color: #fff;
-border: 1px solid #1b2018;
-border-radius: 9px;
-padding: 5px;
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-
-min-width: 66px;
-}
-
-QPushButton:hover {
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}
-
-QPushButton:pressed {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}
-
-QPushButton:disabled {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}
-
-QPushButton:disabled[flashing=&quot;true&quot;] {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Convert</string>
@@ -1313,16 +1278,7 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
      <string>Notifications from the converter will appear in here.</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">QTextBrowser {
-	background-color: rgb(0, 0, 0);
-	color: #70e01a;
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color: #2b3126;
-
-}</string>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QLabel" name="SampleRateLabel">
@@ -1407,26 +1363,7 @@ radius: 1.35, stop: 0 #3a4234, stop: 1#21251d);
 (1.0 is default)</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color: #2b3126;;
-}
-
-QLineEdit:disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}</string>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QCheckBox" name="DitherCheckBox">
@@ -1822,46 +1759,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">QMenuBar {
-color: #fff;
-border: 1px solid #1b2018;
-border-radius: 6px;
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-
-min-width: 66px;
-max-height: 30px;
-}
-
-/*QMenuBar:hover {
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}*/
-
-/*QMenuBar:pressed {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}*/
-
-QMenuBar::item {
-color: #fff;
-border: 1px solid #1b2018;
-border-radius: 6px;
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-padding: 2px;
-min-width: 66px;
-}
-
-QMenuBar::item:pressed {
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}</string>
+    <string notr="true"/>
    </property>
    <widget class="QMenu" name="menuOptions">
     <property name="styleSheet">

@@ -541,31 +541,7 @@ void MainWindow::on_actionAbout_triggered()
     msgBox.setText("About");
     msgBox.setInformativeText(info);
     msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setPalette(this->palette());
     msgBox.setIconPixmap(QPixmap(":/images/sine_sweep-32x32-buttonized.png"));
-    msgBox.setStyleSheet(
-                "QPushButton {\
-                color: #fff;\
-                border: 1px solid #1b2018;\
-                border-radius: 9px;\
-                padding: 5px;\
-                background: qradialgradient(cx: 0.3, cy: -0.4,\
-                fx: 0.3, fy: -0.4,\
-                radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);\
-                min-width: 66px;\
-                height: 9px;\
-                }\
-                QPushButton:hover {\
-                background: qradialgradient(cx: 0.3, cy: -0.4,\
-                fx: 0.3, fy: -0.4,\
-                radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);\
-                }\
-                QPushButton:pressed {\
-                background: qradialgradient(cx: 0.4, cy: -0.1,\
-                fx: 0.4, fy: -0.1,\
-                radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);\
-                }");
-    \
     msgBox.exec();
 }
 
@@ -595,46 +571,10 @@ void MainWindow::on_actionFlac_triggered()
     D.setIntValue(MainWindow::flacCompressionLevel);
     D.setIntStep(1);
 
-    D.setPalette(this->palette());
-
-    D.setStyleSheet(
-                "QPushButton {\
-                color: #fff;\
-                border: 1px solid #1b2018;\
-                border-radius: 9px;\
-                padding: 5px;\
-                background: qradialgradient(cx: 0.3, cy: -0.4,\
-                fx: 0.3, fy: -0.4,\
-                radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);\
-                min-width: 66px;\
-                height: 9px;\
-                }\
-                QPushButton:hover {\
-                background: qradialgradient(cx: 0.3, cy: -0.4,\
-                fx: 0.3, fy: -0.4,\
-                radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);\
-                }\
-                QPushButton:pressed {\
-                background: qradialgradient(cx: 0.4, cy: -0.1,\
-                fx: 0.4, fy: -0.1,\
-                radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);\
-                }\
-//                QSpinBox {\
-//                background-color: rgb(0, 0, 0);\
-//                color: rgb(225, 225, 225);\
-//                selection-background-color: rgb(0, 0, 127);\
-//                selection-color: rgb(255, 255, 255);\
-//                border-width: 2px;\
-//                border-style: inset;\
-//                border-color: #2b3126;\
-                }");
-
     if(D.exec()==QDialog::Accepted){
         MainWindow::flacCompressionLevel = D.intValue();
     }
 }
-
-
 
 void MainWindow::on_actionOgg_Vorbis_triggered()
 {
@@ -644,38 +584,11 @@ void MainWindow::on_actionOgg_Vorbis_triggered()
     D.setLabelText(tr("quality level (-1 to 10):"));
     D.setDoubleRange(-1.0,10.0);
     D.setDoubleValue(MainWindow::vorbisQualityLevel);
-
     D.setDoubleDecimals(2);
-
-    D.setPalette(this->palette());
-
-    D.setStyleSheet(
-                "QPushButton {\
-                color: #fff;\
-                border: 1px solid #1b2018;\
-                border-radius: 9px;\
-                padding: 5px;\
-                background: qradialgradient(cx: 0.3, cy: -0.4,\
-                fx: 0.3, fy: -0.4,\
-                radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);\
-                min-width: 66px;\
-                height: 9px;\
-                }\
-                QPushButton:hover {\
-                background: qradialgradient(cx: 0.3, cy: -0.4,\
-                fx: 0.3, fy: -0.4,\
-                radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);\
-                }\
-                QPushButton:pressed {\
-                background: qradialgradient(cx: 0.4, cy: -0.1,\
-                fx: 0.4, fy: -0.1,\
-                radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);\
-                }");
 
     if(D.exec()==QDialog::Accepted){
         MainWindow::vorbisQualityLevel = D.doubleValue();
         qDebug() << D.doubleValue();
         qDebug() << MainWindow::vorbisQualityLevel;
     }
-
 }
