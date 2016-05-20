@@ -688,9 +688,7 @@ to process multiple files.</string>
      </rect>
     </property>
     <property name="toolTip">
-     <string>Output File specification:
-Wildcards (*) may be used in in the filename or file extension,
-provided they are also used in the input file specification.</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output File specification:&lt;/p&gt;&lt;p&gt;Wildcards (*) may be used in the filename or file extension, provided they are also used in the input file specification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
      <string notr="true"/>
@@ -1439,9 +1437,7 @@ Post- ringing only.</string>
      </rect>
     </property>
     <property name="toolTip">
-     <string>Linear Phase Filter:
-No phase distortion, but some latency (delay).
-Pre- and Post- ringing,</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Linear Phase Filter:&lt;/p&gt;&lt;p&gt;No phase distortion, but some latency (delay).&lt;/p&gt;&lt;p&gt;Pre- and Post- ringing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>Linear Phase</string>
