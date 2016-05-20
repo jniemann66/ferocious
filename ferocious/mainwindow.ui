@@ -764,9 +764,6 @@ to process multiple files.</string>
      <string>Set the output sample-rate.
 (Note: you can type in a non-standard rate, if desired)</string>
     </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
     <property name="editable">
      <bool>true</bool>
     </property>
@@ -1311,9 +1308,9 @@ to process multiple files.</string>
    <widget class="QLabel" name="StatusLabel">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>20</x>
       <y>620</y>
-      <width>651</width>
+      <width>691</width>
       <height>20</height>
      </rect>
     </property>

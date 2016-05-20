@@ -15,6 +15,8 @@
 #include <QRegularExpressionMatch>
 #include <QCursor>
 #include <QInputDialog>
+//#include <QThread>
+//#include <qtconcurrentrun.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -301,7 +303,7 @@ void MainWindow::wildcardConvert(){
         this->repaint();
 
         MainWindow::convert(outfn, infn);
-        MainWindow::Converter.waitForFinished();
+        MainWindow::Converter.waitForFinished(-1); // no timeout !
      }
 }
 

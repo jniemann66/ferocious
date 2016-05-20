@@ -87,6 +87,8 @@ QComboBox::down-arrow:enabled {
 	image: url(:/images/DownArrow8x8.png);
 }
 
+
+
 QComboBox::disabled {
 	background-color:   #32392d;
 	color: rgb(225, 225, 225);
