@@ -116,6 +116,71 @@ QComboBox QAbstractItemView {
     selection-background-color: rgb(0, 0, 127);
 }
 
+/* ---------------------------------------------- */
+
+
+QScrollBar:vertical {
+	border-width: 0px;
+	border-style: inset;
+	color: #3a4234;
+	border-color: #2b3126;
+	margin: 18px 0 18px 0;
+}
+QScrollBar::handle:vertical {
+	border: 1px solid #1b2018;
+	padding: 0px;
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #3a4234, stop: 1 #21251d);
+	height: 5px;
+}
+QScrollBar::add-line:vertical {
+	border: 1px solid #1b2018;
+	padding: 0px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+	height: 18px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+	border: 1px solid #1b2018;
+	padding: 0px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+	height: 18px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+QScrollBar::up-arrow:vertical {
+	image: url(:/images/UpArrow8x8.png);
+	color: #fff;
+	border: 0px solid #1b2018;
+	padding: 0px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+}
+
+QScrollBar::down-arrow:vertical {
+	image: url(:/images/DownArrow8x8.png);
+	color: #fff;
+	border: 0px solid #1b2018;
+	padding: 0px;
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+
+/* ------------------------------------------------ */
+
 QSpinBox {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);

@@ -3,5 +3,6 @@
         <file>images/DownArrow8x8.png</file>
         <file>images/sine_sweep-32x32-buttonized.png</file>
         <file>ferocious.qss</file>
+        <file>images/UpArrow8x8.png</file>
     </qresource>
 </RCC>
