@@ -6,6 +6,12 @@
 
 #include "outputfileoptions_dialog.h"
 
+class conversionTask{
+public:
+    QString inFilename;
+    QString outFilename;
+};
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,11 +23,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
     QString ConverterPath;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
+
 private slots:
     void on_StdoutAvailable();
     void on_ConverterStarted();
@@ -46,22 +52,26 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QProcess Converter;
-
-    void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
-    bool fileExists(const QString& path);   // detect if file represented by path exists
-    void writeSettings();       // write settings to ini file
-    void readSettings();        // read settings from ini file
+    QVector<conversionTask> conversionQueue;
     QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
     QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
     OutFileNamer outfileNamer;  // output filename generator
     QString ResamplerVersion;   // version string of main external converter
+    int flacCompressionLevel;
+    double vorbisQualityLevel;
+
+    void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
+    bool fileExists(const QString& path);   // detect if file represented by path exists
+    void writeSettings();       // write settings to ini file
+    void readSettings();        // read settings from ini file
     void getResamplerVersion(QString &v);   // function to retrieve version number of main external converter
     void ProcessOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
-    void wildcardConvert();
-    int flacCompressionLevel;
-    double vorbisQualityLevel;
+    void wildcardPushToQueue(); // interpret filename containing wildcards, and push tasks onto queue as appropraite
+    void convertNext(); // perform conversion task from front of queue, then remove task from queue
 };
+
+
 
 #endif // MAINWINDOW_H

@@ -15,8 +15,6 @@
 #include <QRegularExpressionMatch>
 #include <QCursor>
 #include <QInputDialog>
-//#include <QThread>
-//#include <qtconcurrentrun.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -137,14 +135,17 @@ void MainWindow::on_StdoutAvailable()
 
 void MainWindow::on_ConverterStarted()
 {
-    ui->StatusLabel->setText("Status: Converting");
     ui->convertButton->setDisabled(true);
 }
 
 void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    ui->StatusLabel->setText("Status: Ready");
-    ui->convertButton->setEnabled(true);
+    if(!MainWindow::conversionQueue.isEmpty()){
+        MainWindow::convertNext();
+    } else{
+        ui->StatusLabel->setText("Status: Ready");
+        ui->convertButton->setEnabled(true);
+    }
 }
 
 void MainWindow::on_browseInfileButton_clicked()
@@ -186,19 +187,21 @@ void MainWindow::on_convertButton_clicked()
 {
     // Search for Wildcards:
     if(ui->InfileEdit->text().lastIndexOf("*") > -1){ // Input Filename has wildcard
-
-        QApplication::setOverrideCursor(Qt::BusyCursor);
-        MainWindow::wildcardConvert();
-        QApplication::restoreOverrideCursor();
+        MainWindow::wildcardPushToQueue();
     }
 
     else{ // No Wildcard:
-        // Convert a Single File (easy!)
-        MainWindow::convert(ui->OutfileEdit->text(), ui->InfileEdit->text());
+        // Convert a Single File:
+        conversionTask T;
+        T.inFilename = ui->InfileEdit->text();
+        T.outFilename = ui->OutfileEdit->text();
+        MainWindow::conversionQueue.push_back(T);
     }
+
+    MainWindow::convertNext();
 }
 
-void MainWindow::wildcardConvert(){
+void MainWindow::wildcardPushToQueue(){
     int inLastSepIndex = ui->InfileEdit->text().lastIndexOf(QDir::separator());     // position of last separator in Infile
     int outLastSepIndex = ui->OutfileEdit->text().lastIndexOf(QDir::separator());   // position of last separator in Outfile
 
@@ -286,27 +289,35 @@ void MainWindow::wildcardConvert(){
 
     while (it.hasNext()) {
 
-        QString infn,outfn;
         QString nextFilename=QDir::toNativeSeparators(it.next());
         QRegularExpressionMatch match = regex.match(nextFilename);
 
         if (!match.hasMatch())
             continue; // no match ? move on to next file ...
 
-        infn = QDir::toNativeSeparators(nextFilename);
-        O.generateOutputFilename(outfn,infn);
+        conversionTask T;
+        T.inFilename = QDir::toNativeSeparators(nextFilename);
+        O.generateOutputFilename(T.outFilename, T.inFilename);
 
-        qDebug() << "InFile: " << infn;
-        qDebug() << "OutFile: " << outfn;
+        qDebug() << "Adding to Queue:";
+        qDebug() << "InFile: " << T.inFilename << "Outfile: " << T.outFilename;
 
-        ui->StatusLabel->setText("Status: processing "+infn);
-        this->repaint();
-
-        MainWindow::convert(outfn, infn);
-        MainWindow::Converter.waitForFinished(-1); // no timeout !
+        MainWindow::conversionQueue.push_back(T);
      }
 }
 
+// convertNext() - take the next conversion task from the front of the queue, convert it, then remove it from queue.
+void MainWindow::convertNext(){
+    if(!conversionQueue.empty()){
+        conversionTask& nextTask = MainWindow::conversionQueue.first();
+        ui->StatusLabel->setText("Status: processing "+nextTask.inFilename);
+        this->repaint();
+        MainWindow::convert(nextTask.outFilename,nextTask.inFilename);
+        conversionQueue.removeFirst();
+    }
+}
+
+// convert() - convert file infn to outfn, using current parameters
 void MainWindow::convert(const QString &outfn, const QString& infn)
 {
     QStringList args;
