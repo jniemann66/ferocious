@@ -134,6 +134,30 @@ QScrollBar::handle:vertical {
 	radius: 1.35, stop: 0 #3a4234, stop: 1 #21251d);
 	height: 5px;
 }
+
+/*
+green shades (bright to dark):
+#535e4a
+#3a4234
+#2b3126
+#21251d
+#191d16
+#0d0e0b
+
+*/
+
+QScrollBar::handle:vertical:hover{
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #2b3126, stop: 1 #2b3126);
+}
+
+QScrollBar::handle:vertical:pressed{
+	background: qradialgradient(cx: 0.3, cy: -0.4,
+	fx: 0.3, fy: -0.4,
+	radius: 1.35, stop: 0 #21251d, stop: 1 #191d16);
+}
+
 QScrollBar::add-line:vertical {
 	border: 1px solid #1b2018;
 	padding: 0px;
