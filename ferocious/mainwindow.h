@@ -24,6 +24,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QString ConverterPath;
+    QString MultiFileSeparator;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
@@ -68,7 +69,7 @@ private:
     void getResamplerVersion(QString &v);   // function to retrieve version number of main external converter
     void ProcessOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
-    void wildcardPushToQueue(); // interpret filename containing wildcards, and push tasks onto queue as appropraite
+    void wildcardPushToQueue(const QString &inFilename); // interpret filename containing wildcards, and push tasks onto queue as appropraite
     void convertNext(); // perform conversion task from front of queue, then remove task from queue
 };
 

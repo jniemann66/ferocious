@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 # Application version:
-VERSION = 1.0.8
+VERSION = 1.0.9
 
 # Define a preprocessor macro for the version:
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
@@ -20,11 +20,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    outputfileoptions_dialog.cpp
+    outputfileoptions_dialog.cpp \
+    fancylineedit.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
-    outputfileoptions_dialog.h
+    outputfileoptions_dialog.h \
+    fancylineedit.h
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui

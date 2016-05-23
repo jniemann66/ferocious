@@ -22,7 +22,7 @@ OutFileNamer::OutFileNamer(const OutFileNamer &O)
       fileExt(O.fileExt)
 
 {
-    //
+    /*---*/
 }
 
 void OutFileNamer::generateOutputFilename(QString &outFilename, const QString &inFilename){

@@ -4,5 +4,7 @@
         <file>images/sine_sweep-32x32-buttonized.png</file>
         <file>ferocious.qss</file>
         <file>images/UpArrow8x8.png</file>
+        <file>images/LeftArrow8x8.png</file>
+        <file>images/RightArrow8x8.png</file>
     </qresource>
 </RCC>

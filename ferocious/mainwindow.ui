@@ -103,9 +103,9 @@
      <colorrole role="Base">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>58</red>
-        <green>66</green>
-        <blue>52</blue>
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
        </color>
       </brush>
      </colorrole>
@@ -240,9 +240,9 @@
      <colorrole role="Base">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>58</red>
-        <green>66</green>
-        <blue>52</blue>
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
        </color>
       </brush>
      </colorrole>
@@ -296,9 +296,9 @@
      <colorrole role="WindowText">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
+        <red>29</red>
+        <green>33</green>
+        <blue>26</blue>
        </color>
       </brush>
      </colorrole>
@@ -350,9 +350,9 @@
      <colorrole role="Text">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
+        <red>29</red>
+        <green>33</green>
+        <blue>26</blue>
        </color>
       </brush>
      </colorrole>
@@ -368,9 +368,9 @@
      <colorrole role="ButtonText">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
+        <red>29</red>
+        <green>33</green>
+        <blue>26</blue>
        </color>
       </brush>
      </colorrole>
@@ -451,210 +451,13 @@
    </iconset>
   </property>
   <property name="autoFillBackground">
-   <bool>false</bool>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">QWidget{
-	color: rgb(255,255,255);
-	background-color: #3a4234;
-}
-
-QDialog {
-	background-color: #3a4234;
-}
-
-QLineEdit {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color: #2b3126;;
-}
-
-QLineEdit:disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}
-
-QPushButton {
-	color: #fff;
-	border: 1px solid #1b2018;
-	border-radius: 9px;
-	padding: 5px;
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-	min-width: 66px;
-	height: 9px;
-}
-
-QPushButton:hover {
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}
-
-QPushButton:pressed {
-	background: qradialgradient(cx: 0.4, cy: -0.1,
-	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #70e01a, stop: 1 #3b770e);
-}
-
-QPushButton:disabled {
-	background: qradialgradient(cx: 0.4, cy: -0.1,
-	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #3a4234, stop: 1 #21251d);
-}
-
-QPushButton:disabled[flashing=&quot;true&quot;] {
-	background: qradialgradient(cx: 0.4, cy: -0.1,
-	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #70e01a, stop: 1 #3b770e);
-}
-
-QComboBox {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color:  #2b3126;
-}
-
-QComboBox::drop-down:enabled {
-	color: #fff;
-	border: 1px solid #1b2018;
-	padding: 0px;
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-}
-
-QComboBox::down-arrow:enabled {
-	image: url(:/images/DownArrow8x8.png);
-}
-
-
-
-QComboBox::disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}
-
-QComboBox::drop-down:disabled {
-	background-color:   #32392d;
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 0px;
-	border-style: inset;
-	color: #3a4234;
-	border-color: #2b3126;
-}
-
-QComboBox QAbstractItemView {
-	background-color: black;
-    selection-background-color: rgb(0, 0, 127);
-}
-
-QSpinBox {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-}
-
-QDoubleSpinBox {
-	background-color: rgb(0, 0, 0);
-	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-}
-
-QTextBrowser {
-	background-color: rgb(0, 0, 0);
-	color: #70e01a;
-	selection-background-color: rgb(0, 0, 127);
-	selection-color: rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: inset;
-	border-color: #2b3126;
-}
-
-QMenuBar {
-	color: #fff;
-	border: 1px solid #1b2018;
-	border-radius: 6px;
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-	min-width: 66px;
-	max-height: 30px;
-}
-
-QMenuBar::item {
-	color: #fff;
-	border: 1px solid #1b2018;
-	border-radius: 6px;
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-	padding: 2px;
-	min-width: 66px;
-}
-
-QMenuBar::item:pressed {
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}
-
-QMenu {
-	color: #fff;
-	border: 1px solid #1b2018;
-	border-radius: 9px;
-	padding: 5px;
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-	min-width: 66px;
-}
-
-QMenu:hover {
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}
-
-QMenu:pressed {
-	background: qradialgradient(cx: 0.4, cy: -0.1,
-	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}
-
-
-</string>
+   <bool>true</bool>
   </property>
   <property name="documentMode">
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLineEdit" name="InfileEdit">
+   <widget class="FancyLineEdit" name="InfileEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -683,7 +486,7 @@ to process multiple files.</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLineEdit" name="OutfileEdit">
+   <widget class="FancyLineEdit" name="OutfileEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -943,7 +746,7 @@ to process multiple files.</string>
      <rect>
       <x>24</x>
       <y>60</y>
-      <width>81</width>
+      <width>571</width>
       <height>20</height>
      </rect>
     </property>
@@ -1474,7 +1277,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <x>0</x>
      <y>0</y>
      <width>740</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="palette">
@@ -1883,6 +1686,11 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
    <class>flashingPushbutton</class>
    <extends>QPushButton</extends>
    <header>flashingpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FancyLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>fancylineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "outputfileoptions_dialog.h"
+#include "fancylineedit.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -15,6 +16,7 @@
 #include <QRegularExpressionMatch>
 #include <QCursor>
 #include <QInputDialog>
+#include <QStringList>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -64,12 +66,17 @@ MainWindow::MainWindow(QWidget *parent) :
     // hide context-sensitive widgets:
     ui->AutoBlankCheckBox->setEnabled(ui->DitherCheckBox->isChecked());
     ui->AutoBlankCheckBox->setVisible(ui->DitherCheckBox->isChecked());
+    ui->OutfileEdit->hideEditButton();
 
     // get converter version:
     getResamplerVersion(ResamplerVersion);
 
     // set up event filter:
     qApp->installEventFilter(this);
+
+    // Set the separator for Multiple-files:
+    MultiFileSeparator = "\n";
+
 }
 
 MainWindow::~MainWindow()
@@ -150,59 +157,118 @@ void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitSta
 
 void MainWindow::on_browseInfileButton_clicked()
 {   
-    QString fileName = QFileDialog::getOpenFileName(this,
+    QString filenameSpec;
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,
         tr("Select Input File"), inFileBrowsePath, tr("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
-    if(!fileName.isNull()){
-        QDir path(fileName);
-        inFileBrowsePath = path.absolutePath(); // remember this browse session (unix separators)
-        // inFileBrowsePath = QDir::toNativeSeparators(path.absolutePath()); // remember this browse session (in native Format)
-        ui->InfileEdit->setText(QDir::toNativeSeparators(fileName));
+    if(fileNames.isEmpty())
+        return;
 
-        bool bRefreshOutFilename = false;
-
-        // trigger a refresh of outfilename if outfilename is empty and infilename is not empty:
-        if(ui->OutfileEdit->text().isEmpty() && !ui->InfileEdit->text().isEmpty())
-            bRefreshOutFilename = true;
-
-        // trigger a refresh of outfilename if outfilename has a wildcard and infilename doesn't have a wildcard:
-        if((ui->OutfileEdit->text().indexOf("*")>-1) && (ui->InfileEdit->text().indexOf("*")==-1))
-            bRefreshOutFilename = true;
-
-        // conditionally auto-generate output filename:
-        if(bRefreshOutFilename){
-            QString outFileName;
-            outfileNamer.generateOutputFilename(outFileName,ui->InfileEdit->text());
-            if(!outFileName.isNull() && !outFileName.isEmpty())
-                ui->OutfileEdit->setText(outFileName);
-                ui->OutfileEdit->update();
-
-            // trigger an update of options if file extension changed:
-            ProcessOutfileExtension();
-        }
+    if(fileNames.count() >=1){
+        QDir path(fileNames.first());
+        inFileBrowsePath = path.absolutePath(); // record path of this browse session
     }
+
+    if(fileNames.count()==1){ // Single-file mode:
+        ui->InfileLabel->setText("Input File:");
+        ui->OutfileLabel->setText("Output File:");
+        ui->OutfileEdit->setReadOnly(false);
+        filenameSpec=fileNames.first();
+        if(!filenameSpec.isNull()){
+
+            ui->InfileEdit->setText(QDir::toNativeSeparators(filenameSpec));
+
+            bool bRefreshOutFilename = true;
+
+            // trigger a refresh of outfilename if outfilename is empty and infilename is not empty:
+            if(ui->OutfileEdit->text().isEmpty() && !ui->InfileEdit->text().isEmpty())
+                bRefreshOutFilename = true;
+
+            // trigger a refresh of outfilename if outfilename has a wildcard and infilename doesn't have a wildcard:
+            if((ui->OutfileEdit->text().indexOf("*")>-1) && (ui->InfileEdit->text().indexOf("*")==-1))
+                bRefreshOutFilename = true;
+
+            // conditionally auto-generate output filename:
+            if(bRefreshOutFilename){
+                QString outFileName;
+                outfileNamer.generateOutputFilename(outFileName,ui->InfileEdit->text());
+                if(!outFileName.isNull() && !outFileName.isEmpty())
+                    ui->OutfileEdit->setText(outFileName);
+                    ui->OutfileEdit->update();
+            }
+        }
+
+    }else{ // Multiple-file Mode:
+
+        // Join all the strings together, with MultiFileSeparator in between each string:
+        QStringList::iterator it;
+        for (it = fileNames.begin(); it != fileNames.end(); ++it){
+            filenameSpec += QDir::toNativeSeparators(*it);
+            filenameSpec += MultiFileSeparator;
+        }
+
+        ui->InfileEdit->setText(filenameSpec);
+        QString firstFile =  QDir::toNativeSeparators(fileNames.first()); // get first filename in list (use to generate output filename)
+
+        QString outFilename=firstFile; // use first filename as a basis for generating output filename
+        int LastDot = outFilename.lastIndexOf(".");
+        int LastSep = outFilename.lastIndexOf(QDir::separator());
+        QString s = outFilename.mid(LastSep+1,LastDot-LastSep-1); // get what is between last separator and last '.'
+        if(!s.isEmpty() && !s.isNull()){
+            outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
+        }
+        outfileNamer.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
+
+        ui->OutfileEdit->setText(outFilename);
+        ui->OutfileEdit->update();
+        ui->OutfileLabel->setText("Output Files: (filenames auto-generated)");
+        ui->OutfileEdit->setReadOnly(true);
+        ui->InfileLabel->setText("Input Files:");
+    }
+
+    // trigger an update of options if file extension changed:
+    ProcessOutfileExtension();
 }
+
 
 void MainWindow::on_convertButton_clicked()
 {
-    // Search for Wildcards:
-    if(ui->InfileEdit->text().lastIndexOf("*") > -1){ // Input Filename has wildcard
-        MainWindow::wildcardPushToQueue();
-    }
+    // split the QLineEdit text into a stringlist, using MainWindow::MultiFileSeparator
+    QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
-    else{ // No Wildcard:
-        // Convert a Single File:
-        conversionTask T;
-        T.inFilename = ui->InfileEdit->text();
-        T.outFilename = ui->OutfileEdit->text();
-        MainWindow::conversionQueue.push_back(T);
+
+    QStringList::const_iterator it;
+    for (it = filenames.begin(); it != filenames.end();++it){// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
+
+        QString inFilename=*it;
+
+        if(!inFilename.isEmpty() && !inFilename.isNull()){
+
+            // Search for Wildcards:
+            if(ui->InfileEdit->text().lastIndexOf("*") > -1){ // Input Filename has wildcard
+                MainWindow::wildcardPushToQueue(inFilename);
+            }
+
+            else{ // No Wildcard:
+                conversionTask T;
+                T.inFilename = inFilename;
+                if(filenames.count()>1){ // multi-file mode:
+                    outfileNamer.generateOutputFilename(T.outFilename,inFilename);
+                } else { // single-file mode:
+                    T.outFilename = ui->OutfileEdit->text();
+                }
+
+                MainWindow::conversionQueue.push_back(T);
+            }
+        }
     }
 
     MainWindow::convertNext();
 }
 
-void MainWindow::wildcardPushToQueue(){
-    int inLastSepIndex = ui->InfileEdit->text().lastIndexOf(QDir::separator());     // position of last separator in Infile
+// wildcardPushtoQueue() - expand wildcard in filespec, and push matching filenames into queue:
+void MainWindow::wildcardPushToQueue(const QString& inFilename){
+    int inLastSepIndex = inFilename.lastIndexOf(QDir::separator());     // position of last separator in Infile
     int outLastSepIndex = ui->OutfileEdit->text().lastIndexOf(QDir::separator());   // position of last separator in Outfile
 
     QString inDir;
@@ -210,21 +276,20 @@ void MainWindow::wildcardPushToQueue(){
     QString tail;
 
     if(inLastSepIndex >-1){
-        tail = ui->InfileEdit->text().right(ui->InfileEdit->text().length()-inLastSepIndex-1); // isolate everything after last separator
+        tail = inFilename.right(inFilename.length()-inLastSepIndex-1); // isolate everything after last separator
 
         // get input directory:
-        inDir = ui->InfileEdit->text().left(inLastSepIndex); // isolate directory
+        inDir = inFilename.left(inLastSepIndex); // isolate directory
 
         // strip any wildcards out of directory name:
         inDir.replace(QString("*"),QString(""));
 
         // append slash to the end of Windows drive letters:
-        if(inDir.length()==2 && inDir.right(1)==":"){
-            qDebug() << "Drive Letter";
+        if(inDir.length()==2 && inDir.right(1)==":")
             inDir += "\\";
-        }
+
     } else { // No separators in input Directory
-        tail = ui->InfileEdit->text();
+        tail = inFilename;
         inDir = "";
     }
 
@@ -238,17 +303,11 @@ void MainWindow::wildcardPushToQueue(){
     else
         outDir="";
 
-
-    qDebug() << "in Directory:" << inDir;
-    qDebug() << "tail: " << tail;
-    qDebug() << "out Directory" << outDir;
-
     QString regexString(tail);// for building a regular expression to match against filenames in the input directory.
 
     // convert file-system symbols to regex symbols:
     regexString.replace(QString("."),QString("\\.")); // . => \\.
     regexString.replace(QString("*"),QString(".+"));  // * => .+
-    qDebug() << "Regex String: " << regexString;
     QRegularExpression regex(regexString);
 
     // set up an OutFileNamer for generating output file names:
@@ -282,8 +341,6 @@ void MainWindow::wildcardPushToQueue(){
         O.appendSuffix = false;
     }
 
-    qDebug() << "Suffix: " << O.Suffix;
-
     // traverse input directory
     QDirIterator it(inDir,QDir::Files); // all files in inDir
 
@@ -298,9 +355,6 @@ void MainWindow::wildcardPushToQueue(){
         conversionTask T;
         T.inFilename = QDir::toNativeSeparators(nextFilename);
         O.generateOutputFilename(T.outFilename, T.inFilename);
-
-        qDebug() << "Adding to Queue:";
-        qDebug() << "InFile: " << T.inFilename << "Outfile: " << T.outFilename;
 
         MainWindow::conversionQueue.push_back(T);
      }
@@ -381,13 +435,28 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
 void MainWindow::on_InfileEdit_editingFinished()
 {
-    bool bRefreshOutfileEdit = false;
+    QString inFilename = ui->InfileEdit->text();
+
+    if(inFilename.isEmpty()){
+
+        // reset to single file mode:
+        ui->InfileLabel->setText("Input File:");
+        ui->OutfileLabel->setText("Output File:");
+        ui->OutfileEdit->setReadOnly(false);
+
+        // reset outFilename
+        ui->OutfileEdit->clear();
+
+        return;
+    }
+
+    bool bRefreshOutfileEdit = true; // control whether to always update output filename
 
     // look for Wildcard in filename, before file extension
-    if(ui->InfileEdit->text().indexOf("*")>-1){ // inFilename has wildcard
-        int InLastDot = ui->InfileEdit->text().lastIndexOf(".");
+    if(inFilename.indexOf("*")>-1){ // inFilename has wildcard
+        int InLastDot =inFilename.lastIndexOf(".");
         if(InLastDot > -1){
-            int InLastStarBeforeDot = ui->InfileEdit->text().left(InLastDot).lastIndexOf("*");
+            int InLastStarBeforeDot = inFilename.left(InLastDot).lastIndexOf("*");
             if(InLastStarBeforeDot > -1){ // Wilcard in Filename; trigger a refresh:
                 bRefreshOutfileEdit = true;
               }
@@ -403,18 +472,47 @@ void MainWindow::on_InfileEdit_editingFinished()
     if(ui->OutfileEdit->text().isEmpty() && !ui->InfileEdit->text().isEmpty())
         bRefreshOutfileEdit = true;
 
-    if(bRefreshOutfileEdit){
-        QString outFileName;
 
-        outfileNamer.generateOutputFilename(outFileName,ui->InfileEdit->text());
+    QString outFilename;
 
-        if(!outFileName.isNull() && !outFileName.isEmpty())
-            ui->OutfileEdit->setText(outFileName);
-            ui->OutfileEdit->update();
-
-        // trigger an update of options if output file extension changed:
-        ProcessOutfileExtension();
+    if(inFilename.right(1)==MultiFileSeparator){
+        inFilename=inFilename.left(inFilename.size()-1); // Trim Multifile separator off the end
+        ui->InfileEdit->setText(inFilename);
     }
+
+    if(inFilename.indexOf(MultiFileSeparator)==-1){ // Single-file mode:
+
+        ui->InfileLabel->setText("Input File:");
+        ui->OutfileLabel->setText("Output File:");
+        ui->OutfileEdit->setReadOnly(false);
+
+        if(bRefreshOutfileEdit){
+            outfileNamer.generateOutputFilename(outFilename,ui->InfileEdit->text());
+            if(!outFilename.isNull() && !outFilename.isEmpty())
+                ui->OutfileEdit->setText(outFilename);
+            ui->OutfileEdit->update();
+        }
+    }
+
+    else { // multi-file mode:
+
+        QString outFilename=inFilename.left(inFilename.indexOf(MultiFileSeparator)); // use first filename as a basis for generating output filename
+        int LastDot = outFilename.lastIndexOf(".");
+        int LastSep = outFilename.lastIndexOf(QDir::separator());
+        QString s = outFilename.mid(LastSep+1,LastDot-LastSep-1); // get what is between last separator and last '.'
+        if(!s.isEmpty() && !s.isNull()){
+            outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
+        }
+        outfileNamer.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
+        ui->OutfileEdit->setText(outFilename);
+        ui->OutfileLabel->setText("Output Files: (filenames auto-generated)");
+        ui->OutfileEdit->setReadOnly(true);
+        ui->OutfileEdit->update();
+        ui->InfileLabel->setText("Input Files:");
+    }
+
+    // trigger an update of options if output file extension changed:
+    ProcessOutfileExtension();
 }
 
 void MainWindow::on_browseOutfileButton_clicked()
@@ -517,7 +615,6 @@ void MainWindow::on_DitherCheckBox_clicked()
     ui->DitherAmountEdit->setEnabled(ui->DitherCheckBox->isChecked());
     ui->AutoBlankCheckBox->setEnabled(ui->DitherCheckBox->isChecked());
     ui->AutoBlankCheckBox->setVisible(ui->DitherCheckBox->isChecked());
-
 }
 
 void MainWindow::on_DitherAmountEdit_editingFinished()
@@ -541,6 +638,7 @@ void MainWindow::on_actionOutput_File_Options_triggered()
 {
     OutputFileOptions_Dialog D(outfileNamer);
     D.exec();
+    on_InfileEdit_editingFinished(); // trigger change of output file if relevant
 }
 
 void MainWindow::on_actionAbout_triggered()
@@ -565,7 +663,6 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-
     if (event->type() == QEvent::ToolTip) // Intercept tooltip event
         return (!ui->actionEnable_Tooltips->isChecked());
 
@@ -584,9 +681,8 @@ void MainWindow::on_actionFlac_triggered()
     D.setIntValue(MainWindow::flacCompressionLevel);
     D.setIntStep(1);
 
-    if(D.exec()==QDialog::Accepted){
+    if(D.exec()==QDialog::Accepted)
         MainWindow::flacCompressionLevel = D.intValue();
-    }
 }
 
 void MainWindow::on_actionOgg_Vorbis_triggered()
@@ -599,9 +695,6 @@ void MainWindow::on_actionOgg_Vorbis_triggered()
     D.setDoubleValue(MainWindow::vorbisQualityLevel);
     D.setDoubleDecimals(2);
 
-    if(D.exec()==QDialog::Accepted){
+    if(D.exec()==QDialog::Accepted)
         MainWindow::vorbisQualityLevel = D.doubleValue();
-        qDebug() << D.doubleValue();
-        qDebug() << MainWindow::vorbisQualityLevel;
-    }
 }
