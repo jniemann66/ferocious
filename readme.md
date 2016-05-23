@@ -1,5 +1,6 @@
 ## Synopsis
 
+
 Ferocious File Converter is essentially a front-end for the command-line audio sample rate converter [Resampler](https://github.com/jniemann66/ReSampler "Resampler").
 
 It provides a convenient and easy-to-use graphical interface for converting audio files between a number of formats.
