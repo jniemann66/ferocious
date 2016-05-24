@@ -121,7 +121,7 @@ Minimum phase:
 
 The "standard" (ie more common) type of Finite Impulse Response filter used in applications such as this is the Linear Phase filter. If you are in doubt about which one to use, then it is advisable to stay with linear phase.
 
-Here are some actual examples of impulse responses, showing the difference between Linear Phase and Minimum Phase. These were obtained by resampling a single-sample pulse (click) from 96kHz down to 48kHz:
+Here are some actual examples of impulse responses, showing the difference between Linear Phase and Minimum Phase. These are the the impulse responses for resampling from 96kHz down to 44.1kHz:
 
 ![Linear Phase vs Minimum Phase](https://github.com/jniemann66/ferocious/blob/master/LinearPhaseVsMinPhase.JPG)
 
