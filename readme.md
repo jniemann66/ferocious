@@ -47,7 +47,10 @@ Note: when you choose a new output file type, ferocious will run resampler.exe w
 
 ## Menu Items
 
+Note: all items configured in the Options menu are *persistent* (ie they will be remembered next time you run the program) unless otherwise indicated.
+
 **Options/Converter Location ...**   Use this to specify the location of the **resampler.exe** converter
+
 
 **Options/Output File Options ...** This allows you to control the settings that govern the generation of automatically-generated output file names:
 
@@ -67,10 +70,26 @@ Don't change the file type
 
 Make the format of the automatically-generated output file be the format you specify.
 
+**Options/Compression Levels/flac ...**
+
+Allows you to set the *compression level* to be used when saving files in the flac format. The level setting is an integer between 0 and 8 inclusive, and corresponds to the [compression levels](https://xiph.org/flac/documentation_tools_flac.html#encoding_options "compression levels") of the official [flac command-line tool ](https://xiph.org/flac/index.html "FLAC command-line tool") from [xiph.org](https://xiph.org/ "xiph.org")
+
+**Options/Compression Levels/Ogg Vorbis ...**
+
+Allows you to set the *quality level* to be used when saving files in the ogg vorbis format. The quality level corresponds to the quality level used for the official ogg vorbis command-line tool, and ranges from -1.0 to 10.0. Non-integer values are allowed.
+
+**Options/Enable tooltips**
+
+Allows you to switch off the tooltips after you have become familiar with the controls, or switch them back on again as desired.
+
+
 **Help/about ...**
 
 Display the version of Ferocious and the version of resampler.
 
+**Help/about Qt ...**
+
+Display information about Qt, the Toolkit used for developing Ferocious.
 
 ## Explanation of controls and options
 
@@ -82,6 +101,32 @@ Display the version of Ferocious and the version of resampler.
 
 **Autoblank** (only active when dithering is activated). Causes dither to be switched-off whenever digital silence is encountered in the source material.
 
+**Converter Type: Linear Phase, or Minimum Phase**
+
+A whole book could be written about this, but to keep it short:
+
+Linear phase:
+
+- Symmetrical impulse response
+- No phase distortion
+- Higher Latency (delay)
+- Creates Pre- and Post- ringing
+
+Minimum phase: 
+
+- Asymmetrical impulse response
+- Introduces phase distortion
+- Minimal latency (delay)
+- Creates Post-ringing only
+
+The "standard" (ie more common) type of Finite Impulse Response filter used in applications such as this is the Linear Phase filter. If you are in doubt about which one to use, then it is advisable to stay with linear phase.
+
+Here are some actual examples of impulse responses, showing the difference between Linear Phase and Minimum Phase. These were obtained by resampling a single-sample pulse (click) from 96kHz down to 48kHz:
+
+
+
 **Double-Precision** Causes all processing calculations to be performed in 64-bit double-precision. (By default, 32-bit single precision is used).
+
+
 
 
