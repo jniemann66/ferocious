@@ -123,7 +123,7 @@ The "standard" (ie more common) type of Finite Impulse Response filter used in a
 
 Here are some actual examples of impulse responses, showing the difference between Linear Phase and Minimum Phase. These were obtained by resampling a single-sample pulse (click) from 96kHz down to 48kHz:
 
-
+![Linear Phase vs Minimum Phase](https://github.com/jniemann66/ferocious/blob/master/LinearPhaseVsMinPhase.JPG)
 
 **Double-Precision** Causes all processing calculations to be performed in 64-bit double-precision. (By default, 32-bit single precision is used).
 
