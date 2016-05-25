@@ -1168,6 +1168,9 @@ to process multiple files.</string>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
+    <property name="text">
+     <string>1.0</string>
+    </property>
    </widget>
    <widget class="QCheckBox" name="DitherCheckBox">
     <property name="geometry">
