@@ -159,7 +159,7 @@ void MainWindow::on_browseInfileButton_clicked()
 {   
     QString filenameSpec;
     QStringList fileNames = QFileDialog::getOpenFileNames(this,
-        tr("Select Input File"), inFileBrowsePath, tr("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
+        tr("Select Input File(s)"), inFileBrowsePath, tr("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
     if(fileNames.isEmpty())
         return;

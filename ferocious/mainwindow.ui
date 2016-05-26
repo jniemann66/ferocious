@@ -374,6 +374,9 @@ to process multiple files.</string>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
+    <property name="text">
+     <string>0.999</string>
+    </property>
    </widget>
    <widget class="QCheckBox" name="DoublePrecisionCheckBox">
     <property name="geometry">
