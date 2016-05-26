@@ -109,6 +109,11 @@ void MainWindow::readSettings()
     MainWindow::vorbisQualityLevel=settings.value("vorbisQualityLevel", 3.0).toDouble(); // ogg vorbis default quality is 3
     settings.endGroup();
 
+    settings.beginGroup("ConversionSettings");
+    MainWindow::bDisableClippingProtection=settings.value("disableClippingProtection",false).toBool();
+    ui->actionEnable_Clipping_Protection->setChecked(!bDisableClippingProtection);
+    settings.endGroup();
+
     outfileNamer.loadSettings(settings);
 }
 
@@ -129,6 +134,10 @@ void MainWindow::writeSettings()
     settings.beginGroup("CompressionSettings");
     settings.setValue("flacCompressionLevel", MainWindow::flacCompressionLevel);
     settings.setValue("vorbisQualityLevel", MainWindow::vorbisQualityLevel);
+    settings.endGroup();
+
+    settings.beginGroup("ConversionSettings");
+    settings.setValue("disableClippingProtection",MainWindow::bDisableClippingProtection);
     settings.endGroup();
 
     outfileNamer.saveSettings(settings);
@@ -429,6 +438,11 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             args << "--vorbisQuality" << QString::number(MainWindow::vorbisQualityLevel);
     }
 
+    // format args: --noClippingProtection
+    if(bDisableClippingProtection){
+        args << "--noClippingProtection";
+    }
+
     Converter.setProcessChannelMode(QProcess::MergedChannels);
     Converter.start(ConverterPath,args);
 }
@@ -543,7 +557,7 @@ void MainWindow::on_NormalizeAmountEdit_editingFinished()
 {
     double NormalizeAmount = ui->NormalizeAmountEdit->text().toDouble();
     if(NormalizeAmount <0.0 || NormalizeAmount >1.0)
-        ui->NormalizeAmountEdit->setText("1.0");
+        ui->NormalizeAmountEdit->setText("1.00");
 }
 
 void MainWindow::on_BitDepthCheckBox_clicked()
@@ -697,4 +711,10 @@ void MainWindow::on_actionOgg_Vorbis_triggered()
 
     if(D.exec()==QDialog::Accepted)
         MainWindow::vorbisQualityLevel = D.doubleValue();
+}
+
+void MainWindow::on_actionEnable_Clipping_Protection_triggered()
+{
+    bDisableClippingProtection = !ui->actionEnable_Clipping_Protection->isChecked();
+    qDebug() << bDisableClippingProtection;
 }

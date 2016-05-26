@@ -653,35 +653,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
    <widget class="QMenu" name="menuOptions">
-    <property name="styleSheet">
-     <string notr="true">QMenu {
-color: #fff;
-border: 1px solid #1b2018;
-border-radius: 9px;
-padding: 5px;
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-
-min-width: 66px;
-}
-
-QMenu:hover {
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}
-
-QMenu:pressed {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}</string>
-    </property>
     <property name="title">
      <string>Options</string>
     </property>
@@ -695,34 +667,11 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
     <addaction name="actionConverter_Location"/>
     <addaction name="actionOutput_File_Options"/>
     <addaction name="menuCompression_Levels"/>
+    <addaction name="actionEnable_Clipping_Protection"/>
+    <addaction name="separator"/>
     <addaction name="actionEnable_Tooltips"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
-    <property name="styleSheet">
-     <string notr="true">QMenu {
-color: #fff;
-border: 1px solid #1b2018;
-border-radius: 9px;
-padding: 5px;
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
-
-min-width: 66px;
-}
-
-QMenu:hover {
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #535e4a, stop: 1 #3a4234);
-}
-
-QMenu:pressed {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
-}</string>
-    </property>
     <property name="title">
      <string>Help</string>
     </property>
@@ -771,6 +720,20 @@ radius: 1.35, stop: 0 #70e01a, stop: 1#3b770e);
   <action name="actionOgg_Vorbis">
    <property name="text">
     <string>Ogg Vorbis ...</string>
+   </property>
+  </action>
+  <action name="actionEnable_Clipping_Protection">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Clipping Protection</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enabling clipping protection will cause the converter to perform  the conversion a second time (with an adjusted gain level)  if clipping is encountered. &lt;/p&gt;&lt;p&gt;It is recommended that clipping protection be left enabled, as clipping in the output file is usually undesirable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>

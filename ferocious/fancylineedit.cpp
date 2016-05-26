@@ -62,7 +62,12 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
 void FancyLineEdit::on_editButton_Clicked()
 {
     bool ok=false;
-    QString editedText = QInputDialog::getMultiLineText(this,"Edit multiple filenames","Edit filenames below, and click 'OK' when done.",this->text(),&ok);
+
+    QString editedText = QInputDialog::getMultiLineText(this,
+                                                        "Edit multiple filenames",
+                                                        "Edit filenames below, and click 'OK' when done.",
+                                                        this->text(),
+                                                        &ok);
     if(ok){
         this->setText(editedText);
     }

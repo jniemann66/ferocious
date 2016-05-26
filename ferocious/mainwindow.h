@@ -50,6 +50,8 @@ private slots:
     void on_actionFlac_triggered();
     void on_actionOgg_Vorbis_triggered();
 
+    void on_actionEnable_Clipping_Protection_triggered();
+
 private:
     Ui::MainWindow *ui;
     QProcess Converter;
@@ -61,6 +63,7 @@ private:
     QString ResamplerVersion;   // version string of main external converter
     int flacCompressionLevel;
     double vorbisQualityLevel;
+    bool bDisableClippingProtection; // if true, the --noClippingProtection switch will be sent to the converter
 
     void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
     bool fileExists(const QString& path);   // detect if file represented by path exists
