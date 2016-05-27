@@ -245,7 +245,6 @@ void MainWindow::on_convertButton_clicked()
     // split the QLineEdit text into a stringlist, using MainWindow::MultiFileSeparator
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
-
     QStringList::const_iterator it;
     for (it = filenames.begin(); it != filenames.end();++it){// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
 
@@ -368,6 +367,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename){
         MainWindow::conversionQueue.push_back(T);
      }
 }
+
+
 
 // convertNext() - take the next conversion task from the front of the queue, convert it, then remove it from queue.
 void MainWindow::convertNext(){
