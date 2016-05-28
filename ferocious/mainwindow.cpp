@@ -239,7 +239,6 @@ void MainWindow::on_browseInfileButton_clicked()
     ProcessOutfileExtension();
 }
 
-
 void MainWindow::on_convertButton_clicked()
 {
     // split the QLineEdit text into a stringlist, using MainWindow::MultiFileSeparator
@@ -368,8 +367,6 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename){
      }
 }
 
-
-
 // convertNext() - take the next conversion task from the front of the queue, convert it, then remove it from queue.
 void MainWindow::convertNext(){
     if(!conversionQueue.empty()){
@@ -486,7 +483,6 @@ void MainWindow::on_InfileEdit_editingFinished()
 
     if(ui->OutfileEdit->text().isEmpty() && !ui->InfileEdit->text().isEmpty())
         bRefreshOutfileEdit = true;
-
 
     QString outFilename;
 
