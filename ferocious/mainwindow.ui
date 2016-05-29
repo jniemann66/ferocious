@@ -1152,7 +1152,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
   </action>
   <action name="actionFlac">
    <property name="text">
-    <string>flac ..</string>
+    <string>flac ...</string>
    </property>
   </action>
   <action name="actionOgg_Vorbis">
