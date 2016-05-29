@@ -88,7 +88,7 @@ If normalization is activated, then clipping protection will ensure that the sig
 
 Deactivating clipping protection actually sends the --noClippingProtection switch to the resampler.exe converter (the default bahaviour in resampler.exe is to have clipping protection on).
 
-The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (This is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter deisgn, it can never be completely eliminated)    
+The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunatley, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)    
 
 **Options/Enable tooltips**
 
