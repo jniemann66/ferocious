@@ -28,14 +28,14 @@ All of the relevant dlls and other dependencies are included in the distribution
 ##### Minimum effort: #####
 
 - Run the program. 
-- Choose an input file
+- Choose an input file (or files)
 - Hit "Convert" button 
 
 converter will automatically create an output filename, based on input filename, in the same path as input file.
 
 ##### Typical usage: #####
 - Run the Program
-- Choose an input file
+- Choose an input file (or files)
 - Choose (or type the name of) an output file
 - (optional) Select output bit-format (sub format) from drop-down list
 - (optional) Select "Normalize" and choose a normalization amount between 0.0 and 1.0 (with 1.0 representing maximum possible volume)
@@ -77,6 +77,18 @@ Allows you to set the *compression level* to be used when saving files in the fl
 **Options/Compression Levels/Ogg Vorbis ...**
 
 Allows you to set the *quality level* to be used when saving files in the ogg vorbis format. The quality level corresponds to the quality level used for the official ogg vorbis command-line tool, and ranges from -1.0 to 10.0. Non-integer values are allowed.
+
+**Options/Enable clipping protection**
+
+When clipping protection is enabled, the converter will repeat the conversion process with an adjusted (ie decreased) gain level whenever it detects clipping in the initial conversion. This will ensure that there will be no clipping on the second pass. This will add to the total conversion time, but it is nevertheless strongly recommended. With clipping protection switched off, the converter will still warn you when clipping has occured, but will not attempt to fix it. 
+
+Note that in the conversion process, all signal levels are represented internally as floating point numbers within the range +/- 1.0 (regardless of the file formats involved). Whenever the signal peak exceeds +/- 1.0 it is considered clipping. If clipping occurs, the peak level is remembered, and the gain for the second pass is adjusted down by an amount corresponding to how far the signal peak exceeded +/- 1.0 by.
+
+If normalization is activated, then clipping protection will ensure that the signal peak always aquals the normalization factor (instead of the default +/- 1.0)
+
+Deactivating clipping protection actually sends the --noClippingProtection switch to the resampler.exe converter (the default bahaviour in resampler.exe is to have clipping protection on).
+
+The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (This is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter deisgn, it can never be completely eliminated)    
 
 **Options/Enable tooltips**
 
