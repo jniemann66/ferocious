@@ -9,7 +9,6 @@ green shades (bright to dark):
 
 */
 
-
 QWidget{
 	color: rgb(255,255,255);
 	background-color: #3a4234;
@@ -305,8 +304,6 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 }
 
 /* -------------------- */
-
-
 
 QTextBrowser {
 	background-color: rgb(0, 0, 0);

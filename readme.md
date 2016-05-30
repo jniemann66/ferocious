@@ -45,6 +45,14 @@ converter will automatically infer the output file format (and subformat) based 
 
 Note: when you choose a new output file type, ferocious will run resampler.exe with the --listformats <extension> command to retrieve a list of valid sub-formats and automatically populate the bit format dropdown box with the valid sub-formats for the chosen file type.
 
+##### Selection of multiple files: #####
+When opening files for conversion, multiple files may be selected (by holding down 'ctrl' while clicking on filenames in the open files dialog, or entering ctrl+A to select all files).
+
+In multi-file mode, the output filenames are automatically generated according to the rules you set in "Output File Options"
+
+Wildcards (using '*') in filenames (but not directory paths) are also recognized. For details on wildcard processing rules, please refer to [this document](https://github.com/jniemann66/ferocious/blob/master/Ferocious-Wildcard-specs.pdf "this document") 
+
+
 ## Menu Items
 
 Note: all items configured in the Options menu are *persistent* (ie they will be remembered next time you run the program) unless otherwise indicated.
