@@ -145,7 +145,7 @@ Here are some actual examples of impulse responses, showing the difference betwe
 
 ![Linear Phase vs Minimum Phase](https://github.com/jniemann66/ferocious/blob/master/LinearPhaseVsMinPhase.JPG)
 
-**Double-Precision** Causes all processing calculations to be performed in 64-bit double-precision. (By default, 32-bit single precision is used).
+**Double-Precision** Causes all processing calculations to be performed in 64-bit double-precision. (By default, 32-bit single precision is used). Please note that double-precision may decrease processing speed slightly.
 
 
 
