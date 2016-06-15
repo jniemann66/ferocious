@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     readSettings();
 
     if(ConverterPath.isEmpty()){
-        ConverterPath=QDir::currentPath() + "/resampler.exe";
+        ConverterPath=QDir::currentPath() + "/resampler.exe"; // attempt to find converter in currentPath
     }
 
     if(!fileExists(ConverterPath)){
@@ -36,6 +36,12 @@ MainWindow::MainWindow(QWidget *parent) :
                                                    "Please locate the file: resampler.exe",
                                                    QDir::currentPath(),
                                                    "*.exe");
+
+        if(ConverterPath.lastIndexOf("resampler.exe",-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+            ConverterPath.clear();
+            QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
+        }
+
     }
 
     if(!fileExists(ConverterPath)){
@@ -67,9 +73,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->AutoBlankCheckBox->setEnabled(ui->DitherCheckBox->isChecked());
     ui->AutoBlankCheckBox->setVisible(ui->DitherCheckBox->isChecked());
     ui->OutfileEdit->hideEditButton();
+    ui->progressBar->setVisible(false);
+    ui->statusBar->setVisible(false);
 
     // get converter version:
-    getResamplerVersion(ResamplerVersion);
+    getResamplerVersion();
 
     // set up event filter:
     qApp->installEventFilter(this);
@@ -96,6 +104,9 @@ void MainWindow::readSettings()
 
     settings.beginGroup("Paths");
     MainWindow::ConverterPath = settings.value("ConverterPath", MainWindow::ConverterPath).toString();
+    if(ConverterPath.lastIndexOf("resampler.exe",-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+        ConverterPath.clear();
+    }
     MainWindow::inFileBrowsePath = settings.value("InputFileBrowsePath", MainWindow::inFileBrowsePath).toString();
     MainWindow::outFileBrowsePath = settings.value("OutputFileBrowsePath", MainWindow::outFileBrowsePath).toString();
     settings.endGroup();
@@ -146,19 +157,46 @@ void MainWindow::writeSettings()
 void MainWindow::on_StdoutAvailable()
 {
     QString ConverterOutput(Converter.readAll());
-    ui->ConverterOutputText->append(ConverterOutput);
+    int progress =0;
+
+    // count backspaces at end of string:
+    int backspaces = 0;
+    while(ConverterOutput.at(ConverterOutput.length()-1)=='\b'){
+        ConverterOutput.chop(1);
+        ++backspaces;
+    }
+
+    if(backspaces){
+        // extract percentage:
+        QString whatToChop = ConverterOutput.right(backspaces);
+        if(whatToChop.indexOf("%")!=-1){
+            progress = whatToChop.replace("%","").toInt();
+            // to-do: use progress to update progress bar !
+            ui->progressBar->setValue(progress);
+        }
+        ConverterOutput.chop(backspaces);
+    }
+
+    if(!ConverterOutput.isEmpty()){
+        ui->ConverterOutputText->append(ConverterOutput);
+    }
 }
 
 void MainWindow::on_ConverterStarted()
 {
     ui->convertButton->setDisabled(true);
+    ui->progressBar->setValue(0);
+    if(bShowProgressBar)
+        ui->progressBar->setVisible(true);
 }
 
 void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if(!MainWindow::conversionQueue.isEmpty()){
         MainWindow::convertNext();
+        ui->progressBar->setValue(0);
     } else{
+        ui->progressBar->setVisible(false);
         ui->StatusLabel->setText("Status: Ready");
         ui->convertButton->setEnabled(true);
     }
@@ -372,6 +410,7 @@ void MainWindow::convertNext(){
     if(!conversionQueue.empty()){
         conversionTask& nextTask = MainWindow::conversionQueue.first();
         ui->StatusLabel->setText("Status: processing "+nextTask.inFilename);
+        ui->progressBar->setFormat("Status: processing "+nextTask.inFilename);
         this->repaint();
         MainWindow::convert(nextTask.outFilename,nextTask.inFilename);
         conversionQueue.removeFirst();
@@ -584,8 +623,9 @@ void MainWindow::PopulateBitFormats(const QString& fileName)
 }
 
 // Query Converter for version number:
-void MainWindow::getResamplerVersion(QString& v)
+void MainWindow::getResamplerVersion()
 {
+    QString v;
     QProcess ConverterQuery;
 
     ConverterQuery.start(ConverterPath, QStringList() << "--version"); // ask converter for its version number
@@ -596,6 +636,14 @@ void MainWindow::getResamplerVersion(QString& v)
     ConverterQuery.setReadChannel(QProcess::StandardOutput);
     while(ConverterQuery.canReadLine()){
         v += (QString::fromLocal8Bit(ConverterQuery.readLine())).simplified();
+
+        // split the version number into components:
+        QStringList ResamplerVersionNumbers = v.split(".");
+
+        // set various options accoring to resampler version:
+        int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
+        bShowProgressBar = (vB >=1 )? true : false; // (no progress output on resampler.exe versions prior to 1.1.0)
+        ResamplerVersion=v;
     }
 }
 
@@ -641,8 +689,16 @@ void MainWindow::on_actionConverter_Location_triggered()
                                                "Please locate the file: resampler.exe",
                                               ConverterPath,
                                                "*.exe");
-    if(!cp.isNull())
+    if(!cp.isNull()){
         ConverterPath = cp;
+        if(ConverterPath.lastIndexOf("resampler.exe",-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+            ConverterPath.clear();
+            QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
+        } else {
+            // get converter version:
+            getResamplerVersion();
+        }
+    }
 }
 
 void MainWindow::on_actionOutput_File_Options_triggered()
@@ -714,4 +770,19 @@ void MainWindow::on_actionEnable_Clipping_Protection_triggered()
 {
     bDisableClippingProtection = !ui->actionEnable_Clipping_Protection->isChecked();
     qDebug() << bDisableClippingProtection;
+}
+
+void MainWindow::on_actionTheme_triggered()
+{
+    QApplication* a = qApp;
+    QString fn = QFileDialog::getOpenFileName(this,"Choose a Stylesheet",QDir::currentPath(),tr("Style Sheets (*.qss *.css)"));
+
+    // retrieve and apply Stylesheet:
+    QFile ss(fn);
+    if(ss.open(QIODevice::ReadOnly | QIODevice::Text)){
+        a->setStyleSheet(ss.readAll());
+        ss.close();
+    }else{
+        qDebug() << "Couldn't open stylesheet resource";
+    }
 }

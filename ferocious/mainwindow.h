@@ -52,6 +52,8 @@ private slots:
 
     void on_actionEnable_Clipping_Protection_triggered();
 
+    void on_actionTheme_triggered();
+
 private:
     Ui::MainWindow *ui;
     QProcess Converter;
@@ -61,6 +63,7 @@ private:
     QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
     OutFileNamer outfileNamer;  // output filename generator
     QString ResamplerVersion;   // version string of main external converter
+    bool bShowProgressBar;
     int flacCompressionLevel;
     double vorbisQualityLevel;
     bool bDisableClippingProtection; // if true, the --noClippingProtection switch will be sent to the converter
@@ -69,7 +72,7 @@ private:
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file
     void readSettings();        // read settings from ini file
-    void getResamplerVersion(QString &v);   // function to retrieve version number of main external converter
+    void getResamplerVersion();   // function to retrieve version number of main external converter
     void ProcessOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
     void wildcardPushToQueue(const QString &inFilename); // interpret filename containing wildcards, and push tasks onto queue as appropraite

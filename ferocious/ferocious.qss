@@ -9,6 +9,10 @@ green shades (bright to dark):
 
 */
 
+QMainWindow{
+	padding: 0px;
+}
+
 QWidget{
 	color: rgb(255,255,255);
 	background-color: #3a4234;
@@ -25,7 +29,7 @@ QLineEdit {
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
-	border-color: #2b3126;;
+	border-color: #2b3126;
 }
 
 QLineEdit:disabled {
@@ -490,3 +494,23 @@ QDoubleSpinBox::down-arrow {
     width: 7px;
     height: 7px;
 }
+
+QProgressBar{
+	padding: 0px;
+	border-width: 2px;
+	border-style: inset;
+	border-color: #2b3126;
+	background-color:black;
+	height: 20px;
+}
+
+QProgressBar::chunk{
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #70e01a, stop: 1 #3b770e);
+}
+
+QLabel{
+	background-color: rgba(0,0,0,0%);
+}
+

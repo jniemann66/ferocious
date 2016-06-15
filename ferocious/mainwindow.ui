@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>740</width>
-    <height>690</height>
+    <height>703</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -425,7 +425,7 @@ to process multiple files.</string>
       <x>20</x>
       <y>181</y>
       <width>701</width>
-      <height>441</height>
+      <height>450</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -479,9 +479,9 @@ to process multiple files.</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>624</y>
+      <y>630</y>
       <width>701</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -649,6 +649,94 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <string>Converter type:</string>
     </property>
    </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>658</y>
+      <width>701</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="textVisible">
+     <bool>false</bool>
+    </property>
+    <property name="textDirection">
+     <enum>QProgressBar::TopToBottom</enum>
+    </property>
+   </widget>
+   <zorder>InfileEdit</zorder>
+   <zorder>OutfileEdit</zorder>
+   <zorder>browseInfileButton</zorder>
+   <zorder>browseOutfileButton</zorder>
+   <zorder>SamplerateCombo</zorder>
+   <zorder>BitDepthCombo</zorder>
+   <zorder>InfileLabel</zorder>
+   <zorder>OutfileLabel</zorder>
+   <zorder>NormalizeCheckBox</zorder>
+   <zorder>NormalizeAmountEdit</zorder>
+   <zorder>DoublePrecisionCheckBox</zorder>
+   <zorder>convertButton</zorder>
+   <zorder>ConverterOutputText</zorder>
+   <zorder>SampleRateLabel</zorder>
+   <zorder>ConverterOutputLabel</zorder>
+   <zorder>BitDepthCheckBox</zorder>
+   <zorder>DitherAmountEdit</zorder>
+   <zorder>DitherCheckBox</zorder>
+   <zorder>AutoBlankCheckBox</zorder>
+   <zorder>minPhase_radioBtn</zorder>
+   <zorder>LinearPhase_radioBtn</zorder>
+   <zorder>ConverterTypeLabel</zorder>
+   <zorder>progressBar</zorder>
+   <zorder>StatusLabel</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>740</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <stylestrategy>PreferAntialias</stylestrategy>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <widget class="QMenu" name="menuCompression_Levels">
+     <property name="title">
+      <string>Compression Levels</string>
+     </property>
+     <addaction name="actionFlac"/>
+     <addaction name="actionOgg_Vorbis"/>
+    </widget>
+    <addaction name="actionConverter_Location"/>
+    <addaction name="actionOutput_File_Options"/>
+    <addaction name="menuCompression_Levels"/>
+    <addaction name="actionEnable_Clipping_Protection"/>
+    <addaction name="separator"/>
+    <addaction name="actionEnable_Tooltips"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionAbout_Qt"/>
+   </widget>
+   <addaction name="menuOptions"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="palette">
@@ -1074,54 +1162,12 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     </font>
    </property>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>740</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <stylestrategy>PreferAntialias</stylestrategy>
-    </font>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <widget class="QMenu" name="menuOptions">
-    <property name="title">
-     <string>Options</string>
-    </property>
-    <widget class="QMenu" name="menuCompression_Levels">
-     <property name="title">
-      <string>Compression Levels</string>
-     </property>
-     <addaction name="actionFlac"/>
-     <addaction name="actionOgg_Vorbis"/>
-    </widget>
-    <addaction name="actionConverter_Location"/>
-    <addaction name="actionOutput_File_Options"/>
-    <addaction name="menuCompression_Levels"/>
-    <addaction name="actionEnable_Clipping_Protection"/>
-    <addaction name="separator"/>
-    <addaction name="actionEnable_Tooltips"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionAbout"/>
-    <addaction name="actionAbout_Qt"/>
-   </widget>
-   <addaction name="menuOptions"/>
-   <addaction name="menuHelp"/>
-  </widget>
   <action name="actionConverter_Location">
    <property name="text">
     <string>Converter Location ...</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionOutput_File_Options">
@@ -1172,6 +1218,14 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enabling clipping protection will cause the converter to perform  the conversion a second time (with an adjusted gain level)  if clipping is encountered. &lt;/p&gt;&lt;p&gt;It is recommended that clipping protection be left enabled, as clipping in the output file is usually undesirable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionTheme">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Theme ...</string>
    </property>
   </action>
  </widget>
