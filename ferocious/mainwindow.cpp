@@ -171,7 +171,6 @@ void MainWindow::on_StdoutAvailable()
         QString whatToChop = ConverterOutput.right(backspaces);
         if(whatToChop.indexOf("%")!=-1){
             progress = whatToChop.replace("%","").toInt();
-            // to-do: use progress to update progress bar !
             ui->progressBar->setValue(progress);
         }
         ConverterOutput.chop(backspaces);
