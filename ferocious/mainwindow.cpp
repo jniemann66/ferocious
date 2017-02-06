@@ -205,7 +205,7 @@ void MainWindow::on_browseInfileButton_clicked()
 {   
     QString filenameSpec;
     QStringList fileNames = QFileDialog::getOpenFileNames(this,
-        tr("Select Input File(s)"), inFileBrowsePath, tr("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
+        tr("Select Input File(s)"), inFileBrowsePath, tr("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
     if(fileNames.isEmpty())
         return;
@@ -569,7 +569,7 @@ void MainWindow::on_browseOutfileButton_clicked()
     QString path = ui->OutfileEdit->text().isEmpty() ? outFileBrowsePath : ui->OutfileEdit->text(); // if OutfileEdit is populated, use that. Otherwise, use last output file browse path
 
     QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Select Output File"), path, tr("Audio Files (*.aiff *.au *.avr *.caf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
+        tr("Select Output File"), path, tr("Audio Files (*.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
     if(!fileName.isNull()){
         QDir path(fileName);
