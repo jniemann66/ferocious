@@ -125,6 +125,24 @@ void MainWindow::readSettings()
     ui->actionEnable_Clipping_Protection->setChecked(!bDisableClippingProtection);
     settings.endGroup();
 
+    settings.beginGroup("LPFSettings");
+    MainWindow::LPFtype=(typeof(MainWindow::LPFtype))settings.value("LPFtype",1).toInt();
+    ui->actionRelaxedLPF->setChecked(false);
+    ui->actionStandardLPF->setChecked(false);
+    ui->actionSteepLPF->setChecked(false);
+    switch(LPFtype) {
+    case relaxedLPF:
+         ui->actionRelaxedLPF->setChecked(true);
+        break;
+    case steepLPF:
+        ui->actionSteepLPF->setChecked(true);
+        break;
+    default:
+         ui->actionStandardLPF->setChecked(true);
+    }
+    settings.endGroup();
+
+
     outfileNamer.loadSettings(settings);
 }
 
@@ -149,6 +167,10 @@ void MainWindow::writeSettings()
 
     settings.beginGroup("ConversionSettings");
     settings.setValue("disableClippingProtection",MainWindow::bDisableClippingProtection);
+    settings.endGroup();
+
+    settings.beginGroup("LPFSettings");
+    settings.setValue("LPFtype",MainWindow::LPFtype);
     settings.endGroup();
 
     outfileNamer.saveSettings(settings);
@@ -479,6 +501,18 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         args << "--noClippingProtection";
     }
 
+    // format args: LPF type:
+    switch(LPFtype) {
+    case relaxedLPF:
+        args << "--relaxedLPF";
+        break;
+    case steepLPF:
+        args << "--steepLPF";
+        break;
+    default:
+        break;
+    }
+
     Converter.setProcessChannelMode(QProcess::MergedChannels);
     Converter.start(ConverterPath,args);
 }
@@ -784,4 +818,25 @@ void MainWindow::on_actionTheme_triggered()
     }else{
         qDebug() << "Couldn't open stylesheet resource";
     }
+}
+
+void MainWindow::on_actionRelaxedLPF_triggered()
+{
+    LPFtype = relaxedLPF;
+    ui->actionStandardLPF->setChecked(false);
+    ui->actionSteepLPF->setChecked(false);
+}
+
+void MainWindow::on_actionStandardLPF_triggered()
+{
+    LPFtype = standardLPF;
+    ui->actionRelaxedLPF->setChecked(false);
+    ui->actionSteepLPF->setChecked(false);
+}
+
+void MainWindow::on_actionSteepLPF_triggered()
+{
+    LPFtype = steepLPF;
+    ui->actionRelaxedLPF->setChecked(false);
+    ui->actionStandardLPF->setChecked(false);
 }

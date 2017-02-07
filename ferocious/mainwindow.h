@@ -49,10 +49,11 @@ private slots:
     void on_actionAbout_Qt_triggered();
     void on_actionFlac_triggered();
     void on_actionOgg_Vorbis_triggered();
-
     void on_actionEnable_Clipping_Protection_triggered();
-
     void on_actionTheme_triggered();
+    void on_actionRelaxedLPF_triggered();
+    void on_actionStandardLPF_triggered();
+    void on_actionSteepLPF_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -66,6 +67,13 @@ private:
     bool bShowProgressBar;
     int flacCompressionLevel;
     double vorbisQualityLevel;
+
+    enum {
+        relaxedLPF = 0,
+        standardLPF,
+        steepLPF
+    } LPFtype;
+
     bool bDisableClippingProtection; // if true, the --noClippingProtection switch will be sent to the converter
 
     void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter

@@ -721,9 +721,18 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <addaction name="actionFlac"/>
      <addaction name="actionOgg_Vorbis"/>
     </widget>
+    <widget class="QMenu" name="menuLowpass_Filter">
+     <property name="title">
+      <string>Lowpass Filter</string>
+     </property>
+     <addaction name="actionRelaxedLPF"/>
+     <addaction name="actionStandardLPF"/>
+     <addaction name="actionSteepLPF"/>
+    </widget>
     <addaction name="actionConverter_Location"/>
     <addaction name="actionOutput_File_Options"/>
     <addaction name="menuCompression_Levels"/>
+    <addaction name="menuLowpass_Filter"/>
     <addaction name="actionEnable_Clipping_Protection"/>
     <addaction name="separator"/>
     <addaction name="actionEnable_Tooltips"/>
@@ -1226,6 +1235,33 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
    </property>
    <property name="text">
     <string>Theme ...</string>
+   </property>
+  </action>
+  <action name="actionRelaxedLPF">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Relaxed</string>
+   </property>
+  </action>
+  <action name="actionStandardLPF">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Standard</string>
+   </property>
+  </action>
+  <action name="actionSteepLPF">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Steep</string>
    </property>
   </action>
  </widget>
