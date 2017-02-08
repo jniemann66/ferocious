@@ -16,6 +16,11 @@ namespace Ui {
 class MainWindow;
 }
 
+typedef enum {
+    noiseShape_standard,
+    noiseShape_flatTpdf
+} NoiseShape;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -54,6 +59,10 @@ private slots:
     void on_actionRelaxedLPF_triggered();
     void on_actionStandardLPF_triggered();
     void on_actionSteepLPF_triggered();
+    void on_actionFixed_Seed_triggered();
+    void on_actionSeed_Value_triggered();
+    void on_actionNoiseShapingStandard_triggered();
+    void on_actionNoiseShapingFlatTpdf_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -75,7 +84,9 @@ private:
     } LPFtype;
 
     bool bDisableClippingProtection; // if true, the --noClippingProtection switch will be sent to the converter
-
+    bool bFixedSeed;
+    int seedValue;
+    NoiseShape noiseShape;
     void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file

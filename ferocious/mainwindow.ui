@@ -729,10 +729,32 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <addaction name="actionStandardLPF"/>
      <addaction name="actionSteepLPF"/>
     </widget>
+    <widget class="QMenu" name="menuAdvanced_Dither_Options">
+     <property name="title">
+      <string>Advanced Dither Options</string>
+     </property>
+     <widget class="QMenu" name="menuNoise_Shaping">
+      <property name="title">
+       <string>Noise Shaping</string>
+      </property>
+      <addaction name="actionNoiseShapingStandard"/>
+      <addaction name="actionNoiseShapingFlatTpdf"/>
+     </widget>
+     <widget class="QMenu" name="menuRNG_Seed">
+      <property name="title">
+       <string>RNG Seed</string>
+      </property>
+      <addaction name="actionFixed_Seed"/>
+      <addaction name="actionSeed_Value"/>
+     </widget>
+     <addaction name="menuNoise_Shaping"/>
+     <addaction name="menuRNG_Seed"/>
+    </widget>
     <addaction name="actionConverter_Location"/>
     <addaction name="actionOutput_File_Options"/>
     <addaction name="menuCompression_Levels"/>
     <addaction name="menuLowpass_Filter"/>
+    <addaction name="menuAdvanced_Dither_Options"/>
     <addaction name="actionEnable_Clipping_Protection"/>
     <addaction name="separator"/>
     <addaction name="actionEnable_Tooltips"/>
@@ -1262,6 +1284,41 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
    </property>
    <property name="text">
     <string>Steep</string>
+   </property>
+  </action>
+  <action name="actionNoiseShapingStandard">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Standard</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Standard Noise Shaping (moderate emphasis in upper frequencies)&lt;/p&gt;&lt;p&gt;Noise is TPDF (Triangular Probability Density Function)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionNoiseShapingFlatTpdf">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>flat tpdf (no noise shaping)</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;flat tpdf (no noise shaping)&lt;/p&gt;&lt;p&gt;Dithering is just flat (white) noise with a Triangular Probability Density Function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionFixed_Seed">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Fixed Seed</string>
+   </property>
+  </action>
+  <action name="actionSeed_Value">
+   <property name="text">
+    <string>Seed Value ...</string>
    </property>
   </action>
  </widget>

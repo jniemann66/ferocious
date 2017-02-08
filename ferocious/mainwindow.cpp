@@ -142,6 +142,21 @@ void MainWindow::readSettings()
     }
     settings.endGroup();
 
+    settings.beginGroup("advancedDitherSettings");
+    MainWindow::bFixedSeed=settings.value("fixedSeed",false).toBool();
+    ui->actionFixed_Seed->setChecked(MainWindow::bFixedSeed);
+    MainWindow::seedValue=settings.value("seedValue",0).toInt();
+    MainWindow::noiseShape=(typeof(MainWindow::noiseShape))settings.value("noiseShape",noiseShape_standard).toInt();
+    ui->actionNoiseShapingFlatTpdf->setChecked(false);
+    ui->actionNoiseShapingStandard->setChecked(false);
+    switch(noiseShape){
+    case noiseShape_flatTpdf:
+        ui->actionNoiseShapingFlatTpdf->setChecked(true);
+        break;
+    default:
+        ui->actionNoiseShapingStandard->setChecked(true);
+    }
+    settings.endGroup();
 
     outfileNamer.loadSettings(settings);
 }
@@ -171,6 +186,12 @@ void MainWindow::writeSettings()
 
     settings.beginGroup("LPFSettings");
     settings.setValue("LPFtype",MainWindow::LPFtype);
+    settings.endGroup();
+
+    settings.beginGroup("advancedDitherSettings");
+    settings.setValue("fixedSeed", MainWindow::bFixedSeed);
+    settings.setValue("seedValue", MainWindow::seedValue);
+    settings.setValue("noiseShape", MainWindow::noiseShape);
     settings.endGroup();
 
     outfileNamer.saveSettings(settings);
@@ -477,6 +498,17 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
         if(ui->AutoBlankCheckBox->isChecked())
             args << "--autoblank";
+    }
+
+
+    // format args: noise-shaping
+    if(MainWindow::noiseShape == noiseShape_flatTpdf){
+        args << "--flat-tpdf";
+    }
+
+    // format args: seed
+    if(MainWindow::bFixedSeed){
+        args << "--seed" << QString::number(MainWindow::seedValue);
     }
 
     // format args: Minimum Phase
@@ -823,6 +855,7 @@ void MainWindow::on_actionTheme_triggered()
 void MainWindow::on_actionRelaxedLPF_triggered()
 {
     LPFtype = relaxedLPF;
+    ui->actionRelaxedLPF->setChecked(true);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
 }
@@ -831,6 +864,7 @@ void MainWindow::on_actionStandardLPF_triggered()
 {
     LPFtype = standardLPF;
     ui->actionRelaxedLPF->setChecked(false);
+    ui->actionStandardLPF->setChecked(true);
     ui->actionSteepLPF->setChecked(false);
 }
 
@@ -839,4 +873,39 @@ void MainWindow::on_actionSteepLPF_triggered()
     LPFtype = steepLPF;
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
+    ui->actionSteepLPF->setChecked(true);
+}
+
+void MainWindow::on_actionFixed_Seed_triggered()
+{
+    bFixedSeed = ui->actionFixed_Seed->isChecked();
+}
+
+void MainWindow::on_actionSeed_Value_triggered()
+{
+    QInputDialog D;
+    D.setInputMode(QInputDialog::IntInput);
+    D.setWindowTitle(tr("Choose Seed for Random Number Generator"));
+    D.setLabelText(tr("Seed (-2,147,483,648 to 2,147,483,647):"));
+    D.setIntMinimum(-2147483647 - 1); // note: compiler warning if you initialize with -2147483648 (because it tries to start with 2147483648 and then apply a unary minus)
+    D.setIntMaximum(2147483647);
+    D.setIntValue(MainWindow::seedValue);
+    D.setIntStep(1);
+
+    if(D.exec()==QDialog::Accepted)
+        MainWindow::seedValue = D.intValue();
+}
+
+void MainWindow::on_actionNoiseShapingStandard_triggered()
+{
+    MainWindow::noiseShape = noiseShape_standard;
+    ui->actionNoiseShapingStandard->setChecked(true);
+    ui->actionNoiseShapingFlatTpdf->setChecked(false);
+}
+
+void MainWindow::on_actionNoiseShapingFlatTpdf_triggered()
+{
+    MainWindow::noiseShape = noiseShape_flatTpdf;
+    ui->actionNoiseShapingStandard->setChecked(false);
+    ui->actionNoiseShapingFlatTpdf->setChecked(true);
 }
