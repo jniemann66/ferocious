@@ -756,6 +756,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     <addaction name="menuLowpass_Filter"/>
     <addaction name="menuAdvanced_Dither_Options"/>
     <addaction name="actionEnable_Clipping_Protection"/>
+    <addaction name="actionEnable_Multi_Threading"/>
     <addaction name="separator"/>
     <addaction name="actionEnable_Tooltips"/>
    </widget>
@@ -1194,6 +1195,9 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
    </property>
   </widget>
   <action name="actionConverter_Location">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Converter Location ...</string>
    </property>
@@ -1319,6 +1323,17 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
   <action name="actionSeed_Value">
    <property name="text">
     <string>Seed Value ...</string>
+   </property>
+  </action>
+  <action name="actionEnable_Multi_Threading">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Enable Multi-Threading</string>
    </property>
   </action>
  </widget>

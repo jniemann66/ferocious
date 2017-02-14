@@ -123,6 +123,8 @@ void MainWindow::readSettings()
     settings.beginGroup("ConversionSettings");
     MainWindow::bDisableClippingProtection=settings.value("disableClippingProtection",false).toBool();
     ui->actionEnable_Clipping_Protection->setChecked(!bDisableClippingProtection);
+    MainWindow::bEnableMultithreading=settings.value("enableMultithreading",false).toBool();
+    ui->actionEnable_Multi_Threading->setChecked(bEnableMultithreading);
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
@@ -182,6 +184,7 @@ void MainWindow::writeSettings()
 
     settings.beginGroup("ConversionSettings");
     settings.setValue("disableClippingProtection",MainWindow::bDisableClippingProtection);
+    settings.setValue("enableMultithreading",MainWindow::bEnableMultithreading);
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
@@ -531,6 +534,11 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     // format args: --noClippingProtection
     if(bDisableClippingProtection){
         args << "--noClippingProtection";
+    }
+
+    // format args: --mt
+    if(bEnableMultithreading){
+        args << "--mt";
     }
 
     // format args: LPF type:
@@ -908,4 +916,9 @@ void MainWindow::on_actionNoiseShapingFlatTpdf_triggered()
     MainWindow::noiseShape = noiseShape_flatTpdf;
     ui->actionNoiseShapingStandard->setChecked(false);
     ui->actionNoiseShapingFlatTpdf->setChecked(true);
+}
+
+void MainWindow::on_actionEnable_Multi_Threading_triggered(bool checked)
+{
+    MainWindow::bEnableMultithreading = checked;
 }

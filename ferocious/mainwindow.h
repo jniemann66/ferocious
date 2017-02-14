@@ -63,6 +63,7 @@ private slots:
     void on_actionSeed_Value_triggered();
     void on_actionNoiseShapingStandard_triggered();
     void on_actionNoiseShapingFlatTpdf_triggered();
+    void on_actionEnable_Multi_Threading_triggered(bool checked);
 
 private:
     Ui::MainWindow *ui;
@@ -84,6 +85,7 @@ private:
     } LPFtype;
 
     bool bDisableClippingProtection; // if true, the --noClippingProtection switch will be sent to the converter
+    bool bEnableMultithreading; // if true, issue --mt option
     bool bFixedSeed;
     int seedValue;
     NoiseShape noiseShape;
