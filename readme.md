@@ -62,7 +62,6 @@ Note: all items configured in the Options menu are *persistent* (ie they will be
 
 **Options/Converter Location ...**   Use this to specify the location of the **resampler.exe** converter
 
-
 **Options/Output File Options ...** This allows you to control the settings that govern the generation of automatically-generated output file names:
 
 **Append this suffix To Output File name:**
@@ -89,6 +88,18 @@ Allows you to set the *compression level* to be used when saving files in the fl
 
 Allows you to set the *quality level* to be used when saving files in the ogg vorbis format. The quality level corresponds to the quality level used for the official ogg vorbis command-line tool, and ranges from -1.0 to 10.0. Non-integer values are allowed.
 
+**Options/Lowpass filter** allows you to select the filter characteristics for the anti-aliasing filter.
+- **Relaxed:** wide transition band, late (higher) transition frequency - has good frequency response, low ringing, but may allow a small amount of aliasing.
+- **Standard:** wide transition band, earlier (lower) transition frequency - no aliasing, low ringing, but frequency response suffers a little (drops a few dB around 20k for 44.1k sample rate).
+- **Steep:** narrow transition band, late (higher) transition frequency - no aliasing, good frequency response, but potentially more ringing.
+
+*note: for downsampling to 44.1k, Steep or Relaxed is recommended (although standard is also fine).
+For lower rates (eg 22.05), use steep. For higher target rates, use standard.*
+
+**Options/Advanced Dither Options**
+- **Noise Shaping:** Select Standard or Flat TPDF.
+- **RNG Seed:** allows you to set a fixed seed for the Random Number Generator used for dithering.
+
 **Options/Enable clipping protection**
 
 When clipping protection is enabled, the converter will repeat the conversion process with an adjusted (ie decreased) gain level whenever it detects clipping in the initial conversion. This will ensure that there will be no clipping on the second pass. This will add to the total conversion time, but it is nevertheless strongly recommended. With clipping protection switched off, the converter will still warn you when clipping has occured, but will not attempt to fix it. 
@@ -100,6 +111,8 @@ If normalization is activated, then clipping protection will ensure that the sig
 Deactivating clipping protection actually sends the --noClippingProtection switch to the resampler.exe converter (the default bahaviour in resampler.exe is to have clipping protection on).
 
 The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunately, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)    
+
+**Options/Enable Multi-Threading** uses the **--mt** option in ReSampler to enable multi-threading. This usually results in a significant speed improvement on multi-CPU systems. !
 
 **Options/Enable tooltips**
 
