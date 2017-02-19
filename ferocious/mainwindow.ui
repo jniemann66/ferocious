@@ -759,6 +759,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     <addaction name="actionEnable_Multi_Threading"/>
     <addaction name="separator"/>
     <addaction name="actionEnable_Tooltips"/>
+    <addaction name="actionTheme"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1255,14 +1256,6 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enabling clipping protection will cause the converter to perform  the conversion a second time (with an adjusted gain level)  if clipping is encountered. &lt;/p&gt;&lt;p&gt;It is recommended that clipping protection be left enabled, as clipping in the output file is usually undesirable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
-  <action name="actionTheme">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Theme ...</string>
-   </property>
-  </action>
   <action name="actionRelaxedLPF">
    <property name="checkable">
     <bool>true</bool>
@@ -1334,6 +1327,17 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
    </property>
    <property name="text">
     <string>Enable Multi-Threading</string>
+   </property>
+  </action>
+  <action name="actionTheme">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Theme ...</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
  </widget>
