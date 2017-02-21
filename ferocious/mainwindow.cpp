@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->SamplerateCombo->setCurrentText("44100");
 
     readSettings();
+    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.qss")
 
     if(ConverterPath.isEmpty()){
         ConverterPath=QDir::currentPath() + "/resampler.exe"; // attempt to find converter in currentPath
@@ -113,6 +114,7 @@ void MainWindow::readSettings()
 
     settings.beginGroup("Ui");
     ui->actionEnable_Tooltips->setChecked(settings.value("EnableToolTips",true).toBool());
+    MainWindow::stylesheetFilePath = settings.value("StylesheetPath",":/ferocious.qss").toString();
     settings.endGroup();
 
     settings.beginGroup("CompressionSettings");
@@ -175,6 +177,7 @@ void MainWindow::writeSettings()
 
     settings.beginGroup("Ui");
     settings.setValue("EnableToolTips",ui->actionEnable_Tooltips->isChecked());
+    settings.setValue("StylesheetPath",MainWindow::stylesheetFilePath);
     settings.endGroup();
 
     settings.beginGroup("CompressionSettings");
@@ -845,19 +848,36 @@ void MainWindow::on_actionEnable_Clipping_Protection_triggered()
     qDebug() << bDisableClippingProtection;
 }
 
-void MainWindow::on_actionTheme_triggered()
-{
+void MainWindow::applyStylesheet() {
+
+    if(stylesheetFilePath == ":/ferocious.qss") {
+        // factory default
+        qDebug() << "using factory default theme";
+        return;
+    }
+
+    if(!fileExists(stylesheetFilePath)) {
+        qDebug() << "stylesheet " << stylesheetFilePath << " doesn't exist";
+        return;
+    }
+
     QApplication* a = qApp;
-    QString fn = QFileDialog::getOpenFileName(this,"Choose a Stylesheet",QDir::currentPath(),tr("Style Sheets (*.qss *.css)"));
 
     // retrieve and apply Stylesheet:
-    QFile ss(fn);
+    QFile ss(stylesheetFilePath);
     if(ss.open(QIODevice::ReadOnly | QIODevice::Text)){
         a->setStyleSheet(ss.readAll());
         ss.close();
     }else{
-        qDebug() << "Couldn't open stylesheet resource";
+        qDebug() << "Couldn't open stylesheet resource " << stylesheetFilePath;
     }
+
+}
+
+void MainWindow::on_actionTheme_triggered()
+{
+    stylesheetFilePath = QFileDialog::getOpenFileName(this,"Choose a Stylesheet",QDir::currentPath(),tr("Style Sheets (*.qss *.css)"));
+    applyStylesheet();
 }
 
 void MainWindow::on_actionRelaxedLPF_triggered()

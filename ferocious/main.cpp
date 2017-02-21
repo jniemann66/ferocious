@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     font.setStyleStrategy(QFont::PreferAntialias);
     a.setFont(font);
 
-    // retrieve and apply Stylesheet:
+    // retrieve and apply factory Stylesheet:
     QFile ss(":/ferocious.qss");
     if(ss.open(QIODevice::ReadOnly | QIODevice::Text)){
         a.setStyleSheet(ss.readAll());

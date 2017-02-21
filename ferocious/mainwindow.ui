@@ -1199,6 +1199,9 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
    <property name="checkable">
     <bool>false</bool>
    </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Converter Location ...</string>
    </property>
@@ -1331,13 +1334,13 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
   </action>
   <action name="actionTheme">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Theme ...</string>
    </property>
    <property name="visible">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
  </widget>

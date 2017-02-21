@@ -72,6 +72,7 @@ private:
     QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
     QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
+    QString stylesheetFilePath;
     OutFileNamer outfileNamer;  // output filename generator
     QString ResamplerVersion;   // version string of main external converter
     bool bShowProgressBar;
@@ -98,6 +99,7 @@ private:
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
     void wildcardPushToQueue(const QString &inFilename); // interpret filename containing wildcards, and push tasks onto queue as appropraite
     void convertNext(); // perform conversion task from front of queue, then remove task from queue
+    void applyStylesheet();
 };
 
 
