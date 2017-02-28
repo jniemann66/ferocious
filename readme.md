@@ -114,10 +114,10 @@ The main cause of potential clipping during sample rate conversion is overshoot 
 
 **Options/Enable Multi-Threading** uses the **--mt** option in ReSampler to enable multi-threading. This usually results in a significant speed improvement on multi-CPU systems. !
 
-**Options/Enable tooltips**
+**Options/Enable tooltips** - Allows you to switch off the tooltips after you have become familiar with the controls, or switch them back on again as desired.
 
-Allows you to switch off the tooltips after you have become familiar with the controls, or switch them back on again as desired.
-
+**Options/Theme** - Allows a *theme* to be selected, which affects the appearance of the user interface. Themes are stored in .qss files, which are based on css, but use some non-standard properties which are specific to Qt. 
+Themes are potentially highly customisable. Some sample themes are included in the distribution.
 
 **Help/about ...**
 
