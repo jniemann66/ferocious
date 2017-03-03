@@ -9,7 +9,7 @@
 #include <QProcess>
 #include <QObject>
 #include <QSettings>
-#include <Qdebug>
+#include <QDebug>
 #include <QLineEdit>
 #include <QDirIterator>
 #include <QRegularExpression>
