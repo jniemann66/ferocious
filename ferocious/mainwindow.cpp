@@ -101,7 +101,7 @@ bool MainWindow::fileExists(const QString& path) {
 
 void MainWindow::readSettings()
 {
-    QSettings settings(QSettings::IniFormat,QSettings::SystemScope,"JuddSoft","Ferocious");
+    QSettings settings(QSettings::IniFormat,QSettings::UserScope,"JuddSoft","Ferocious");
 
     settings.beginGroup("Paths");
     MainWindow::ConverterPath = settings.value("ConverterPath", MainWindow::ConverterPath).toString();
@@ -167,7 +167,7 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings(QSettings::IniFormat,QSettings::SystemScope,"JuddSoft","Ferocious");
+    QSettings settings(QSettings::IniFormat,QSettings::UserScope,"JuddSoft","Ferocious");
 
     settings.beginGroup("Paths");
     settings.setValue("ConverterPath", MainWindow::ConverterPath);
