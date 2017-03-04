@@ -29,16 +29,18 @@ MainWindow::MainWindow(QWidget *parent) :
     applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.qss")
 
     if(ConverterPath.isEmpty()){
-        ConverterPath=QDir::currentPath() + "/resampler.exe"; // attempt to find converter in currentPath
+        ConverterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath
     }
 
     if(!fileExists(ConverterPath)){
+        QString s("Please locate the file: ");
+        s.append(expectedConverter);
         ConverterPath=QFileDialog::getOpenFileName(this,
-                                                   "Please locate the file: resampler.exe",
+                                                   s,
                                                    QDir::currentPath(),
                                                    "*.exe");
 
-        if(ConverterPath.lastIndexOf("resampler.exe",-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+        if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
             ConverterPath.clear();
             QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
         }
@@ -47,8 +49,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if(!fileExists(ConverterPath)){
         QMessageBox msgBox;
+        QString s("The path to the required command-line program (");
+        s.append(expectedConverter);
+        s.append(") wasn't specified");
         msgBox.setText("Unable to locate converter");
-        msgBox.setInformativeText("The path to the required command-line program (resampler.exe) wasn't specified");
+        msgBox.setInformativeText(s);
         msgBox.exec();
         qApp->exit();
     }
@@ -105,7 +110,7 @@ void MainWindow::readSettings()
 
     settings.beginGroup("Paths");
     MainWindow::ConverterPath = settings.value("ConverterPath", MainWindow::ConverterPath).toString();
-    if(ConverterPath.lastIndexOf("resampler.exe",-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+    if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
         ConverterPath.clear();
     }
     MainWindow::inFileBrowsePath = settings.value("InputFileBrowsePath", MainWindow::inFileBrowsePath).toString();
@@ -718,7 +723,7 @@ void MainWindow::getResamplerVersion()
 
         // set various options accoring to resampler version:
         int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
-        bShowProgressBar = (vB >=1 )? true : false; // (no progress output on resampler.exe versions prior to 1.1.0)
+        bShowProgressBar = (vB >=1 )? true : false; // (no progress output on ReSampler versions prior to 1.1.0)
         ResamplerVersion=v;
     }
 }
@@ -761,13 +766,15 @@ void MainWindow::on_DitherAmountEdit_editingFinished()
 
 void MainWindow::on_actionConverter_Location_triggered()
 {
+    QString s("Please locate the file: ");
+    s.append(expectedConverter);
     QString cp =QFileDialog::getOpenFileName(this,
-                                               "Please locate the file: resampler.exe",
+                                              s,
                                               ConverterPath,
                                                "*.exe");
     if(!cp.isNull()){
         ConverterPath = cp;
-        if(ConverterPath.lastIndexOf("resampler.exe",-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+        if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
             ConverterPath.clear();
             QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
         } else {

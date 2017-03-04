@@ -4,6 +4,14 @@
 #include <QMainWindow>
 #include <QProcess>
 
+#if defined (Q_OS_WIN)
+const char expectedConverter[] ="resampler.exe";
+#elif defined (Q_OS_LINUX)
+const char expectedConverter[] ="resampler";
+#else
+const char expectedConverter[] ="unknown";
+#endif
+
 #include "outputfileoptions_dialog.h"
 
 class conversionTask{
