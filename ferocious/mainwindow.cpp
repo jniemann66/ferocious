@@ -298,7 +298,7 @@ void MainWindow::on_browseInfileButton_clicked()
             }
         }
 
-    }else{ // Multiple-file Mode:
+    } else { // Multiple-file Mode:
 
         // Join all the strings together, with MultiFileSeparator in between each string:
         QStringList::iterator it;
