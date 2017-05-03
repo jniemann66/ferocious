@@ -108,6 +108,8 @@ private:
     void wildcardPushToQueue(const QString &inFilename); // interpret filename containing wildcards, and push tasks onto queue as appropraite
     void convertNext(); // perform conversion task from front of queue, then remove task from queue
     void applyStylesheet();
+    void populateDitherProfileMenu();
+    void clearNoiseShapingMenu();
 };
 
 

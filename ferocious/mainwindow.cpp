@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->SamplerateCombo->setCurrentText("44100");
 
+
     readSettings();
     applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.qss")
 
@@ -84,6 +85,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // get converter version:
     getResamplerVersion();
+
+
+    // !
+    // populateDitherProfileMenu();
+    // !
 
     // set up event filter:
     qApp->installEventFilter(this);
@@ -934,18 +940,50 @@ void MainWindow::on_actionSeed_Value_triggered()
 void MainWindow::on_actionNoiseShapingStandard_triggered()
 {
     MainWindow::noiseShape = noiseShape_standard;
+    clearNoiseShapingMenu();
     ui->actionNoiseShapingStandard->setChecked(true);
-    ui->actionNoiseShapingFlatTpdf->setChecked(false);
 }
 
 void MainWindow::on_actionNoiseShapingFlatTpdf_triggered()
 {
     MainWindow::noiseShape = noiseShape_flatTpdf;
-    ui->actionNoiseShapingStandard->setChecked(false);
+    clearNoiseShapingMenu();
     ui->actionNoiseShapingFlatTpdf->setChecked(true);
+}
+
+void MainWindow::clearNoiseShapingMenu()
+{
+    QList<QAction*> nsActions = ui->menuNoise_Shaping->actions();
+    for(int i=0; i<nsActions.count(); ++i )
+    {
+        nsActions[i]->setChecked(false);
+    }
 }
 
 void MainWindow::on_actionEnable_Multi_Threading_triggered(bool checked)
 {
     MainWindow::bEnableMultithreading = checked;
+}
+
+
+void MainWindow::populateDitherProfileMenu()
+{
+
+    QMenu* nsMenu = ui->menuNoise_Shaping;
+
+    // Launch external process, and populate Menu using output from the process:
+    QProcess ConverterQuery;
+    ConverterQuery.start(ConverterPath, QStringList() << "--showDitherProfiles");
+    if (!ConverterQuery.waitForFinished())
+        return;
+
+    ConverterQuery.setReadChannel(QProcess::StandardOutput);
+    while(ConverterQuery.canReadLine()) {
+        QString line = QString::fromLocal8Bit(ConverterQuery.readLine());
+        QStringList fields = line.split(":");
+        int id = fields.at(0).toInt();
+        QString label = fields.at(1).simplified();
+        QAction* newAction = nsMenu->addAction(label);
+        // to-do: add handlers
+    }
 }
