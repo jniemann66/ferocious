@@ -29,6 +29,12 @@ typedef enum {
     noiseShape_flatTpdf
 } NoiseShape;
 
+typedef enum {
+    relaxedLPF = 0,
+    standardLPF,
+    steepLPF
+} LPFType;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -86,18 +92,13 @@ private:
     bool bShowProgressBar;
     int flacCompressionLevel;
     double vorbisQualityLevel;
-
-    enum {
-        relaxedLPF = 0,
-        standardLPF,
-        steepLPF
-    } LPFtype;
-
+    LPFType LPFtype;
     bool bDisableClippingProtection; // if true, the --noClippingProtection switch will be sent to the converter
     bool bEnableMultithreading; // if true, issue --mt option
     bool bFixedSeed;
     int seedValue;
     NoiseShape noiseShape;
+    int ditherProfile;
     void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file
@@ -110,6 +111,7 @@ private:
     void applyStylesheet();
     void populateDitherProfileMenu();
     void clearNoiseShapingMenu();
+    void on_action_DitherProfile_triggered(QAction* action, int id); // not using old "private slots:" system (just an ordinary member function.)
 };
 
 

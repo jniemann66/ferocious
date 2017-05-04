@@ -37,3 +37,4 @@ RESOURCES += \
     ferocious.qrc
 
 
+CONFIG += c++11

@@ -87,9 +87,9 @@ MainWindow::MainWindow(QWidget *parent) :
     getResamplerVersion();
 
 
-    // !
-    // populateDitherProfileMenu();
-    // !
+    // retrieve dither profiles and add them to menu:
+    populateDitherProfileMenu();
+
 
     // set up event filter:
     qApp->installEventFilter(this);
@@ -141,7 +141,8 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    MainWindow::LPFtype=(typeof(MainWindow::LPFtype))settings.value("LPFtype",1).toInt();
+    //MainWindow::LPFtype=(typeof(MainWindow::LPFtype))settings.value("LPFtype",1).toInt();
+    MainWindow::LPFtype = (LPFType)settings.value("LPFtype",1).toInt();
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
@@ -161,18 +162,16 @@ void MainWindow::readSettings()
     MainWindow::bFixedSeed=settings.value("fixedSeed",false).toBool();
     ui->actionFixed_Seed->setChecked(MainWindow::bFixedSeed);
     MainWindow::seedValue=settings.value("seedValue",0).toInt();
-    MainWindow::noiseShape=(typeof(MainWindow::noiseShape))settings.value("noiseShape",noiseShape_standard).toInt();
-    ui->actionNoiseShapingFlatTpdf->setChecked(false);
-    ui->actionNoiseShapingStandard->setChecked(false);
-    switch(noiseShape){
-    case noiseShape_flatTpdf:
-        ui->actionNoiseShapingFlatTpdf->setChecked(true);
-        break;
-    default:
-        ui->actionNoiseShapingStandard->setChecked(true);
+    MainWindow::noiseShape=(NoiseShape)settings.value("noiseShape",noiseShape_standard).toInt();
+    MainWindow::ditherProfile=settings.value("ditherProfile",-1).toInt();
+    clearNoiseShapingMenu();
+    if(ditherProfile == -1 /* none */) {
+        if(noiseShape == noiseShape_flatTpdf)
+             ui->actionNoiseShapingFlatTpdf->setChecked(true);
+        else
+            ui->actionNoiseShapingStandard->setChecked(true);
     }
     settings.endGroup();
-
     outfileNamer.loadSettings(settings);
 }
 
@@ -209,6 +208,7 @@ void MainWindow::writeSettings()
     settings.setValue("fixedSeed", MainWindow::bFixedSeed);
     settings.setValue("seedValue", MainWindow::seedValue);
     settings.setValue("noiseShape", MainWindow::noiseShape);
+    settings.setValue("ditherProfile", MainWindow::ditherProfile);
     settings.endGroup();
 
     outfileNamer.saveSettings(settings);
@@ -517,9 +517,13 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             args << "--autoblank";
     }
 
+    // format args: dither profile:
+    if(MainWindow::ditherProfile != -1){
+        args << "--ns" << QString::number(MainWindow::ditherProfile);
+    }
 
     // format args: noise-shaping
-    if(MainWindow::noiseShape == noiseShape_flatTpdf){
+    else if(MainWindow::noiseShape == noiseShape_flatTpdf){
         args << "--flat-tpdf";
     }
 
@@ -942,6 +946,7 @@ void MainWindow::on_actionNoiseShapingStandard_triggered()
     MainWindow::noiseShape = noiseShape_standard;
     clearNoiseShapingMenu();
     ui->actionNoiseShapingStandard->setChecked(true);
+    MainWindow::ditherProfile = -1; // none
 }
 
 void MainWindow::on_actionNoiseShapingFlatTpdf_triggered()
@@ -949,6 +954,7 @@ void MainWindow::on_actionNoiseShapingFlatTpdf_triggered()
     MainWindow::noiseShape = noiseShape_flatTpdf;
     clearNoiseShapingMenu();
     ui->actionNoiseShapingFlatTpdf->setChecked(true);
+    MainWindow::ditherProfile = -1; // none
 }
 
 void MainWindow::clearNoiseShapingMenu()
@@ -966,24 +972,41 @@ void MainWindow::on_actionEnable_Multi_Threading_triggered(bool checked)
 }
 
 
+void MainWindow::on_action_DitherProfile_triggered(QAction* action, int id)
+{
+    clearNoiseShapingMenu();
+    action->setChecked(true);
+    ditherProfile = id;
+}
+
 void MainWindow::populateDitherProfileMenu()
 {
+
+    QList<int> ignoreList;
+    ignoreList << 0 << 6; // dither profiles to not add to menu (flat, standard)
 
     QMenu* nsMenu = ui->menuNoise_Shaping;
 
     // Launch external process, and populate Menu using output from the process:
     QProcess ConverterQuery;
     ConverterQuery.start(ConverterPath, QStringList() << "--showDitherProfiles");
-    if (!ConverterQuery.waitForFinished())
+    if (!ConverterQuery.waitForFinished() || (ConverterQuery.exitCode() != 0)) {
         return;
+    }
 
     ConverterQuery.setReadChannel(QProcess::StandardOutput);
     while(ConverterQuery.canReadLine()) {
         QString line = QString::fromLocal8Bit(ConverterQuery.readLine());
         QStringList fields = line.split(":");
         int id = fields.at(0).toInt();
-        QString label = fields.at(1).simplified();
-        QAction* newAction = nsMenu->addAction(label);
-        // to-do: add handlers
+        if(ignoreList.indexOf(id) == -1){
+            QString label = fields.at(1).simplified();
+            QAction* action = nsMenu->addAction(label);
+            action->setCheckable(true);
+            action->setChecked(id == ditherProfile);
+            connect(action, &QAction::triggered, this, [=]() {
+                this->on_action_DitherProfile_triggered(action, id);
+            });
+        }
     }
 }
