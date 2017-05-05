@@ -941,6 +941,21 @@ void MainWindow::on_actionSeed_Value_triggered()
         MainWindow::seedValue = D.intValue();
 }
 
+void MainWindow::on_actionEnable_Multi_Threading_triggered(bool checked)
+{
+    MainWindow::bEnableMultithreading = checked;
+}
+
+/*
+note regarding Noise Shaping and Dither Profiles:
+"Noise Shaping" refers to either standard or flat-tpdf
+The two menu items "Standard" and "Flat TPDF" are always present.
+"Dither Profile" refers to dither profiles to be issued with the --ns option
+Dither Profiles were introduced much later in the development of ReSampler.
+The additional "dither profiles" are only added to the menu if the version of ReSampler being used
+has the capability.
+*/
+
 void MainWindow::on_actionNoiseShapingStandard_triggered()
 {
     MainWindow::noiseShape = noiseShape_standard;
@@ -957,6 +972,13 @@ void MainWindow::on_actionNoiseShapingFlatTpdf_triggered()
     MainWindow::ditherProfile = -1; // none
 }
 
+void MainWindow::on_action_DitherProfile_triggered(QAction* action, int id)
+{
+    clearNoiseShapingMenu();
+    action->setChecked(true);
+    ditherProfile = id;
+}
+
 void MainWindow::clearNoiseShapingMenu()
 {
     QList<QAction*> nsActions = ui->menuNoise_Shaping->actions();
@@ -964,19 +986,6 @@ void MainWindow::clearNoiseShapingMenu()
     {
         nsActions[i]->setChecked(false);
     }
-}
-
-void MainWindow::on_actionEnable_Multi_Threading_triggered(bool checked)
-{
-    MainWindow::bEnableMultithreading = checked;
-}
-
-
-void MainWindow::on_action_DitherProfile_triggered(QAction* action, int id)
-{
-    clearNoiseShapingMenu();
-    action->setChecked(true);
-    ditherProfile = id;
 }
 
 void MainWindow::populateDitherProfileMenu()
@@ -991,6 +1000,8 @@ void MainWindow::populateDitherProfileMenu()
     QProcess ConverterQuery;
     ConverterQuery.start(ConverterPath, QStringList() << "--showDitherProfiles");
     if (!ConverterQuery.waitForFinished() || (ConverterQuery.exitCode() != 0)) {
+        // note: earlier versions of ReSampler that don't understand --showDitherProfiles
+        // are expected to return exitCode of 1
         return;
     }
 

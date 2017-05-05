@@ -114,6 +114,4 @@ private:
     void on_action_DitherProfile_triggered(QAction* action, int id); // not using old "private slots:" system (just an ordinary member function.)
 };
 
-
-
 #endif // MAINWINDOW_H

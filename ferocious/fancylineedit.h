@@ -32,5 +32,4 @@ private slots:
     void on_editButton_Clicked();
 };
 
-
 #endif // FANCYLINEEDIT_H

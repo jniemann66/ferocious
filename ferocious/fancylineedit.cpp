@@ -4,7 +4,6 @@
 #include <QInputDialog>
 #include "fancylineedit.h"
 
-
 FancyLineEdit::FancyLineEdit(QWidget *parent)
     : QLineEdit(parent)
 {
