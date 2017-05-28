@@ -621,6 +621,14 @@ Post- ringing only.</string>
       <height>17</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+      <kerning>true</kerning>
+     </font>
+    </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Linear Phase Filter:&lt;/p&gt;&lt;p&gt;No phase distortion, but some latency (delay).&lt;/p&gt;&lt;p&gt;Pre- and Post- ringing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
@@ -699,7 +707,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <x>0</x>
      <y>0</y>
      <width>740</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <property name="font">
