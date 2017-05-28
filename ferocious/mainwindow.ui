@@ -344,7 +344,7 @@ to process multiple files.</string>
      <rect>
       <x>220</x>
       <y>108</y>
-      <width>71</width>
+      <width>101</width>
       <height>18</height>
      </rect>
     </property>
@@ -383,7 +383,7 @@ to process multiple files.</string>
      <rect>
       <x>526</x>
       <y>130</y>
-      <width>101</width>
+      <width>111</width>
       <height>18</height>
      </rect>
     </property>
@@ -451,7 +451,7 @@ to process multiple files.</string>
      <rect>
       <x>24</x>
       <y>108</y>
-      <width>61</width>
+      <width>91</width>
       <height>16</height>
      </rect>
     </property>
@@ -467,7 +467,7 @@ to process multiple files.</string>
      <rect>
       <x>24</x>
       <y>160</y>
-      <width>101</width>
+      <width>131</width>
       <height>16</height>
      </rect>
     </property>
@@ -514,7 +514,7 @@ to process multiple files.</string>
      <rect>
       <x>115</x>
       <y>108</y>
-      <width>71</width>
+      <width>101</width>
       <height>18</height>
      </rect>
     </property>
@@ -554,7 +554,7 @@ to process multiple files.</string>
      <rect>
       <x>325</x>
       <y>108</y>
-      <width>71</width>
+      <width>101</width>
       <height>18</height>
      </rect>
     </property>
@@ -575,7 +575,7 @@ Only recommended when converting to a lower bit depth
      <rect>
       <x>325</x>
       <y>153</y>
-      <width>71</width>
+      <width>101</width>
       <height>18</height>
      </rect>
     </property>
@@ -599,7 +599,7 @@ Only recommended when converting to a lower bit depth
      <rect>
       <x>428</x>
       <y>153</y>
-      <width>101</width>
+      <width>151</width>
       <height>17</height>
      </rect>
     </property>
@@ -617,13 +617,13 @@ Post- ringing only.</string>
      <rect>
       <x>428</x>
       <y>130</y>
-      <width>82</width>
+      <width>101</width>
       <height>17</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <pointsize>8</pointsize>
       <weight>50</weight>
       <bold>false</bold>
       <kerning>true</kerning>
@@ -707,7 +707,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <x>0</x>
      <y>0</y>
      <width>740</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
