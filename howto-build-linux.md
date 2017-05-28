@@ -18,7 +18,7 @@ Download latest Qt package:
 
 make the installer file executable, eg:
 ~~~
-chmod +x qt-opensource-linux-x64-5.8.0
+chmod +x qt-opensource-linux-x64-5.8.0.run
 ~~~
 
 run the installer as sudo
