@@ -36,10 +36,17 @@ MainWindow::MainWindow(QWidget *parent) :
     if(!fileExists(ConverterPath)){
         QString s("Please locate the file: ");
         s.append(expectedConverter);
+
+#if defined (Q_OS_WIN)
+        QString filter = "*.exe";
+#else
+        QString filter = "";
+#endif
+
         ConverterPath=QFileDialog::getOpenFileName(this,
                                                    s,
                                                    QDir::currentPath(),
-                                                   "*.exe");
+                                                   filter);
 
         if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
             ConverterPath.clear();
@@ -778,10 +785,18 @@ void MainWindow::on_actionConverter_Location_triggered()
 {
     QString s("Please locate the file: ");
     s.append(expectedConverter);
+
+#if defined (Q_OS_WIN)
+    QString filter = "*.exe";
+#else
+    QString filter = "";
+#endif
+
     QString cp =QFileDialog::getOpenFileName(this,
                                               s,
                                               ConverterPath,
-                                               "*.exe");
+                                               filter);
+
     if(!cp.isNull()){
         ConverterPath = cp;
         if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
