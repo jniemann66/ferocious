@@ -36,6 +36,7 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 *build-*
+!howto-build*
 
 # QtCreator
 
