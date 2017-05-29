@@ -381,11 +381,16 @@ to process multiple files.</string>
    <widget class="QCheckBox" name="DoublePrecisionCheckBox">
     <property name="geometry">
      <rect>
-      <x>526</x>
+      <x>521</x>
       <y>130</y>
       <width>111</width>
       <height>18</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="toolTip">
      <string>Use 64-bit Floating-Point arithmetic during conversion
@@ -581,6 +586,7 @@ Only recommended when converting to a lower bit depth
     </property>
     <property name="font">
      <font>
+      <pointsize>8</pointsize>
       <stylestrategy>PreferAntialias</stylestrategy>
      </font>
     </property>
@@ -597,11 +603,16 @@ Only recommended when converting to a lower bit depth
    <widget class="QRadioButton" name="minPhase_radioBtn">
     <property name="geometry">
      <rect>
-      <x>428</x>
+      <x>425</x>
       <y>153</y>
       <width>151</width>
       <height>17</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="toolTip">
      <string>Minimum Phase Filter:
@@ -615,9 +626,9 @@ Post- ringing only.</string>
    <widget class="QRadioButton" name="LinearPhase_radioBtn">
     <property name="geometry">
      <rect>
-      <x>428</x>
+      <x>425</x>
       <y>130</y>
-      <width>101</width>
+      <width>95</width>
       <height>17</height>
      </rect>
     </property>
@@ -644,7 +655,7 @@ Post- ringing only.</string>
      <rect>
       <x>430</x>
       <y>108</y>
-      <width>81</width>
+      <width>141</width>
       <height>18</height>
      </rect>
     </property>
@@ -707,7 +718,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <x>0</x>
      <y>0</y>
      <width>740</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <property name="font">
