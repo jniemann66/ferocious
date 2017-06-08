@@ -74,8 +74,8 @@ MainWindow::MainWindow(QWidget *parent) :
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
     );
 
-    this->statusBar()->setSizeGripEnabled(false);
-    this->setFixedSize(size());
+  //  this->statusBar()->setSizeGripEnabled(false);
+  //  this->setFixedSize(size());
 
     // turn off the shitty etching on disabled widgets:
     QPalette pal = QApplication::palette();
