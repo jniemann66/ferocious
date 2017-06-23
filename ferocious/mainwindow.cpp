@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "outputfileoptions_dialog.h"
 #include "fancylineedit.h"
+#include "lpfparametersdlg.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -24,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->SamplerateCombo->setCurrentText("44100");
-
 
     readSettings();
     applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.qss")
@@ -153,6 +153,7 @@ void MainWindow::readSettings()
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
+    ui->actionCustomLPF->setChecked(false);
     switch(LPFtype) {
     case relaxedLPF:
          ui->actionRelaxedLPF->setChecked(true);
@@ -160,9 +161,15 @@ void MainWindow::readSettings()
     case steepLPF:
         ui->actionSteepLPF->setChecked(true);
         break;
+    case customLPF:
+        ui->actionCustomLPF->setChecked(true);
+        ui->actionCustom_Parameters->setVisible(true);
+        break;
     default:
          ui->actionStandardLPF->setChecked(true);
     }
+    MainWindow::customLpfCutoff = settings.value("customLpfCutoff", 95.45).toDouble();
+    MainWindow::customLpfTransition = settings.value("customLpfTransition", 4.55).toDouble();
     settings.endGroup();
 
     settings.beginGroup("advancedDitherSettings");
@@ -209,6 +216,8 @@ void MainWindow::writeSettings()
 
     settings.beginGroup("LPFSettings");
     settings.setValue("LPFtype",MainWindow::LPFtype);
+    settings.setValue("customLpfCutoff", MainWindow::customLpfCutoff);
+    settings.setValue("customLpfTransition", MainWindow::customLpfTransition);
     settings.endGroup();
 
     settings.beginGroup("advancedDitherSettings");
@@ -574,6 +583,10 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     case steepLPF:
         args << "--steepLPF";
         break;
+    case customLPF:
+        args << "--lpf-cutoff" << QString::number(customLpfCutoff);
+        args << "--lpf-transition" << QString::number(customLpfTransition);
+        break;
     default:
         break;
     }
@@ -918,6 +931,8 @@ void MainWindow::on_actionRelaxedLPF_triggered()
     ui->actionRelaxedLPF->setChecked(true);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
+    ui->actionCustomLPF->setChecked(false);
+    ui->actionCustom_Parameters->setVisible(false);
 }
 
 void MainWindow::on_actionStandardLPF_triggered()
@@ -926,6 +941,8 @@ void MainWindow::on_actionStandardLPF_triggered()
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(true);
     ui->actionSteepLPF->setChecked(false);
+    ui->actionCustomLPF->setChecked(false);
+    ui->actionCustom_Parameters->setVisible(false);
 }
 
 void MainWindow::on_actionSteepLPF_triggered()
@@ -934,6 +951,21 @@ void MainWindow::on_actionSteepLPF_triggered()
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(true);
+    ui->actionCustomLPF->setChecked(false);
+    ui->actionCustom_Parameters->setVisible(false);
+}
+
+void MainWindow::on_actionCustomLPF_triggered()
+{
+    LPFtype = customLPF;
+    ui->actionRelaxedLPF->setChecked(false);
+    ui->actionStandardLPF->setChecked(false);
+    ui->actionSteepLPF->setChecked(false);
+    if(ui->actionCustomLPF->isChecked()) {
+        getCustomLpfParameters();
+    }
+    ui->actionCustomLPF->setChecked(true);
+    ui->actionCustom_Parameters->setVisible(true);
 }
 
 void MainWindow::on_actionFixed_Seed_triggered()
@@ -1035,4 +1067,21 @@ void MainWindow::populateDitherProfileMenu()
             });
         }
     }
+}
+
+void MainWindow::on_actionCustom_Parameters_triggered()
+{
+    getCustomLpfParameters();
+}
+
+void MainWindow::getCustomLpfParameters() {
+    auto d = new lpfParametersDlg(this);
+    d->setValues(customLpfCutoff, customLpfTransition);
+    d->setWindowTitle("Custom LPF Parameters");
+    connect(d,&QDialog::accepted,[this, d]{
+        auto v = d->getValues();
+        customLpfCutoff = v.first;
+        customLpfTransition = v.second;
+    });
+    d->exec();
 }

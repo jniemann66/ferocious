@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>740</width>
+    <width>784</width>
     <height>703</height>
    </rect>
   </property>
@@ -677,8 +677,8 @@ Post- ringing only.</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>740</width>
-     <height>21</height>
+     <width>784</width>
+     <height>19</height>
     </rect>
    </property>
    <property name="font">
@@ -707,6 +707,8 @@ Post- ringing only.</string>
      <addaction name="actionRelaxedLPF"/>
      <addaction name="actionStandardLPF"/>
      <addaction name="actionSteepLPF"/>
+     <addaction name="actionCustomLPF"/>
+     <addaction name="actionCustom_Parameters"/>
     </widget>
     <widget class="QMenu" name="menuAdvanced_Dither_Options">
      <property name="title">
@@ -1320,6 +1322,22 @@ Post- ringing only.</string>
    </property>
    <property name="visible">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionCustomLPF">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Custom</string>
+   </property>
+  </action>
+  <action name="actionCustom_Parameters">
+   <property name="text">
+    <string>Custom Parameters ...</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

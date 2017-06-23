@@ -20,15 +20,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     outputfileoptions_dialog.cpp \
-    fancylineedit.cpp
+    fancylineedit.cpp \
+    lpfparametersdlg.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
     outputfileoptions_dialog.h \
-    fancylineedit.h
+    fancylineedit.h \
+    lpfparametersdlg.h
 
 FORMS    += mainwindow.ui \
-    outputfileoptions_dialog.ui
+    outputfileoptions_dialog.ui \
+    lpfparametersdlg.ui
 
 
 RC_FILE = ferocious.rc
