@@ -93,6 +93,8 @@ Allows you to set the *quality level* to be used when saving files in the ogg vo
 - **Standard:** wide transition band, earlier (lower) transition frequency - no aliasing, low ringing, but frequency response suffers a little (drops a few dB around 20k for 44.1k sample rate).
 - **Steep:** narrow transition band, late (higher) transition frequency - no aliasing, good frequency response, but potentially more ringing.
 
+- **Custom** allows you to set your own cutoff frequency and transition width
+
 *note: for downsampling to 44.1k, Steep or Relaxed is recommended (although standard is also fine).
 For lower rates (eg 22.05), use steep. For higher target rates, use standard.*
 
