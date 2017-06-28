@@ -99,7 +99,7 @@ Allows you to set the *quality level* to be used when saving files in the ogg vo
 For lower rates (eg 22.05), use steep. For higher target rates, use standard.*
 
 **Options/Advanced Dither Options**
-- **Noise Shaping:** Select Standard or Flat TPDF.
+- **Noise Shaping:** Select a noise-shaping profile. For information on the various profiles, click [here](https://github.com/jniemann66/ReSampler/blob/master/ditherProfiles.md)
 - **RNG Seed:** allows you to set a fixed seed for the Random Number Generator used for dithering.
 
 **Options/Enable clipping protection**
