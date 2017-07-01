@@ -4,7 +4,7 @@ _Note: Be sure to check out the online version at [ferocious.juddn.com](http://f
 ## Synopsis
 
 
-Ferocious File Converter is a high-quality audio file-format conversion tool, which utilitizes the resampling capabilities of its companion program, [Resampler](https://github.com/jniemann66/ReSampler "Resampler").
+Ferocious File Converter is a high-quality audio file-format conversion tool, which utilitizes the resampling capabilities of its companion program, [ReSampler](https://github.com/jniemann66/ReSampler "ReSampler").
 
 It provides a convenient and easy-to-use graphical interface for converting audio files between a number of formats.
 
@@ -22,7 +22,10 @@ Having written a command-line sample rate converter, I thought the next logical 
 
 ## Installation
 
-The binaries are included in two zip files in this repository, one for 32-bit and the other for 64-bit. Each of the zip files contains a recent build of resampler.exe for convenience. Download the zip file of your choice (note: the only difference is the version of resampler.exe and associated dlls; one is 32-bit, the other is 64-bit), and unpack the entire folder structure to somewhere on your PC. Then, simply run ferocious.exe. 
+The binaries are included in two zip files in this repository, one for 32-bit and the other for 64-bit. Each of the zip files contains a recent build of ReSampler.exe for convenience. Download the zip file of your choice (note: the only difference is the version of ReSampler.exe and associated dlls; one is 32-bit, the other is 64-bit), and unpack the entire folder structure to somewhere on your PC. Then, simply run ferocious.exe. 
+
+
+*Note: although a standard version of ReSampler.exe is included in this distribution, there are [other builds](https://github.com/jniemann66/ReSampler/tree/master/x64) available which were created with different compilers / options, and one of those builds may suit your needs better. (For example, if your CPU supports AVX instructions, you may want to get the AVX version for extra speed)*
 
 All of the relevant dlls and other dependencies are included in the distribution. (*If you have any problems with a particular dependency not being included, then I would like to know about it.)* 
 
@@ -46,7 +49,7 @@ converter will automatically create an output filename, based on input filename,
 
 converter will automatically infer the output file format (and subformat) based on the file extension you choose for the output file. The converter's output messages are always displayed in the "Converter Output" box.
 
-Note: when you choose a new output file type, ferocious will run resampler.exe with the --listformats <extension> command to retrieve a list of valid sub-formats and automatically populate the bit format dropdown box with the valid sub-formats for the chosen file type.
+Note: when you choose a new output file type, ferocious will run ReSampler.exe with the --listformats <extension> command to retrieve a list of valid sub-formats and automatically populate the bit format dropdown box with the valid sub-formats for the chosen file type.
 
 ##### Selection of multiple files: #####
 When opening files for conversion, multiple files may be selected (by holding down 'ctrl' while clicking on filenames in the open files dialog, or entering ctrl+A to select all files).
@@ -60,7 +63,7 @@ Wildcards (using '*') in filenames (but not directory paths) are also recognized
 
 Note: all items configured in the Options menu are *persistent* (ie they will be remembered next time you run the program) unless otherwise indicated.
 
-**Options/Converter Location ...**   Use this to specify the location of ReSampler (**resampler.exe** for Windows, **ReSampler** for Linux)
+**Options/Converter Location ...**   Use this to specify the location of ReSampler (**ReSampler.exe** for Windows, **ReSampler** for Linux)
 
 **Options/Output File Options ...** This allows you to control the settings that govern the generation of automatically-generated output file names:
 
@@ -110,7 +113,7 @@ Note that in the conversion process, all signal levels are represented internall
 
 If normalization is activated, then clipping protection will ensure that the signal peak always aquals the normalization factor (instead of the default +/- 1.0)
 
-Deactivating clipping protection actually sends the --noClippingProtection switch to the resampler.exe converter (the default bahaviour in resampler.exe is to have clipping protection on).
+Deactivating clipping protection actually sends the --noClippingProtection switch to the ReSampler.exe converter (the default bahaviour in ReSampler.exe is to have clipping protection on).
 
 The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunately, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)    
 
@@ -123,7 +126,7 @@ Themes are potentially highly customisable. Some sample themes are included in t
 
 **Help/about ...**
 
-Display the version of Ferocious and the version of resampler.
+Display the version of Ferocious and the version of ReSampler.
 
 **Help/about Qt ...**
 
