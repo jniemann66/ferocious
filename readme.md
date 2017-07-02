@@ -1,15 +1,13 @@
 
-_Note: Be sure to check out the online version at [ferocious.juddn.com](http://ferocious.juddn.com) ... It also supports [Additional Formats](http://52.62.255.103:1337/fileformats) !!_ 
+_Note: Be sure to check out the online version at [ferocious.juddn.com](http://ferocious.juddn.com) ... It also supports [Additional Formats](http://52.62.255.103:1337/fileformats) !!_
 
 ## Synopsis
-
 
 Ferocious File Converter is a high-quality audio file-format conversion tool, which utilitizes the resampling capabilities of its companion program, [ReSampler](https://github.com/jniemann66/ReSampler "ReSampler").
 
 It provides a convenient and easy-to-use graphical interface for converting audio files between a number of formats.
 
 ![Ferocious File Converter screenshot](https://github.com/jniemann66/ferocious/blob/master/screenshot.jpg)
-
 
 ## Description of Code
 
@@ -24,7 +22,6 @@ Having written a command-line sample rate converter, I thought the next logical 
 
 The binaries are included in two zip files in this repository, one for 32-bit and the other for 64-bit. Each of the zip files contains a recent build of ReSampler.exe for convenience. Download the zip file of your choice (note: the only difference is the version of ReSampler.exe and associated dlls; one is 32-bit, the other is 64-bit), and unpack the entire folder structure to somewhere on your PC. Then, simply run ferocious.exe. 
 
-
 *Note: although a standard version of ReSampler.exe is included in this distribution, there are [other builds](https://github.com/jniemann66/ReSampler/tree/master/x64) available which were created with different compilers / options, and one of those builds may suit your needs better. (For example, if your CPU supports AVX instructions, you may want to get the AVX version for extra speed)*
 
 All of the relevant dlls and other dependencies are included in the distribution. (*If you have any problems with a particular dependency not being included, then I would like to know about it.)* 
@@ -33,9 +30,9 @@ All of the relevant dlls and other dependencies are included in the distribution
 
 ##### Minimum effort: #####
 
-- Run the program. 
+- Run the program.
 - Choose an input file (or files)
-- Hit "Convert" button 
+- Hit "Convert" button
 
 converter will automatically create an output filename, based on input filename, in the same path as input file.
 
