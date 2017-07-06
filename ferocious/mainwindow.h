@@ -9,7 +9,7 @@ const char expectedConverter[] ="resampler.exe";
 #elif defined (Q_OS_LINUX)
 const char expectedConverter[] ="resampler";
 #else
-const char expectedConverter[] ="unknown";
+const char expectedConverter[] ="ReSampler";
 #endif
 
 #include "outputfileoptions_dialog.h"
