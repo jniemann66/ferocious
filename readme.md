@@ -1,15 +1,13 @@
 
-_Note: Be sure to check out the online version at [ferocious.juddn.com](http://ferocious.juddn.com) ... It also supports [Additional Formats](http://52.62.255.103:1337/fileformats) !!_ 
+_Note: Be sure to check out the online version at [ferocious.juddn.com](http://ferocious.juddn.com) ... It also supports [Additional Formats](http://52.62.255.103:1337/fileformats) !!_
 
 ## Synopsis
-
 
 Ferocious File Converter is a high-quality audio file-format conversion tool, which utilitizes the resampling capabilities of its companion program, [ReSampler](https://github.com/jniemann66/ReSampler "ReSampler").
 
 It provides a convenient and easy-to-use graphical interface for converting audio files between a number of formats.
 
 ![Ferocious File Converter screenshot](https://github.com/jniemann66/ferocious/blob/master/screenshot.jpg)
-
 
 ## Description of Code
 
@@ -24,7 +22,6 @@ Having written a command-line sample rate converter, I thought the next logical 
 
 The binaries are included in two zip files in this repository, one for 32-bit and the other for 64-bit. Each of the zip files contains a recent build of ReSampler.exe for convenience. Download the zip file of your choice (note: the only difference is the version of ReSampler.exe and associated dlls; one is 32-bit, the other is 64-bit), and unpack the entire folder structure to somewhere on your PC. Then, simply run ferocious.exe. 
 
-
 *Note: although a standard version of ReSampler.exe is included in this distribution, there are [other builds](https://github.com/jniemann66/ReSampler/tree/master/x64) available which were created with different compilers / options, and one of those builds may suit your needs better. (For example, if your CPU supports AVX instructions, you may want to get the AVX version for extra speed)*
 
 All of the relevant dlls and other dependencies are included in the distribution. (*If you have any problems with a particular dependency not being included, then I would like to know about it.)* 
@@ -33,9 +30,9 @@ All of the relevant dlls and other dependencies are included in the distribution
 
 ##### Minimum effort: #####
 
-- Run the program. 
+- Run the program.
 - Choose an input file (or files)
-- Hit "Convert" button 
+- Hit "Convert" button
 
 converter will automatically create an output filename, based on input filename, in the same path as input file.
 
@@ -107,7 +104,7 @@ For lower rates (eg 22.05), use steep. For higher target rates, use standard.*
 
 **Options/Enable clipping protection**
 
-When clipping protection is enabled, the converter will repeat the conversion process with an adjusted (ie decreased) gain level whenever it detects clipping in the initial conversion. This will ensure that there will be no clipping on the second pass. This will add to the total conversion time, but it is nevertheless strongly recommended. With clipping protection switched off, the converter will still warn you when clipping has occured, but will not attempt to fix it. 
+When clipping protection is enabled, the converter will repeat the conversion process with an adjusted (ie decreased) gain level whenever it detects clipping in the initial conversion. This will ensure that there will be no clipping on the second pass. This will add to the total conversion time, but it is nevertheless strongly recommended. With clipping protection switched off, the converter will still warn you when clipping has occured, but will not attempt to fix it.
 
 Note that in the conversion process, all signal levels are represented internally as floating point numbers within the range +/- 1.0 (regardless of the file formats involved). Whenever the signal peak exceeds +/- 1.0 it is considered clipping. If clipping occurs, the peak level is remembered, and the gain for the second pass is adjusted down by an amount corresponding to how far the signal peak exceeded +/- 1.0 by.
 
@@ -115,7 +112,7 @@ If normalization is activated, then clipping protection will ensure that the sig
 
 Deactivating clipping protection actually sends the --noClippingProtection switch to the ReSampler.exe converter (the default bahaviour in ReSampler.exe is to have clipping protection on).
 
-The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunately, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)    
+The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunately, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)
 
 **Options/Enable Multi-Threading** uses the **--mt** option in ReSampler to enable multi-threading. This usually results in a significant speed improvement on multi-CPU systems. !
 
