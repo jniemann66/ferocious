@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>784</width>
+    <width>803</width>
     <height>703</height>
    </rect>
   </property>
@@ -43,180 +43,11 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="InfileLabel">
-      <property name="text">
-       <string>Input File:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="6">
-     <widget class="FancyLineEdit" name="InfileEdit">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>22</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <stylestrategy>PreferAntialias</stylestrategy>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Input File specification:
-Wildcards (*) may be used in the filename or file extension
-to process multiple files.</string>
-      </property>
-      <property name="autoFillBackground">
+    <item row="5" column="2">
+     <widget class="QLineEdit" name="NormalizeAmountEdit">
+      <property name="enabled">
        <bool>false</bool>
       </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="6">
-     <widget class="QPushButton" name="browseInfileButton">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>22</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <stylestrategy>PreferAntialias</stylestrategy>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Select an input file for processing.</string>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Browse ...</string>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0" colspan="6">
-     <widget class="QLabel" name="OutfileLabel">
-      <property name="text">
-       <string>Output File:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="6">
-     <widget class="FancyLineEdit" name="OutfileEdit">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>22</height>
-       </size>
-      </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output File specification:&lt;/p&gt;&lt;p&gt;Wildcards (*) may be used in the filename or file extension, provided they are also used in the input file specification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="6">
-     <widget class="QPushButton" name="browseOutfileButton">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>22</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <stylestrategy>PreferAntialias</stylestrategy>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Select location and name of output file.</string>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Browse ...</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="SampleRateLabel">
-      <property name="toolTip">
-       <string/>
-      </property>
-      <property name="text">
-       <string>Sample rate:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QCheckBox" name="BitDepthCheckBox">
-      <property name="toolTip">
-       <string>Set the output file sub-format.
-(Available sub-formats will depend on file type)</string>
-      </property>
-      <property name="text">
-       <string>Bit Format:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QCheckBox" name="NormalizeCheckBox">
-      <property name="toolTip">
-       <string>Set the peak level of the output file
-(1.0 is maximum)</string>
-      </property>
-      <property name="text">
-       <string>Normalize:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3">
-     <widget class="QCheckBox" name="DitherCheckBox">
-      <property name="toolTip">
-       <string>Generate dither.
-Only recommended when converting to a lower bit depth
-(eg: 24bit-&gt;16bit or 16bit-&gt;8bit)</string>
-      </property>
-      <property name="text">
-       <string>Dither:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="4" colspan="2">
-     <widget class="QLabel" name="ConverterTypeLabel">
-      <property name="toolTip">
-       <string>Selects the type of impulse response used in the Lowpass Filter
-Each type has its advantages and disadvanatges.
-Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
-      </property>
-      <property name="text">
-       <string>Converter type:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QComboBox" name="SamplerateCombo">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -230,75 +61,32 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
        </size>
       </property>
       <property name="toolTip">
-       <string>Set the output sample-rate.
-(Note: you can type in a non-standard rate, if desired)</string>
+       <string>Enter an amount between 0 and 1.0</string>
       </property>
-      <property name="editable">
-       <bool>true</bool>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
-      <property name="currentIndex">
-       <number>5</number>
+      <property name="text">
+       <string>0.999</string>
       </property>
-      <item>
-       <property name="text">
-        <string>8000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>11025</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>16000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>22050</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>32000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>44100</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>48000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>64000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>88200</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>96000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>176400</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>192000</string>
-       </property>
-      </item>
+     </widget>
+    </item>
+    <item row="4" column="4" colspan="2">
+     <widget class="QLabel" name="ConverterTypeLabel">
+      <property name="maximumSize">
+       <size>
+        <width>164</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Selects the type of impulse response used in the Lowpass Filter
+Each type has its advantages and disadvanatges.
+Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
+      </property>
+      <property name="text">
+       <string>Converter type:</string>
+      </property>
      </widget>
     </item>
     <item row="5" column="1">
@@ -396,11 +184,62 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
       </item>
      </widget>
     </item>
-    <item row="5" column="2">
-     <widget class="QLineEdit" name="NormalizeAmountEdit">
-      <property name="enabled">
+    <item row="7" column="0" colspan="7">
+     <widget class="QTextBrowser" name="ConverterOutputText">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <stylestrategy>PreferAntialias</stylestrategy>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Notifications from the converter will appear in here.</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="InfileLabel">
+      <property name="text">
+       <string>Input File:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="6">
+     <widget class="QLabel" name="OutfileLabel">
+      <property name="text">
+       <string>Output File:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0" colspan="7">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>14</height>
+       </size>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="textVisible">
        <bool>false</bool>
       </property>
+      <property name="textDirection">
+       <enum>QProgressBar::TopToBottom</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QComboBox" name="SamplerateCombo">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -414,13 +253,364 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
        </size>
       </property>
       <property name="toolTip">
-       <string>Enter an amount between 0 and 1.0</string>
+       <string>Set the output sample-rate.
+(Note: you can type in a non-standard rate, if desired)</string>
+      </property>
+      <property name="editable">
+       <bool>true</bool>
+      </property>
+      <property name="currentIndex">
+       <number>5</number>
+      </property>
+      <item>
+       <property name="text">
+        <string>8000</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>11025</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>16000</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>22050</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>32000</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>44100</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>48000</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>64000</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>88200</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>96000</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>176400</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>192000</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="8" column="0" colspan="7">
+     <widget class="QLabel" name="StatusLabel">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Status: Ready</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::PlainText</enum>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="indent">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="3">
+     <widget class="QCheckBox" name="AutoBlankCheckBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <stylestrategy>PreferAntialias</stylestrategy>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Deactivate dither during periods of digital silence (zeros)</string>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>0.999</string>
+       <string>Autoblank</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="2">
+     <widget class="QLabel" name="ConverterOutputLabel">
+      <property name="text">
+       <string>Converter output:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="6">
+     <widget class="FancyLineEdit" name="OutfileEdit">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>22</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output File specification:&lt;/p&gt;&lt;p&gt;Wildcards (*) may be used in the filename or file extension, provided they are also used in the input file specification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="SampleRateLabel">
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="text">
+       <string>Sample rate:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="6">
+     <widget class="QPushButton" name="browseInfileButton">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>22</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <stylestrategy>PreferAntialias</stylestrategy>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Select an input file for processing.</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Browse ...</string>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QCheckBox" name="BitDepthCheckBox">
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Set the output file sub-format.
+(Available sub-formats will depend on file type)</string>
+      </property>
+      <property name="text">
+       <string>Bit Format:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="4" colspan="2">
+     <widget class="QRadioButton" name="minPhase_radioBtn">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Minimum Phase Filter:
+No delay, but will introduce phase distortion.
+Post- ringing only.</string>
+      </property>
+      <property name="text">
+       <string>Minimum Phase</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QCheckBox" name="DitherCheckBox">
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Generate dither.
+Only recommended when converting to a lower bit depth
+(eg: 24bit-&gt;16bit or 16bit-&gt;8bit)</string>
+      </property>
+      <property name="text">
+       <string>Dither:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="6">
+     <widget class="flashingPushbutton" name="convertButton">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>22</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <stylestrategy>PreferAntialias</stylestrategy>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Begin conversion using files and settings as currently displayed.</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Convert</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="6">
+     <widget class="FancyLineEdit" name="InfileEdit">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>22</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <stylestrategy>PreferAntialias</stylestrategy>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Input File specification:
+Wildcards (*) may be used in the filename or file extension
+to process multiple files.</string>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="6">
+     <widget class="QPushButton" name="browseOutfileButton">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>22</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <stylestrategy>PreferAntialias</stylestrategy>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Select location and name of output file.</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Browse ...</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QCheckBox" name="NormalizeCheckBox">
+      <property name="maximumSize">
+       <size>
+        <width>124</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Set the peak level of the output file
+(1.0 is maximum)</string>
+      </property>
+      <property name="text">
+       <string>Normalize:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="5">
+     <widget class="QCheckBox" name="DoublePrecisionCheckBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Use 64-bit Floating-Point arithmetic during conversion
+(instead of 32-bit single-precision)</string>
+      </property>
+      <property name="text">
+       <string>Double Precision</string>
       </property>
      </widget>
     </item>
@@ -480,172 +670,6 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="5">
-     <widget class="QCheckBox" name="DoublePrecisionCheckBox">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>8</pointsize>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Use 64-bit Floating-Point arithmetic during conversion
-(instead of 32-bit single-precision)</string>
-      </property>
-      <property name="text">
-       <string>Double Precision</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="6">
-     <widget class="flashingPushbutton" name="convertButton">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>22</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <stylestrategy>PreferAntialias</stylestrategy>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Begin conversion using files and settings as currently displayed.</string>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Convert</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0" colspan="2">
-     <widget class="QLabel" name="ConverterOutputLabel">
-      <property name="text">
-       <string>Converter output:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="3">
-     <widget class="QCheckBox" name="AutoBlankCheckBox">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>8</pointsize>
-        <stylestrategy>PreferAntialias</stylestrategy>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Deactivate dither during periods of digital silence (zeros)</string>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Autoblank</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="4" colspan="2">
-     <widget class="QRadioButton" name="minPhase_radioBtn">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>8</pointsize>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Minimum Phase Filter:
-No delay, but will introduce phase distortion.
-Post- ringing only.</string>
-      </property>
-      <property name="text">
-       <string>Minimum Phase</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0" colspan="7">
-     <widget class="QTextBrowser" name="ConverterOutputText">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <stylestrategy>PreferAntialias</stylestrategy>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Notifications from the converter will appear in here.</string>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0" colspan="7">
-     <widget class="QLabel" name="StatusLabel">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Status: Ready</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::PlainText</enum>
-      </property>
-      <property name="scaledContents">
-       <bool>false</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-      <property name="indent">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0" colspan="7">
-     <widget class="QProgressBar" name="progressBar">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>14</height>
-       </size>
-      </property>
-      <property name="value">
-       <number>0</number>
-      </property>
-      <property name="textVisible">
-       <bool>false</bool>
-      </property>
-      <property name="textDirection">
-       <enum>QProgressBar::TopToBottom</enum>
-      </property>
-     </widget>
-    </item>
    </layout>
    <zorder>InfileEdit</zorder>
    <zorder>OutfileEdit</zorder>
@@ -677,8 +701,8 @@ Post- ringing only.</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>784</width>
-     <height>19</height>
+     <width>803</width>
+     <height>22</height>
     </rect>
    </property>
    <property name="font">
