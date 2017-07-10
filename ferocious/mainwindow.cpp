@@ -74,9 +74,6 @@ MainWindow::MainWindow(QWidget *parent) :
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
     );
 
-  //  this->statusBar()->setSizeGripEnabled(false);
-  //  this->setFixedSize(size());
-
     // turn off the shitty etching on disabled widgets:
     QPalette pal = QApplication::palette();
     pal.setColor(QPalette::Disabled, QPalette::Text, QColor(80, 80, 80));
@@ -805,10 +802,7 @@ void MainWindow::on_actionConverter_Location_triggered()
     QString filter = "";
 #endif
 
-    QString cp =QFileDialog::getOpenFileName(this,
-                                              s,
-                                              ConverterPath,
-                                               filter);
+    QString cp =QFileDialog::getOpenFileName(this, s, ConverterPath,  filter);
 
     if(!cp.isNull()){
         ConverterPath = cp;

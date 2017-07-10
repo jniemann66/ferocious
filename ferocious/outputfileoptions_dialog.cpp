@@ -184,5 +184,3 @@ void OutputFileOptions_Dialog::on_pushButton_clicked()
         ui->outDirectory_lineEdit->setText(QDir::toNativeSeparators(dir));
 
 }
-
-
