@@ -92,7 +92,7 @@ private:
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
     QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
     QString stylesheetFilePath;
-    OutFileNamer outfileNamer;  // output filename generator
+    FilenameGenerator filenameGenerator;  // output filename generator
     QString ResamplerVersion;   // version string of main external converter
     bool bShowProgressBar;
     int flacCompressionLevel;

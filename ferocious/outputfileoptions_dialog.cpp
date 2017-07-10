@@ -3,7 +3,7 @@
 #include <QFileDialog>
 
 
-OutFileNamer::OutFileNamer(){
+FilenameGenerator::FilenameGenerator(){
     // factory defaults:
     appendSuffix=true;
     Suffix=QString("(converted)");
@@ -13,7 +13,7 @@ OutFileNamer::OutFileNamer(){
     fileExt=QString("wav");
 }
 
-OutFileNamer::OutFileNamer(const OutFileNamer &O)
+FilenameGenerator::FilenameGenerator(const FilenameGenerator &O)
     : appendSuffix(O.appendSuffix),
       Suffix(O.Suffix),
       useSpecificOutputDirectory(O.useSpecificOutputDirectory),
@@ -25,7 +25,7 @@ OutFileNamer::OutFileNamer(const OutFileNamer &O)
     /*---*/
 }
 
-void OutFileNamer::generateOutputFilename(QString &outFilename, const QString &inFilename){
+void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename){
 
     outFilename = inFilename;
 
@@ -75,58 +75,58 @@ void OutFileNamer::generateOutputFilename(QString &outFilename, const QString &i
     outFilename=(QString(strOutFilename.c_str())); // convert std::string back to QString
 }
 
-void OutFileNamer::saveSettings(QSettings &settings)
+void FilenameGenerator::saveSettings(QSettings &settings)
 {
     settings.beginGroup("OutputFileOptions");
 
-    settings.setValue("appendSuffix", OutFileNamer::appendSuffix);
-    settings.setValue("Suffix", OutFileNamer::Suffix);
-    settings.setValue("useSpecificOutputDirectory", OutFileNamer::useSpecificOutputDirectory);
-    settings.setValue("outputDirectory", QDir(OutFileNamer::outputDirectory).absolutePath());
-    settings.setValue("useSpecificFileExt", OutFileNamer::useSpecificFileExt);
-    settings.setValue("fileExt", OutFileNamer::fileExt);
+    settings.setValue("appendSuffix", FilenameGenerator::appendSuffix);
+    settings.setValue("Suffix", FilenameGenerator::Suffix);
+    settings.setValue("useSpecificOutputDirectory", FilenameGenerator::useSpecificOutputDirectory);
+    settings.setValue("outputDirectory", QDir(FilenameGenerator::outputDirectory).absolutePath());
+    settings.setValue("useSpecificFileExt", FilenameGenerator::useSpecificFileExt);
+    settings.setValue("fileExt", FilenameGenerator::fileExt);
 
     settings.endGroup();
 }
 
-void OutFileNamer::loadSettings(QSettings &settings)
+void FilenameGenerator::loadSettings(QSettings &settings)
 {
     settings.beginGroup("OutputFileOptions");
 
-    OutFileNamer::appendSuffix = settings.value("appendSuffix", OutFileNamer::appendSuffix).toBool();
-    OutFileNamer::Suffix = settings.value("Suffix", OutFileNamer::Suffix).toString();
-    OutFileNamer::useSpecificOutputDirectory = settings.value("useSpecificOutputDirectory", OutFileNamer::useSpecificOutputDirectory).toBool();
-    OutFileNamer::outputDirectory = QDir::toNativeSeparators(settings.value("outputDirectory",  OutFileNamer::outputDirectory).toString());
-    OutFileNamer::useSpecificFileExt = settings.value("useSpecificFileExt", OutFileNamer::useSpecificFileExt).toBool();
-    OutFileNamer::fileExt = settings.value("fileExt", OutFileNamer::fileExt).toString();
+    FilenameGenerator::appendSuffix = settings.value("appendSuffix", FilenameGenerator::appendSuffix).toBool();
+    FilenameGenerator::Suffix = settings.value("Suffix", FilenameGenerator::Suffix).toString();
+    FilenameGenerator::useSpecificOutputDirectory = settings.value("useSpecificOutputDirectory", FilenameGenerator::useSpecificOutputDirectory).toBool();
+    FilenameGenerator::outputDirectory = QDir::toNativeSeparators(settings.value("outputDirectory",  FilenameGenerator::outputDirectory).toString());
+    FilenameGenerator::useSpecificFileExt = settings.value("useSpecificFileExt", FilenameGenerator::useSpecificFileExt).toBool();
+    FilenameGenerator::fileExt = settings.value("fileExt", FilenameGenerator::fileExt).toString();
 
     settings.endGroup();
 }
 
 //
 
-OutputFileOptions_Dialog::OutputFileOptions_Dialog(OutFileNamer& OFN, QWidget *parent) :
+OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& OFN, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OutputFileOptions_Dialog)
 {
 
     ui->setupUi(this);
 
-    pOutFileNamer = &OFN; // keep a pointer to caller's referenced object
+    pFilenameGenerator = &OFN; // keep a pointer to caller's referenced object
 
     // populate controls using members of OFN object
-    ui->FilenameSuffix_checkBox->setChecked(pOutFileNamer->appendSuffix);
-    ui->outFilenameSuffix_lineEdit->setText(pOutFileNamer->Suffix);
-    ui->useOutputDirectory_checkBox->setChecked(pOutFileNamer->useSpecificOutputDirectory);
-    ui->outDirectory_lineEdit->setText(pOutFileNamer->outputDirectory);
-    ui->SameFileExt_radioButton->setChecked(!pOutFileNamer->useSpecificFileExt);
-    ui->setFileExt_radioButton->setChecked(pOutFileNamer->useSpecificFileExt);
-    ui->outFileExt_lineEdit->setText(pOutFileNamer->fileExt);
+    ui->FilenameSuffix_checkBox->setChecked(pFilenameGenerator->appendSuffix);
+    ui->outFilenameSuffix_lineEdit->setText(pFilenameGenerator->Suffix);
+    ui->useOutputDirectory_checkBox->setChecked(pFilenameGenerator->useSpecificOutputDirectory);
+    ui->outDirectory_lineEdit->setText(pFilenameGenerator->outputDirectory);
+    ui->SameFileExt_radioButton->setChecked(!pFilenameGenerator->useSpecificFileExt);
+    ui->setFileExt_radioButton->setChecked(pFilenameGenerator->useSpecificFileExt);
+    ui->outFileExt_lineEdit->setText(pFilenameGenerator->fileExt);
 
     // enable relevant lineEdit boxes:
-    ui->outFilenameSuffix_lineEdit->setEnabled(pOutFileNamer->appendSuffix);
-    ui->outDirectory_lineEdit->setEnabled(pOutFileNamer->useSpecificOutputDirectory);
-    ui->outFileExt_lineEdit->setEnabled(pOutFileNamer->useSpecificFileExt);
+    ui->outFilenameSuffix_lineEdit->setEnabled(pFilenameGenerator->appendSuffix);
+    ui->outDirectory_lineEdit->setEnabled(pFilenameGenerator->useSpecificOutputDirectory);
+    ui->outFileExt_lineEdit->setEnabled(pFilenameGenerator->useSpecificFileExt);
 
 }
 
@@ -158,20 +158,20 @@ void OutputFileOptions_Dialog::on_SameFileExt_radioButton_clicked()
 void OutputFileOptions_Dialog::on_OutputFileOptions_buttonBox_accepted()
 {
     // suffix settings:
-    pOutFileNamer->appendSuffix=ui->FilenameSuffix_checkBox->isChecked();
-    pOutFileNamer->Suffix=ui->outFilenameSuffix_lineEdit->text();
+    pFilenameGenerator->appendSuffix=ui->FilenameSuffix_checkBox->isChecked();
+    pFilenameGenerator->Suffix=ui->outFilenameSuffix_lineEdit->text();
 
     // Output Directory Settings:
-    pOutFileNamer->useSpecificOutputDirectory=ui->useOutputDirectory_checkBox->isChecked();
-    pOutFileNamer->outputDirectory=ui->outDirectory_lineEdit->text();
-    if(pOutFileNamer->outputDirectory.right(1)==QDir::separator())
-        pOutFileNamer->outputDirectory = pOutFileNamer->outputDirectory.left(pOutFileNamer->outputDirectory.length()-1); // remove separator from end of string
+    pFilenameGenerator->useSpecificOutputDirectory=ui->useOutputDirectory_checkBox->isChecked();
+    pFilenameGenerator->outputDirectory=ui->outDirectory_lineEdit->text();
+    if(pFilenameGenerator->outputDirectory.right(1)==QDir::separator())
+        pFilenameGenerator->outputDirectory = pFilenameGenerator->outputDirectory.left(pFilenameGenerator->outputDirectory.length()-1); // remove separator from end of string
 
     // File extension Settings:
-    pOutFileNamer->useSpecificFileExt=ui->setFileExt_radioButton->isChecked();
-    pOutFileNamer->fileExt=ui->outFileExt_lineEdit->text();
-    if( pOutFileNamer->fileExt.left(1)==".")
-        pOutFileNamer->fileExt = pOutFileNamer->fileExt.right(pOutFileNamer->fileExt.length()-1); // remove leading "." from file extension
+    pFilenameGenerator->useSpecificFileExt=ui->setFileExt_radioButton->isChecked();
+    pFilenameGenerator->fileExt=ui->outFileExt_lineEdit->text();
+    if( pFilenameGenerator->fileExt.left(1)==".")
+        pFilenameGenerator->fileExt = pFilenameGenerator->fileExt.right(pFilenameGenerator->fileExt.length()-1); // remove leading "." from file extension
 }
 
 void OutputFileOptions_Dialog::on_pushButton_clicked()

@@ -3,7 +3,7 @@
 
 // outputfileoptionsdialog.h
 // by J. Niemann
-// defines OutFileNamer class and
+// defines FilenameGenerator class and
 // OutputFileOptions_Dialog class
 //
 
@@ -12,12 +12,12 @@
 #include <QDir>
 #include <qdebug.h>
 
-// class OutFileNamer. Purpose:
+// class FilenameGenerator. Purpose:
 // 1. Keep a persistent record of user preferences for naming of output file
 // 2. Generate output filename, given an input filename, and by applying preferences
 // 3. Provide Loading and Saving services (for persistence), given a QSettings object.
 
-class OutFileNamer{
+class FilenameGenerator{
 public:
     bool appendSuffix;
     QString Suffix;
@@ -25,8 +25,8 @@ public:
     QString outputDirectory;
     bool useSpecificFileExt;
     QString fileExt;
-    OutFileNamer();
-    OutFileNamer(const OutFileNamer& O);
+    FilenameGenerator();
+    FilenameGenerator(const FilenameGenerator& O);
     void generateOutputFilename(QString& outFilename, const QString& inFilename);
 
     void saveSettings(QSettings& settings);
@@ -42,7 +42,7 @@ class OutputFileOptions_Dialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit OutputFileOptions_Dialog(OutFileNamer& OFN, QWidget *parent = 0);
+    explicit OutputFileOptions_Dialog(FilenameGenerator& OFN, QWidget *parent = 0);
     ~OutputFileOptions_Dialog();
 
 private slots:
@@ -55,7 +55,7 @@ private slots:
 
 private:
     Ui::OutputFileOptions_Dialog *ui;
-    OutFileNamer* pOutFileNamer;
+    FilenameGenerator* pFilenameGenerator;
 };
 
 #endif // OUTPUTFILEOPTIONS_DIALOG_H

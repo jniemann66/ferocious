@@ -183,7 +183,7 @@ void MainWindow::readSettings()
             ui->actionNoiseShapingStandard->setChecked(true);
     }
     settings.endGroup();
-    outfileNamer.loadSettings(settings);
+    filenameGenerator.loadSettings(settings);
 }
 
 void MainWindow::writeSettings()
@@ -224,7 +224,7 @@ void MainWindow::writeSettings()
     settings.setValue("ditherProfile", MainWindow::ditherProfile);
     settings.endGroup();
 
-    outfileNamer.saveSettings(settings);
+    filenameGenerator.saveSettings(settings);
 }
 
 void MainWindow::on_StdoutAvailable()
@@ -310,7 +310,7 @@ void MainWindow::on_browseInfileButton_clicked()
             // conditionally auto-generate output filename:
             if(bRefreshOutFilename){
                 QString outFileName;
-                outfileNamer.generateOutputFilename(outFileName,ui->InfileEdit->text());
+                filenameGenerator.generateOutputFilename(outFileName,ui->InfileEdit->text());
                 if(!outFileName.isNull() && !outFileName.isEmpty())
                     ui->OutfileEdit->setText(outFileName);
                     ui->OutfileEdit->update();
@@ -336,7 +336,7 @@ void MainWindow::on_browseInfileButton_clicked()
         if(!s.isEmpty() && !s.isNull()){
             outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
-        outfileNamer.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
+        filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
 
         ui->OutfileEdit->setText(outFilename);
         ui->OutfileEdit->update();
@@ -370,7 +370,7 @@ void MainWindow::on_convertButton_clicked()
                 conversionTask T;
                 T.inFilename = inFilename;
                 if(filenames.count()>1){ // multi-file mode:
-                    outfileNamer.generateOutputFilename(T.outFilename,inFilename);
+                    filenameGenerator.generateOutputFilename(T.outFilename,inFilename);
                 } else { // single-file mode:
                     T.outFilename = ui->OutfileEdit->text();
                 }
@@ -427,8 +427,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename){
     regexString.replace(QString("*"),QString(".+"));  // * => .+
     QRegularExpression regex(regexString);
 
-    // set up an OutFileNamer for generating output file names:
-    OutFileNamer O(outfileNamer); // initialize to default settings, as a fallback position.
+    // set up a FilenameGenerator for generating output file names:
+    FilenameGenerator O(filenameGenerator); // initialize to default settings, as a fallback position.
 
     // initialize output directory:
     O.outputDirectory = QDir::toNativeSeparators(outDir);
@@ -645,7 +645,7 @@ void MainWindow::on_InfileEdit_editingFinished()
         ui->OutfileEdit->setReadOnly(false);
 
         if(bRefreshOutfileEdit){
-            outfileNamer.generateOutputFilename(outFilename,ui->InfileEdit->text());
+            filenameGenerator.generateOutputFilename(outFilename,ui->InfileEdit->text());
             if(!outFilename.isNull() && !outFilename.isEmpty())
                 ui->OutfileEdit->setText(outFilename);
             ui->OutfileEdit->update();
@@ -661,7 +661,7 @@ void MainWindow::on_InfileEdit_editingFinished()
         if(!s.isEmpty() && !s.isNull()){
             outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
-        outfileNamer.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
+        filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
         ui->OutfileEdit->setText(outFilename);
         ui->OutfileLabel->setText("Output Files: (filenames auto-generated)");
         ui->OutfileEdit->setReadOnly(true);
@@ -818,7 +818,7 @@ void MainWindow::on_actionConverter_Location_triggered()
 
 void MainWindow::on_actionOutput_File_Options_triggered()
 {
-    OutputFileOptions_Dialog D(outfileNamer);
+    OutputFileOptions_Dialog D(filenameGenerator);
     D.exec();
     on_InfileEdit_editingFinished(); // trigger change of output file if relevant
 }
