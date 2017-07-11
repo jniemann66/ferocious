@@ -19,9 +19,7 @@
 #include <QInputDialog>
 #include <QStringList>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->SamplerateCombo->setCurrentText("44100");
@@ -230,7 +228,7 @@ void MainWindow::writeSettings()
 void MainWindow::on_StdoutAvailable()
 {
     QString ConverterOutput(Converter.readAll());
-    int progress =0;
+    int progress = 0;
 
     // count backspaces at end of string:
     int backspaces = 0;
@@ -264,6 +262,9 @@ void MainWindow::on_ConverterStarted()
 
 void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitCode);
+    Q_UNUSED(exitStatus);
+
     if(!MainWindow::conversionQueue.isEmpty()){
         MainWindow::convertNext();
         ui->progressBar->setValue(0);
@@ -379,7 +380,6 @@ void MainWindow::on_convertButton_clicked()
             }
         }
     }
-
     MainWindow::convertNext();
 }
 
