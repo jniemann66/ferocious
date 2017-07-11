@@ -19,6 +19,9 @@
 #include <QInputDialog>
 #include <QStringList>
 
+// #define RECURSIVE_DIR_TRAVERSAL
+// #define MOCK_CONVERT
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -356,7 +359,7 @@ void MainWindow::on_convertButton_clicked()
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
     QStringList::const_iterator it;
-    for (it = filenames.begin(); it != filenames.end();++it){// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
+    for (it = filenames.begin(); it != filenames.end(); ++it){// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
 
         QString inFilename=*it;
 
@@ -459,7 +462,12 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename){
     }
 
     // traverse input directory
-    QDirIterator it(inDir,QDir::Files); // all files in inDir
+
+#ifdef RECURSIVE_DIR_TRAVERSAL
+    QDirIterator it(inDir, QDir::Files, QDirIterator::Subdirectories);
+#else
+    QDirIterator it(inDir, QDir::Files); // all files in inDir
+#endif
 
     while (it.hasNext()) {
 
@@ -588,8 +596,15 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         break;
     }
 
+#ifndef MOCK_CONVERT
     Converter.setProcessChannelMode(QProcess::MergedChannels);
     Converter.start(ConverterPath,args);
+#else
+    qDebug() << ConverterPath << " " << args;
+    QTimer::singleShot(200, [this] {
+        on_ConverterFinished(0, QProcess::NormalExit);
+    });
+#endif
 }
 
 void MainWindow::on_InfileEdit_editingFinished()
