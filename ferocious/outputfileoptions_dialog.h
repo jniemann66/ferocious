@@ -22,6 +22,8 @@ public:
     bool appendSuffix;
     QString Suffix;
     bool useSpecificOutputDirectory;
+    bool replicateDirectoryStructure;
+    QString inputDirectoryRoot;
     QString outputDirectory;
     bool useSpecificFileExt;
     QString fileExt;

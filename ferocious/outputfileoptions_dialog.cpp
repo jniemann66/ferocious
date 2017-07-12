@@ -11,16 +11,19 @@ FilenameGenerator::FilenameGenerator(){
     outputDirectory=QString("");
     useSpecificFileExt=false;
     fileExt=QString("wav");
+    replicateDirectoryStructure = false;
+    inputDirectoryRoot=QString();
 }
 
 FilenameGenerator::FilenameGenerator(const FilenameGenerator &O)
     : appendSuffix(O.appendSuffix),
       Suffix(O.Suffix),
       useSpecificOutputDirectory(O.useSpecificOutputDirectory),
+      replicateDirectoryStructure(O.replicateDirectoryStructure),
+      inputDirectoryRoot(O.inputDirectoryRoot),
       outputDirectory(O.outputDirectory),
       useSpecificFileExt(O.useSpecificFileExt),
       fileExt(O.fileExt)
-
 {
     /*---*/
 }
@@ -44,10 +47,9 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
     std::string strOutFilename = outFilename.toStdString();  // std::string version of outFilename (start with copy of inFilename)
     std::string sep(QString(QDir::separator()).toStdString()); // separator: '\' for windows, '/' for 'nix
 
-    // conditionally replace input file path with user's output directory:
     if(useSpecificOutputDirectory){
         if(!inFilename.isEmpty()){
-            if(strOutFilename.find(sep)!=std::string::npos){
+            if(strOutFilename.find(sep)!=std::string::npos){ // replace input file path with user's output directory:
                 strOutFilename = outputDirectory.toStdString() + sep + strOutFilename.substr(strOutFilename.find_last_of(sep)+1, strOutFilename.length()-1);
             }
         }

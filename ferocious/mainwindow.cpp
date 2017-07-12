@@ -19,8 +19,8 @@
 #include <QInputDialog>
 #include <QStringList>
 
-// #define RECURSIVE_DIR_TRAVERSAL
-// #define MOCK_CONVERT
+//#define RECURSIVE_DIR_TRAVERSAL
+//#define MOCK_CONVERT
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -146,7 +146,6 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    //MainWindow::LPFtype=(typeof(MainWindow::LPFtype))settings.value("LPFtype",1).toInt();
     MainWindow::LPFtype = (LPFType)settings.value("LPFtype",1).toInt();
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
