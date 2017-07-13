@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     if(ss.open(QIODevice::ReadOnly | QIODevice::Text)){
         a.setStyleSheet(ss.readAll());
         ss.close();
-    }else{
+    } else {
         qDebug() << "Couldn't open stylesheet resource";
     }
 
