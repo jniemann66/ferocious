@@ -4,8 +4,7 @@
 #include <QInputDialog>
 #include "fancylineedit.h"
 
-FancyLineEdit::FancyLineEdit(QWidget *parent)
-    : QLineEdit(parent)
+FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
 {
     clearButton = new QToolButton(this);
     clearButton->resize(24,18);
@@ -61,12 +60,7 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
 void FancyLineEdit::on_editButton_Clicked()
 {
     bool ok=false;
-
-    QString editedText = QInputDialog::getMultiLineText(this,
-                                                        "Edit multiple filenames",
-                                                        "Edit filenames below, and click 'OK' when done.",
-                                                        this->text(),
-                                                        &ok);
+    QString editedText = QInputDialog::getMultiLineText(this, "Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text(), &ok);
     if(ok){
         this->setText(editedText);
     }

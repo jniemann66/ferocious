@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>508</width>
-    <height>323</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -35,30 +35,6 @@
     <normaloff>:/images/sine_sweep-32x32-buttonized.png</normaloff>:/images/sine_sweep-32x32-buttonized.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The following options affect the generation of the &lt;span style=&quot; font-style:italic;&quot;&gt;default&lt;/span&gt; output file name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="FilenameSuffix_checkBox">
-     <property name="text">
-      <string>Append this suffix To Output File name:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLineEdit" name="outFilenameSuffix_lineEdit">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <property name="text">
-      <string>(converted)</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0">
     <widget class="QCheckBox" name="useOutputDirectory_checkBox">
      <property name="text">
@@ -81,6 +57,16 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QLineEdit" name="outFilenameSuffix_lineEdit">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>(converted)</string>
+     </property>
+    </widget>
+   </item>
    <item row="4" column="0" colspan="2">
     <widget class="QLineEdit" name="outDirectory_lineEdit">
      <property name="styleSheet">
@@ -88,6 +74,13 @@
      </property>
      <property name="text">
       <string>select output directory ...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="FilenameSuffix_checkBox">
+     <property name="text">
+      <string>Append this suffix To Output File name:</string>
      </property>
     </widget>
    </item>
@@ -102,13 +95,6 @@
     <widget class="QRadioButton" name="setFileExt_radioButton">
      <property name="text">
       <string>Default to this File Type:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLineEdit" name="outFileExt_lineEdit">
-     <property name="styleSheet">
-      <string notr="true"/>
      </property>
     </widget>
    </item>
@@ -127,6 +113,26 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The following options affect the generation of the &lt;span style=&quot; font-style:italic;&quot;&gt;default&lt;/span&gt; output file name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLineEdit" name="outFileExt_lineEdit">
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
     </widget>
    </item>

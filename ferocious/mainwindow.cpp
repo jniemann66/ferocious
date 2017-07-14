@@ -19,9 +19,10 @@
 #include <QInputDialog>
 #include <QStringList>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+//#define RECURSIVE_DIR_TRAVERSAL
+//#define MOCK_CONVERT
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->SamplerateCombo->setCurrentText("44100");
@@ -73,9 +74,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
     );
-
-  //  this->statusBar()->setSizeGripEnabled(false);
-  //  this->setFixedSize(size());
 
     // turn off the shitty etching on disabled widgets:
     QPalette pal = QApplication::palette();
@@ -148,7 +146,6 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    //MainWindow::LPFtype=(typeof(MainWindow::LPFtype))settings.value("LPFtype",1).toInt();
     MainWindow::LPFtype = (LPFType)settings.value("LPFtype",1).toInt();
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
@@ -186,7 +183,7 @@ void MainWindow::readSettings()
             ui->actionNoiseShapingStandard->setChecked(true);
     }
     settings.endGroup();
-    outfileNamer.loadSettings(settings);
+    filenameGenerator.loadSettings(settings);
 }
 
 void MainWindow::writeSettings()
@@ -227,13 +224,13 @@ void MainWindow::writeSettings()
     settings.setValue("ditherProfile", MainWindow::ditherProfile);
     settings.endGroup();
 
-    outfileNamer.saveSettings(settings);
+    filenameGenerator.saveSettings(settings);
 }
 
 void MainWindow::on_StdoutAvailable()
 {
     QString ConverterOutput(Converter.readAll());
-    int progress =0;
+    int progress = 0;
 
     // count backspaces at end of string:
     int backspaces = 0;
@@ -267,6 +264,9 @@ void MainWindow::on_ConverterStarted()
 
 void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitCode);
+    Q_UNUSED(exitStatus);
+
     if(!MainWindow::conversionQueue.isEmpty()){
         MainWindow::convertNext();
         ui->progressBar->setValue(0);
@@ -313,7 +313,7 @@ void MainWindow::on_browseInfileButton_clicked()
             // conditionally auto-generate output filename:
             if(bRefreshOutFilename){
                 QString outFileName;
-                outfileNamer.generateOutputFilename(outFileName,ui->InfileEdit->text());
+                filenameGenerator.generateOutputFilename(outFileName,ui->InfileEdit->text());
                 if(!outFileName.isNull() && !outFileName.isEmpty())
                     ui->OutfileEdit->setText(outFileName);
                     ui->OutfileEdit->update();
@@ -339,7 +339,7 @@ void MainWindow::on_browseInfileButton_clicked()
         if(!s.isEmpty() && !s.isNull()){
             outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
-        outfileNamer.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
+        filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
 
         ui->OutfileEdit->setText(outFilename);
         ui->OutfileEdit->update();
@@ -358,7 +358,7 @@ void MainWindow::on_convertButton_clicked()
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
     QStringList::const_iterator it;
-    for (it = filenames.begin(); it != filenames.end();++it){// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
+    for (it = filenames.begin(); it != filenames.end(); ++it){// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
 
         QString inFilename=*it;
 
@@ -373,7 +373,7 @@ void MainWindow::on_convertButton_clicked()
                 conversionTask T;
                 T.inFilename = inFilename;
                 if(filenames.count()>1){ // multi-file mode:
-                    outfileNamer.generateOutputFilename(T.outFilename,inFilename);
+                    filenameGenerator.generateOutputFilename(T.outFilename,inFilename);
                 } else { // single-file mode:
                     T.outFilename = ui->OutfileEdit->text();
                 }
@@ -382,7 +382,6 @@ void MainWindow::on_convertButton_clicked()
             }
         }
     }
-
     MainWindow::convertNext();
 }
 
@@ -430,8 +429,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename){
     regexString.replace(QString("*"),QString(".+"));  // * => .+
     QRegularExpression regex(regexString);
 
-    // set up an OutFileNamer for generating output file names:
-    OutFileNamer O(outfileNamer); // initialize to default settings, as a fallback position.
+    // set up a FilenameGenerator for generating output file names:
+    FilenameGenerator O(filenameGenerator); // initialize to default settings, as a fallback position.
 
     // initialize output directory:
     O.outputDirectory = QDir::toNativeSeparators(outDir);
@@ -462,7 +461,12 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename){
     }
 
     // traverse input directory
-    QDirIterator it(inDir,QDir::Files); // all files in inDir
+
+#ifdef RECURSIVE_DIR_TRAVERSAL
+    QDirIterator it(inDir, QDir::Files, QDirIterator::Subdirectories);
+#else
+    QDirIterator it(inDir, QDir::Files); // all files in inDir
+#endif
 
     while (it.hasNext()) {
 
@@ -591,8 +595,15 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         break;
     }
 
+#ifndef MOCK_CONVERT
     Converter.setProcessChannelMode(QProcess::MergedChannels);
     Converter.start(ConverterPath,args);
+#else
+    qDebug() << ConverterPath << " " << args;
+    QTimer::singleShot(200, [this] {
+        on_ConverterFinished(0, QProcess::NormalExit);
+    });
+#endif
 }
 
 void MainWindow::on_InfileEdit_editingFinished()
@@ -648,7 +659,7 @@ void MainWindow::on_InfileEdit_editingFinished()
         ui->OutfileEdit->setReadOnly(false);
 
         if(bRefreshOutfileEdit){
-            outfileNamer.generateOutputFilename(outFilename,ui->InfileEdit->text());
+            filenameGenerator.generateOutputFilename(outFilename,ui->InfileEdit->text());
             if(!outFilename.isNull() && !outFilename.isEmpty())
                 ui->OutfileEdit->setText(outFilename);
             ui->OutfileEdit->update();
@@ -664,7 +675,7 @@ void MainWindow::on_InfileEdit_editingFinished()
         if(!s.isEmpty() && !s.isNull()){
             outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
-        outfileNamer.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
+        filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
         ui->OutfileEdit->setText(outFilename);
         ui->OutfileLabel->setText("Output Files: (filenames auto-generated)");
         ui->OutfileEdit->setReadOnly(true);
@@ -805,10 +816,7 @@ void MainWindow::on_actionConverter_Location_triggered()
     QString filter = "";
 #endif
 
-    QString cp =QFileDialog::getOpenFileName(this,
-                                              s,
-                                              ConverterPath,
-                                               filter);
+    QString cp =QFileDialog::getOpenFileName(this, s, ConverterPath,  filter);
 
     if(!cp.isNull()){
         ConverterPath = cp;
@@ -824,7 +832,7 @@ void MainWindow::on_actionConverter_Location_triggered()
 
 void MainWindow::on_actionOutput_File_Options_triggered()
 {
-    OutputFileOptions_Dialog D(outfileNamer);
+    OutputFileOptions_Dialog D(filenameGenerator);
     D.exec();
     on_InfileEdit_editingFinished(); // trigger change of output file if relevant
 }
