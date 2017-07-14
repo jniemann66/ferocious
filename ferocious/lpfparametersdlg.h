@@ -17,9 +17,12 @@ public:
     ~lpfParametersDlg();
 
     void setValues(double cutoff, double transition);
+    void setNyquistFrequency(double Hz);
     QPair<double, double> getValues();
 private:
     Ui::lpfParametersDlg *ui;
+    double nyquistFrequency;
+
 };
 
 #endif // LPFPARAMETERSDLG_H
