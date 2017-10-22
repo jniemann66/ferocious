@@ -11,7 +11,7 @@ It provides a convenient and easy-to-use graphical interface for converting audi
 
 ## Description of Code
 
-Ferocious File Converter was originally developed using Qt 5.5 on Windows, but also runs just fine on Linux. It has been compiled on Qt versions up to 5.8 and gcc versions up to 5.4.0.
+Ferocious File Converter was originally developed using Qt 5.5 on Windows, but also runs just fine on Linux and macOS. It has been compiled on Qt versions up to 5.8 and gcc versions up to 5.4.0.
 Since Qt is cross-platform, it should be possible to run ferocious on any platform targeted by Qt.
 
 ## Motivation
