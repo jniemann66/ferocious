@@ -763,8 +763,10 @@ void MainWindow::getResamplerVersion()
         QStringList ResamplerVersionNumbers = v.split(".");
 
         // set various options accoring to resampler version:
+        int vA=ResamplerVersionNumbers[0].toInt(); // 1st number
         int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
-        bShowProgressBar = (vB >=1 )? true : false; // (no progress output on ReSampler versions prior to 1.1.0)
+
+        bShowProgressBar = (vA > 1) || (vB >=1 ); // (no progress output on ReSampler versions prior to 1.1.0)
         ResamplerVersion=v;
     }
 }
@@ -1019,8 +1021,7 @@ void MainWindow::on_actionNoiseShapingStandard_triggered()
     MainWindow::ditherProfile = -1; // none
 }
 
-void MainWindow::on_actionNoiseShapingFlatTpdf_triggered()
-{
+void MainWindow::on_actionNoiseShapingFlatTpdf_triggered(){
     MainWindow::noiseShape = noiseShape_flatTpdf;
     clearNoiseShapingMenu();
     ui->actionNoiseShapingFlatTpdf->setChecked(true);
