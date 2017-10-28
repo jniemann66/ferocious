@@ -74,6 +74,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             this,
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
     );
+    connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_rightClickedConvert);
+    connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
 
     // turn off the shitty etching on disabled widgets:
     QPalette pal = QApplication::palette();
@@ -256,7 +258,7 @@ void MainWindow::on_StdoutAvailable()
 
 void MainWindow::on_ConverterStarted()
 {
-    ui->convertButton->setDisabled(true);
+    ui->convertButton->setIsActive(true);
     ui->progressBar->setValue(0);
     if(bShowProgressBar)
         ui->progressBar->setVisible(true);
@@ -273,7 +275,7 @@ void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitSta
     } else{
         ui->progressBar->setVisible(false);
         ui->StatusLabel->setText("Status: Ready");
-        ui->convertButton->setEnabled(true);
+        ui->convertButton->setIsActive(false);
     }
 }
 
@@ -354,6 +356,7 @@ void MainWindow::on_browseInfileButton_clicked()
 
 void MainWindow::on_convertButton_clicked()
 {
+
     // split the QLineEdit text into a stringlist, using MainWindow::MultiFileSeparator
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
@@ -1093,4 +1096,15 @@ void MainWindow::getCustomLpfParameters() {
         customLpfTransition = v.second;
     });
     d->exec();
+}
+
+void MainWindow::on_rightClickedConvert() {
+    qDebug() << "right-click";
+}
+
+void MainWindow::on_stopRequested() {
+    qDebug() << "STOP!";
+    conversionQueue.clear();
+    Converter.kill();
+     ui->StatusLabel->setText("Status: conversion stopped");
 }

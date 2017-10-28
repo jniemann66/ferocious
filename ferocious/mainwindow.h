@@ -79,10 +79,10 @@ private slots:
     void on_actionNoiseShapingStandard_triggered();
     void on_actionNoiseShapingFlatTpdf_triggered();
     void on_actionEnable_Multi_Threading_triggered(bool checked);
-
     void on_actionCustomLPF_triggered();
-
     void on_actionCustom_Parameters_triggered();
+    void on_rightClickedConvert();
+    void on_stopRequested();
 
 private:
     Ui::MainWindow *ui;

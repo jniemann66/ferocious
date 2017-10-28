@@ -3,33 +3,49 @@
 
 #include <QPushButton>
 #include <QTimer>
+#include <QStyle>
+#include <QMouseEvent>
 
 // class flashingPushButton
-// Description: a QPushButton which flashes on and off whenever it is Disabled (to indicate that the app is busy processing ...)
+// Description: a QPushButton which flashes on and off whenever it is Active (to indicate that the app is busy processing ...)
 
 class flashingPushbutton : public QPushButton{
+
+    Q_OBJECT
+
 public:
-    flashingPushbutton(QWidget* parent=0) : QPushButton(parent), flashState(0)
+    flashingPushbutton(QWidget* parent=0) : QPushButton(parent), isActive(false), flashState(0)
     {
-        connect(&timer, &QTimer::timeout,this, &flashingPushbutton::flashWhenDisabled);
+        connect(&timer, &QTimer::timeout,this, &flashingPushbutton::flashWhenActive);
         timer.start(500);
     }
     ~flashingPushbutton()
     {
 
     }
+
+    bool getIsActive() const;
+    void setIsActive(bool value);
+
+protected:
+    void mousePressEvent(QMouseEvent* mouseEvent);
+
+signals:
+    void stopRequested();
+    void rightClicked();
+
 private slots:
-    void flashWhenDisabled()
+    void flashWhenActive()
     {
-        if (!this->isEnabled()) // flash when disabled
+        if (isActive) // flash when active
         {
             if (flashState == 0){
                 flashState = 1;
-                this->setProperty("flashing", true);
+                setProperty("flashing", true);
             }
             else if (flashState == 1){
                 flashState = 0;
-                this->setProperty("flashing", false);
+                setProperty("flashing", false);
             }
             style()->unpolish(this);
             style()->polish(this);
@@ -37,7 +53,7 @@ private slots:
         else { // don't flash
             if (flashState != 0) {
                 flashState = 0;
-                this->setProperty("flashing", false);
+                setProperty("flashing", false);
                 style()->unpolish(this);
                 style()->polish(this);
             }
@@ -45,9 +61,38 @@ private slots:
     }
 
 private:
+    bool isActive;
     int flashState;
     QTimer timer;
 
 };
+
+
+inline void flashingPushbutton::mousePressEvent(QMouseEvent *mouseEvent)
+{
+
+    if(isActive) {
+        emit stopRequested();
+    } else {
+        if(mouseEvent->button() == Qt::RightButton) {
+            emit rightClicked();
+        } else { // default behavior
+            QPushButton::mousePressEvent(mouseEvent);
+        }
+    }
+
+}
+
+inline bool flashingPushbutton::getIsActive() const
+{
+    return isActive;
+}
+
+inline void flashingPushbutton::setIsActive(bool value)
+{
+    isActive = value;
+}
+
+
 
 #endif // FLASHINGPUSHBUTTON_H

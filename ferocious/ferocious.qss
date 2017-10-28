@@ -99,7 +99,7 @@ QPushButton:disabled {
 	radius: 1.35, stop: 0 #3a4234, stop: 1 #21251d);
 }
 
-QPushButton:disabled[flashing="true"] {
+QPushButton:enabled[flashing="true"] {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 	fx: 0.4, fy: -0.1,
 	radius: 1.35, stop: 0 #70e01a, stop: 1 #3b770e);
