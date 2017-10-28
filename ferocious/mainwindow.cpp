@@ -18,14 +18,19 @@
 #include <QCursor>
 #include <QInputDialog>
 #include <QStringList>
+#include <QClipboard>
+#include <QTextStream>
 
 //#define RECURSIVE_DIR_TRAVERSAL
 //#define MOCK_CONVERT
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), launchType(LaunchType::Convert)
 {
     ui->setupUi(this);
     ui->SamplerateCombo->setCurrentText("44100");
+
+    convertTaskMenu = new QMenu(this);
+    convertTaskMenu->setHidden(true);
 
     readSettings();
     applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.qss")
@@ -356,7 +361,11 @@ void MainWindow::on_browseInfileButton_clicked()
 
 void MainWindow::on_convertButton_clicked()
 {
+    launchType = LaunchType::Convert;
+    launch();
+}
 
+void MainWindow::launch() {
     // split the QLineEdit text into a stringlist, using MainWindow::MultiFileSeparator
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
@@ -499,7 +508,8 @@ void MainWindow::convertNext(){
     }
 }
 
-// convert() - convert file infn to outfn, using current parameters
+// convert() - the function that actually launches the converter
+// converts file infn to outfn using current parameters
 void MainWindow::convert(const QString &outfn, const QString& infn)
 {
     QStringList args;
@@ -598,15 +608,40 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         break;
     }
 
+    if(launchType == LaunchType::Convert) {
+
 #ifndef MOCK_CONVERT
-    Converter.setProcessChannelMode(QProcess::MergedChannels);
-    Converter.start(ConverterPath,args);
+        Converter.setProcessChannelMode(QProcess::MergedChannels);
+        Converter.start(ConverterPath,args);
 #else
-    qDebug() << ConverterPath << " " << args;
-    QTimer::singleShot(200, [this] {
-        on_ConverterFinished(0, QProcess::NormalExit);
-    });
+        qDebug() << ConverterPath << " " << args;
+        QTimer::singleShot(200, [this] {
+            on_ConverterFinished(0, QProcess::NormalExit);
+        });
 #endif
+    }
+
+    if(launchType == LaunchType::Clipboard) {
+
+       // wrap args in quotes if necessary:
+       QStringList quotedArgs;
+       for(QString& arg : args) {
+            quotedArgs.append(arg.contains(" ") ? "\"" + arg + "\"" : arg);
+       }
+       
+       // get current clipboard text and append new line to it:
+       QString clipText = QGuiApplication::clipboard()->text();
+       QTextStream out(&clipText);
+       out << QDir::toNativeSeparators(ConverterPath);
+       out << " ";
+       out << quotedArgs.join(" ");
+       out << "\n";
+       QGuiApplication::clipboard()->setText(clipText);
+
+       QTimer::singleShot(20, [this] {
+           on_ConverterFinished(0, QProcess::NormalExit);
+       });
+    }
 }
 
 void MainWindow::on_InfileEdit_editingFinished()
@@ -1099,7 +1134,18 @@ void MainWindow::getCustomLpfParameters() {
 }
 
 void MainWindow::on_rightClickedConvert() {
-    qDebug() << "right-click";
+   for (auto& a : convertTaskMenu->actions()) {
+       convertTaskMenu->removeAction(a);
+   }
+
+   convertTaskMenu->addAction("Convert", this, &MainWindow::on_convertButton_clicked);
+   convertTaskMenu->addAction("Copy Command Line to Clipboard", [this]{
+        QGuiApplication::clipboard()->clear();
+        launchType = LaunchType::Clipboard;
+        launch();
+   });
+
+   convertTaskMenu->popup(QCursor::pos());
 }
 
 void MainWindow::on_stopRequested() {

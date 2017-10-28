@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QProcess>
+#include <QMenu>
 
 #if defined (Q_OS_WIN)
 const char expectedConverter[] ="resampler.exe";
@@ -35,6 +36,11 @@ typedef enum {
     steepLPF,
     customLPF
 } LPFType;
+
+enum class LaunchType {
+    Convert,
+    Clipboard
+};
 
 class MainWindow : public QMainWindow
 {
@@ -85,7 +91,11 @@ private slots:
     void on_stopRequested();
 
 private:
+    // resources
     Ui::MainWindow *ui;
+    QMenu* convertTaskMenu;
+
+    // state
     QProcess Converter;
     QVector<conversionTask> conversionQueue;
     QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
@@ -106,6 +116,9 @@ private:
     int seedValue;
     NoiseShape noiseShape;
     int ditherProfile;
+    LaunchType launchType;
+
+    // functions
     void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file
@@ -120,6 +133,7 @@ private:
     void clearNoiseShapingMenu();
     void on_action_DitherProfile_triggered(QAction* action, int id); // not using old "private slots:" system (just an ordinary member function.)
     void getCustomLpfParameters();
+    void launch();
 };
 
 #endif // MAINWINDOW_H
