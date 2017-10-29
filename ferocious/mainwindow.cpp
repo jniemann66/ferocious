@@ -153,7 +153,7 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    MainWindow::LPFtype = (LPFType)settings.value("LPFtype",1).toInt();
+    MainWindow::LPFtype = static_cast<LPFType>(settings.value("LPFtype",1).toInt());
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
@@ -180,7 +180,7 @@ void MainWindow::readSettings()
     MainWindow::bFixedSeed=settings.value("fixedSeed",false).toBool();
     ui->actionFixed_Seed->setChecked(MainWindow::bFixedSeed);
     MainWindow::seedValue=settings.value("seedValue",0).toInt();
-    MainWindow::noiseShape=(NoiseShape)settings.value("noiseShape",noiseShape_standard).toInt();
+    MainWindow::noiseShape = static_cast<NoiseShape>(settings.value("noiseShape",noiseShape_standard).toInt());
     MainWindow::ditherProfile=settings.value("ditherProfile",-1).toInt();
     clearNoiseShapingMenu();
     if(ditherProfile == -1 /* none */) {
