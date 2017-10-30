@@ -107,14 +107,14 @@ void FilenameGenerator::loadSettings(QSettings &settings)
 
 //
 
-OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& OFN, QWidget *parent) :
+OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OutputFileOptions_Dialog)
 {
 
     ui->setupUi(this);
 
-    pFilenameGenerator = &OFN; // keep a pointer to caller's referenced object
+    pFilenameGenerator = &filenameGenerator; // keep a pointer to caller's referenced object
 
     // populate controls using members of OFN object
     ui->FilenameSuffix_checkBox->setChecked(pFilenameGenerator->appendSuffix);

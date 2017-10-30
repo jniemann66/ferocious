@@ -47,7 +47,6 @@ void FancyLineEdit::showClearButton()
 
 void FancyLineEdit::resizeEvent(QResizeEvent *)
 {
-
     // put the Clear button on the far-right of the Line Edit, and position 2 pixels down from Line Edit;
     clearButton->move(QPoint(this->width()-clearButton->sizeHint().width(),2));
     clearButton->resize(QSize(clearButton->sizeHint().width()-2,this->height()-4));

@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     convertTaskMenu->setHidden(true);
 
     readSettings();
-    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.qss")
+    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.css")
 
     if(ConverterPath.isEmpty()){
         ConverterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath
@@ -137,7 +137,7 @@ void MainWindow::readSettings()
 
     settings.beginGroup("Ui");
     ui->actionEnable_Tooltips->setChecked(settings.value("EnableToolTips",true).toBool());
-    MainWindow::stylesheetFilePath = settings.value("StylesheetPath",":/ferocious.qss").toString();
+    MainWindow::stylesheetFilePath = settings.value("StylesheetPath",":/ferocious.css").toString();
     settings.endGroup();
 
     settings.beginGroup("CompressionSettings");
@@ -943,7 +943,7 @@ void MainWindow::on_actionEnable_Clipping_Protection_triggered()
 
 void MainWindow::applyStylesheet() {
 
-    if(stylesheetFilePath == ":/ferocious.qss") {
+    if(stylesheetFilePath == ":/ferocious.css") {
         // factory default
         qDebug() << "using factory default theme";
         return;
@@ -964,12 +964,11 @@ void MainWindow::applyStylesheet() {
     }else{
         qDebug() << "Couldn't open stylesheet resource " << stylesheetFilePath;
     }
-
 }
 
 void MainWindow::on_actionTheme_triggered()
 {
-    stylesheetFilePath = QFileDialog::getOpenFileName(this,"Choose a Stylesheet",QDir::currentPath(),tr("Style Sheets (*.qss *.css)"));
+    stylesheetFilePath = QFileDialog::getOpenFileName(this,"Choose a Stylesheet",QDir::currentPath(),tr("Style Sheets (*.css *.css)"));
     applyStylesheet();
 }
 

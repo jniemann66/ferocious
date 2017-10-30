@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     a.setFont(font);
 
     // retrieve and apply factory Stylesheet:
-    QFile ss(":/ferocious.qss");
+    QFile ss(":/ferocious.css");
     if(ss.open(QIODevice::ReadOnly | QIODevice::Text)){
         a.setStyleSheet(ss.readAll());
         ss.close();
