@@ -39,5 +39,4 @@ RC_FILE = ferocious.rc
 RESOURCES += \
     ferocious.qrc
 
-
 CONFIG += c++11

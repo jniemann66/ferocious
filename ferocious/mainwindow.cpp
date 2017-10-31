@@ -58,7 +58,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             ConverterPath.clear();
             QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
         }
-
     }
 
     if(!fileExists(ConverterPath)){
@@ -98,10 +97,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // get converter version:
     getResamplerVersion();
 
-
     // retrieve dither profiles and add them to menu:
     populateDitherProfileMenu();
-
 
     // set up event filter:
     qApp->installEventFilter(this);
