@@ -705,7 +705,7 @@ to process multiple files.</string>
      <x>0</x>
      <y>0</y>
      <width>803</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="font">
@@ -765,6 +765,7 @@ to process multiple files.</string>
     <addaction name="menuAdvanced_Dither_Options"/>
     <addaction name="actionEnable_Clipping_Protection"/>
     <addaction name="actionEnable_Multi_Threading"/>
+    <addaction name="actionSingleStageConversion"/>
     <addaction name="separator"/>
     <addaction name="actionEnable_Tooltips"/>
     <addaction name="actionTheme"/>
@@ -1365,6 +1366,17 @@ to process multiple files.</string>
    </property>
    <property name="visible">
     <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionSingleStageConversion">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Single-stage Conversion</string>
    </property>
   </action>
  </widget>

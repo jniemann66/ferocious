@@ -147,6 +147,8 @@ void MainWindow::readSettings()
     ui->actionEnable_Clipping_Protection->setChecked(!bDisableClippingProtection);
     MainWindow::bEnableMultithreading=settings.value("enableMultithreading",false).toBool();
     ui->actionEnable_Multi_Threading->setChecked(bEnableMultithreading);
+    MainWindow::bSingleStage=settings.value("singleStage",false).toBool();
+    ui->actionSingleStageConversion->setChecked(bSingleStage);
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
@@ -213,6 +215,7 @@ void MainWindow::writeSettings()
     settings.beginGroup("ConversionSettings");
     settings.setValue("disableClippingProtection",MainWindow::bDisableClippingProtection);
     settings.setValue("enableMultithreading",MainWindow::bEnableMultithreading);
+    settings.setValue("singleStage",MainWindow::bSingleStage);
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
@@ -587,6 +590,11 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     // format args: --mt
     if(bEnableMultithreading){
         args << "--mt";
+    }
+
+    // format args: --singleStage
+    if(bSingleStage) {
+        args << "--singleStage";
     }
 
     // format args: LPF type:
@@ -1149,4 +1157,9 @@ void MainWindow::on_stopRequested() {
     conversionQueue.clear();
     Converter.kill();
      ui->StatusLabel->setText("Status: conversion stopped");
+}
+
+void MainWindow::on_actionSingleStageConversion_triggered(bool checked)
+{
+    MainWindow::bSingleStage = checked;
 }
