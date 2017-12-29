@@ -90,6 +90,8 @@ private slots:
     void on_rightClickedConvert();
     void on_stopRequested();
 
+    void on_actionSingleStageConversion_triggered(bool checked);
+
 private:
     // resources
     Ui::MainWindow *ui;
@@ -112,6 +114,7 @@ private:
     double customLpfTransition;
     bool bDisableClippingProtection; // if true, the --noClippingProtection switch will be sent to the converter
     bool bEnableMultithreading; // if true, issue --mt option
+    bool bSingleStage;
     bool bFixedSeed;
     int seedValue;
     NoiseShape noiseShape;

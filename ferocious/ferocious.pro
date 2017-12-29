@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 # Application version:
-VERSION = 1.3.6
+VERSION = 2.0.0-pre-release
 
 # Define a preprocessor macro for the version:
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
@@ -38,6 +38,5 @@ RC_FILE = ferocious.rc
 
 RESOURCES += \
     ferocious.qrc
-
 
 CONFIG += c++11

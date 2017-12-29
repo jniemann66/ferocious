@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     convertTaskMenu->setHidden(true);
 
     readSettings();
-    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.qss")
+    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.css")
 
     if(ConverterPath.isEmpty()){
         ConverterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath
@@ -58,7 +58,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             ConverterPath.clear();
             QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
         }
-
     }
 
     if(!fileExists(ConverterPath)){
@@ -98,10 +97,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // get converter version:
     getResamplerVersion();
 
-
     // retrieve dither profiles and add them to menu:
     populateDitherProfileMenu();
-
 
     // set up event filter:
     qApp->installEventFilter(this);
@@ -137,7 +134,7 @@ void MainWindow::readSettings()
 
     settings.beginGroup("Ui");
     ui->actionEnable_Tooltips->setChecked(settings.value("EnableToolTips",true).toBool());
-    MainWindow::stylesheetFilePath = settings.value("StylesheetPath",":/ferocious.qss").toString();
+    MainWindow::stylesheetFilePath = settings.value("StylesheetPath",":/ferocious.css").toString();
     settings.endGroup();
 
     settings.beginGroup("CompressionSettings");
@@ -150,10 +147,12 @@ void MainWindow::readSettings()
     ui->actionEnable_Clipping_Protection->setChecked(!bDisableClippingProtection);
     MainWindow::bEnableMultithreading=settings.value("enableMultithreading",false).toBool();
     ui->actionEnable_Multi_Threading->setChecked(bEnableMultithreading);
+    MainWindow::bSingleStage=settings.value("singleStage",false).toBool();
+    ui->actionSingleStageConversion->setChecked(bSingleStage);
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    MainWindow::LPFtype = (LPFType)settings.value("LPFtype",1).toInt();
+    MainWindow::LPFtype = static_cast<LPFType>(settings.value("LPFtype",1).toInt());
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
@@ -180,7 +179,7 @@ void MainWindow::readSettings()
     MainWindow::bFixedSeed=settings.value("fixedSeed",false).toBool();
     ui->actionFixed_Seed->setChecked(MainWindow::bFixedSeed);
     MainWindow::seedValue=settings.value("seedValue",0).toInt();
-    MainWindow::noiseShape=(NoiseShape)settings.value("noiseShape",noiseShape_standard).toInt();
+    MainWindow::noiseShape = static_cast<NoiseShape>(settings.value("noiseShape",noiseShape_standard).toInt());
     MainWindow::ditherProfile=settings.value("ditherProfile",-1).toInt();
     clearNoiseShapingMenu();
     if(ditherProfile == -1 /* none */) {
@@ -216,6 +215,7 @@ void MainWindow::writeSettings()
     settings.beginGroup("ConversionSettings");
     settings.setValue("disableClippingProtection",MainWindow::bDisableClippingProtection);
     settings.setValue("enableMultithreading",MainWindow::bEnableMultithreading);
+    settings.setValue("singleStage",MainWindow::bSingleStage);
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
@@ -592,6 +592,11 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         args << "--mt";
     }
 
+    // format args: --singleStage
+    if(bSingleStage) {
+        args << "--singleStage";
+    }
+
     // format args: LPF type:
     switch(LPFtype) {
     case relaxedLPF:
@@ -943,7 +948,7 @@ void MainWindow::on_actionEnable_Clipping_Protection_triggered()
 
 void MainWindow::applyStylesheet() {
 
-    if(stylesheetFilePath == ":/ferocious.qss") {
+    if(stylesheetFilePath == ":/ferocious.css") {
         // factory default
         qDebug() << "using factory default theme";
         return;
@@ -964,12 +969,11 @@ void MainWindow::applyStylesheet() {
     }else{
         qDebug() << "Couldn't open stylesheet resource " << stylesheetFilePath;
     }
-
 }
 
 void MainWindow::on_actionTheme_triggered()
 {
-    stylesheetFilePath = QFileDialog::getOpenFileName(this,"Choose a Stylesheet",QDir::currentPath(),tr("Style Sheets (*.qss *.css)"));
+    stylesheetFilePath = QFileDialog::getOpenFileName(this,"Choose a Stylesheet",QDir::currentPath(),tr("Style Sheets (*.css *.css)"));
     applyStylesheet();
 }
 
@@ -1153,4 +1157,9 @@ void MainWindow::on_stopRequested() {
     conversionQueue.clear();
     Converter.kill();
      ui->StatusLabel->setText("Status: conversion stopped");
+}
+
+void MainWindow::on_actionSingleStageConversion_triggered(bool checked)
+{
+    MainWindow::bSingleStage = checked;
 }
