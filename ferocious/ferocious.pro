@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 # Application version:
-VERSION = 2.0.0-pre-release
+VERSION = 2.0.2
 
 # Define a preprocessor macro for the version:
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
