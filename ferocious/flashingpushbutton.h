@@ -93,6 +93,4 @@ inline void flashingPushbutton::setIsActive(bool value)
     isActive = value;
 }
 
-
-
 #endif // FLASHINGPUSHBUTTON_H

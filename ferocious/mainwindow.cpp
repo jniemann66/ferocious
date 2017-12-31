@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                                                    QDir::currentPath(),
                                                    filter);
 
-        if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+        if(ConverterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
             ConverterPath.clear();
             QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
         }
@@ -71,9 +71,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         qApp->exit();
     }
 
-    connect(&Converter, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
-    connect(&Converter, &QProcess::started, this, &MainWindow::on_ConverterStarted);
-    connect(&Converter,
+    connect(&converter, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
+    connect(&converter, &QProcess::started, this, &MainWindow::on_ConverterStarted);
+    connect(&converter,
             static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             this,
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
@@ -236,7 +236,7 @@ void MainWindow::writeSettings()
 
 void MainWindow::on_StdoutAvailable()
 {
-    QString ConverterOutput(Converter.readAll());
+    QString ConverterOutput(converter.readAll());
     int progress = 0;
 
     // count backspaces at end of string:
@@ -293,12 +293,12 @@ void MainWindow::on_browseInfileButton_clicked()
     if(fileNames.isEmpty())
         return;
 
-    if(fileNames.count() >=1){
+    if(fileNames.count() >=1) {
         QDir path(fileNames.first());
         inFileBrowsePath = path.absolutePath(); // record path of this browse session
     }
 
-    if(fileNames.count()==1){ // Single-file mode:
+    if(fileNames.count() == 1) { // Single-file mode:
         ui->InfileLabel->setText("Input File:");
         ui->OutfileLabel->setText("Output File:");
         ui->OutfileEdit->setReadOnly(false);
@@ -616,8 +616,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(launchType == LaunchType::Convert) {
 
 #ifndef MOCK_CONVERT
-        Converter.setProcessChannelMode(QProcess::MergedChannels);
-        Converter.start(ConverterPath,args);
+        converter.setProcessChannelMode(QProcess::MergedChannels);
+        converter.start(ConverterPath,args);
 #else
         qDebug() << ConverterPath << " " << args;
         QTimer::singleShot(200, [this] {
@@ -810,7 +810,7 @@ void MainWindow::getResamplerVersion()
         int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
 
         bShowProgressBar = (vA > 1) || (vB >=1 ); // (no progress output on ReSampler versions prior to 1.1.0)
-        ResamplerVersion=v;
+        resamplerVersion=v;
     }
 }
 
@@ -887,7 +887,7 @@ void MainWindow::on_actionAbout_triggered()
     QString info("Ferocious File Conversion\n By J.Niemann\n\n");
 
     info += "GUI Version: " + QString(APP_VERSION) + "\n";
-    info += "Converter Vesion: " + ResamplerVersion + "\n";
+    info += "Converter Vesion: " + resamplerVersion + "\n";
 
     QMessageBox msgBox;
     msgBox.setText("About");
@@ -1155,7 +1155,7 @@ void MainWindow::on_rightClickedConvert() {
 void MainWindow::on_stopRequested() {
     qDebug() << "STOP!";
     conversionQueue.clear();
-    Converter.kill();
+    converter.kill();
      ui->StatusLabel->setText("Status: conversion stopped");
 }
 
