@@ -157,6 +157,7 @@ void MainWindow::readSettings()
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
     ui->actionCustomLPF->setChecked(false);
+
     switch(LPFtype) {
     case relaxedLPF:
          ui->actionRelaxedLPF->setChecked(true);
@@ -171,6 +172,7 @@ void MainWindow::readSettings()
     default:
          ui->actionStandardLPF->setChecked(true);
     }
+
     MainWindow::customLpfCutoff = settings.value("customLpfCutoff", 95.45).toDouble();
     MainWindow::customLpfTransition = settings.value("customLpfTransition", 4.55).toDouble();
     settings.endGroup();
