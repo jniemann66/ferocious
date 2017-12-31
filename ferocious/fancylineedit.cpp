@@ -16,8 +16,8 @@ FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
     editButton->setText("...");
     editButton->setCursor(Qt::ArrowCursor);
 
-    connect(clearButton, SIGNAL(clicked()), this, SLOT(clear()));
-    connect(editButton, SIGNAL(clicked()),this, SLOT(on_editButton_Clicked()));
+    connect(clearButton, &QAbstractButton::clicked, this, &QLineEdit::clear);
+    connect(editButton, &QAbstractButton::clicked,this, &FancyLineEdit::on_editButton_Clicked);
 }
 
 FancyLineEdit::~FancyLineEdit()
