@@ -11,8 +11,8 @@ It provides a convenient and easy-to-use graphical interface for converting audi
 
 ## Description of Code
 
-Ferocious File Converter was originally developed using Qt 5.5 on Windows, but also runs just fine on Linux and macOS. It has been compiled on Qt versions up to 5.8 and gcc versions up to 5.4.0.
-Since Qt is cross-platform, it should be possible to run ferocious on any platform targeted by Qt.
+Ferocious File Converter was originally developed using Qt 5.5 on Windows, but also runs just fine on Linux and macOS. It has been compiled on Qt versions up to 5.10.
+Since Qt is cross-platform, it is possible to compile and run ferocious on any platform targeted by Qt.
 
 ## Motivation
 
@@ -20,11 +20,11 @@ Having written a command-line sample rate converter, I thought the next logical 
 
 ## Installation
 
-The binaries are included in two zip files in this repository, one for 32-bit and the other for 64-bit. Each of the zip files contains a recent build of ReSampler.exe for convenience. Download the zip file of your choice (note: the only difference is the version of ReSampler.exe and associated dlls; one is 32-bit, the other is 64-bit), and unpack the entire folder structure to somewhere on your PC. Then, simply run ferocious.exe. 
+For Windows, the binaries are included in two zip files in this repository, one for 32-bit and the other for 64-bit. Each of the zip files contains a recent build of ReSampler.exe for convenience. Download the zip file of your choice (note: the only difference is the version of ReSampler.exe and associated dlls; one is 32-bit, the other is 64-bit), and unpack the entire folder structure to somewhere on your PC. Then, simply run ferocious.exe. 
 
 *Note: although a standard version of ReSampler.exe is included in this distribution, there are [other builds](https://github.com/jniemann66/ReSampler/tree/master/x64) available which were created with different compilers / options, and one of those builds may suit your needs better. (For example, if your CPU supports AVX instructions, you may want to get the AVX version for extra speed)*
 
-All of the relevant dlls and other dependencies are included in the distribution. (*If you have any problems with a particular dependency not being included, then I would like to know about it.)* 
+All of the relevant dlls and other dependencies are included in the distribution.
 
 ## Usage
 
@@ -115,6 +115,8 @@ Deactivating clipping protection actually sends the --noClippingProtection switc
 The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunately, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)
 
 **Options/Enable Multi-Threading** uses the **--mt** option in ReSampler to enable multi-threading. This usually results in a significant speed improvement on multi-CPU systems. !
+
+**Options/Single-Stage Conversion** - Perform conversion in single-stage mode (only affects ReSampler 2.0.2 or higher). By default, ReSampler will perform conversions in multi-stage mode, but if desired, this menu option can force single-stage mode.
 
 **Options/Enable tooltips** - Allows you to switch off the tooltips after you have become familiar with the controls, or switch them back on again as desired.
 
