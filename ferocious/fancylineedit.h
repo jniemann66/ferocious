@@ -22,7 +22,7 @@ public:
     void showClearButton();
 
 protected:
-  void resizeEvent(QResizeEvent *);
+  void resizeEvent(QResizeEvent *) override;
 
 private:
     QToolButton *editButton;

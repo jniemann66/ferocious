@@ -28,7 +28,7 @@ public:
     void setIsActive(bool value);
 
 protected:
-    void mousePressEvent(QMouseEvent* mouseEvent);
+    void mousePressEvent(QMouseEvent* mouseEvent) override;
 
 signals:
     void stopRequested();

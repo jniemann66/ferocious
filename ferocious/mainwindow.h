@@ -53,7 +53,7 @@ public:
     QString MultiFileSeparator;
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private slots:
     void on_StdoutAvailable();
