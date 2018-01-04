@@ -21,13 +21,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     outputfileoptions_dialog.cpp \
     fancylineedit.cpp \
-    lpfparametersdlg.cpp
+    lpfparametersdlg.cpp \
+    converteroutputbox.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
     outputfileoptions_dialog.h \
     fancylineedit.h \
-    lpfparametersdlg.h
+    lpfparametersdlg.h \
+    converteroutputbox.h
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui \

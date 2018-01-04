@@ -185,7 +185,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      </widget>
     </item>
     <item row="7" column="0" colspan="7">
-     <widget class="QTextBrowser" name="ConverterOutputText">
+     <widget class="ConverterOutputBox" name="ConverterOutputText">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -1391,6 +1391,11 @@ to process multiple files.</string>
    <class>FancyLineEdit</class>
    <extends>QLineEdit</extends>
    <header>fancylineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ConverterOutputBox</class>
+   <extends>QTextBrowser</extends>
+   <header>converteroutputbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
