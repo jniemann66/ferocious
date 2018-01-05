@@ -2,6 +2,8 @@
 #define FANCYLINEEDIT_H
 
 #include <QLineEdit>
+#include <QDropEvent>
+#include <QMimeData>
 
 // fancy line edit: a QLineEdit with an Edit (...) button and clear (x) button:
 // edit button opens a multi-line edit box
@@ -23,6 +25,8 @@ public:
 
 protected:
   void resizeEvent(QResizeEvent *) override;
+  void dragEnterEvent(QDragEnterEvent* e) override;
+  void dropEvent(QDropEvent* e) override;
 
 private:
     QToolButton *editButton;

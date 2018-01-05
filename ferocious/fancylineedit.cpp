@@ -16,6 +16,8 @@ FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
     editButton->setText("...");
     editButton->setCursor(Qt::ArrowCursor);
 
+    setAcceptDrops(true);
+
     connect(clearButton, &QAbstractButton::clicked, this, &QLineEdit::clear);
     connect(editButton, &QAbstractButton::clicked,this, &FancyLineEdit::on_editButton_Clicked);
 }
@@ -54,6 +56,29 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
     // put the Edit button to the left of the Clear button, and position 2 pixels down from Line Edit;
     editButton->move(QPoint(this->width()-2*editButton->sizeHint().width()+3,2));
     editButton->resize(QSize(editButton->sizeHint().width()-2,this->height()-4));
+}
+
+void FancyLineEdit::dragEnterEvent(QDragEnterEvent *e)
+{
+    if(e->mimeData()->hasText()) {
+        e->acceptProposedAction();
+    }
+}
+
+void FancyLineEdit::dropEvent(QDropEvent *e)
+{
+    QStringList urlStrings = e->mimeData()->text().split("\n");
+    QUrl url;
+    QStringList paths;
+    for(const auto& urlString : urlStrings) {
+        if(urlString.isEmpty())
+            continue;
+        url = urlString;
+        paths.append(url.path());
+    }
+
+    if(!paths.isEmpty())
+        setText(paths.join("\n"));
 }
 
 void FancyLineEdit::on_editButton_Clicked()
