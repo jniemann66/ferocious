@@ -950,8 +950,10 @@ void MainWindow::on_actionEnable_Clipping_Protection_triggered()
 
 void MainWindow::applyStylesheet() {
 
+    if(stylesheetFilePath.isEmpty())
+        stylesheetFilePath = ":/ferocious.css"; // factory default
+
     if(stylesheetFilePath == ":/ferocious.css") {
-        // factory default
         qDebug() << "using factory default theme";
         return;
     }
