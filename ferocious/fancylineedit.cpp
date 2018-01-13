@@ -2,6 +2,8 @@
 #include <QStyle>
 #include <QDebug>
 #include <QInputDialog>
+#include <QDir>
+
 #include "fancylineedit.h"
 
 FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
@@ -74,7 +76,16 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
         if(urlString.isEmpty())
             continue;
         url = urlString;
-        paths.append(url.path());
+        QString path = QDir::toNativeSeparators(url.path());
+
+#ifdef Q_OS_WIN
+        if(path.startsWith('\\')){
+            path.remove(0,1);
+        }
+#endif
+
+        paths.append(path);
+
     }
 
     if(!paths.isEmpty())
