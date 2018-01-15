@@ -5,6 +5,7 @@
 #include <QDir>
 
 #include "fancylineedit.h"
+#include "filedropinputdialog.h"
 
 FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
 {
@@ -95,7 +96,8 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
 void FancyLineEdit::on_editButton_Clicked()
 {
     bool ok=false;
-    QString editedText = QInputDialog::getMultiLineText(this, "Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text(), &ok);
+  //  QString editedText = QInputDialog::getMultiLineText(this, "Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text(), &ok);
+    QString editedText = FileDropInputDialog::getMultiLineText(this, "Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text(), &ok);
     if(ok){
         this->setText(editedText);
     }
