@@ -1,6 +1,8 @@
 #ifndef FANCYLINEEDIT_H
 #define FANCYLINEEDIT_H
 
+#include "filedropdialog.h"
+
 #include <QLineEdit>
 #include <QDropEvent>
 #include <QMimeData>
@@ -31,6 +33,7 @@ protected:
 private:
     QToolButton *editButton;
     QToolButton *clearButton;
+    FileDropDialog* fileDropDialog;
 
 private slots:
     void on_editButton_Clicked();

@@ -7,6 +7,7 @@
 #include "fancylineedit.h"
 #include "filedropinputdialog.h"
 
+
 FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
 {
     clearButton = new QToolButton(this);
@@ -19,6 +20,8 @@ FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
     editButton->setText("...");
     editButton->setCursor(Qt::ArrowCursor);
 
+    fileDropDialog = new FileDropDialog(this);
+    fileDropDialog->hide();
     setAcceptDrops(true);
 
     connect(clearButton, &QAbstractButton::clicked, this, &QLineEdit::clear);
@@ -63,6 +66,7 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
 
 void FancyLineEdit::dragEnterEvent(QDragEnterEvent *e)
 {
+    qDebug() << "DragEnter";
     if(e->mimeData()->hasText()) {
         e->acceptProposedAction();
     }
@@ -95,10 +99,15 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
 
 void FancyLineEdit::on_editButton_Clicked()
 {
-    bool ok=false;
-  //  QString editedText = QInputDialog::getMultiLineText(this, "Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text(), &ok);
-    QString editedText = FileDropInputDialog::getMultiLineText(this, "Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text(), &ok);
-    if(ok){
-        this->setText(editedText);
-    }
+    fileDropDialog->setText("Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text());
+    fileDropDialog->show();
+
+    connect(fileDropDialog, &FileDropDialog::accepted, [this]{
+        setText(fileDropDialog->getText());
+        fileDropDialog->hide();
+    });
+
+    connect(fileDropDialog, &FileDropDialog::rejected, [this]{
+        fileDropDialog->close();
+    });
 }

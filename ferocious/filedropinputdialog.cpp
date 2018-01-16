@@ -5,7 +5,7 @@
 
 FileDropInputDialog::FileDropInputDialog(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = Qt::WindowFlags()) : QInputDialog(parent, flags)
 {
-
+     setAcceptDrops(true);
 }
 
 void FileDropInputDialog::dragEnterEvent(QDragEnterEvent *e)
