@@ -5,8 +5,6 @@
 #include <QDir>
 
 #include "fancylineedit.h"
-#include "filedropinputdialog.h"
-
 
 FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
 {

@@ -23,7 +23,6 @@ SOURCES += main.cpp\
     fancylineedit.cpp \
     lpfparametersdlg.cpp \
     converteroutputbox.cpp \
-    filedropinputdialog.cpp \
     filedropdialog.cpp
 
 HEADERS  += mainwindow.h \
@@ -32,7 +31,6 @@ HEADERS  += mainwindow.h \
     fancylineedit.h \
     lpfparametersdlg.h \
     converteroutputbox.h \
-    filedropinputdialog.h \
     filedropdialog.h
 
 FORMS    += mainwindow.ui \
