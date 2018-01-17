@@ -26,10 +26,7 @@ FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
     connect(editButton, &QAbstractButton::clicked,this, &FancyLineEdit::on_editButton_Clicked);
 }
 
-FancyLineEdit::~FancyLineEdit()
-{
-
-}
+FancyLineEdit::~FancyLineEdit(){}
 
 void FancyLineEdit::hideEditButton()
 {
