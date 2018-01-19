@@ -4,7 +4,7 @@ FileDropDialog::FileDropDialog(QWidget *parent) : QDialog(parent)
 {
     // Allocate widgets
     textLabel = new QLabel;
-    textEdit = new QPlainTextEdit(this);
+    textEdit = new FileDropTextEdit(this);
     auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     // attach to layout

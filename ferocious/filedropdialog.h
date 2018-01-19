@@ -1,6 +1,8 @@
 #ifndef FILEDROPDIALOG_H
 #define FILEDROPDIALOG_H
 
+#include "filedroptextedit.h"
+
 #include <QDialog>
 #include <QPlainTextEdit>
 #include <QDragEnterEvent>
@@ -19,7 +21,7 @@ public:
 
 private:
     QLabel* textLabel;
-    QPlainTextEdit* textEdit;
+    FileDropTextEdit* textEdit;
 
 };
 

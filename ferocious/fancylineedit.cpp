@@ -1,6 +1,5 @@
 #include <QToolButton>
 #include <QStyle>
-#include <QDebug>
 #include <QInputDialog>
 #include <QDir>
 
@@ -61,7 +60,6 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
 
 void FancyLineEdit::dragEnterEvent(QDragEnterEvent *e)
 {
-    qDebug() << "DragEnter";
     if(e->mimeData()->hasText()) {
         e->acceptProposedAction();
     }
