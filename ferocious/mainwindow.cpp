@@ -741,8 +741,7 @@ void MainWindow::on_browseOutfileButton_clicked()
 
     if(!fileName.isNull()){
         QDir path(fileName);
-         outFileBrowsePath = path.absolutePath(); // remember this browse session (Unix separators)
-       //  outFileBrowsePath = QDir::toNativeSeparators(path.absolutePath()); // remember this browse session (native separators)
+        outFileBrowsePath = path.absolutePath(); // remember this browse session (Unix separators)
         ui->OutfileEdit->setText(QDir::toNativeSeparators(fileName));
         PopulateBitFormats(ui->OutfileEdit->text());
 
