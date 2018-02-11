@@ -20,6 +20,8 @@
 #include <QStringList>
 #include <QClipboard>
 #include <QTextStream>
+#include <QScroller>
+#include <QScrollBar>
 
 //#define RECURSIVE_DIR_TRAVERSAL
 //#define MOCK_CONVERT
@@ -71,16 +73,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         qApp->exit();
     }
 
-    connect(&converter, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
-    connect(&converter, &QProcess::started, this, &MainWindow::on_ConverterStarted);
-    connect(&converter,
-            static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            this,
-            static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
-    );
-    connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_rightClickedConvert);
-    connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
-
     // turn off the shitty etching on disabled widgets:
     QPalette pal = QApplication::palette();
     pal.setColor(QPalette::Disabled, QPalette::Text, QColor(80, 80, 80));
@@ -105,6 +97,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Set the separator for Multiple-files:
     MultiFileSeparator = "\n";
+
+    // Add kinetic scroller to converter output
+    QScroller::grabGesture(ui->ConverterOutputText, QScroller::LeftMouseButtonGesture);
+
+    connect(&converter, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
+    connect(&converter, &QProcess::started, this, &MainWindow::on_ConverterStarted);
+    connect(&converter,
+            static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            this,
+            static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
+    );
+    connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_rightClickedConvert);
+    connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
 
 }
 
@@ -260,6 +265,7 @@ void MainWindow::on_StdoutAvailable()
 
     if(!ConverterOutput.isEmpty()){
         ui->ConverterOutputText->append(ConverterOutput);
+        ui->ConverterOutputText->verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
     }
 }
 
