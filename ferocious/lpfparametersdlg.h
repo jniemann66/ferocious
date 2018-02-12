@@ -1,6 +1,8 @@
 #ifndef LPFPARAMETERSDLG_H
 #define LPFPARAMETERSDLG_H
 
+// lpfParametersDlg - Dialog for entering LowPass Filter Parameters
+
 #include <QDialog>
 #include <QPair>
 

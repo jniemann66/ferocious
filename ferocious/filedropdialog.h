@@ -1,6 +1,8 @@
 #ifndef FILEDROPDIALOG_H
 #define FILEDROPDIALOG_H
 
+// FileDropDialog - a Dialog containing a text editor that accepts filenames from drag and drop events
+
 #include "filedroptextedit.h"
 
 #include <QDialog>

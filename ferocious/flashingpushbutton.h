@@ -1,13 +1,13 @@
 #ifndef FLASHINGPUSHBUTTON_H
 #define FLASHINGPUSHBUTTON_H
 
+// class flashingPushButton
+// Description: a QPushButton which flashes on and off whenever it is Active (to indicate that the app is busy processing ...)
+
 #include <QPushButton>
 #include <QTimer>
 #include <QStyle>
 #include <QMouseEvent>
-
-// class flashingPushButton
-// Description: a QPushButton which flashes on and off whenever it is Active (to indicate that the app is busy processing ...)
 
 class flashingPushbutton : public QPushButton{
 

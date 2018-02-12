@@ -1,14 +1,16 @@
 #ifndef FANCYLINEEDIT_H
 #define FANCYLINEEDIT_H
 
+// FancyLineEdit: a QLineEdit with added Edit (...) and clear (x) buttons.
+// The edit button opens a multi-line edit box.
+// The line edit and the "expanded" multi-edit both accept the filenames of
+// dragged-and-dropped files
+
 #include "filedropdialog.h"
 
 #include <QLineEdit>
 #include <QDropEvent>
 #include <QMimeData>
-
-// fancy line edit: a QLineEdit with an Edit (...) button and clear (x) button:
-// edit button opens a multi-line edit box
 
 class QToolButton;
 
