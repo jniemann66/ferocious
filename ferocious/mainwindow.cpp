@@ -128,6 +128,8 @@ void MainWindow::readSettings()
 {
     QSettings settings(QSettings::IniFormat,QSettings::UserScope,"JuddSoft","Ferocious");
 
+    qDebug() << "Reading settings file: " << settings.fileName();
+
     settings.beginGroup("Paths");
     MainWindow::ConverterPath = settings.value("ConverterPath", MainWindow::ConverterPath).toString();
     if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
@@ -148,12 +150,20 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("ConversionSettings");
-    MainWindow::bDisableClippingProtection=settings.value("disableClippingProtection",false).toBool();
+    MainWindow::bDisableClippingProtection=settings.value("disableClippingProtection", false).toBool();
+    MainWindow::bEnableMultithreading=settings.value("enableMultithreading", true).toBool();
+    MainWindow::bSingleStage=settings.value("singleStage", false).toBool();
+    MainWindow::bNoTempFile=settings.value("noTempFile", false).toBool();
+
+    // Note: "on/off" options are to be stored the way they are used in ReSampler's commandline.
+    // However, in the UI, the options may be represented in the inverse form. eg:
+    // "Enable Clipping Protection" (UI) => !disableClippingProtection
+
     ui->actionEnable_Clipping_Protection->setChecked(!bDisableClippingProtection);
-    MainWindow::bEnableMultithreading=settings.value("enableMultithreading",false).toBool();
     ui->actionEnable_Multi_Threading->setChecked(bEnableMultithreading);
-    MainWindow::bSingleStage=settings.value("singleStage",false).toBool();
-    ui->actionSingleStageConversion->setChecked(bSingleStage);
+    ui->actionMultiStageConversion->setChecked(!bSingleStage);
+    ui->actionUse_a_temp_file->setChecked(!bNoTempFile);
+
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
@@ -211,7 +221,7 @@ void MainWindow::writeSettings()
 
     settings.beginGroup("Ui");
     settings.setValue("EnableToolTips",ui->actionEnable_Tooltips->isChecked());
-    settings.setValue("StylesheetPath",MainWindow::stylesheetFilePath);
+    settings.setValue("StylesheetPath", MainWindow::stylesheetFilePath);
     settings.endGroup();
 
     settings.beginGroup("CompressionSettings");
@@ -220,9 +230,10 @@ void MainWindow::writeSettings()
     settings.endGroup();
 
     settings.beginGroup("ConversionSettings");
-    settings.setValue("disableClippingProtection",MainWindow::bDisableClippingProtection);
-    settings.setValue("enableMultithreading",MainWindow::bEnableMultithreading);
-    settings.setValue("singleStage",MainWindow::bSingleStage);
+    settings.setValue("disableClippingProtection", MainWindow::bDisableClippingProtection);
+    settings.setValue("enableMultithreading", MainWindow::bEnableMultithreading);
+    settings.setValue("singleStage", MainWindow::bSingleStage);
+    settings.setValue("noTempFile", MainWindow::bNoTempFile);
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
@@ -603,6 +614,11 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     // format args: --singleStage
     if(bSingleStage) {
         args << "--singleStage";
+    }
+
+    // format args: --noTempFile
+    if(bNoTempFile) {
+        args << "--noTempFile";
     }
 
     // format args: LPF type:
@@ -1168,7 +1184,12 @@ void MainWindow::on_stopRequested() {
      ui->StatusLabel->setText("Status: conversion stopped");
 }
 
-void MainWindow::on_actionSingleStageConversion_triggered(bool checked)
+void MainWindow::on_actionMultiStageConversion_triggered(bool checked)
 {
-    MainWindow::bSingleStage = checked;
+    MainWindow::bSingleStage = !checked;
+}
+
+void MainWindow::on_actionUse_a_temp_file_triggered(bool checked)
+{
+    bNoTempFile = !checked;
 }

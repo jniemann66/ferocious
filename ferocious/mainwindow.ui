@@ -705,7 +705,7 @@ to process multiple files.</string>
      <x>0</x>
      <y>0</y>
      <width>803</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <property name="font">
@@ -739,7 +739,7 @@ to process multiple files.</string>
     </widget>
     <widget class="QMenu" name="menuAdvanced_Dither_Options">
      <property name="title">
-      <string>Advanced Dither Options</string>
+      <string>Dither Options</string>
      </property>
      <widget class="QMenu" name="menuNoise_Shaping">
       <property name="title">
@@ -758,14 +758,21 @@ to process multiple files.</string>
      <addaction name="menuNoise_Shaping"/>
      <addaction name="menuRNG_Seed"/>
     </widget>
+    <widget class="QMenu" name="menuAdvanced_Options">
+     <property name="title">
+      <string>Advanced Options</string>
+     </property>
+     <addaction name="actionEnable_Clipping_Protection"/>
+     <addaction name="actionEnable_Multi_Threading"/>
+     <addaction name="actionMultiStageConversion"/>
+     <addaction name="actionUse_a_temp_file"/>
+    </widget>
     <addaction name="actionConverter_Location"/>
     <addaction name="actionOutput_File_Options"/>
     <addaction name="menuCompression_Levels"/>
     <addaction name="menuLowpass_Filter"/>
     <addaction name="menuAdvanced_Dither_Options"/>
-    <addaction name="actionEnable_Clipping_Protection"/>
-    <addaction name="actionEnable_Multi_Threading"/>
-    <addaction name="actionSingleStageConversion"/>
+    <addaction name="menuAdvanced_Options"/>
     <addaction name="separator"/>
     <addaction name="actionEnable_Tooltips"/>
     <addaction name="actionTheme"/>
@@ -1368,7 +1375,7 @@ to process multiple files.</string>
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionSingleStageConversion">
+  <action name="actionMultiStageConversion">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1376,7 +1383,18 @@ to process multiple files.</string>
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Single-stage Conversion</string>
+    <string>Multi-stage Conversion</string>
+   </property>
+   <property name="toolTip">
+    <string>Do conversion in multiple stages (faster)</string>
+   </property>
+  </action>
+  <action name="actionUse_a_temp_file">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use a Temp File</string>
    </property>
   </action>
  </widget>
