@@ -108,7 +108,9 @@ For lower rates (eg 22.05), use steep. For higher target rates, use standard.*
 
 **Options/Advanced Options/Enable clipping protection**
 
-When clipping protection is enabled, the converter will repeat the conversion process with an adjusted (ie decreased) gain level whenever it detects clipping in the initial conversion. This will ensure that there will be no clipping on the second pass. With clipping protection switched off, the converter will still warn you when clipping has occured, but will not attempt to fix it.
+When clipping protection is enabled, the converter will repeat the conversion process with an adjusted (ie decreased) gain level whenever it detects clipping in the initial conversion. 
+
+With clipping protection switched off, the converter will still warn you when clipping has occured, but will not attempt to fix it.
 
 Note that in the conversion process, all signal levels are represented internally as floating point numbers within the range +/- 1.0 (regardless of the file formats involved). Whenever the signal peak exceeds +/- 1.0 it is considered clipping. If clipping occurs, the peak level is remembered, and the gain for the second pass is adjusted down by an amount corresponding to how far the signal peak exceeded +/- 1.0 by.
 
@@ -118,13 +120,13 @@ Deactivating clipping protection actually sends the --noClippingProtection switc
 
 The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunately, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)
 
-**Options/Advanced Options/Enable Multi-Threading** uses the **--mt** option in ReSampler to enable multi-threading. This usually results in a significant speed improvement on multi-CPU systems. !
+**Options/Advanced Options/Enable Multi-Threading** uses the **--mt** option in ReSampler to enable multi-threading. This will result in a significant speed improvement on multi-CPU systems. !
 
 **Options/Advanced Options/Multi-Stage Conversion** - Perform conversion in multiple stages  (only available with ReSampler 2.0.2 or higher). Performing the conversion in multiple stages (usually 3) is more efficient, and will result in significantly faster conversions.
 
-**Options/Advanced Options/Use a Temp File** - Use a temp file to avoid repetition of conversion when clipping is detected. In older versions of ReSampler, when clipping was detected, the entire conversion was repeated with the appropriate gain decrease. In order to avoid this unnecessary waste of time and CPU, ReSampler can now store its intermediate results in a temp file to facilitate fast gain adjustment when clipping is detected.
+**Options/Advanced Options/Use a Temp File** - Use a temp file to avoid repetition of conversion when clipping is detected. In older versions of ReSampler, when clipping was detected, the entire conversion was repeated with the appropriate gain decrease. In order to avoid this unnecessary waste of time and CPU, ReSampler can now store its intermediate results in a temp file to facilitate fast gain adjustment.
 
-**Options/Enable tooltips** - Allows you to switch off the tooltips after you have become familiar with the controls, or switch them back on again as desired.
+**Options/Enable tooltips** - Allows you to switch-off the tooltips after you have become familiar with the controls, or switch them back on again as desired.
 
 **Options/Theme** - Allows a *theme* to be selected, which affects the appearance of the user interface. Themes are stored in .qss files, which are based on css, but use some non-standard properties which are specific to Qt. 
 Themes are potentially highly customisable. Some sample themes are included in the distribution.
