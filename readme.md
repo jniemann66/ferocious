@@ -112,13 +112,13 @@ When clipping protection is enabled, the converter will repeat the conversion pr
 
 With clipping protection switched off, the converter will still warn you when clipping has occured, but will not attempt to fix it.
 
-Note that in the conversion process, all signal levels are represented internally as floating point numbers within the range +/- 1.0 (regardless of the file formats involved). Whenever the signal peak exceeds +/- 1.0 it is considered clipping. If clipping occurs, the peak level is remembered, and the gain for the second pass is adjusted down by an amount corresponding to how far the signal peak exceeded +/- 1.0 by.
+In the conversion process, all signal levels are represented internally as floating point numbers within the range +/- 1.0 (regardless of the file formats involved). Whenever the signal peak exceeds +/- 1.0 it is considered clipping. If clipping occurs, the peak level is remembered, and the gain for the second pass is adjusted down by an amount corresponding to how far the signal peak exceeded +/- 1.0 by.
 
 If normalization is activated, then clipping protection will ensure that the signal peak always aquals the normalization factor (instead of the default +/- 1.0)
 
-Deactivating clipping protection actually sends the --noClippingProtection switch to the ReSampler.exe converter (the default bahaviour in ReSampler.exe is to have clipping protection on).
+Deactivating clipping protection actually sends the **--noClippingProtection** switch to the ReSampler.exe converter (the default bahaviour in ReSampler.exe is to have clipping protection on).
 
-The main cause of potential clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunately, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)
+The main cause of clipping during sample rate conversion is overshoot effects from the FIR filter when a sharp transient is present in the input signal. (Unfortunately, this is an inevitable consequence of using digital filters, and although the effect can be reduced somewhat through good filter design, it can never be completely eliminated)
 
 **Options/Advanced Options/Enable Multi-Threading** uses the **--mt** option in ReSampler to enable multi-threading. This will result in a significant speed improvement on multi-CPU systems. !
 
