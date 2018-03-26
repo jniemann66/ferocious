@@ -15,7 +15,8 @@ const char expectedConverter[] ="ReSampler";
 
 #include "outputfileoptions_dialog.h"
 
-class conversionTask{
+class conversionTask
+{
 public:
     QString inFilename;
     QString outFilename;
@@ -25,17 +26,17 @@ namespace Ui {
 class MainWindow;
 }
 
-typedef enum {
+enum NoiseShape {
     noiseShape_standard,
     noiseShape_flatTpdf
-} NoiseShape;
+};
 
-typedef enum {
+enum LPFType {
     relaxedLPF = 0,
     standardLPF,
     steepLPF,
     customLPF
-} LPFType;
+};
 
 enum class LaunchType {
     Convert,
@@ -57,6 +58,7 @@ protected:
 
 private slots:
     void on_StdoutAvailable();
+    void on_StderrAvailable();
     void on_ConverterStarted();
     void on_ConverterFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void on_browseInfileButton_clicked();
@@ -91,8 +93,6 @@ private slots:
     void on_actionCustom_Parameters_triggered();
     void on_rightClickedConvert();
     void on_stopRequested();
-
-
 
 private:
     // resources
@@ -140,6 +140,7 @@ private:
     void on_action_DitherProfile_triggered(QAction* action, int id); // not using old "private slots:" system (just an ordinary member function.)
     void getCustomLpfParameters();
     void launch();
+    void processConverterOutput(QString ConverterOutput, int channel);
 };
 
 #endif // MAINWINDOW_H

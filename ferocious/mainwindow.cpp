@@ -102,6 +102,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QScroller::grabGesture(ui->ConverterOutputText, QScroller::LeftMouseButtonGesture);
 
     connect(&converter, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
+    connect(&converter, &QProcess::readyReadStandardError, this, &MainWindow::on_StderrAvailable);
     connect(&converter, &QProcess::started, this, &MainWindow::on_ConverterStarted);
     connect(&converter,
             static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
@@ -252,9 +253,18 @@ void MainWindow::writeSettings()
     filenameGenerator.saveSettings(settings);
 }
 
+void MainWindow::on_StderrAvailable()
+{
+     processConverterOutput(converter.readAllStandardError(), 2);
+}
+
 void MainWindow::on_StdoutAvailable()
 {
-    QString ConverterOutput(converter.readAll());
+    processConverterOutput(converter.readAllStandardOutput(), 1);
+
+}
+
+void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
     int progress = 0;
 
     // count backspaces at end of string:
@@ -275,7 +285,11 @@ void MainWindow::on_StdoutAvailable()
     }
 
     if(!ConverterOutput.isEmpty()){
-        ui->ConverterOutputText->append(ConverterOutput);
+        if(channel == 2 ) {
+            ui->ConverterOutputText->append("<p style=\"color:red\">" + ConverterOutput + "</p>");
+        } else {
+            ui->ConverterOutputText->append(ConverterOutput);
+        }
         ui->ConverterOutputText->verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
     }
 }

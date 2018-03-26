@@ -19,10 +19,8 @@ public:
         connect(&timer, &QTimer::timeout,this, &flashingPushbutton::flashWhenActive);
         timer.start(500);
     }
-    ~flashingPushbutton()
-    {
 
-    }
+    ~flashingPushbutton(){}
 
     bool getIsActive() const;
     void setIsActive(bool value);
@@ -80,7 +78,6 @@ inline void flashingPushbutton::mousePressEvent(QMouseEvent *mouseEvent)
             QPushButton::mousePressEvent(mouseEvent);
         }
     }
-
 }
 
 inline bool flashingPushbutton::getIsActive() const
