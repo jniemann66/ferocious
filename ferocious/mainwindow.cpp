@@ -581,21 +581,21 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
         if(ui->AutoBlankCheckBox->isChecked())
             args << "--autoblank";
-    }
 
-    // format args: dither profile:
-    if(MainWindow::ditherProfile != -1){
-        args << "--ns" << QString::number(MainWindow::ditherProfile);
-    }
+        // format args: dither profile:
+        if(MainWindow::ditherProfile != -1){
+            args << "--ns" << QString::number(MainWindow::ditherProfile);
+        }
 
-    // format args: noise-shaping
-    else if(MainWindow::noiseShape == noiseShape_flatTpdf){
-        args << "--flat-tpdf";
-    }
+        // format args: noise-shaping
+        else if(MainWindow::noiseShape == noiseShape_flatTpdf){
+            args << "--flat-tpdf";
+        }
 
-    // format args: seed
-    if(MainWindow::bFixedSeed){
-        args << "--seed" << QString::number(MainWindow::seedValue);
+        // format args: seed
+        if(MainWindow::bFixedSeed){
+            args << "--seed" << QString::number(MainWindow::seedValue);
+        }
     }
 
     // format args: Minimum Phase
