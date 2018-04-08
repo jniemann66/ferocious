@@ -672,7 +672,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
        QStringList quotedArgs;
        for(QString& arg : args) {
-           qDebug() << arg;
            quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
        }
        
