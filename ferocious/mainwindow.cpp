@@ -667,9 +667,13 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(launchType == LaunchType::Clipboard) {
 
        // wrap args in quotes if necessary:
+       // 1. spaces definitely need quotes
+       // 2. parentheses and backslashes, and probably a whole lot of other characters, can cause problems with bash
+
        QStringList quotedArgs;
        for(QString& arg : args) {
-            quotedArgs.append(arg.contains(" ") ? "\"" + arg + "\"" : arg);
+           qDebug() << arg;
+           quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
        }
        
        // get current clipboard text and append new line to it:
