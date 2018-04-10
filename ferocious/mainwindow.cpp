@@ -269,7 +269,7 @@ void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
 
     // count backspaces at end of string:
     int backspaces = 0;
-    while(ConverterOutput.at(ConverterOutput.length()-1)=='\b'){
+    while(ConverterOutput.at(ConverterOutput.length()-1)=='\b') {
         ConverterOutput.chop(1);
         ++backspaces;
     }
@@ -277,14 +277,14 @@ void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
     if(backspaces){
         // extract percentage:
         QString whatToChop = ConverterOutput.right(backspaces);
-        if(whatToChop.indexOf("%")!=-1){
+        if(whatToChop.indexOf("%")!=-1) {
             progress = whatToChop.replace("%","").toInt();
             ui->progressBar->setValue(progress);
         }
         ConverterOutput.chop(backspaces);
     }
 
-    if(!ConverterOutput.isEmpty()){
+    if(!ConverterOutput.isEmpty()) {
         if(channel == 2 ) {
             ui->ConverterOutputText->append("<p style=\"color:red\">" + ConverterOutput + "</p>");
         } else {
@@ -307,10 +307,10 @@ void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitSta
     Q_UNUSED(exitCode);
     Q_UNUSED(exitStatus);
 
-    if(!MainWindow::conversionQueue.isEmpty()){
+    if(!MainWindow::conversionQueue.isEmpty()) {
         MainWindow::convertNext();
         ui->progressBar->setValue(0);
-    } else{
+    } else {
         ui->progressBar->setVisible(false);
         ui->StatusLabel->setText("Status: Ready");
         ui->convertButton->setIsActive(false);
@@ -364,7 +364,7 @@ void MainWindow::on_browseInfileButton_clicked()
 
         // Join all the strings together, with MultiFileSeparator in between each string:
         QStringList::iterator it;
-        for (it = fileNames.begin(); it != fileNames.end(); ++it){
+        for (it = fileNames.begin(); it != fileNames.end(); ++it) {
             filenameSpec += QDir::toNativeSeparators(*it);
             filenameSpec += MultiFileSeparator;
         }
@@ -403,14 +403,14 @@ void MainWindow::launch() {
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
     QStringList::const_iterator it;
-    for (it = filenames.begin(); it != filenames.end(); ++it){// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
+    for (it = filenames.begin(); it != filenames.end(); ++it) {// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
 
         QString inFilename=*it;
 
-        if(!inFilename.isEmpty() && !inFilename.isNull()){
+        if(!inFilename.isEmpty() && !inFilename.isNull()) {
 
             // Search for Wildcards:
-            if(ui->InfileEdit->text().lastIndexOf("*") > -1){ // Input Filename has wildcard
+            if(ui->InfileEdit->text().lastIndexOf("*") > -1) { // Input Filename has wildcard
                 MainWindow::wildcardPushToQueue(inFilename);
             }
 
@@ -457,7 +457,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         inDir = "";
     }
 
-    if(outLastSepIndex >-1){
+    if(outLastSepIndex >-1) {
         // get output directory:
         outDir = ui->OutfileEdit->text().left(outLastSepIndex); // isolate directory
 
@@ -531,8 +531,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
 // convertNext() - take the next conversion task from the front of the queue, convert it, then remove it from queue.
 
-void MainWindow::convertNext(){
-    if(!conversionQueue.empty()){
+void MainWindow::convertNext() {
+    if(!conversionQueue.empty()) {
         conversionTask& nextTask = MainWindow::conversionQueue.first();
         ui->StatusLabel->setText("Status: processing "+nextTask.inFilename);
         ui->progressBar->setFormat("Status: processing "+nextTask.inFilename);
@@ -553,14 +553,14 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     args << "-i" << infn << "-o" << outfn << "-r" << ui->SamplerateCombo->currentText();
 
     // format args: Bit Format
-    if(ui->BitDepthCheckBox->isChecked()){
+    if(ui->BitDepthCheckBox->isChecked()) {
         args << "-b" << ui->BitDepthCombo->currentText();
     }
 
     // format args: Normalization
     if(ui->NormalizeCheckBox->isChecked()){
         double NormalizeAmount=ui->NormalizeAmountEdit->text().toDouble();
-        if((NormalizeAmount>0.0) && (NormalizeAmount<=1.0)){
+        if((NormalizeAmount>0.0) && (NormalizeAmount<=1.0)) {
             args << "-n" << QString::number(NormalizeAmount);
         }
     }
@@ -570,11 +570,11 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         args << "--doubleprecision";
 
     // format args: Dithering
-    if(ui->DitherCheckBox->isChecked()){
+    if(ui->DitherCheckBox->isChecked()) {
 
-        if(!ui->DitherAmountEdit->text().isEmpty()){
+        if(!ui->DitherAmountEdit->text().isEmpty()) {
             double DitherAmount=ui->DitherAmountEdit->text().toDouble();
-            if((DitherAmount>0.0) && (DitherAmount<=8.0)){
+            if((DitherAmount>0.0) && (DitherAmount<=8.0)) {
                 args << "--dither" << QString::number(DitherAmount);
             }
         }else{
@@ -585,23 +585,23 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             args << "--autoblank";
 
         // format args: dither profile:
-        if(MainWindow::ditherProfile != -1){
+        if(MainWindow::ditherProfile != -1) {
             args << "--ns" << QString::number(MainWindow::ditherProfile);
         }
 
         // format args: noise-shaping
-        else if(MainWindow::noiseShape == noiseShape_flatTpdf){
+        else if(MainWindow::noiseShape == noiseShape_flatTpdf) {
             args << "--flat-tpdf";
         }
 
         // format args: seed
-        if(MainWindow::bFixedSeed){
+        if(MainWindow::bFixedSeed) {
             args << "--seed" << QString::number(MainWindow::seedValue);
         }
     }
 
     // format args: Minimum Phase
-    if(ui->minPhase_radioBtn->isChecked()){
+    if(ui->minPhase_radioBtn->isChecked()) {
         args << "--minphase";
     }
 
@@ -618,12 +618,12 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     }
 
     // format args: --noClippingProtection
-    if(bDisableClippingProtection){
+    if(bDisableClippingProtection) {
         args << "--noClippingProtection";
     }
 
     // format args: --mt
-    if(bEnableMultithreading){
+    if(bEnableMultithreading) {
         args << "--mt";
     }
 
@@ -696,7 +696,7 @@ void MainWindow::on_InfileEdit_editingFinished()
 {
     QString inFilename = ui->InfileEdit->text();
 
-    if(inFilename.isEmpty()){
+    if(inFilename.isEmpty()) {
 
         // reset to single file mode:
         ui->InfileLabel->setText("Input File:");
@@ -712,18 +712,18 @@ void MainWindow::on_InfileEdit_editingFinished()
     bool bRefreshOutfileEdit = true; // control whether to always update output filename
 
     // look for Wildcard in filename, before file extension
-    if(inFilename.indexOf("*")>-1){ // inFilename has wildcard
+    if(inFilename.indexOf("*")>-1) { // inFilename has wildcard
         int InLastDot =inFilename.lastIndexOf(".");
         if(InLastDot > -1){
             int InLastStarBeforeDot = inFilename.left(InLastDot).lastIndexOf("*");
-            if(InLastStarBeforeDot > -1){ // Wilcard in Filename; trigger a refresh:
+            if(InLastStarBeforeDot > -1) { // Wilcard in Filename; trigger a refresh:
                 bRefreshOutfileEdit = true;
               }
         }
     }
 
     else { // inFilename does not have a wildcard
-        if(ui->OutfileEdit->text().indexOf("*")>-1){ // outfilename does have a wildcard
+        if(ui->OutfileEdit->text().indexOf("*")>-1) { // outfilename does have a wildcard
             bRefreshOutfileEdit = true; // trigger a refresh
         }
     }
@@ -733,12 +733,12 @@ void MainWindow::on_InfileEdit_editingFinished()
 
     QString outFilename;
 
-    if(inFilename.right(1)==MultiFileSeparator){
+    if(inFilename.right(1)==MultiFileSeparator) {
         inFilename=inFilename.left(inFilename.size()-1); // Trim Multifile separator off the end
         ui->InfileEdit->setText(inFilename);
     }
 
-    if(inFilename.indexOf(MultiFileSeparator)==-1){ // Single-file mode:
+    if(inFilename.indexOf(MultiFileSeparator)==-1) { // Single-file mode:
 
         ui->InfileLabel->setText("Input File:");
         ui->OutfileLabel->setText("Output File:");
@@ -758,7 +758,7 @@ void MainWindow::on_InfileEdit_editingFinished()
         int LastDot = outFilename.lastIndexOf(".");
         int LastSep = outFilename.lastIndexOf(QDir::separator());
         QString s = outFilename.mid(LastSep+1,LastDot-LastSep-1); // get what is between last separator and last '.'
-        if(!s.isEmpty() && !s.isNull()){
+        if(!s.isEmpty() && !s.isNull()) {
             outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
         filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
@@ -822,7 +822,7 @@ void MainWindow::PopulateBitFormats(const QString& fileName)
             return;
 
         ConverterQuery.setReadChannel(QProcess::StandardOutput);
-        while(ConverterQuery.canReadLine()){
+        while(ConverterQuery.canReadLine()) {
             QString line = QString::fromLocal8Bit(ConverterQuery.readLine());
             ui->BitDepthCombo->addItem(line.simplified());
         }
@@ -841,7 +841,7 @@ void MainWindow::getResamplerVersion()
         return;
 
     ConverterQuery.setReadChannel(QProcess::StandardOutput);
-    while(ConverterQuery.canReadLine()){
+    while(ConverterQuery.canReadLine()) {
         v += (QString::fromLocal8Bit(ConverterQuery.readLine())).simplified();
 
         // split the version number into components:
@@ -907,7 +907,7 @@ void MainWindow::on_actionConverter_Location_triggered()
 
     if(!cp.isNull()){
         ConverterPath = cp;
-        if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+        if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1) { // safeguard against wrong executable being configured
             ConverterPath.clear();
             QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
         } else {
@@ -1107,7 +1107,8 @@ void MainWindow::on_actionNoiseShapingStandard_triggered()
     MainWindow::ditherProfile = -1; // none
 }
 
-void MainWindow::on_actionNoiseShapingFlatTpdf_triggered(){
+void MainWindow::on_actionNoiseShapingFlatTpdf_triggered()
+{
     MainWindow::noiseShape = noiseShape_flatTpdf;
     clearNoiseShapingMenu();
     ui->actionNoiseShapingFlatTpdf->setChecked(true);
@@ -1173,7 +1174,7 @@ void MainWindow::getCustomLpfParameters() {
     auto d = new lpfParametersDlg(this);
     d->setValues(customLpfCutoff, customLpfTransition);
     d->setWindowTitle("Custom LPF Parameters");
-    connect(d,&QDialog::accepted,[this, d]{
+    connect(d, &QDialog::accepted, this, [this, d] {
         auto v = d->getValues();
         customLpfCutoff = v.first;
         customLpfTransition = v.second;
@@ -1187,7 +1188,7 @@ void MainWindow::on_rightClickedConvert() {
    }
 
    convertTaskMenu->addAction("Convert", this, &MainWindow::on_convertButton_clicked);
-   convertTaskMenu->addAction("Copy Command Line to Clipboard", [this]{
+   convertTaskMenu->addAction("Copy Command Line to Clipboard", [this] {
         QGuiApplication::clipboard()->clear();
         launchType = LaunchType::Clipboard;
         launch();
