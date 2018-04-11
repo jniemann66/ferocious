@@ -336,7 +336,7 @@ void MainWindow::on_browseInfileButton_clicked()
         ui->OutfileLabel->setText("Output File:");
         ui->OutfileEdit->setReadOnly(false);
         filenameSpec=fileNames.first();
-        if(!filenameSpec.isNull()){
+        if(!filenameSpec.isNull()) {
 
             ui->InfileEdit->setText(QDir::toNativeSeparators(filenameSpec));
 
@@ -351,7 +351,7 @@ void MainWindow::on_browseInfileButton_clicked()
                 bRefreshOutFilename = true;
 
             // conditionally auto-generate output filename:
-            if(bRefreshOutFilename){
+            if(bRefreshOutFilename) {
                 QString outFileName;
                 filenameGenerator.generateOutputFilename(outFileName,ui->InfileEdit->text());
                 if(!outFileName.isNull() && !outFileName.isEmpty())
@@ -370,7 +370,7 @@ void MainWindow::on_browseInfileButton_clicked()
         }
 
         ui->InfileEdit->setText(filenameSpec);
-        QString firstFile =  QDir::toNativeSeparators(fileNames.first()); // get first filename in list (use to generate output filename)
+        QString firstFile = QDir::toNativeSeparators(fileNames.first()); // get first filename in list (use to generate output filename)
 
         QString outFilename=firstFile; // use first filename as a basis for generating output filename
         int LastDot = outFilename.lastIndexOf(".");
@@ -483,7 +483,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
     // initialize output file extension:
     int outLastDot = ui->OutfileEdit->text().lastIndexOf(".");
-    if(outLastDot > -1){
+    if(outLastDot > -1) {
         O.fileExt = ui->OutfileEdit->text().right(ui->OutfileEdit->text().length()-outLastDot-1); // get file extension from file nam
         if(O.fileExt.lastIndexOf("*")>-1){ // outfile extension has a wildcard in it
             O.useSpecificFileExt = false;   // use source file extension
@@ -497,7 +497,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
     // initialize output file suffix:
     // (use whatever is between last '*' and '.')
     int outLastStarBeforeDot = ui->OutfileEdit->text().left(outLastDot).lastIndexOf("*");
-    if(outLastStarBeforeDot > -1){
+    if(outLastStarBeforeDot > -1) {
         O.Suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot+1,outLastDot-outLastStarBeforeDot-1); // get what is between last '*' and last '.'
         O.appendSuffix = true;
     } else { // no Suffix
@@ -985,7 +985,6 @@ void MainWindow::on_actionOgg_Vorbis_triggered()
 void MainWindow::on_actionEnable_Clipping_Protection_triggered()
 {
     bDisableClippingProtection = !ui->actionEnable_Clipping_Protection->isChecked();
-    qDebug() << bDisableClippingProtection;
 }
 
 void MainWindow::applyStylesheet() {
