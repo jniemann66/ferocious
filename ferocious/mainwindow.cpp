@@ -669,7 +669,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             });
         }
         else {
-            converter.setProcessChannelMode(QProcess::MergedChannels);
+            converter.setProcessChannelMode(QProcess::SeparateChannels);
             converter.start(ConverterPath,args);
         }
 
