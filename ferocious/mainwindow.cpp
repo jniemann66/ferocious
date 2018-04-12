@@ -24,7 +24,7 @@
 #include <QScrollBar>
 
 //#define RECURSIVE_DIR_TRAVERSAL
-//#define MOCK_CONVERT
+#define MOCK_CONVERT
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), launchType(LaunchType::Convert)
 {
@@ -653,30 +653,32 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         break;
     }
 
-    if(launchType == LaunchType::Convert) {
+    // wrap args in quotes if necessary:
+    // 1. spaces definitely need quotes
+    // 2. parentheses and backslashes, and probably a whole lot of other characters, can cause problems with bash
 
-#ifndef MOCK_CONVERT
-        converter.setProcessChannelMode(QProcess::MergedChannels);
-        converter.start(ConverterPath,args);
-#else
-        qDebug() << ConverterPath << " " << args;
-        QTimer::singleShot(200, [this] {
-            on_ConverterFinished(0, QProcess::NormalExit);
-        });
-#endif
+    QStringList quotedArgs;
+    for(QString& arg : args) {
+        quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
     }
 
-    if(launchType == LaunchType::Clipboard) {
+    if(launchType == LaunchType::Convert) {
 
-       // wrap args in quotes if necessary:
-       // 1. spaces definitely need quotes
-       // 2. parentheses and backslashes, and probably a whole lot of other characters, can cause problems with bash
+        if(ui->actionMock_Conversion->isChecked()) {
+            ui->ConverterOutputText->append("<p style=\"color:yellow\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</p>");
+            QTimer::singleShot(200, [this] {
+                on_ConverterFinished(0, QProcess::NormalExit);
+            });
+        }
+        else {
+            converter.setProcessChannelMode(QProcess::MergedChannels);
+            converter.start(ConverterPath,args);
+        }
 
-       QStringList quotedArgs;
-       for(QString& arg : args) {
-           quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
-       }
-       
+    }
+
+    else if(launchType == LaunchType::Clipboard) {
+
        // get current clipboard text and append new line to it:
        QString clipText = QGuiApplication::clipboard()->text();
        QTextStream out(&clipText);

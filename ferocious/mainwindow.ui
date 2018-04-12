@@ -705,7 +705,7 @@ to process multiple files.</string>
      <x>0</x>
      <y>0</y>
      <width>803</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
@@ -774,6 +774,7 @@ to process multiple files.</string>
     <addaction name="menuAdvanced_Dither_Options"/>
     <addaction name="menuAdvanced_Options"/>
     <addaction name="separator"/>
+    <addaction name="actionMock_Conversion"/>
     <addaction name="actionEnable_Tooltips"/>
     <addaction name="actionTheme"/>
    </widget>
@@ -1395,6 +1396,14 @@ to process multiple files.</string>
    </property>
    <property name="text">
     <string>Use a Temp File</string>
+   </property>
+  </action>
+  <action name="actionMock_Conversion">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Mock Conversion</string>
    </property>
   </action>
  </widget>
