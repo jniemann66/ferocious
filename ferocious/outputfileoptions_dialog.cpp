@@ -28,17 +28,17 @@ FilenameGenerator::FilenameGenerator(const FilenameGenerator &O)
     /*---*/
 }
 
-void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename){
+void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename) {
 
     outFilename = inFilename;
 
     // if outFilename contains a wildcard, replace everything between last separator and file extension with a wildcard ('*'):
     int outLastDot = outFilename.lastIndexOf(".");
-    if((inFilename.indexOf("*")>-1) && (outLastDot > -1)){
+    if((inFilename.indexOf("*") > -1) && (outLastDot > -1)) {
         int outLastStarBeforeDot = outFilename.left(outLastDot).lastIndexOf(QDir::separator());
-        if(outLastStarBeforeDot > -1){
-            QString s = outFilename.mid(outLastStarBeforeDot+1,outLastDot-outLastStarBeforeDot-1); // get what is between last '*' and last '.'
-            if(!s.isEmpty() && !s.isNull()){
+        if(outLastStarBeforeDot > -1) {
+            QString s = outFilename.mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
+            if(!s.isEmpty() && !s.isNull()) {
                 outFilename.replace(s,"*");
             }
         }
@@ -47,9 +47,9 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
     std::string strOutFilename = outFilename.toStdString();  // std::string version of outFilename (start with copy of inFilename)
     std::string sep(QString(QDir::separator()).toStdString()); // separator: '\' for windows, '/' for 'nix
 
-    if(useSpecificOutputDirectory){
-        if(!inFilename.isEmpty()){
-            if(strOutFilename.find(sep)!=std::string::npos){ // replace input file path with user's output directory:
+    if(useSpecificOutputDirectory) {
+        if(!inFilename.isEmpty()) {
+            if(strOutFilename.find(sep)!=std::string::npos) { // replace input file path with user's output directory:
                 strOutFilename = outputDirectory.toStdString() + sep + strOutFilename.substr(strOutFilename.find_last_of(sep)+1, strOutFilename.length()-1);
             }
         }
@@ -65,16 +65,16 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
     }
 
     // conditionally change file extension:
-    if(useSpecificFileExt){
+    if(useSpecificFileExt) {
         if (strOutFilename.find_last_of(".") != std::string::npos){ // has an extension
             strOutFilename = strOutFilename.substr(0,strOutFilename.find_last_of("."))+ "." + fileExt.toStdString(); // replace extension with fileExt
         }
-        else{ // doesn't have an extension
+        else { // doesn't have an extension
             strOutFilename.append("." + fileExt.toStdString()); // append fileExt
         }
     }
 
-    outFilename=(QString(strOutFilename.c_str())); // convert std::string back to QString
+    outFilename = QString(strOutFilename.c_str()); // convert std::string back to QString
 }
 
 void FilenameGenerator::saveSettings(QSettings &settings)
@@ -105,15 +105,11 @@ void FilenameGenerator::loadSettings(QSettings &settings)
     settings.endGroup();
 }
 
-//
-
 OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OutputFileOptions_Dialog)
 {
-
     ui->setupUi(this);
-
     pFilenameGenerator = &filenameGenerator; // keep a pointer to caller's referenced object
 
     // populate controls using members of OFN object

@@ -23,8 +23,7 @@
 #include <QScroller>
 #include <QScrollBar>
 
-//#define RECURSIVE_DIR_TRAVERSAL
-#define MOCK_CONVERT
+#define RECURSIVE_DIR_TRAVERSAL
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), launchType(LaunchType::Convert)
 {
@@ -37,11 +36,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     readSettings();
     applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.css")
 
-    if(ConverterPath.isEmpty()){
+    if(ConverterPath.isEmpty()) {
         ConverterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath
     }
 
-    if(!fileExists(ConverterPath)){
+    if(!fileExists(ConverterPath)) {
         QString s("Please locate the file: ");
         s.append(expectedConverter);
 
@@ -62,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         }
     }
 
-    if(!fileExists(ConverterPath)){
+    if(!fileExists(ConverterPath)) {
         QMessageBox msgBox;
         QString s("The path to the required command-line program (");
         s.append(expectedConverter);
@@ -261,7 +260,6 @@ void MainWindow::on_StderrAvailable()
 void MainWindow::on_StdoutAvailable()
 {
     processConverterOutput(converter.readAllStandardOutput(), 1);
-
 }
 
 void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
@@ -467,11 +465,11 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
     else
         outDir="";
 
-    QString regexString(tail);// for building a regular expression to match against filenames in the input directory.
+    QString regexString(tail); // for building a regular expression to match against filenames in the input directory.
 
     // convert file-system symbols to regex symbols:
-    regexString.replace(QString("."),QString("\\.")); // . => \\.
-    regexString.replace(QString("*"),QString(".+"));  // * => .+
+    regexString.replace(QString("."), QString("\\.")); // . => \\.
+    regexString.replace(QString("*"), QString(".+"));  // * => .+
     QRegularExpression regex(regexString);
 
     // set up a FilenameGenerator for generating output file names:
@@ -666,7 +664,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
         if(ui->actionMock_Conversion->isChecked()) {
             ui->ConverterOutputText->append("<p style=\"color:yellow\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</p>");
-            QTimer::singleShot(200, [this] {
+            QTimer::singleShot(25, [this] {
                 on_ConverterFinished(0, QProcess::NormalExit);
             });
         }
