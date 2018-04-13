@@ -3,7 +3,7 @@
 #include <QFileDialog>
 
 
-FilenameGenerator::FilenameGenerator(){
+FilenameGenerator::FilenameGenerator() {
     // factory defaults:
     appendSuffix=true;
     Suffix=QString("(converted)");
@@ -28,7 +28,7 @@ FilenameGenerator::FilenameGenerator(const FilenameGenerator &O)
     /*---*/
 }
 
-void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename) {
+void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename, const QString subDirectory /* = QString() */) {
 
     outFilename = inFilename;
 
@@ -50,14 +50,24 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
     if(useSpecificOutputDirectory) {
         if(!inFilename.isEmpty()) {
             if(strOutFilename.find(sep)!=std::string::npos) { // replace input file path with user's output directory:
-                strOutFilename = outputDirectory.toStdString() + sep + strOutFilename.substr(strOutFilename.find_last_of(sep)+1, strOutFilename.length()-1);
+                if(subDirectory.isEmpty()) {
+                    strOutFilename = outputDirectory.toStdString()
+                        + sep
+                        + strOutFilename.substr(strOutFilename.find_last_of(sep) + 1, strOutFilename.length() - 1);
+                } else {
+                    strOutFilename = outputDirectory.toStdString()
+                        + sep
+                        + subDirectory.toStdString()
+                        + sep
+                        + strOutFilename.substr(strOutFilename.find_last_of(sep) + 1, strOutFilename.length() - 1);
+                }
             }
         }
     }
 
     // conditionally append suffix to filename:
-    if(appendSuffix){
-        if(!inFilename.isEmpty()){
+    if(appendSuffix) {
+        if(!inFilename.isEmpty()) {
             if(strOutFilename.find(".")!=std::string::npos){
                 strOutFilename.insert(strOutFilename.find_last_of("."), Suffix.toStdString());     // insert suffix just before file extension
             }

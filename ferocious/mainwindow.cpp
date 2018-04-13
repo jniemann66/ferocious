@@ -521,7 +521,31 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
         conversionTask T;
         T.inFilename = QDir::toNativeSeparators(nextFilename);
-        O.generateOutputFilename(T.outFilename, T.inFilename);
+
+#ifdef RECURSIVE_DIR_TRAVERSAL
+
+        // get filePath of subdirectory relative to inDir
+        QString sd = QDir(inDir).relativeFilePath(nextFilename);
+
+        // get just the filename
+        QFileInfo fi(nextFilename);
+        QString fn = fi.fileName();
+
+        //chop fn (and final separator) from sd
+        sd.chop(sd.length() - sd.lastIndexOf(fn) + 1);
+
+        if(!sd.isEmpty()) {
+            // create output subdirectory if it doesn't already exist
+            QDir dir(QDir::toNativeSeparators(O.outputDirectory + "/" + sd));
+            if (!dir.exists()) {
+                dir.mkpath(".");
+            }
+        }
+
+        O.generateOutputFilename(T.outFilename, T.inFilename, sd);
+#else
+        O.generateOutputFilename(T.outFilename, T.inFilenam);
+#endif
 
         MainWindow::conversionQueue.push_back(T);
      }
