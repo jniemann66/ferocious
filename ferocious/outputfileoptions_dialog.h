@@ -17,22 +17,23 @@
 // 2. Generate output filename, given an input filename, and by applying preferences
 // 3. Provide Loading and Saving services (for persistence), given a QSettings object.
 
-class FilenameGenerator{
+class FilenameGenerator {
 public:
-    bool appendSuffix;
-    QString Suffix;
-    bool useSpecificOutputDirectory;
-    bool replicateDirectoryStructure;
-    QString inputDirectoryRoot;
-    QString outputDirectory;
-    bool useSpecificFileExt;
-    QString fileExt;
     FilenameGenerator();
     FilenameGenerator(const FilenameGenerator& O);
     void generateOutputFilename(QString& outFilename, const QString& inFilename);
-
     void saveSettings(QSettings& settings);
     void loadSettings(QSettings& settings);
+
+    bool appendSuffix;
+    bool useSpecificOutputDirectory;
+    bool replicateDirectoryStructure;
+    bool useSpecificFileExt;
+
+    QString Suffix;
+    QString inputDirectoryRoot;
+    QString outputDirectory;
+    QString fileExt;
 };
 
 namespace Ui {
