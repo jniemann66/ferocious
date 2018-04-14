@@ -364,7 +364,7 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
     if(fileNames.isEmpty())
         return;
 
-    if(fileNames.count() >=1) {
+    if(fileNames.count() >= 1) {
         QDir path(fileNames.first());
         inFileBrowsePath = path.absolutePath(); // record path of this browse session
     }
@@ -374,10 +374,9 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
         ui->OutfileLabel->setText("Output File:");
         ui->OutfileEdit->setReadOnly(false);
         filenameSpec=fileNames.first();
-        if(!filenameSpec.isNull()) {
 
+        if(!filenameSpec.isEmpty()) {
             ui->InfileEdit->setText(QDir::toNativeSeparators(filenameSpec));
-
             bool bRefreshOutFilename = true;
 
             // trigger a refresh of outfilename if outfilename is empty and infilename is not empty:
@@ -385,7 +384,7 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
                 bRefreshOutFilename = true;
 
             // trigger a refresh of outfilename if outfilename has a wildcard and infilename doesn't have a wildcard:
-            if((ui->OutfileEdit->text().indexOf("*")>-1) && (ui->InfileEdit->text().indexOf("*")==-1))
+            if((ui->OutfileEdit->text().indexOf("*") > -1) && (ui->InfileEdit->text().indexOf("*") == -1))
                 bRefreshOutFilename = true;
 
             // conditionally auto-generate output filename:
@@ -400,30 +399,35 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
 
     } else { // Multiple-file Mode:
 
-        // Join all the strings together, with MultiFileSeparator in between each string:
+        // actually change label to say "Input Files:" instead of "Input File:"
+        ui->InfileLabel->setText("Input Files:");
+
+        // Convert each input filename to native separators,
+        // and join all the strings together with MultiFileSeparator in between each string
         QStringList::const_iterator it;
         for (it = fileNames.constBegin(); it != fileNames.constEnd(); ++it) {
             filenameSpec += QDir::toNativeSeparators(*it);
             filenameSpec += MultiFileSeparator;
         }
 
+        // set widget text. Note: MultiFileSeparator should be a non-displayable character, but still be picked-up in copy/paste
         ui->InfileEdit->setText(filenameSpec);
-        QString firstFile = QDir::toNativeSeparators(fileNames.first()); // get first filename in list (use to generate output filename)
 
-        QString outFilename = firstFile; // use first filename as a basis for generating output filename
+        // determine output filename
+        QString outFilename = QDir::toNativeSeparators(fileNames.first()); // use first input filename as a basis for generating output filename
         int LastDot = outFilename.lastIndexOf(".");
         int LastSep = outFilename.lastIndexOf(QDir::separator());
-        QString s = outFilename.mid(LastSep+1,LastDot-LastSep-1); // get what is between last separator and last '.'
+        QString s = outFilename.mid(LastSep + 1, LastDot - LastSep - 1); // get what is between last separator and last '.'
         if(!s.isEmpty() && !s.isNull()) {
             outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
         filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
 
+        // update the output filename widget and label
         ui->OutfileEdit->setText(outFilename);
         ui->OutfileEdit->update();
         ui->OutfileLabel->setText("Output Files: (filenames auto-generated)");
         ui->OutfileEdit->setReadOnly(true);
-        ui->InfileLabel->setText("Input Files:");
     }
 
     // trigger an update of options if file extension changed:
@@ -437,13 +441,10 @@ void MainWindow::on_convertButton_clicked()
 }
 
 void MainWindow::launch() {
-    // split the QLineEdit text into a stringlist, using MainWindow::MultiFileSeparator
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
-    QStringList::const_iterator it;
-    for (it = filenames.begin(); it != filenames.end(); ++it) {// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration:
-
-        QString inFilename=*it;
+    // iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration
+    for (const QString& inFilename : filenames) {
 
         if(!inFilename.isEmpty() && !inFilename.isNull()) {
 
@@ -452,7 +453,7 @@ void MainWindow::launch() {
                 MainWindow::wildcardPushToQueue(inFilename);
             }
 
-            else{ // No Wildcard:
+            else { // No Wildcard:
                 conversionTask T;
                 T.inFilename = inFilename;
                 if(filenames.count() > 1) { // multi-file mode:
@@ -503,7 +504,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         outDir.replace(QString("*"),QString(""));
     }
     else
-        outDir="";
+        outDir = "";
 
     QString regexString(tail); // for building a regular expression to match against filenames in the input directory.
 
@@ -596,8 +597,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 void MainWindow::convertNext() {
     if(!conversionQueue.empty()) {
         conversionTask& nextTask = MainWindow::conversionQueue.first();
-        ui->StatusLabel->setText("Status: processing "+nextTask.inFilename);
-        ui->progressBar->setFormat("Status: processing "+nextTask.inFilename);
+        ui->StatusLabel->setText("Status: processing " + nextTask.inFilename);
+        ui->progressBar->setFormat("Status: processing " + nextTask.inFilename);
         this->repaint();
         MainWindow::convert(nextTask.outFilename,nextTask.inFilename);
         conversionQueue.removeFirst();
@@ -775,7 +776,7 @@ void MainWindow::on_InfileEdit_editingFinished()
     bool bRefreshOutfileEdit = true; // control whether to always update output filename
 
     // look for Wildcard in filename, before file extension
-    if(inFilename.indexOf("*")>-1) { // inFilename has wildcard
+    if(inFilename.indexOf("*") > -1) { // inFilename has wildcard
         int InLastDot =inFilename.lastIndexOf(".");
         if(InLastDot > -1){
             int InLastStarBeforeDot = inFilename.left(InLastDot).lastIndexOf("*");
@@ -796,7 +797,7 @@ void MainWindow::on_InfileEdit_editingFinished()
 
     QString outFilename;
 
-    if(inFilename.right(1)==MultiFileSeparator) {
+    if(inFilename.right(1) == MultiFileSeparator) {
         inFilename=inFilename.left(inFilename.size() - 1); // Trim Multifile separator off the end
         ui->InfileEdit->setText(inFilename);
     }
@@ -807,7 +808,7 @@ void MainWindow::on_InfileEdit_editingFinished()
         ui->OutfileLabel->setText("Output File:");
         ui->OutfileEdit->setReadOnly(false);
 
-        if(bRefreshOutfileEdit){
+        if(bRefreshOutfileEdit) {
             filenameGenerator.generateOutputFilename(outFilename,ui->InfileEdit->text());
             if(!outFilename.isNull() && !outFilename.isEmpty())
                 ui->OutfileEdit->setText(outFilename);
@@ -897,7 +898,6 @@ void MainWindow::getResamplerVersion()
 {
     QString v;
     QProcess ConverterQuery;
-
     ConverterQuery.start(ConverterPath, QStringList() << "--version"); // ask converter for its version number
 
     if (!ConverterQuery.waitForFinished())
@@ -968,7 +968,7 @@ void MainWindow::on_actionConverter_Location_triggered()
 
     QString cp =QFileDialog::getOpenFileName(this, s, ConverterPath,  filter);
 
-    if(!cp.isNull()){
+    if(!cp.isNull()) {
         ConverterPath = cp;
         if(ConverterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
             ConverterPath.clear();
@@ -1013,7 +1013,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return (!ui->actionEnable_Tooltips->isChecked());
 
     else
-        return QMainWindow::eventFilter(obj, event);	// pass control to base class' eventFilter
+        return QMainWindow::eventFilter(obj, event);
 }
 
 void MainWindow::on_actionFlac_triggered()
