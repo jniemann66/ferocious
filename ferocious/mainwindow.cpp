@@ -110,9 +110,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             this,
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
     );
-    connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_rightClickedConvert);
+    connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_convertButton_rightClicked);
     connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
-    connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_rightClickedBrowseIn);
+    connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
 }
 
 MainWindow::~MainWindow()
@@ -317,7 +317,7 @@ void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitSta
     }
 }
 
-void MainWindow::on_rightClickedBrowseIn()
+void MainWindow::on_browseInButton_rightClicked()
 {
     for (auto& a : browseInMenu->actions()) {
         browseInMenu->removeAction(a);
@@ -328,7 +328,6 @@ void MainWindow::on_rightClickedBrowseIn()
         QFileDialog fileDialog(this);
         fileDialog.setDirectory(inFileBrowsePath);
         fileDialog.setFileMode(QFileDialog::Directory);
-        fileDialog.setNameFilter("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)");
         fileDialog.setViewMode(QFileDialog::Detail);
 
         if(fileDialog.exec()) {
@@ -1246,7 +1245,7 @@ void MainWindow::getCustomLpfParameters() {
     d->exec();
 }
 
-void MainWindow::on_rightClickedConvert() {
+void MainWindow::on_convertButton_rightClicked() {
    for (auto& a : convertTaskMenu->actions()) {
        convertTaskMenu->removeAction(a);
    }
