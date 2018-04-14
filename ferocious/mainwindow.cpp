@@ -622,7 +622,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     // format args: Normalization
     if(ui->NormalizeCheckBox->isChecked()){
         double NormalizeAmount=ui->NormalizeAmountEdit->text().toDouble();
-        if((NormalizeAmount>0.0) && (NormalizeAmount<=1.0)) {
+        if((NormalizeAmount > 0.0) && (NormalizeAmount <= 1.0)) {
             args << "-n" << QString::number(NormalizeAmount);
         }
     }
@@ -636,7 +636,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
         if(!ui->DitherAmountEdit->text().isEmpty()) {
             double DitherAmount=ui->DitherAmountEdit->text().toDouble();
-            if((DitherAmount>0.0) && (DitherAmount<=8.0)) {
+            if((DitherAmount > 0.0) && (DitherAmount <= 8.0)) {
                 args << "--dither" << QString::number(DitherAmount);
             }
         }else{
@@ -670,7 +670,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     // format compression levels for compressed formats:
     int extidx = outfn.lastIndexOf(".");
     if(extidx > -1){ // filename must have a "." to contain a file extension ...
-        QString ext = outfn.right(outfn.length()-extidx-1); // get file extension from file name
+        QString ext = outfn.right(outfn.length() - extidx - 1); // get file extension from file name
 
         if(ext.toLower()=="flac")// format args: flac compression
             args << "--flacCompression" << QString::number(MainWindow::flacCompressionLevel);
@@ -736,7 +736,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             converter.setProcessChannelMode(QProcess::SeparateChannels);
             converter.start(ConverterPath,args);
         }
-
     }
 
     else if(launchType == LaunchType::Clipboard) {
@@ -787,7 +786,7 @@ void MainWindow::on_InfileEdit_editingFinished()
     }
 
     else { // inFilename does not have a wildcard
-        if(ui->OutfileEdit->text().indexOf("*")>-1) { // outfilename does have a wildcard
+        if(ui->OutfileEdit->text().indexOf("*") > -1) { // outfilename does have a wildcard
             bRefreshOutfileEdit = true; // trigger a refresh
         }
     }
@@ -798,11 +797,11 @@ void MainWindow::on_InfileEdit_editingFinished()
     QString outFilename;
 
     if(inFilename.right(1)==MultiFileSeparator) {
-        inFilename=inFilename.left(inFilename.size()-1); // Trim Multifile separator off the end
+        inFilename=inFilename.left(inFilename.size() - 1); // Trim Multifile separator off the end
         ui->InfileEdit->setText(inFilename);
     }
 
-    if(inFilename.indexOf(MultiFileSeparator)==-1) { // Single-file mode:
+    if(inFilename.indexOf(MultiFileSeparator) == -1) { // Single-file mode:
 
         ui->InfileLabel->setText("Input File:");
         ui->OutfileLabel->setText("Output File:");
@@ -821,9 +820,9 @@ void MainWindow::on_InfileEdit_editingFinished()
         QString outFilename=inFilename.left(inFilename.indexOf(MultiFileSeparator)); // use first filename as a basis for generating output filename
         int LastDot = outFilename.lastIndexOf(".");
         int LastSep = outFilename.lastIndexOf(QDir::separator());
-        QString s = outFilename.mid(LastSep+1,LastDot-LastSep-1); // get what is between last separator and last '.'
+        QString s = outFilename.mid(LastSep+1,LastDot-LastSep - 1); // get what is between last separator and last '.'
         if(!s.isEmpty() && !s.isNull()) {
-            outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
+            outFilename.replace(s, "*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
         filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
         ui->OutfileEdit->setText(outFilename);
@@ -863,7 +862,7 @@ void MainWindow::on_NormalizeCheckBox_clicked()
 void MainWindow::on_NormalizeAmountEdit_editingFinished()
 {
     double NormalizeAmount = ui->NormalizeAmountEdit->text().toDouble();
-    if(NormalizeAmount <0.0 || NormalizeAmount >1.0)
+    if(NormalizeAmount < 0.0 || NormalizeAmount > 1.0)
         ui->NormalizeAmountEdit->setText("1.00");
 }
 
@@ -879,7 +878,7 @@ void MainWindow::PopulateBitFormats(const QString& fileName)
     ui->BitDepthCombo->clear();
     int extidx = fileName.lastIndexOf(".");
     if(extidx > -1){
-        QString ext = fileName.right(fileName.length()-extidx-1); // get file extension from file name
+        QString ext = fileName.right(fileName.length() - extidx - 1); // get file extension from file name
         ConverterQuery.start(ConverterPath, QStringList() << "--listsubformats" << ext); // ask converter for a list of subformats for the given file extension
 
         if (!ConverterQuery.waitForFinished())
@@ -932,7 +931,7 @@ void MainWindow::ProcessOutfileExtension()
     QString fileName = ui->OutfileEdit->text();
     int extidx = fileName.lastIndexOf(".");
     if(extidx > -1) { // filename must have a "." to contain a file extension ...
-        QString ext = fileName.right(fileName.length()-extidx-1); // get file extension from file name
+        QString ext = fileName.right(fileName.length() - extidx - 1); // get file extension from file name
 
         // if user has changed the extension (ie type) of the filename, then repopulate subformats combobox:
         if(ext != lastOutputFileExt) {
@@ -952,7 +951,7 @@ void MainWindow::on_DitherCheckBox_clicked()
 void MainWindow::on_DitherAmountEdit_editingFinished()
 {
     double DitherAmount = ui->DitherAmountEdit->text().toDouble();
-    if(DitherAmount <0.0 || DitherAmount >8.0)
+    if(DitherAmount < 0.0 || DitherAmount > 8.0)
         ui->DitherAmountEdit->setText("1.0");
 }
 
@@ -971,9 +970,9 @@ void MainWindow::on_actionConverter_Location_triggered()
 
     if(!cp.isNull()){
         ConverterPath = cp;
-        if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1) { // safeguard against wrong executable being configured
+        if(ConverterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
             ConverterPath.clear();
-            QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
+            QMessageBox::warning(this, tr("Converter Location"), tr("That is not the right program!\n"), QMessageBox::Ok);
         } else {
             // get converter version:
             getResamplerVersion();
@@ -1038,7 +1037,7 @@ void MainWindow::on_actionOgg_Vorbis_triggered()
     d.setInputMode(QInputDialog::DoubleInput);
     d.setWindowTitle( tr("vorbis quality level"));
     d.setLabelText(tr("quality level (-1 to 10):"));
-    d.setDoubleRange(-1.0,10.0);
+    d.setDoubleRange(-1.0, 10.0);
     d.setDoubleValue(MainWindow::vorbisQualityLevel);
     d.setDoubleDecimals(2);
 
