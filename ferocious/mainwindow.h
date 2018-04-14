@@ -94,10 +94,12 @@ private slots:
     void on_rightClickedConvert();
     void on_stopRequested();
 
+    void on_rightClickedBrowseIn();
 private:
     // resources
     Ui::MainWindow *ui;
     QMenu* convertTaskMenu;
+    QMenu* browseInMenu;
 
     // state
     QProcess converter;
@@ -141,6 +143,7 @@ private:
     void getCustomLpfParameters();
     void launch();
     void processConverterOutput(QString ConverterOutput, int channel);
+    void processInputFilenames(const QStringList &fileNames);
 };
 
 #endif // MAINWINDOW_H

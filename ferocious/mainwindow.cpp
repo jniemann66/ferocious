@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     ui->SamplerateCombo->setCurrentText("44100");
 
+    browseInMenu = new QMenu(this);
+    browseInMenu->setHidden(true);
     convertTaskMenu = new QMenu(this);
     convertTaskMenu->setHidden(true);
 
@@ -110,7 +112,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     );
     connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_rightClickedConvert);
     connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
-
+    connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_rightClickedBrowseIn);
 }
 
 MainWindow::~MainWindow()
@@ -315,11 +317,50 @@ void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitSta
     }
 }
 
+void MainWindow::on_rightClickedBrowseIn()
+{
+    for (auto& a : browseInMenu->actions()) {
+        browseInMenu->removeAction(a);
+    }
+
+    browseInMenu->addAction("Select Files ...", this, &MainWindow::on_browseInfileButton_clicked);
+    browseInMenu->addAction("Select Entire Directory ...", [this] {
+        QFileDialog fileDialog(this);
+        fileDialog.setDirectory(inFileBrowsePath);
+        fileDialog.setFileMode(QFileDialog::Directory);
+        fileDialog.setNameFilter("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)");
+        fileDialog.setViewMode(QFileDialog::Detail);
+
+        if(fileDialog.exec()) {
+            QString fName = QDir::toNativeSeparators(fileDialog.selectedFiles().first() + "/*");
+            if(!fName.isEmpty())
+                processInputFilenames(QStringList{fName});
+        }
+    });
+
+    browseInMenu->popup(QCursor::pos());
+}
+
 void MainWindow::on_browseInfileButton_clicked()
 {   
+    QFileDialog fileDialog(this);
+    fileDialog.setDirectory(inFileBrowsePath);
+    fileDialog.setFileMode(QFileDialog::ExistingFiles);
+    fileDialog.setNameFilter("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)");
+    fileDialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if(fileDialog.exec()) {
+        fileNames = fileDialog.selectedFiles();
+    } else {
+        return;
+    }
+
+    processInputFilenames(fileNames);
+}
+
+void MainWindow::processInputFilenames(const QStringList& fileNames) {
+
     QString filenameSpec;
-    QStringList fileNames = QFileDialog::getOpenFileNames(this,
-        tr("Select Input File(s)"), inFileBrowsePath, tr("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
 
     if(fileNames.isEmpty())
         return;
@@ -361,8 +402,8 @@ void MainWindow::on_browseInfileButton_clicked()
     } else { // Multiple-file Mode:
 
         // Join all the strings together, with MultiFileSeparator in between each string:
-        QStringList::iterator it;
-        for (it = fileNames.begin(); it != fileNames.end(); ++it) {
+        QStringList::const_iterator it;
+        for (it = fileNames.constBegin(); it != fileNames.constEnd(); ++it) {
             filenameSpec += QDir::toNativeSeparators(*it);
             filenameSpec += MultiFileSeparator;
         }
@@ -370,11 +411,11 @@ void MainWindow::on_browseInfileButton_clicked()
         ui->InfileEdit->setText(filenameSpec);
         QString firstFile = QDir::toNativeSeparators(fileNames.first()); // get first filename in list (use to generate output filename)
 
-        QString outFilename=firstFile; // use first filename as a basis for generating output filename
+        QString outFilename = firstFile; // use first filename as a basis for generating output filename
         int LastDot = outFilename.lastIndexOf(".");
         int LastSep = outFilename.lastIndexOf(QDir::separator());
         QString s = outFilename.mid(LastSep+1,LastDot-LastSep-1); // get what is between last separator and last '.'
-        if(!s.isEmpty() && !s.isNull()){
+        if(!s.isEmpty() && !s.isNull()) {
             outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
         filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
@@ -542,7 +583,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
             }
         }
 
-        O.generateOutputFilename(T.outFilename, T.inFilename, sd);
+        O.generateOutputFilename(T.outFilename, T.inFilename, QDir::toNativeSeparators(sd));
 #else
         O.generateOutputFilename(T.outFilename, T.inFilenam);
 #endif
