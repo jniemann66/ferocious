@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
         if(ConverterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
             ConverterPath.clear();
-            QMessageBox::warning(this, tr("Converter Location"),tr("That is not the right program!\n"),QMessageBox::Ok);
+            QMessageBox::warning(this, tr("Converter Location"), tr("That is not the right program!\n"), QMessageBox::Ok);
         }
     }
 
@@ -269,7 +269,7 @@ void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
 
     // count backspaces at end of string:
     int backspaces = 0;
-    while(ConverterOutput.at(ConverterOutput.length()-1)=='\b') {
+    while(ConverterOutput.at(ConverterOutput.length() - 1) == '\b') {
         ConverterOutput.chop(1);
         ++backspaces;
     }
@@ -485,7 +485,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         inDir = inFilename.left(inLastSepIndex); // isolate directory
 
         // strip any wildcards out of directory name:
-        inDir.replace(QString("*"),QString(""));
+        inDir.replace(QString("*"), QString(""));
 
         // append slash to the end of Windows drive letters:
         if(inDir.length() == 2 && inDir.right(1) == ":")
@@ -501,7 +501,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         outDir = ui->OutfileEdit->text().left(outLastSepIndex); // isolate directory
 
         // strip any wildcards out of directory name:
-        outDir.replace(QString("*"),QString(""));
+        outDir.replace(QString("*"), QString(""));
     }
     else
         outDir = "";
@@ -645,7 +645,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     }
 
     // format args: Normalization
-    if(ui->NormalizeCheckBox->isChecked()){
+    if(ui->NormalizeCheckBox->isChecked()) {
         double NormalizeAmount=ui->NormalizeAmountEdit->text().toDouble();
         if((NormalizeAmount > 0.0) && (NormalizeAmount <= 1.0)) {
             args << "-n" << QString::number(NormalizeAmount);
@@ -664,7 +664,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             if((DitherAmount > 0.0) && (DitherAmount <= 8.0)) {
                 args << "--dither" << QString::number(DitherAmount);
             }
-        }else{
+        } else {
             args << "--dither";
         }
 
@@ -694,7 +694,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
     // format compression levels for compressed formats:
     int extidx = outfn.lastIndexOf(".");
-    if(extidx > -1){ // filename must have a "." to contain a file extension ...
+    if(extidx > -1) { // filename must have a "." to contain a file extension ...
         QString ext = outfn.right(outfn.length() - extidx - 1); // get file extension from file name
 
         if(ext.toLower()=="flac")// format args: flac compression
@@ -802,11 +802,11 @@ void MainWindow::on_InfileEdit_editingFinished()
     // look for Wildcard in filename, before file extension
     if(inFilename.indexOf("*") > -1) { // inFilename has wildcard
         int InLastDot =inFilename.lastIndexOf(".");
-        if(InLastDot > -1){
+        if(InLastDot > -1) {
             int InLastStarBeforeDot = inFilename.left(InLastDot).lastIndexOf("*");
             if(InLastStarBeforeDot > -1) { // Wilcard in Filename; trigger a refresh:
                 bRefreshOutfileEdit = true;
-              }
+            }
         }
     }
 
@@ -902,7 +902,7 @@ void MainWindow::PopulateBitFormats(const QString& fileName)
     QProcess ConverterQuery;
     ui->BitDepthCombo->clear();
     int extidx = fileName.lastIndexOf(".");
-    if(extidx > -1){
+    if(extidx > -1) {
         QString ext = fileName.right(fileName.length() - extidx - 1); // get file extension from file name
         ConverterQuery.start(ConverterPath, QStringList() << "--listsubformats" << ext); // ask converter for a list of subformats for the given file extension
 
@@ -1239,7 +1239,7 @@ void MainWindow::populateDitherProfileMenu()
         QString line = QString::fromLocal8Bit(ConverterQuery.readLine());
         QStringList fields = line.split(":");
         int id = fields.at(0).toInt();
-        if(ignoreList.indexOf(id) == -1){
+        if(ignoreList.indexOf(id) == -1) {
             QString label = fields.at(1).simplified();
             QAction* action = nsMenu->addAction(label);
             action->setCheckable(true);
