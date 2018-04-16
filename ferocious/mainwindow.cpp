@@ -274,7 +274,7 @@ void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
         ++backspaces;
     }
 
-    if(backspaces){
+    if(backspaces) {
         // extract percentage:
         QString whatToChop = ConverterOutput.right(backspaces);
         if(whatToChop.indexOf("%")!=-1) {
@@ -286,7 +286,7 @@ void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
 
     if(!ConverterOutput.isEmpty()) {
         if(channel == 2 ) {
-            ui->ConverterOutputText->append("<p style=\"color:red\">" + ConverterOutput + "</p>");
+            ui->ConverterOutputText->append("<font color=\"red\">" + ConverterOutput + "</font>");
         } else {
             ui->ConverterOutputText->append(ConverterOutput);
         }
@@ -585,7 +585,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
             if(ui->actionMock_Conversion->isChecked()) { // mock-create directory
                 if(!createdDirectoriesList.contains(p)) {
-                    ui->ConverterOutputText->append("<p style=\"color:yellow\">mkdir " + QDir::toNativeSeparators(dir.absolutePath()) + "</p>");
+                    ui->ConverterOutputText->append("<font color=\"yellow\">mkdir " + QDir::toNativeSeparators(dir.absolutePath()) + "</font>");
                     createdDirectoriesList.append(p);
                 }
 
@@ -597,7 +597,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
             else { // create directory for real
                 if (!dir.exists()) {
-                    ui->ConverterOutputText->append("<p style=\"color:yellow\">mkdir " + QDir::toNativeSeparators(dir.absolutePath()) + "</p>");
+                    ui->ConverterOutputText->append("<font color=\"yellow\">mkdir " + QDir::toNativeSeparators(dir.absolutePath()) + "</font>");
                     dir.mkpath(".");
                 }
             }
@@ -748,7 +748,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(launchType == LaunchType::Convert) {
 
         if(ui->actionMock_Conversion->isChecked()) {
-            ui->ConverterOutputText->append("<p style=\"color:orange\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</p>");
+            ui->ConverterOutputText->append("<font color=\"orange\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</font>");
             QTimer::singleShot(25, [this] {
                 on_ConverterFinished(0, QProcess::NormalExit);
             });
