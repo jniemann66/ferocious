@@ -546,6 +546,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
     // traverse input directory
 
+    QStringList createdDirectoriesList;
+
 #ifdef RECURSIVE_DIR_TRAVERSAL
     QDirIterator it(inDir, QDir::Files, QDirIterator::Subdirectories);
 #else
@@ -576,10 +578,28 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         sd.chop(sd.length() - sd.lastIndexOf(fn) + 1);
 
         if(!sd.isEmpty()) {
+
             // create output subdirectory if it doesn't already exist
             QDir dir(QDir::toNativeSeparators(O.outputDirectory + "/" + sd));
-            if (!dir.exists()) {
-                dir.mkpath(".");
+            QString p(dir.absolutePath());
+
+            if(ui->actionMock_Conversion->isChecked()) { // mock-create directory
+                if(!createdDirectoriesList.contains(p)) {
+                    ui->ConverterOutputText->append("<p style=\"color:yellow\">mkdir " + QDir::toNativeSeparators(dir.absolutePath()) + "</p>");
+                    createdDirectoriesList.append(p);
+                }
+
+                // simulate time-delay of converter
+                QTimer::singleShot(10, [this] {
+                    on_ConverterFinished(0, QProcess::NormalExit);
+                });
+            }
+
+            else { // create directory for real
+                if (!dir.exists()) {
+                    ui->ConverterOutputText->append("<p style=\"color:yellow\">mkdir " + QDir::toNativeSeparators(dir.absolutePath()) + "</p>");
+                    dir.mkpath(".");
+                }
             }
         }
 
@@ -728,7 +748,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(launchType == LaunchType::Convert) {
 
         if(ui->actionMock_Conversion->isChecked()) {
-            ui->ConverterOutputText->append("<p style=\"color:yellow\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</p>");
+            ui->ConverterOutputText->append("<p style=\"color:orange\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</p>");
             QTimer::singleShot(25, [this] {
                 on_ConverterFinished(0, QProcess::NormalExit);
             });
