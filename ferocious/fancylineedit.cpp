@@ -77,12 +77,17 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
         QString path = QDir::toNativeSeparators(url.path());
 
 #ifdef Q_OS_WIN
-        if(path.startsWith('\\')){
+        if(path.startsWith('\\')) {
             path.remove(0,1);
         }
 #endif
+        // if path is a directory, append a wilcard(*) to it.
+        QFileInfo x(path);
+        if(x.isDir()) {
+            path.append("/*");
+        }
 
-        paths.append(path);
+        paths.append(QDir::toNativeSeparators(path));
 
     }
 
