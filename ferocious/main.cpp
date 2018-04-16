@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     // retrieve and apply factory Stylesheet:
     QFile ss(":/ferocious.css");
-    if(ss.open(QIODevice::ReadOnly | QIODevice::Text)){
+    if(ss.open(QIODevice::ReadOnly | QIODevice::Text)) {
         a.setStyleSheet(ss.readAll());
         ss.close();
     } else {

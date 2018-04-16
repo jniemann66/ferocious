@@ -100,12 +100,12 @@ void FancyLineEdit::on_editButton_Clicked()
     fileDropDialog->setText("Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text());
     fileDropDialog->show();
 
-    connect(fileDropDialog, &FileDropDialog::accepted, [this]{
+    connect(fileDropDialog, &FileDropDialog::accepted, this, [this]{
         setText(fileDropDialog->getText());
         fileDropDialog->hide();
     });
 
-    connect(fileDropDialog, &FileDropDialog::rejected, [this]{
+    connect(fileDropDialog, &FileDropDialog::rejected, this, [this]{
         fileDropDialog->close();
     });
 }

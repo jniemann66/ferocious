@@ -7,22 +7,22 @@ FilenameGenerator::FilenameGenerator() {
     // factory defaults:
     appendSuffix=true;
     Suffix=QString("(converted)");
+    inputDirectoryRoot=QString();
     useSpecificOutputDirectory=false;
     outputDirectory=QString("");
     useSpecificFileExt=false;
     fileExt=QString("wav");
     replicateDirectoryStructure = false;
-    inputDirectoryRoot=QString();
 }
 
 FilenameGenerator::FilenameGenerator(const FilenameGenerator &O)
     : appendSuffix(O.appendSuffix),
-      Suffix(O.Suffix),
       useSpecificOutputDirectory(O.useSpecificOutputDirectory),
       replicateDirectoryStructure(O.replicateDirectoryStructure),
+      useSpecificFileExt(O.useSpecificFileExt),
+      Suffix(O.Suffix),
       inputDirectoryRoot(O.inputDirectoryRoot),
       outputDirectory(O.outputDirectory),
-      useSpecificFileExt(O.useSpecificFileExt),
       fileExt(O.fileExt)
 {
     /*---*/
@@ -135,7 +135,6 @@ OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& filenameGe
     ui->outFilenameSuffix_lineEdit->setEnabled(pFilenameGenerator->appendSuffix);
     ui->outDirectory_lineEdit->setEnabled(pFilenameGenerator->useSpecificOutputDirectory);
     ui->outFileExt_lineEdit->setEnabled(pFilenameGenerator->useSpecificFileExt);
-
 }
 
 OutputFileOptions_Dialog::~OutputFileOptions_Dialog()
