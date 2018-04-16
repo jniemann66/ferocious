@@ -449,7 +449,7 @@ void MainWindow::launch() {
         if(!inFilename.isEmpty() && !inFilename.isNull()) {
 
             // Search for Wildcards:
-            if(ui->InfileEdit->text().lastIndexOf("*") > -1) { // Input Filename has wildcard
+            if(inFilename.lastIndexOf("*") > -1) { // Input Filename has wildcard
                 MainWindow::wildcardPushToQueue(inFilename);
             }
 
@@ -457,7 +457,7 @@ void MainWindow::launch() {
                 conversionTask T;
                 T.inFilename = inFilename;
                 if(filenames.count() > 1) { // multi-file mode:
-                    filenameGenerator.generateOutputFilename(T.outFilename,inFilename);
+                    filenameGenerator.generateOutputFilename(T.outFilename, inFilename);
                 } else { // single-file mode:
                     T.outFilename = ui->OutfileEdit->text();
                 }
@@ -524,7 +524,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
     int outLastDot = ui->OutfileEdit->text().lastIndexOf(".");
     if(outLastDot > -1) {
         O.fileExt = ui->OutfileEdit->text().right(ui->OutfileEdit->text().length()-outLastDot-1); // get file extension from file nam
-        if(O.fileExt.lastIndexOf("*")>-1){ // outfile extension has a wildcard in it
+        if(O.fileExt.lastIndexOf("*") > -1) { // outfile extension has a wildcard in it
             O.useSpecificFileExt = false;   // use source file extension
         } else {
             O.useSpecificFileExt = true;    // use file extension of outfile name
@@ -540,7 +540,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         O.Suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot+1,outLastDot-outLastStarBeforeDot-1); // get what is between last '*' and last '.'
         O.appendSuffix = true;
     } else { // no Suffix
-        O.Suffix="";
+        O.Suffix = "";
         O.appendSuffix = false;
     }
 
@@ -567,14 +567,18 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
 #ifdef RECURSIVE_DIR_TRAVERSAL
 
-        // get filePath of subdirectory relative to inDir
-        QString sd = QDir(inDir).relativeFilePath(nextFilename);
+        // get (just the) name of the inDir folder
+        QString dirName = QDir(inDir).dirName();
+
+        // assemble subdirectory path as follows: dirName/path-to/nextFilename
+        QString sd = dirName + "/" + QDir(inDir).relativeFilePath(nextFilename) /* filePath of subdirectory relative to inDir */;
 
         // get just the filename
         QFileInfo fi(nextFilename);
         QString fn = fi.fileName();
 
-        //chop fn (and final separator) from sd
+        // chop filename and final separator from sd
+        // eg: dirName/path-to
         sd.chop(sd.length() - sd.lastIndexOf(fn) + 1);
 
         if(!sd.isEmpty()) {
