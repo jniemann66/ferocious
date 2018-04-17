@@ -277,8 +277,8 @@ void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
     if(backspaces) {
         // extract percentage:
         QString whatToChop = ConverterOutput.right(backspaces);
-        if(whatToChop.indexOf("%")!=-1) {
-            progress = whatToChop.replace("%","").toInt();
+        if(whatToChop.indexOf("%") != -1) {
+            progress = whatToChop.replace("%", "").toInt();
             ui->progressBar->setValue(progress);
         }
         ConverterOutput.chop(backspaces);
