@@ -1287,7 +1287,7 @@ void MainWindow::on_stopRequested() {
     qDebug() << "STOP!";
     conversionQueue.clear();
     converter.kill();
-     ui->StatusLabel->setText("Status: conversion stopped");
+    ui->StatusLabel->setText("Status: conversion stopped");
 }
 
 void MainWindow::on_actionMultiStageConversion_triggered(bool checked)

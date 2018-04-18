@@ -93,8 +93,8 @@ private slots:
     void on_actionCustom_Parameters_triggered();
     void on_convertButton_rightClicked();
     void on_stopRequested();
-
     void on_browseInButton_rightClicked();
+
 private:
     // resources
     Ui::MainWindow *ui;
