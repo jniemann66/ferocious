@@ -128,13 +128,13 @@ bool MainWindow::fileExists(const QString& path) {
 
 void MainWindow::readSettings()
 {
-    QSettings settings(QSettings::IniFormat,QSettings::UserScope,"JuddSoft","Ferocious");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "JuddSoft", "Ferocious");
 
     qDebug() << "Reading settings file: " << settings.fileName();
 
     settings.beginGroup("Paths");
     MainWindow::ConverterPath = settings.value("ConverterPath", MainWindow::ConverterPath).toString();
-    if(ConverterPath.lastIndexOf(expectedConverter,-1,Qt::CaseInsensitive)==-1){ // safeguard against wrong executable being configured
+    if(ConverterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
         ConverterPath.clear();
     }
     MainWindow::inFileBrowsePath = settings.value("InputFileBrowsePath", MainWindow::inFileBrowsePath).toString();
@@ -142,8 +142,8 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("Ui");
-    ui->actionEnable_Tooltips->setChecked(settings.value("EnableToolTips",true).toBool());
-    MainWindow::stylesheetFilePath = settings.value("StylesheetPath",":/ferocious.css").toString();
+    ui->actionEnable_Tooltips->setChecked(settings.value("EnableToolTips", true).toBool());
+    MainWindow::stylesheetFilePath = settings.value("StylesheetPath", ":/ferocious.css").toString();
     settings.endGroup();
 
     settings.beginGroup("CompressionSettings");
@@ -169,7 +169,7 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    MainWindow::LPFtype = static_cast<LPFType>(settings.value("LPFtype",1).toInt());
+    MainWindow::LPFtype = static_cast<LPFType>(settings.value("LPFtype", 1).toInt());
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
@@ -195,11 +195,11 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("advancedDitherSettings");
-    MainWindow::bFixedSeed=settings.value("fixedSeed",false).toBool();
+    MainWindow::bFixedSeed=settings.value("fixedSeed", false).toBool();
     ui->actionFixed_Seed->setChecked(MainWindow::bFixedSeed);
-    MainWindow::seedValue=settings.value("seedValue",0).toInt();
-    MainWindow::noiseShape = static_cast<NoiseShape>(settings.value("noiseShape",noiseShape_standard).toInt());
-    MainWindow::ditherProfile=settings.value("ditherProfile",-1).toInt();
+    MainWindow::seedValue=settings.value("seedValue", 0).toInt();
+    MainWindow::noiseShape = static_cast<NoiseShape>(settings.value("noiseShape", noiseShape_standard).toInt());
+    MainWindow::ditherProfile=settings.value("ditherProfile", -1).toInt();
     clearNoiseShapingMenu();
     if(ditherProfile == -1 /* none */) {
         if(noiseShape == noiseShape_flatTpdf)
@@ -213,16 +213,16 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings(QSettings::IniFormat,QSettings::UserScope,"JuddSoft","Ferocious");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "JuddSoft", "Ferocious");
 
     settings.beginGroup("Paths");
     settings.setValue("ConverterPath", MainWindow::ConverterPath);
-    settings.setValue("InputFileBrowsePath",MainWindow::inFileBrowsePath);
-    settings.setValue("OutputFileBrowsePath",MainWindow::outFileBrowsePath);
+    settings.setValue("InputFileBrowsePath", MainWindow::inFileBrowsePath);
+    settings.setValue("OutputFileBrowsePath", MainWindow::outFileBrowsePath);
     settings.endGroup();
 
     settings.beginGroup("Ui");
-    settings.setValue("EnableToolTips",ui->actionEnable_Tooltips->isChecked());
+    settings.setValue("EnableToolTips", ui->actionEnable_Tooltips->isChecked());
     settings.setValue("StylesheetPath", MainWindow::stylesheetFilePath);
     settings.endGroup();
 
@@ -239,7 +239,7 @@ void MainWindow::writeSettings()
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    settings.setValue("LPFtype",MainWindow::LPFtype);
+    settings.setValue("LPFtype", MainWindow::LPFtype);
     settings.setValue("customLpfCutoff", MainWindow::customLpfCutoff);
     settings.setValue("customLpfTransition", MainWindow::customLpfTransition);
     settings.endGroup();
@@ -419,7 +419,7 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
         int LastSep = outFilename.lastIndexOf(QDir::separator());
         QString s = outFilename.mid(LastSep + 1, LastDot - LastSep - 1); // get what is between last separator and last '.'
         if(!s.isEmpty() && !s.isNull()) {
-            outFilename.replace(s,"*"); // replace everything between last separator and file extension with a wildcard ('*'):
+            outFilename.replace(s, "*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
         filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
 
@@ -523,7 +523,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
     // initialize output file extension:
     int outLastDot = ui->OutfileEdit->text().lastIndexOf(".");
     if(outLastDot > -1) {
-        O.fileExt = ui->OutfileEdit->text().right(ui->OutfileEdit->text().length()-outLastDot-1); // get file extension from file nam
+        O.fileExt = ui->OutfileEdit->text().right(ui->OutfileEdit->text().length() - outLastDot - 1); // get file extension from file nam
         if(O.fileExt.lastIndexOf("*") > -1) { // outfile extension has a wildcard in it
             O.useSpecificFileExt = false;   // use source file extension
         } else {
@@ -537,7 +537,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
     // (use whatever is between last '*' and '.')
     int outLastStarBeforeDot = ui->OutfileEdit->text().left(outLastDot).lastIndexOf("*");
     if(outLastStarBeforeDot > -1) {
-        O.Suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot+1,outLastDot-outLastStarBeforeDot-1); // get what is between last '*' and last '.'
+        O.Suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
         O.appendSuffix = true;
     } else { // no Suffix
         O.Suffix = "";
@@ -556,7 +556,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
     while (it.hasNext()) {
 
-        QString nextFilename=QDir::toNativeSeparators(it.next());
+        QString nextFilename = QDir::toNativeSeparators(it.next());
         QRegularExpressionMatch match = regex.match(nextFilename);
 
         if (!match.hasMatch())
@@ -624,7 +624,7 @@ void MainWindow::convertNext() {
         ui->StatusLabel->setText("Status: processing " + nextTask.inFilename);
         ui->progressBar->setFormat("Status: processing " + nextTask.inFilename);
         this->repaint();
-        MainWindow::convert(nextTask.outFilename,nextTask.inFilename);
+        MainWindow::convert(nextTask.outFilename, nextTask.inFilename);
         conversionQueue.removeFirst();
     }
 }
@@ -697,10 +697,10 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(extidx > -1) { // filename must have a "." to contain a file extension ...
         QString ext = outfn.right(outfn.length() - extidx - 1); // get file extension from file name
 
-        if(ext.toLower()=="flac")// format args: flac compression
+        if(ext.toLower() == "flac")// format args: flac compression
             args << "--flacCompression" << QString::number(MainWindow::flacCompressionLevel);
 
-        if(ext.toLower()=="oga") // format args: vorbis compression
+        if(ext.toLower() == "oga") // format args: vorbis compression
             args << "--vorbisQuality" << QString::number(MainWindow::vorbisQualityLevel);
     }
 
@@ -759,7 +759,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         }
         else {
             converter.setProcessChannelMode(QProcess::SeparateChannels);
-            converter.start(ConverterPath,args);
+            converter.start(ConverterPath, args);
         }
     }
 
@@ -833,7 +833,7 @@ void MainWindow::on_InfileEdit_editingFinished()
         ui->OutfileEdit->setReadOnly(false);
 
         if(bRefreshOutfileEdit) {
-            filenameGenerator.generateOutputFilename(outFilename,ui->InfileEdit->text());
+            filenameGenerator.generateOutputFilename(outFilename, ui->InfileEdit->text());
             if(!outFilename.isNull() && !outFilename.isEmpty())
                 ui->OutfileEdit->setText(outFilename);
             ui->OutfileEdit->update();
@@ -845,11 +845,11 @@ void MainWindow::on_InfileEdit_editingFinished()
         QString outFilename=inFilename.left(inFilename.indexOf(MultiFileSeparator)); // use first filename as a basis for generating output filename
         int LastDot = outFilename.lastIndexOf(".");
         int LastSep = outFilename.lastIndexOf(QDir::separator());
-        QString s = outFilename.mid(LastSep+1,LastDot-LastSep - 1); // get what is between last separator and last '.'
+        QString s = outFilename.mid(LastSep + 1, LastDot - LastSep - 1); // get what is between last separator and last '.'
         if(!s.isEmpty() && !s.isNull()) {
             outFilename.replace(s, "*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
-        filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
+        filenameGenerator.generateOutputFilename(outFilename, outFilename); // Generate output filename by applying name-generation rules
         ui->OutfileEdit->setText(outFilename);
         ui->OutfileLabel->setText("Output Files: (filenames auto-generated)");
         ui->OutfileEdit->setReadOnly(true);
@@ -1211,7 +1211,7 @@ void MainWindow::on_action_DitherProfile_triggered(QAction* action, int id)
 void MainWindow::clearNoiseShapingMenu()
 {
     QList<QAction*> nsActions = ui->menuNoise_Shaping->actions();
-    for(int i = 0; i<nsActions.count(); ++i )
+    for(int i = 0; i < nsActions.count(); ++i )
     {
         nsActions[i]->setChecked(false);
     }
