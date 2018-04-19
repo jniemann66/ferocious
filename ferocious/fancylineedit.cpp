@@ -8,12 +8,12 @@
 FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
 {
     clearButton = new QToolButton(this);
-    clearButton->resize(24,18);
+    clearButton->resize(24, 18);
     clearButton->setText("x");
     clearButton->setCursor(Qt::ArrowCursor);
 
     editButton = new QToolButton(this);
-    editButton->resize(24,18);
+    editButton->resize(24, 18);
     editButton->setText("...");
     editButton->setCursor(Qt::ArrowCursor);
 
@@ -50,12 +50,12 @@ void FancyLineEdit::showClearButton()
 void FancyLineEdit::resizeEvent(QResizeEvent *)
 {
     // put the Clear button on the far-right of the Line Edit, and position 2 pixels down from Line Edit;
-    clearButton->move(QPoint(this->width()-clearButton->sizeHint().width(),2));
-    clearButton->resize(QSize(clearButton->sizeHint().width()-2,this->height()-4));
+    clearButton->move(QPoint(this->width()-clearButton->sizeHint().width(), 2));
+    clearButton->resize(QSize(clearButton->sizeHint().width() - 2, this->height() - 4));
 
     // put the Edit button to the left of the Clear button, and position 2 pixels down from Line Edit;
-    editButton->move(QPoint(this->width()-2*editButton->sizeHint().width()+3,2));
-    editButton->resize(QSize(editButton->sizeHint().width()-2,this->height()-4));
+    editButton->move(QPoint(this->width() - 2 * editButton->sizeHint().width() + 3, 2));
+    editButton->resize(QSize(editButton->sizeHint().width() - 2, this->height() - 4));
 }
 
 void FancyLineEdit::dragEnterEvent(QDragEnterEvent *e)
@@ -78,7 +78,7 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
 
 #ifdef Q_OS_WIN
         if(path.startsWith('\\')) {
-            path.remove(0,1);
+            path.remove(0, 1);
         }
 #endif
         // if path is a directory, append a wilcard(*) to it.

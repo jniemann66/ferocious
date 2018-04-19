@@ -68,7 +68,7 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
     // conditionally append suffix to filename:
     if(appendSuffix) {
         if(!inFilename.isEmpty()) {
-            if(strOutFilename.find(".")!=std::string::npos){
+            if(strOutFilename.find(".") != std::string::npos){
                 strOutFilename.insert(strOutFilename.find_last_of("."), Suffix.toStdString());     // insert suffix just before file extension
             }
         }
