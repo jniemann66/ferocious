@@ -126,6 +126,8 @@ The main cause of clipping during sample rate conversion is overshoot effects fr
 
 **Options/Advanced Options/Use a Temp File** - Use a temp file to avoid repetition of conversion when clipping is detected. In older versions of ReSampler, when clipping was detected, the entire conversion was repeated with the appropriate gain decrease. In order to avoid this unnecessary waste of time and CPU, ReSampler can now store its intermediate results in a temp file to facilitate fast gain adjustment.
 
+**Options/Mock Conversion** - this allows you to do a trial run of a conversion before actually committing anything to disk. Commands that would normally be issued to the converter are instead shown in the Converter Output Window. If desired, these commands may also be copied to the clipboard and pasted into a batch file.
+
 **Options/Enable tooltips** - Allows you to switch-off the tooltips after you have become familiar with the controls, or switch them back on again as desired.
 
 **Options/Theme** - Allows a *theme* to be selected, which affects the appearance of the user interface. Themes are stored in .qss files, which are based on css, but use some non-standard properties which are specific to Qt. 
