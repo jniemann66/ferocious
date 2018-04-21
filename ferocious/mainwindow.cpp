@@ -441,6 +441,7 @@ void MainWindow::on_convertButton_clicked()
 }
 
 void MainWindow::launch() {
+    QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
     // iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration
@@ -466,6 +467,8 @@ void MainWindow::launch() {
             }
         }
     }
+
+    QApplication::restoreOverrideCursor();
     MainWindow::convertNext();
 }
 
