@@ -442,6 +442,8 @@ void MainWindow::on_convertButton_clicked()
 
 void MainWindow::launch() {
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+    ui->StatusLabel->setText("Status: Preparing conversion tasks ...");
+    repaint();
     QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
 
     // iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration
@@ -468,6 +470,7 @@ void MainWindow::launch() {
         }
     }
 
+    ui->StatusLabel->setText("Status: Ready");
     QApplication::restoreOverrideCursor();
     MainWindow::convertNext();
 }
