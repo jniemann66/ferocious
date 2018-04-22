@@ -595,11 +595,6 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
                     ui->ConverterOutputText->append("<font color=\"yellow\">mkdir \"" + QDir::toNativeSeparators(dir.absolutePath()) + "\"</font>");
                     createdDirectoriesList.append(p);
                 }
-
-                // simulate time-delay of converter
-                QTimer::singleShot(10, [this] {
-                    on_ConverterFinished(0, QProcess::NormalExit);
-                });
             }
 
             else { // create directory for real
@@ -614,7 +609,6 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 #else
         O.generateOutputFilename(T.outFilename, T.inFilenam);
 #endif
-
         MainWindow::conversionQueue.push_back(T);
      }
 }
