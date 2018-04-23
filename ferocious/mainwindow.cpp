@@ -100,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     MultiFileSeparator = "\n";
 
     // Add kinetic scroller to converter output
-    QScroller::grabGesture(ui->ConverterOutputText, QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(ui->ConverterOutputText->viewport(), QScroller::LeftMouseButtonGesture);
 
     connect(&converter, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
     connect(&converter, &QProcess::readyReadStandardError, this, &MainWindow::on_StderrAvailable);
