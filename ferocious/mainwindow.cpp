@@ -593,7 +593,18 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
             QDir dir(QDir::toNativeSeparators(O.outputDirectory + "/" + sd));
             QString p(dir.absolutePath());
 
-            if(ui->actionMock_Conversion->isChecked()) { // mock-create directory
+            if(launchType == LaunchType::Clipboard) {
+                if(!createdDirectoriesList.contains(p)) {
+                    // get current clipboard text and append new line to it:
+                    QString clipText = QGuiApplication::clipboard()->text();
+                    QTextStream out(&clipText);
+                    out << QString{"mkdir \"%1\"\n"}.arg(QDir::toNativeSeparators(p));
+                    QGuiApplication::clipboard()->setText(clipText);
+                    createdDirectoriesList.append(p);
+                }
+            }
+
+            else if(ui->actionMock_Conversion->isChecked()) { // mock-create directory
                 if(!createdDirectoriesList.contains(p)) {
                     ui->ConverterOutputText->append("<font color=\"yellow\">mkdir \"" + QDir::toNativeSeparators(dir.absolutePath()) + "\"</font>");
                     createdDirectoriesList.append(p);
