@@ -9,12 +9,12 @@
 #include <QStyle>
 #include <QMouseEvent>
 
-class flashingPushbutton : public QPushButton{
-
+class flashingPushbutton : public QPushButton
+{
     Q_OBJECT
 
 public:
-    flashingPushbutton(QWidget* parent=0) : QPushButton(parent), isActive(false), flashState(0)
+    flashingPushbutton(QWidget* parent = nullptr) : QPushButton(parent), isActive(false), flashState(0)
     {
         connect(&timer, &QTimer::timeout,this, &flashingPushbutton::flashWhenActive);
         timer.start(500);
@@ -37,11 +37,11 @@ private slots:
     {
         if (isActive) // flash when active
         {
-            if (flashState == 0){
+            if (flashState == 0) {
                 flashState = 1;
                 setProperty("flashing", true);
             }
-            else if (flashState == 1){
+            else if (flashState == 1) {
                 flashState = 0;
                 setProperty("flashing", false);
             }
@@ -64,7 +64,6 @@ private:
     QTimer timer;
 
 };
-
 
 inline void flashingPushbutton::mousePressEvent(QMouseEvent *mouseEvent)
 {

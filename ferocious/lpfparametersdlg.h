@@ -15,7 +15,7 @@ class lpfParametersDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit lpfParametersDlg(QWidget *parent = 0);
+    explicit lpfParametersDlg(QWidget *parent = nullptr);
     ~lpfParametersDlg();
 
     void setValues(double cutoff, double transition);
