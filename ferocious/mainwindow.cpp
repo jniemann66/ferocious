@@ -606,14 +606,14 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
             else if(ui->actionMock_Conversion->isChecked()) { // mock-create directory
                 if(!createdDirectoriesList.contains(p)) {
-                    ui->ConverterOutputText->append("<font color=\"yellow\">mkdir \"" + QDir::toNativeSeparators(dir.absolutePath()) + "\"</font>");
+                    ui->ConverterOutputText->append("<font color=\"yellow\">mkdir \"" + QDir::toNativeSeparators(p) + "\"</font>");
                     createdDirectoriesList.append(p);
                 }
             }
 
             else { // create directory for real
                 if (!dir.exists()) {
-                    ui->ConverterOutputText->append("<font color=\"yellow\">mkdir " + QDir::toNativeSeparators(dir.absolutePath()) + "</font>");
+                    ui->ConverterOutputText->append("<font color=\"yellow\">mkdir " + QDir::toNativeSeparators(p) + "</font>");
                     dir.mkpath(".");
                 }
             }
@@ -785,7 +785,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
        out << "\n";
        QGuiApplication::clipboard()->setText(clipText);
 
-       QTimer::singleShot(20, [this] {
+       QTimer::singleShot(5, [this] {
            on_ConverterFinished(0, QProcess::NormalExit);
        });
     }
