@@ -141,6 +141,21 @@ Display the version of Ferocious and the version of ReSampler.
 
 Display information about Qt, the Toolkit used for developing Ferocious.
 
+## Context Menus
+
+**Input File Browse + Right-Click**
+- **Select Files ...** : Select multiple files for conversion (Same as left-click on Browse ... button)
+- **Select Entire Directory ...** : Select a folder for conversion
+
+**Convert + Right-Click**
+- **Convert** : Same as left-click on Convert Button
+- **Copy Command Line to Clipboard** : Instead of doing the conversion, copy all the conversion commands to the clipboard
+
+**Converter Output Area + Right-Click**
+- **Select All (Ctrl+A)** : select all text in the converter output area
+- **Copy (Ctrl+C)** : copy converter output text to clipboard
+- **Clear** : clear converter output text
+
 ## Explanation of controls and options
 
 **Bit Format:** specify the bit depth / output subformat of the output file. The items available in the dropdown will vary dynamically, depending on the output file type you specify
@@ -176,7 +191,3 @@ Here are some actual examples of impulse responses, showing the difference betwe
 ![Linear Phase vs Minimum Phase](https://github.com/jniemann66/ferocious/blob/master/LinearPhaseVsMinPhase.JPG)
 
 **Double-Precision** Causes all processing calculations to be performed in 64-bit double-precision. (By default, 32-bit single precision is used). Please note that double-precision may decrease processing speed slightly.
-
-
-
-
