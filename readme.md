@@ -106,6 +106,8 @@ For lower rates (eg 22.05), use steep. For higher target rates, use standard.*
 
 *Note: it is recommended to leave all of the advanced options checked, unless you have a specific reason not to*
 
+![Advanced Options Menu](v2.0.7menu.jpg)
+
 **Options/Advanced Options/Enable clipping protection**
 
 When clipping protection is enabled, the converter will repeat the conversion process with an adjusted (ie decreased) gain level whenever it detects clipping in the initial conversion. 
