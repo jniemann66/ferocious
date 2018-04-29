@@ -4,7 +4,9 @@
 // converterdefinition.h - Type for defining properties of external file converters
 
 #include <QString>
+#include <QStringList>
 #include <QJsonObject>
+#include <QJsonArray>
 
 class ConverterDefinition
 {
@@ -30,8 +32,15 @@ public:
     void setExecutablePath(const QString &value);
     QString getCommandLine() const;
     void setCommandLine(const QString &value);
+    QStringList getDownloadLocations() const;
+    void setDownloadLocations(const QStringList &value);
+    QStringList getOperatingSystems() const;
+    void setOperatingSystems(const QStringList &value);
 
 private:
+
+    bool operator==(const ConverterDefinition& other);
+
     int priority;
     bool enabled;
     QString name;
@@ -40,6 +49,8 @@ private:
     QString outputFileExt;
     QString executablePath;
     QString commandLine;
+    QStringList downloadLocations;
+    QStringList operatingSystems;
 };
 
 #endif // CONVERTERDEFINITION_H

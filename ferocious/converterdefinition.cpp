@@ -15,6 +15,18 @@ void ConverterDefinition::fromJson(const QJsonObject &json)
     outputFileExt = json.value("outputfileext").toString();
     executablePath = json.value("executablepath").toString();
     commandLine = json.value("commandline").toString();
+
+    downloadLocations.clear();
+    QJsonArray dlArray = json.value("downloadlocations").toArray();
+    for(const QJsonValue& dl : dlArray) {
+        downloadLocations.append(dl.toString());
+    }
+
+    operatingSystems.clear();
+    QJsonArray osArray = json.value("operatingsystems").toArray();
+    for(const QJsonValue& os : osArray) {
+        operatingSystems.append(os.toString());
+    }
 }
 
 QJsonObject ConverterDefinition::toJson() const
@@ -28,6 +40,15 @@ QJsonObject ConverterDefinition::toJson() const
     json.insert("outputfileext", outputFileExt);
     json.insert("executablepath", executablePath);
     json.insert("commandline", commandLine);
+
+    QJsonArray dlArray;
+    dlArray.fromStringList(downloadLocations);
+    json.insert("downloadlocations", dlArray);
+
+    QJsonArray osArray;
+    osArray.fromStringList(operatingSystems);
+    json.insert("operatingsystems", osArray);
+
     return json;
 }
 
@@ -81,6 +102,28 @@ void ConverterDefinition::setCommandLine(const QString &value)
     commandLine = value;
 }
 
+QStringList ConverterDefinition::getDownloadLocations() const
+{
+    return downloadLocations;
+}
+
+void ConverterDefinition::setDownloadLocations(const QStringList &value)
+{
+    downloadLocations = value;
+}
+
+QStringList ConverterDefinition::getOperatingSystems() const
+{
+    return operatingSystems;
+}
+
+void ConverterDefinition::setOperatingSystems(const QStringList &value)
+{
+    operatingSystems = value;
+}
+
+
+
 bool ConverterDefinition::getEnabled() const
 {
     return enabled;
@@ -99,4 +142,18 @@ int ConverterDefinition::getPriority() const
 void ConverterDefinition::setPriority(int value)
 {
     priority = value;
+}
+
+bool ConverterDefinition::operator==(const ConverterDefinition &other)
+{
+    return priority == other.priority &&
+    enabled == other.enabled &&
+    name == other.name &&
+    comment == other.comment &&
+    inputFileExt == other.inputFileExt &&
+    outputFileExt == other.outputFileExt &&
+    executablePath == other.executablePath &&
+    commandLine == other.commandLine &&
+    downloadLocations == other.downloadLocations &&
+    operatingSystems == other.operatingSystems;
 }
