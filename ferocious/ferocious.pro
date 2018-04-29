@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     lpfparametersdlg.cpp \
     converteroutputbox.cpp \
     filedropdialog.cpp \
-    filedroptextedit.cpp
+    filedroptextedit.cpp \
+    converterdefinition.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
@@ -33,7 +34,8 @@ HEADERS  += mainwindow.h \
     lpfparametersdlg.h \
     converteroutputbox.h \
     filedropdialog.h \
-    filedroptextedit.h
+    filedroptextedit.h \
+    converterdefinition.h
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui \
