@@ -14,6 +14,7 @@ const char expectedConverter[] ="ReSampler";
 #endif
 
 #include "outputfileoptions_dialog.h"
+#include "converterdefinition.h"
 
 class conversionTask
 {
@@ -125,6 +126,7 @@ private:
     NoiseShape noiseShape;
     int ditherProfile;
     LaunchType launchType;
+    QVector<ConverterDefinition> converterDefinitions;
 
     // functions
     void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
