@@ -18,6 +18,8 @@ public:
     // getters & setters
     int getPriority() const;
     void setPriority(int value);
+    bool getEnabled() const;
+    void setEnabled(bool value);
     QString getName() const;
     void setName(const QString &value);
     QString getInputFileExt() const;
@@ -31,6 +33,7 @@ public:
 
 private:
     int priority;
+    bool enabled;
     QString name;
     QString comment;
     QString inputFileExt;
