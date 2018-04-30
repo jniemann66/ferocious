@@ -24,6 +24,7 @@ struct ConverterDefinition
     // json services
     void fromJson(const QJsonObject& json);
     QJsonObject toJson() const;
+
     bool operator==(const ConverterDefinition& other);
 };
 

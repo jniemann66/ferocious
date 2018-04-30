@@ -146,6 +146,9 @@ private:
     void launch();
     void processConverterOutput(QString ConverterOutput, int channel);
     void processInputFilenames(const QStringList &fileNames);
+
+    void loadConverterDefinitions(const QString &fileName);
+    void saveConverterDefinitions(const QString &fileName) const;
 };
 
 #endif // MAINWINDOW_H

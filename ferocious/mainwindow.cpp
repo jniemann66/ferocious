@@ -22,6 +22,8 @@
 #include <QTextStream>
 #include <QScroller>
 #include <QScrollBar>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 #define RECURSIVE_DIR_TRAVERSAL
 
@@ -789,6 +791,24 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
            on_ConverterFinished(0, QProcess::NormalExit);
        });
     }
+}
+
+void MainWindow::loadConverterDefinitions(const QString& fileName) {
+    QFile jsonFile(fileName);
+    jsonFile.open(QFile::ReadOnly);
+    QJsonDocument inputData;
+    inputData.fromJson(jsonFile.readAll());
+    if(inputData.isArray()) {
+        // todo: read some stuff into converterDefinitions ...
+    }
+}
+
+void MainWindow::saveConverterDefinitions(const QString& fileName) const {
+    QJsonDocument outputData;
+    // todo: transfer converterDefinitions into outputData
+    QFile jsonFile(fileName);
+    jsonFile.open(QFile::WriteOnly);
+    jsonFile.write(outputData.toJson());
 }
 
 void MainWindow::on_InfileEdit_editingFinished()
