@@ -1,10 +1,5 @@
 #include "converterdefinition.h"
 
-ConverterDefinition::ConverterDefinition()
-{
-
-}
-
 void ConverterDefinition::fromJson(const QJsonObject &json)
 {
     priority = json.value("priority").toInt();
@@ -50,98 +45,6 @@ QJsonObject ConverterDefinition::toJson() const
     json.insert("operatingsystems", osArray);
 
     return json;
-}
-
-QString ConverterDefinition::getName() const
-{
-    return name;
-}
-
-void ConverterDefinition::setName(const QString &value)
-{
-    name = value;
-}
-
-QString ConverterDefinition::getInputFileExt() const
-{
-    return inputFileExt;
-}
-
-void ConverterDefinition::setInputFileExt(const QString &value)
-{
-    inputFileExt = value;
-}
-
-QString ConverterDefinition::getOutputFileExt() const
-{
-    return outputFileExt;
-}
-
-void ConverterDefinition::setOutputFileExt(const QString &value)
-{
-    outputFileExt = value;
-}
-
-QString ConverterDefinition::getExecutablePath() const
-{
-    return executablePath;
-}
-
-void ConverterDefinition::setExecutablePath(const QString &value)
-{
-    executablePath = value;
-}
-
-QString ConverterDefinition::getCommandLine() const
-{
-    return commandLine;
-}
-
-void ConverterDefinition::setCommandLine(const QString &value)
-{
-    commandLine = value;
-}
-
-QStringList ConverterDefinition::getDownloadLocations() const
-{
-    return downloadLocations;
-}
-
-void ConverterDefinition::setDownloadLocations(const QStringList &value)
-{
-    downloadLocations = value;
-}
-
-QStringList ConverterDefinition::getOperatingSystems() const
-{
-    return operatingSystems;
-}
-
-void ConverterDefinition::setOperatingSystems(const QStringList &value)
-{
-    operatingSystems = value;
-}
-
-
-
-bool ConverterDefinition::getEnabled() const
-{
-    return enabled;
-}
-
-void ConverterDefinition::setEnabled(bool value)
-{
-    enabled = value;
-}
-
-int ConverterDefinition::getPriority() const
-{
-    return priority;
-}
-
-void ConverterDefinition::setPriority(int value)
-{
-    priority = value;
 }
 
 bool ConverterDefinition::operator==(const ConverterDefinition &other)
