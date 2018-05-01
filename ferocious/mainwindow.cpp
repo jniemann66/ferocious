@@ -796,19 +796,27 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 void MainWindow::loadConverterDefinitions(const QString& fileName) {
     QFile jsonFile(fileName);
     jsonFile.open(QFile::ReadOnly);
-    QJsonDocument inputData;
-    inputData.fromJson(jsonFile.readAll());
-    if(inputData.isArray()) {
-        // todo: read some stuff into converterDefinitions ...
+    QJsonDocument d;
+    d.fromJson(jsonFile.readAll());
+    if(d.isArray()) {
+        converterDefinitions.clear();
+        for(const QJsonValue& v : d.array()) {
+            ConverterDefinition c;
+            c.fromJson(v.toObject());
+            converterDefinitions.append(c);
+        }
     }
 }
 
 void MainWindow::saveConverterDefinitions(const QString& fileName) const {
-    QJsonDocument outputData;
-    // todo: transfer converterDefinitions into outputData
+    QJsonArray a;
+    for(const ConverterDefinition& converterDefinition: converterDefinitions) {
+        a.append(converterDefinition.toJson());
+    }
     QFile jsonFile(fileName);
     jsonFile.open(QFile::WriteOnly);
-    jsonFile.write(outputData.toJson());
+    QJsonDocument d(a);
+    jsonFile.write(d.toJson());
 }
 
 void MainWindow::on_InfileEdit_editingFinished()
