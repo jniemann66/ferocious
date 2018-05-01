@@ -115,6 +115,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_convertButton_rightClicked);
     connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
     connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
+
+    //testing only : remove !
+
+    converterDefinitions.append(getSampleConverterDefinition());
+    saveConverterDefinitions("e:\\t\\converters.json");
+
+    //
+
+
 }
 
 MainWindow::~MainWindow()
@@ -817,6 +826,21 @@ void MainWindow::saveConverterDefinitions(const QString& fileName) const {
     jsonFile.open(QFile::WriteOnly);
     QJsonDocument d(a);
     jsonFile.write(d.toJson());
+}
+
+ConverterDefinition MainWindow::getSampleConverterDefinition() {
+    ConverterDefinition d
+    {
+        0,
+        true,
+        "Lame Decode mp3",
+        "Lame mp3 converter",
+        ".mp3",
+        ".wav",
+        "lame.exe",
+        "lame -V2 {i} {o}"
+    };
+    return d;
 }
 
 void MainWindow::on_InfileEdit_editingFinished()

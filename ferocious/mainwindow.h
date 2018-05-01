@@ -149,6 +149,7 @@ private:
 
     void loadConverterDefinitions(const QString &fileName);
     void saveConverterDefinitions(const QString &fileName) const;
+    ConverterDefinition getSampleConverterDefinition();
 };
 
 #endif // MAINWINDOW_H
