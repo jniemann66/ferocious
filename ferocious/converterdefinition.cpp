@@ -36,12 +36,10 @@ QJsonObject ConverterDefinition::toJson() const
     json.insert("executablepath", executablePath);
     json.insert("commandline", commandLine);
 
-    QJsonArray dlArray;
-    dlArray.fromStringList(downloadLocations);
+    QJsonArray dlArray = QJsonArray::fromStringList(downloadLocations);
     json.insert("downloadlocations", dlArray);
 
-    QJsonArray osArray;
-    osArray.fromStringList(operatingSystems);
+    QJsonArray osArray = QJsonArray::fromStringList(operatingSystems);
     json.insert("operatingsystems", osArray);
 
     return json;

@@ -117,10 +117,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
 
     //testing only : remove !
-
     converterDefinitions.append(getSampleConverterDefinition());
     saveConverterDefinitions("e:\\t\\converters.json");
-
+    loadConverterDefinitions("e:\\t\\converters.json");
+    if(!converterDefinitions.isEmpty()) {
+        qDebug() << converterDefinitions.first().toJson();
+    }
     //
 
 
@@ -805,8 +807,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 void MainWindow::loadConverterDefinitions(const QString& fileName) {
     QFile jsonFile(fileName);
     jsonFile.open(QFile::ReadOnly);
-    QJsonDocument d;
-    d.fromJson(jsonFile.readAll());
+    QJsonDocument d = QJsonDocument::fromJson(jsonFile.readAll());
     if(d.isArray()) {
         converterDefinitions.clear();
         for(const QJsonValue& v : d.array()) {
@@ -838,7 +839,9 @@ ConverterDefinition MainWindow::getSampleConverterDefinition() {
         ".mp3",
         ".wav",
         "lame.exe",
-        "lame -V2 {i} {o}"
+        "lame -V2 {i} {o}",
+        {"http://lame.sourceforge.net/download.php"},
+        {"win", "linux", "macos"}
     };
     return d;
 }
