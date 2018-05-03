@@ -121,6 +121,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     saveConverterDefinitions("e:\\t\\converters.json");
     loadConverterDefinitions("e:\\t\\converters.json");
     if(!converterDefinitions.isEmpty()) {
+        qDebug() << "Equal ? " << (converterDefinitions.first() == getSampleConverterDefinition());
         qDebug() << converterDefinitions.first().toJson();
     }
     //
