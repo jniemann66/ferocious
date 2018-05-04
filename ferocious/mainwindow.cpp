@@ -116,17 +116,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
     connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
 
-    //testing only : remove !
-    converterDefinitions.append(getSampleConverterDefinition());
-    saveConverterDefinitions("e:\\t\\converters.json");
-    loadConverterDefinitions("e:\\t\\converters.json");
-    if(!converterDefinitions.isEmpty()) {
-        qDebug() << "Equal ? " << (converterDefinitions.first() == getSampleConverterDefinition());
-        qDebug() << converterDefinitions.first().toJson();
-    }
-    //
-
-
 }
 
 MainWindow::~MainWindow()
@@ -1365,4 +1354,17 @@ void MainWindow::on_actionMultiStageConversion_triggered(bool checked)
 void MainWindow::on_actionUse_a_temp_file_triggered(bool checked)
 {
     bNoTempFile = !checked;
+}
+
+bool MainWindow::testConverterDefinitionIO(){
+    bool result = false;;
+    converterDefinitions.append(getSampleConverterDefinition());
+    saveConverterDefinitions("e:\\t\\converters.json");
+    loadConverterDefinitions("e:\\t\\converters.json");
+    if(!converterDefinitions.isEmpty()) {
+        result = (converterDefinitions.first() == getSampleConverterDefinition());
+        qDebug() << "Equal ? " << result;
+        qDebug() << converterDefinitions.first().toJson();
+    }
+    return result;
 }
