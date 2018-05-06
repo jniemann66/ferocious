@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>converters.json</file>
+    </qresource>
+</RCC>

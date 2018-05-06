@@ -45,6 +45,7 @@ FORMS    += mainwindow.ui \
 RC_FILE = ferocious.rc
 
 RESOURCES += \
-    ferocious.qrc
+    ferocious.qrc \
+    converterdefinitions.qrc
 
 CONFIG += c++11
