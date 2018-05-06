@@ -650,6 +650,22 @@ void MainWindow::convertNext() {
 
 void MainWindow::convert(const QString &outfn, const QString& infn)
 {
+
+    // todo:
+
+    // Is the output format a specialist format ?
+    //  t: is input format ok for encoder ?
+    //      t: skip ReSampler & proceed straight to encoder
+    //      f: run ReSampler first, then encoder
+    //  f: proceed normally
+
+    // Is the input format a specialist format ?
+    //  t:  is output format ok for encoder ?
+    //      t: ??
+    //      f: ??
+    //  f: proceed normally
+
+
     QStringList args;
 
     // format args: Main
