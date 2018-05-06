@@ -1,6 +1,6 @@
 [
     {
-        "commandline": "lame {i} {o}",
+        "commandline": "{p} {i} {o}",
         "comment": "Decode mp3 to wav using Lame",
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
@@ -19,7 +19,7 @@
     }
 ,
     {
-        "commandline": "lame -V2 {i} {o}",
+        "commandline": "{p} -V2 {i} {o}",
         "comment": "Encode wav to mp3 using Lame",
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
