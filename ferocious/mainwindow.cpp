@@ -655,6 +655,51 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     // Implement pre- and post- stages
 
 
+    // prepare central conversion:
+    QStringList args = prepareReSamplerArgs(outfn, infn);
+
+    // wrap args in quotes if necessary:
+    // 1. spaces definitely need quotes
+    // 2. parentheses and backslashes, and probably a whole lot of other characters, can cause problems with bash
+
+    QStringList quotedArgs;
+    for(QString& arg : args) {
+        quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
+    }
+
+    if(launchType == LaunchType::Convert) {
+
+        if(ui->actionMock_Conversion->isChecked()) {
+            ui->ConverterOutputText->append("<font color=\"orange\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</font>");
+            QTimer::singleShot(25, [this] {
+                on_ConverterFinished(0, QProcess::NormalExit);
+            });
+        }
+        else {
+            converter.setProcessChannelMode(QProcess::SeparateChannels);
+            converter.start(ConverterPath, args);
+        }
+    }
+
+    else if(launchType == LaunchType::Clipboard) {
+
+       // get current clipboard text and append new line to it:
+       QString clipText = QGuiApplication::clipboard()->text();
+       QTextStream out(&clipText);
+       out << QDir::toNativeSeparators(ConverterPath);
+       out << " ";
+       out << quotedArgs.join(" ");
+       out << "\n";
+       QGuiApplication::clipboard()->setText(clipText);
+
+       QTimer::singleShot(5, [this] {
+           on_ConverterFinished(0, QProcess::NormalExit);
+       });
+    }
+}
+
+QStringList MainWindow::prepareReSamplerArgs(const QString &outfn, const QString& infn) {
+
     QStringList args;
 
     // format args: Main
@@ -761,44 +806,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         break;
     }
 
-    // wrap args in quotes if necessary:
-    // 1. spaces definitely need quotes
-    // 2. parentheses and backslashes, and probably a whole lot of other characters, can cause problems with bash
-
-    QStringList quotedArgs;
-    for(QString& arg : args) {
-        quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
-    }
-
-    if(launchType == LaunchType::Convert) {
-
-        if(ui->actionMock_Conversion->isChecked()) {
-            ui->ConverterOutputText->append("<font color=\"orange\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</font>");
-            QTimer::singleShot(25, [this] {
-                on_ConverterFinished(0, QProcess::NormalExit);
-            });
-        }
-        else {
-            converter.setProcessChannelMode(QProcess::SeparateChannels);
-            converter.start(ConverterPath, args);
-        }
-    }
-
-    else if(launchType == LaunchType::Clipboard) {
-
-       // get current clipboard text and append new line to it:
-       QString clipText = QGuiApplication::clipboard()->text();
-       QTextStream out(&clipText);
-       out << QDir::toNativeSeparators(ConverterPath);
-       out << " ";
-       out << quotedArgs.join(" ");
-       out << "\n";
-       QGuiApplication::clipboard()->setText(clipText);
-
-       QTimer::singleShot(5, [this] {
-           on_ConverterFinished(0, QProcess::NormalExit);
-       });
-    }
+    return args;
 }
 
 void MainWindow::loadConverterDefinitions(const QString& fileName) {
