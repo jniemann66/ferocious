@@ -687,7 +687,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         backConverterIn = midConverterOut;
         backConverterOut = outfn;
     } else {
-         midConverterOut = outfn;;
+         midConverterOut = outfn;
     }
 
      // prepare central conversion:
