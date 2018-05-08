@@ -651,24 +651,44 @@ void MainWindow::convertNext() {
 void MainWindow::convert(const QString &outfn, const QString& infn)
 {
 
+    if(outfn.isEmpty() || infn.isEmpty())
+        return;
+
+    QFileInfo inFileInfo(infn);
+    QFileInfo outFileInfo(outfn);
+
+    QString infn_without_ext(QDir::toNativeSeparators(QString(inFileInfo.absolutePath() + "/" + inFileInfo.completeBaseName())));
+    QString outfn_without_ext(QDir::toNativeSeparators(QString(outFileInfo.absolutePath() + "/" + outFileInfo.completeBaseName())));
+    QString infn_ext(inFileInfo.suffix());
+    QString outfn_ext(outFileInfo.suffix());
+
+    QString frontConverterIn;
+    QString frontConverterOut;
+    QString midConverterIn;
+    QString midConverterOut;
+    QString backConverterIn;
+    QString backConverterOut;
+
     // todo:
     // Implement pre- and post- stages
 
     // is the input format to be handled by a specialist converter ?
-    //  f: no need for frontConverter
-    //      midConverter:   _infn = infn
-    //  t:
-    //      frontConverter: _infn = infn
-    //      frontConverter: _outfn = infn_path_without_ext.wav
-    //      midConverter:   _infn = infn_path_without_ext.wav
+    if(infn_ext.contains("mp3")) {
+        frontConverterIn = infn;
+        frontConverterOut = infn_without_ext + ".wav";
+        midConverterIn = frontConverterOut;
+    } else {
+        midConverterIn = infn;
+    }
 
     // is the output format to be handled by a specialist converter ?
-    //  f: no need for backConverter
-    //      midConverter:   _outfn = outfn
-    //  t:
-    //      midConverter:   _outfn = outfn_path_without_ext.wav
-    //      backConverter:  _infn = outfn_path_without_ext.wav
-    //      backConverter:  _outfn = outfn
+    if(outfn_ext.contains("mp3")) {
+        midConverterOut = outfn_without_ext + ".wav";
+        backConverterIn = midConverterOut;
+        backConverterOut = outfn;
+    } else {
+         midConverterOut = outfn;;
+    }
 
      // prepare central conversion:
     QString midCommandLine = getQuotedArgs(prepareMidConverterArgs(outfn, infn)).join(" ");
