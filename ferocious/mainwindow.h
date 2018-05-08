@@ -53,6 +53,7 @@ public:
     ~MainWindow();
     QString ConverterPath;
     QString MultiFileSeparator;
+    static QStringList getQuotedArgs(const QStringList &args);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -136,7 +137,7 @@ private:
     void getResamplerVersion();   // function to retrieve version number of main external converter
     void ProcessOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
-    QStringList prepareReSamplerArgs(const QString &outfn, const QString &infn); // prepare commandline args for ReSampler
+    QStringList prepareMidConverterArgs(const QString &outfn, const QString &infn); // prepare commandline args for ReSampler
     void wildcardPushToQueue(const QString &inFilename); // interpret filename containing wildcards, and push tasks onto queue as appropraite
     void convertNext(); // perform conversion task from front of queue, then remove task from queue
     void applyStylesheet();

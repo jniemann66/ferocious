@@ -655,29 +655,25 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     // Implement pre- and post- stages
 
 
-    // prepare central conversion:
-    QStringList args = prepareReSamplerArgs(outfn, infn);
 
-    // wrap args in quotes if necessary:
-    // 1. spaces definitely need quotes
-    // 2. parentheses and backslashes, and probably a whole lot of other characters, can cause problems with bash
+    //QStringList args = prepareMidConverterArgs(outfn, infn);
 
-    QStringList quotedArgs;
-    for(QString& arg : args) {
-        quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
-    }
+
+     // prepare central conversion:
+    QString midCommandLine = getQuotedArgs(prepareMidConverterArgs(outfn, infn)).join(" ");
 
     if(launchType == LaunchType::Convert) {
 
         if(ui->actionMock_Conversion->isChecked()) {
-            ui->ConverterOutputText->append("<font color=\"orange\">" + QDir::toNativeSeparators(ConverterPath) + " " + quotedArgs.join(" ") + "</font>");
+            ui->ConverterOutputText->append("<font color=\"orange\">" + midCommandLine + "</font>");
             QTimer::singleShot(25, [this] {
                 on_ConverterFinished(0, QProcess::NormalExit);
             });
         }
         else {
             converter.setProcessChannelMode(QProcess::SeparateChannels);
-            converter.start(ConverterPath, args);
+            converter.start(midCommandLine);
+            //converter.start() (ConverterPath, args);
         }
     }
 
@@ -686,10 +682,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
        // get current clipboard text and append new line to it:
        QString clipText = QGuiApplication::clipboard()->text();
        QTextStream out(&clipText);
-       out << QDir::toNativeSeparators(ConverterPath);
-       out << " ";
-       out << quotedArgs.join(" ");
-       out << "\n";
+       out << midCommandLine << "\n";
        QGuiApplication::clipboard()->setText(clipText);
 
        QTimer::singleShot(5, [this] {
@@ -698,9 +691,25 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     }
 }
 
-QStringList MainWindow::prepareReSamplerArgs(const QString &outfn, const QString& infn) {
+
+// getQuotedArgs() : wrap args in quotes if necessary
+// 1. spaces definitely need quotes
+// 2. parentheses and backslashes, and probably a whole lot of other characters, can cause problems with bash
+
+QStringList MainWindow::getQuotedArgs(const QStringList& args) {
+    QStringList quotedArgs;
+    for(const QString& arg : args) {
+        quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
+    }
+    return quotedArgs;
+}
+
+QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QString& infn) {
 
     QStringList args;
+
+    // start with the program
+    args << QDir::toNativeSeparators(ConverterPath);
 
     // format args: Main
     args << "-i" << infn << "-o" << outfn << "-r" << ui->SamplerateCombo->currentText();
