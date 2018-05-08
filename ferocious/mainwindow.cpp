@@ -654,10 +654,21 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     // todo:
     // Implement pre- and post- stages
 
+    // is the input format to be handled by a specialist converter ?
+    //  f: no need for frontConverter
+    //      midConverter:   _infn = infn
+    //  t:
+    //      frontConverter: _infn = infn
+    //      frontConverter: _outfn = infn_path_without_ext.wav
+    //      midConverter:   _infn = infn_path_without_ext.wav
 
-
-    //QStringList args = prepareMidConverterArgs(outfn, infn);
-
+    // is the output format to be handled by a specialist converter ?
+    //  f: no need for backConverter
+    //      midConverter:   _outfn = outfn
+    //  t:
+    //      midConverter:   _outfn = outfn_path_without_ext.wav
+    //      backConverter:  _infn = outfn_path_without_ext.wav
+    //      backConverter:  _outfn = outfn
 
      // prepare central conversion:
     QString midCommandLine = getQuotedArgs(prepareMidConverterArgs(outfn, infn)).join(" ");
