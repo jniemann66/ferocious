@@ -16,6 +16,7 @@ struct ConverterDefinition
     QString comment;
     QString inputFileExt;
     QString outputFileExt;
+    QString executableName;
     QString executablePath;
     QString commandLine;
     QStringList downloadLocations;

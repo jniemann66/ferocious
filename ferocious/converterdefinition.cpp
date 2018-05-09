@@ -8,6 +8,7 @@ void ConverterDefinition::fromJson(const QJsonObject &json)
     comment = json.value("comment").toString();
     inputFileExt = json.value("inputfileext").toString();
     outputFileExt = json.value("outputfileext").toString();
+    executableName = json.value("executablename").toString();
     executablePath = json.value("executablepath").toString();
     commandLine = json.value("commandline").toString();
 
@@ -33,6 +34,7 @@ QJsonObject ConverterDefinition::toJson() const
     json.insert("comment", comment);
     json.insert("inputfileext", inputFileExt);
     json.insert("outputfileext", outputFileExt);
+    json.insert("executablename", executableName);
     json.insert("executablepath", executablePath);
     json.insert("commandline", commandLine);
 

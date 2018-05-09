@@ -1,39 +1,39 @@
 [
     {
-        "commandline": "{p} {i} {o}",
+        "commandline": "{i} {o}",
         "comment": "Decode mp3 to wav using Lame",
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
         ],
         "enabled": true,
         "executablepath": "c:\\bin\\lame.exe",
-        "inputfileext": ".mp3",
+        "inputfileext": "mp3",
+        "outputfileext": "wav",
         "name": "Decode mp3 with Lame",
         "operatingsystems": [
             "win",
             "linux",
             "macos"
         ],
-        "outputfileext": ".wav",
         "priority": 0
     }
 ,
     {
-        "commandline": "{p} -V2 {i} {o}",
+        "commandline": "-V2 {i} {o}",
         "comment": "Encode wav to mp3 using Lame",
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
         ],
         "enabled": true,
         "executablepath": "c:\\bin\\lame.exe",
-        "inputfileext": ".wav",
+        "inputfileext": "wav",
+        "outputfileext": "mp3",
         "name": "Encode mp3 with Lame",
         "operatingsystems": [
             "win",
             "linux",
             "macos"
         ],
-        "outputfileext": ".mp3",
         "priority": 0
     }
 ]

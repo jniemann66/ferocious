@@ -673,11 +673,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     QString midCommandLine;
     QString backCommandLine;
 
-    // todo:
-    // Implement pre- and post- stages
-
-
-
     // is the input format to be handled by a specialist converter ?
     ConverterDefinition frontConverter = getSpecialistConverter(infn_ext, "wav");
     if(frontConverter.name.isEmpty()) {
@@ -686,7 +681,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         frontConverterIn = infn;
         frontConverterOut = infn_without_ext + ".wav";
         midConverterIn = frontConverterOut;
-        frontCommandLine = getQuotedArgs(prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn)).join(" ");
+        frontCommandLine = prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn).join(" ");
     }
 
     // is the output format to be handled by a specialist converter ?
@@ -697,23 +692,35 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
         midConverterOut = outfn_without_ext + ".wav";
         backConverterIn = midConverterOut;
         backConverterOut = outfn;
-        backCommandLine = getQuotedArgs(prepareSpecialistConverterArgs(backConverter,  backConverterOut, backConverterIn)).join(" ");
+        backCommandLine = prepareSpecialistConverterArgs(backConverter,  backConverterOut, backConverterIn).join(" ");
     }
 
      // prepare central conversion:
-    midCommandLine = getQuotedArgs(prepareMidConverterArgs(outfn, infn)).join(" ");
+    midCommandLine = getQuotedArgs(prepareMidConverterArgs(midConverterOut, midConverterIn)).join(" ");
+
+    QStringList combinedArgs;
+    if(!frontCommandLine.isEmpty())
+        combinedArgs << frontCommandLine;
+
+    if(!midCommandLine.isEmpty())
+        combinedArgs << midCommandLine;
+
+    if(!backCommandLine.isEmpty())
+        combinedArgs << backCommandLine;
+
+    QString completeCmdLine = combinedArgs.join(QByteArray(" && "));
 
     if(launchType == LaunchType::Convert) {
 
         if(ui->actionMock_Conversion->isChecked()) {
-            ui->ConverterOutputText->append("<font color=\"orange\">" + midCommandLine + "</font>");
+            ui->ConverterOutputText->append("<font color=\"orange\">" + completeCmdLine + "</font>");
             QTimer::singleShot(25, [this] {
                 on_ConverterFinished(0, QProcess::NormalExit);
             });
         }
         else {
             converter.setProcessChannelMode(QProcess::SeparateChannels);
-            converter.start(midCommandLine);
+            converter.start(completeCmdLine);
             //converter.start() (ConverterPath, args);
         }
     }
@@ -723,7 +730,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
        // get current clipboard text and append new line to it:
        QString clipText = QGuiApplication::clipboard()->text();
        QTextStream out(&clipText);
-       out << midCommandLine << "\n";
+       out << completeCmdLine << "\n";
        QGuiApplication::clipboard()->setText(clipText);
 
        QTimer::singleShot(5, [this] {
@@ -755,10 +762,10 @@ QStringList MainWindow::getQuotedArgs(const QStringList& args) {
 
 
 QStringList MainWindow::prepareSpecialistConverterArgs(const ConverterDefinition& converterDefinition, const QString& outfn, const QString& infn) {
-    Q_UNUSED(converterDefinition);
-    Q_UNUSED(outfn);
-    Q_UNUSED(infn);
     QStringList args;
+    QString params = converterDefinition.commandLine;
+    params.replace("{i}", "\"" + infn + "\"").replace("{o}", "\"" + outfn + "\"");
+    args << converterDefinition.executablePath << params;
     return args;
 }
 
@@ -908,12 +915,13 @@ ConverterDefinition MainWindow::getSampleConverterDefinition() {
         true,
         "Lame Decode mp3",
         "Lame mp3 converter",
-        ".mp3",
-        ".wav",
+        "mp3",
+        "wav",
         "lame.exe",
-        "lame -V2 {i} {o}",
+        "c:\\bin\\lame.exe",
+        "-V2 {i} {o}",
         {"http://lame.sourceforge.net/download.php"},
-        {"win", "linux", "macos"}
+        {"win"}
     };
     return d;
 }
