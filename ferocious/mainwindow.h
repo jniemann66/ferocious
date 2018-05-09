@@ -152,6 +152,8 @@ private:
     void saveConverterDefinitions(const QString &fileName) const;
     ConverterDefinition getSampleConverterDefinition();
     bool testConverterDefinitionIO();
+    ConverterDefinition getSpecialistConverter(const QString &inExt, const QString &outExt);
+    QStringList prepareSpecialistConverterArgs(const ConverterDefinition &converterDefinition, const QString &outfn, const QString &infn);
 };
 
 #endif // MAINWINDOW_H

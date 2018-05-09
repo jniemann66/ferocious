@@ -669,29 +669,39 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     QString backConverterIn;
     QString backConverterOut;
 
+    QString frontCommandLine;
+    QString midCommandLine;
+    QString backCommandLine;
+
     // todo:
     // Implement pre- and post- stages
 
+
+
     // is the input format to be handled by a specialist converter ?
-    if(infn_ext.contains("mp3")) {
+    ConverterDefinition frontConverter = getSpecialistConverter(infn_ext, "wav");
+    if(frontConverter.name.isEmpty()) {
+         midConverterIn = infn;
+    } else {
         frontConverterIn = infn;
         frontConverterOut = infn_without_ext + ".wav";
         midConverterIn = frontConverterOut;
-    } else {
-        midConverterIn = infn;
+        frontCommandLine = getQuotedArgs(prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn)).join(" ");
     }
 
     // is the output format to be handled by a specialist converter ?
-    if(outfn_ext.contains("mp3")) {
+    ConverterDefinition backConverter = getSpecialistConverter("wav", outfn_ext);
+    if(backConverter.name.isEmpty()) {
+        midConverterOut = outfn;
+    } else {
         midConverterOut = outfn_without_ext + ".wav";
         backConverterIn = midConverterOut;
         backConverterOut = outfn;
-    } else {
-         midConverterOut = outfn;
+        backCommandLine = getQuotedArgs(prepareSpecialistConverterArgs(backConverter,  backConverterOut, backConverterIn)).join(" ");
     }
 
      // prepare central conversion:
-    QString midCommandLine = getQuotedArgs(prepareMidConverterArgs(outfn, infn)).join(" ");
+    midCommandLine = getQuotedArgs(prepareMidConverterArgs(outfn, infn)).join(" ");
 
     if(launchType == LaunchType::Convert) {
 
@@ -722,6 +732,14 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     }
 }
 
+ConverterDefinition MainWindow::getSpecialistConverter(const QString& inExt, const QString& outExt ) {
+    for(const ConverterDefinition& converterDefinition : converterDefinitions) {
+        if(converterDefinition.inputFileExt == inExt && converterDefinition.outputFileExt == outExt) {
+            return converterDefinition;
+        }
+    }
+    return ConverterDefinition();
+}
 
 // getQuotedArgs() : wrap args in quotes if necessary
 // 1. spaces definitely need quotes
@@ -733,6 +751,15 @@ QStringList MainWindow::getQuotedArgs(const QStringList& args) {
         quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
     }
     return quotedArgs;
+}
+
+
+QStringList MainWindow::prepareSpecialistConverterArgs(const ConverterDefinition& converterDefinition, const QString& outfn, const QString& infn) {
+    Q_UNUSED(converterDefinition);
+    Q_UNUSED(outfn);
+    Q_UNUSED(infn);
+    QStringList args;
+    return args;
 }
 
 QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QString& infn) {
