@@ -104,7 +104,7 @@ private:
     QMenu* browseInMenu;
 
     // state
-    QProcess converter;
+    QProcess process;
     QVector<conversionTask> conversionQueue;
     QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog

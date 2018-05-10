@@ -104,20 +104,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Add kinetic scroller to converter output
     QScroller::grabGesture(ui->ConverterOutputText->viewport(), QScroller::LeftMouseButtonGesture);
 
-    connect(&converter, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
-    connect(&converter, &QProcess::readyReadStandardError, this, &MainWindow::on_StderrAvailable);
-    connect(&converter, &QProcess::started, this, &MainWindow::on_ConverterStarted);
-    connect(&converter,
+    // load factory converter definitions
+    loadConverterDefinitions(":/converters.json");
+
+    // to-do:
+    // save / load converter definitions to disk
+    // only load definitions that match the OS
+    // check if each executable exists and disable/enable conveter accordingly
+    // write gui for editing converter definitions
+
+    connect(&process, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
+    connect(&process, &QProcess::readyReadStandardError, this, &MainWindow::on_StderrAvailable);
+    connect(&process, &QProcess::started, this, &MainWindow::on_ConverterStarted);
+    connect(&process,
             static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             this,
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
     );
     connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_convertButton_rightClicked);
     connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
-    connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
-
-    // load factory converter definitions
-    loadConverterDefinitions(":/converters.json");
+    connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);  
 }
 
 MainWindow::~MainWindow()
@@ -261,12 +267,12 @@ void MainWindow::writeSettings()
 
 void MainWindow::on_StderrAvailable()
 {
-     processConverterOutput(converter.readAllStandardError(), 2);
+     processConverterOutput(process.readAllStandardError(), 2);
 }
 
 void MainWindow::on_StdoutAvailable()
 {
-    processConverterOutput(converter.readAllStandardOutput(), 1);
+    processConverterOutput(process.readAllStandardOutput(), 1);
 }
 
 void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
@@ -679,6 +685,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
          midConverterIn = infn;
     } else {
         frontConverterIn = infn;
+        //to-do: put intermediate file in temp directory
         frontConverterOut = infn_without_ext + ".wav";
         midConverterIn = frontConverterOut;
         frontCommandLine = prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn).join(" ");
@@ -719,9 +726,15 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             });
         }
         else {
-            converter.setProcessChannelMode(QProcess::SeparateChannels);
-            converter.start(completeCmdLine);
-            //converter.start() (ConverterPath, args);
+            process.setProcessChannelMode(QProcess::SeparateChannels);
+
+#ifdef Q_OS_WIN
+            process.start("cmd.exe /c " + completeCmdLine);
+#else
+            converter.start("bash", QStringList() << "-c" << completeCmdLine);
+#endif
+
+            // to-do: delete intermediate file after conversion
         }
     }
 
@@ -1432,7 +1445,7 @@ void MainWindow::on_convertButton_rightClicked() {
 void MainWindow::on_stopRequested() {
     qDebug() << "STOP!";
     conversionQueue.clear();
-    converter.kill();
+    process.kill();
     ui->StatusLabel->setText("Status: conversion stopped");
 }
 

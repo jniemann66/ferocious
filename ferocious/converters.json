@@ -1,6 +1,6 @@
 [
     {
-        "commandline": "{i} {o}",
+        "commandline": "--decode --silent {i} {o}",
         "comment": "Decode mp3 to wav using Lame",
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
@@ -12,14 +12,12 @@
         "name": "Decode mp3 with Lame",
         "operatingsystems": [
             "win",
-            "linux",
-            "macos"
         ],
         "priority": 0
     }
 ,
     {
-        "commandline": "-V2 {i} {o}",
+        "commandline": "-V2 --nohist {i} {o}",
         "comment": "Encode wav to mp3 using Lame",
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
@@ -31,8 +29,6 @@
         "name": "Encode mp3 with Lame",
         "operatingsystems": [
             "win",
-            "linux",
-            "macos"
         ],
         "priority": 0
     }
