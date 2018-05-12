@@ -688,7 +688,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
          midConverterIn = infn;
     } else {
         frontConverterIn = infn;
-        //frontConverterOut = infn_without_ext + ".wav";
         frontConverterOut = QDir::toNativeSeparators(QDir::tempPath() + "/" + getRandomString(8) + ".wav");
         midConverterIn = frontConverterOut;
         frontCommandLine = prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn).join(" ");
@@ -699,7 +698,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(backConverter.name.isEmpty()) {
         midConverterOut = outfn;
     } else {
-        //midConverterOut = outfn_without_ext + ".wav";
         midConverterOut = QDir::toNativeSeparators(QDir::tempPath() + "/" + getRandomString(8) + ".wav");
         backConverterIn = midConverterOut;
         backConverterOut = outfn;
