@@ -11,7 +11,7 @@
         "outputfileext": "wav",
         "name": "Decode mp3 with Lame",
         "operatingsystems": [
-            "win",
+            "win"
         ],
         "priority": 0
     }
@@ -28,7 +28,7 @@
         "outputfileext": "mp3",
         "name": "Encode mp3 with Lame",
         "operatingsystems": [
-            "win",
+            "win"
         ],
         "priority": 0
     }

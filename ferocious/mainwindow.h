@@ -154,6 +154,7 @@ private:
     bool testConverterDefinitionIO();
     ConverterDefinition getSpecialistConverter(const QString &inExt, const QString &outExt);
     QStringList prepareSpecialistConverterArgs(const ConverterDefinition &converterDefinition, const QString &outfn, const QString &infn);
+    static QString getRandomString(int length);
 };
 
 #endif // MAINWINDOW_H

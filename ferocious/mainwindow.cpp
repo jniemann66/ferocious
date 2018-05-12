@@ -24,11 +24,14 @@
 #include <QScrollBar>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QTime>
 
 #define RECURSIVE_DIR_TRAVERSAL
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), launchType(LaunchType::Convert)
 {
+    qsrand(QTime::currentTime().msec());
+
     ui->setupUi(this);
     ui->SamplerateCombo->setCurrentText("44100");
 
@@ -685,8 +688,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
          midConverterIn = infn;
     } else {
         frontConverterIn = infn;
-        //to-do: put intermediate file in temp directory
-        frontConverterOut = infn_without_ext + ".wav";
+        //frontConverterOut = infn_without_ext + ".wav";
+        frontConverterOut = QDir::toNativeSeparators(QDir::tempPath() + "/" + getRandomString(8) + ".wav");
         midConverterIn = frontConverterOut;
         frontCommandLine = prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn).join(" ");
     }
@@ -696,7 +699,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(backConverter.name.isEmpty()) {
         midConverterOut = outfn;
     } else {
-        midConverterOut = outfn_without_ext + ".wav";
+        //midConverterOut = outfn_without_ext + ".wav";
+        midConverterOut = QDir::toNativeSeparators(QDir::tempPath() + "/" + getRandomString(8) + ".wav");
         backConverterIn = midConverterOut;
         backConverterOut = outfn;
         backCommandLine = prepareSpecialistConverterArgs(backConverter,  backConverterOut, backConverterIn).join(" ");
@@ -898,14 +902,15 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
 
 void MainWindow::loadConverterDefinitions(const QString& fileName) {
     QFile jsonFile(fileName);
-    jsonFile.open(QFile::ReadOnly);
-    QJsonDocument d = QJsonDocument::fromJson(jsonFile.readAll());
-    if(d.isArray()) {
-        converterDefinitions.clear();
-        for(const QJsonValue& v : d.array()) {
-            ConverterDefinition c;
-            c.fromJson(v.toObject());
-            converterDefinitions.append(c);
+    if(jsonFile.open(QFile::ReadOnly)) {
+        QJsonDocument d = QJsonDocument::fromJson(jsonFile.readAll());
+        if(d.isArray()) {
+            converterDefinitions.clear();
+            for(const QJsonValue& v : d.array()) {
+                ConverterDefinition c;
+                c.fromJson(v.toObject());
+                converterDefinitions.append(c);
+            }
         }
     }
 }
@@ -1470,4 +1475,14 @@ bool MainWindow::testConverterDefinitionIO(){
         qDebug() << converterDefinitions.first().toJson();
     }
     return result;
+}
+
+QString MainWindow::getRandomString(int length)
+{
+   QString s;
+   const QString charSet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+   for(int i = 0; i < length; ++i) {
+       s.append(charSet.at(qrand() % charSet.length()));
+   }
+   return s;
 }
