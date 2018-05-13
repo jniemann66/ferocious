@@ -682,6 +682,12 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     QString midCommandLine;
     QString backCommandLine;
 
+#ifdef Q_OS_WIN
+    const QString delCommand{"del"};
+#else
+    const QString delCommand{"rm"};
+#endif
+
     // is the input format to be handled by a specialist converter ?
     ConverterDefinition frontConverter = getSpecialistConverter(infn_ext, "wav");
     if(frontConverter.name.isEmpty()) {
@@ -711,11 +717,19 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(!frontCommandLine.isEmpty())
         combinedArgs << frontCommandLine;
 
-    if(!midCommandLine.isEmpty())
+    if(!midCommandLine.isEmpty()) {
         combinedArgs << midCommandLine;
+        if(!frontConverterOut.isEmpty()) {
+            combinedArgs << QString{"%1 %2"}.arg(delCommand).arg(frontConverterOut);  // add command to delete temp file
+        }
+    }
 
-    if(!backCommandLine.isEmpty())
+    if(!backCommandLine.isEmpty()) {
         combinedArgs << backCommandLine;
+        if(!midConverterOut.isEmpty()) {
+            combinedArgs << QString{"%1 %2"}.arg(delCommand).arg(midConverterOut);  // add command to delete temp file
+        }
+    }
 
     QString completeCmdLine = combinedArgs.join(QByteArray(" && "));
 
