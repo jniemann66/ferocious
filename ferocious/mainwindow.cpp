@@ -666,8 +666,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     QFileInfo inFileInfo(infn);
     QFileInfo outFileInfo(outfn);
 
-    QString infn_without_ext(QDir::toNativeSeparators(QString(inFileInfo.absolutePath() + "/" + inFileInfo.completeBaseName())));
-    QString outfn_without_ext(QDir::toNativeSeparators(QString(outFileInfo.absolutePath() + "/" + outFileInfo.completeBaseName())));
     QString infn_ext(inFileInfo.suffix());
     QString outfn_ext(outFileInfo.suffix());
 
