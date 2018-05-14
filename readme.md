@@ -1,6 +1,4 @@
 
-_Note: Be sure to check out the online version at [ferocious.juddn.com](http://ferocious.juddn.com) ... It also supports [Additional Formats](http://52.62.255.103:1337/fileformats) !!_
-
 ## Synopsis
 
 Ferocious File Converter is a high-quality audio file-format conversion tool, which utilitizes the resampling capabilities of its companion program, [ReSampler](https://github.com/jniemann66/ReSampler "ReSampler").
