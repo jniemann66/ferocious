@@ -654,14 +654,23 @@ void MainWindow::convertNext() {
     }
 }
 
-// convert() - the function that actually launches the converter
+// convert() - the function that actually launches the converter(s)
 // converts file infn to outfn using current parameters
+
+
 
 void MainWindow::convert(const QString &outfn, const QString& infn)
 {
-
     if(outfn.isEmpty() || infn.isEmpty())
         return;
+
+    // Up to three actual converters (ie conversion programs) may be employed to complete the conversion task.
+    // ReSampler is the middle converter, and specialist converters may also be patched-in at the front or back positions
+
+    // +-------------------+  +----------------------------+  +-------------------+
+    // |  front Converter  |  | Mid Converter (ReSsampler) |  |   back Converter  |
+    // | in            out |  | in                    out  |  | in            out |
+    // +-------------------+  +----------------------------+  +-------------------+
 
     QFileInfo inFileInfo(infn);
     QFileInfo outFileInfo(outfn);
@@ -748,7 +757,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
             converter.start("bash", QStringList() << "-c" << completeCmdLine);
 #endif
 
-            // to-do: delete intermediate file after conversion
         }
     }
 
