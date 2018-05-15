@@ -37,13 +37,30 @@
         "commandline": "-q 0.7 -if {i} -of {o}",
         "comment": "Encode wav to m4a using Nero AAC",
         "downloadlocations": [
-            "http://lame.sourceforge.net/download.php"
+            "https://en.wikipedia.org/wiki/Nero_AAC_Codec"
         ],
         "enabled": true,
         "executablepath": "c:\\bin\\neroAacEnc.exe",
         "inputfileext": "wav",
         "outputfileext": "m4a",
         "name": "Encode m4a with Nero AAC",
+        "operatingsystems": [
+            "win"
+        ],
+        "priority": 0
+    }
+,
+    {
+        "commandline": "-if {i} -of {o}",
+        "comment": "Decode m4a to wav using Nero AAC Decoder",
+        "downloadlocations": [
+            "https://en.wikipedia.org/wiki/Nero_AAC_Codec"
+        ],
+        "enabled": true,
+        "executablepath": "c:\\bin\\neroAacDec.exe",
+        "inputfileext": "m4a",
+        "outputfileext": "wav",
+        "name": "Decode m4a with Nero AAC Decoder",
         "operatingsystems": [
             "win"
         ],
