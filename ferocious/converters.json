@@ -113,7 +113,7 @@
         "downloadlocations": [
             "http://www.wavpack.com/downloads.html"
         ],
-        "enabled": true,
+        "enabled": false,
         "executable": "azid.exe",
         "executablepath": "c:\\bin\\azid.exe",
         "inputfileext": "ac3",
