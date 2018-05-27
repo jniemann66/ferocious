@@ -299,11 +299,10 @@ void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
     }
 
     if(!ConverterOutput.isEmpty()) {
-        if(channel == 2 ) {
-            ui->ConverterOutputText->append("<font color=\"#ff8080\">" + ConverterOutput + "</font>");
-        } else {
-            ui->ConverterOutputText->append("<font color=\"#66A334\">" + ConverterOutput + "</font>");
-        }
+        ui->ConverterOutputText->append(QString{"<font color=\"%1\"> %2 </font>"}
+            .arg(channel == 2 ? consoleRed : consoleGreen)
+            .arg(ConverterOutput)
+        );
         ui->ConverterOutputText->verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
     }
 }
@@ -607,6 +606,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
             QDir dir(QDir::toNativeSeparators(O.outputDirectory + "/" + sd));
             QString p(dir.absolutePath());
 
+             bool newDirCreated = false;
+
             if(launchType == LaunchType::Clipboard) {
                 if(!createdDirectoriesList.contains(p)) {
                     // get current clipboard text and append new line to it:
@@ -620,16 +621,23 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
             else if(ui->actionMock_Conversion->isChecked()) { // mock-create directory
                 if(!createdDirectoriesList.contains(p)) {
-                    ui->ConverterOutputText->append("<font color=\"#D6C878\">mkdir \"" + QDir::toNativeSeparators(p) + "\"</font>");
+                    newDirCreated = true;
                     createdDirectoriesList.append(p);
                 }
             }
 
             else { // create directory for real
                 if (!dir.exists()) {
-                    ui->ConverterOutputText->append("<font color=\"#D6C878\">mkdir " + QDir::toNativeSeparators(p) + "</font>");
+                    newDirCreated = true;
                     dir.mkpath(".");
                 }
+            }
+
+            if(newDirCreated) {
+                ui->ConverterOutputText->append(QString{"<font color=\"%1\"> mkdir %2 </font>"}
+                                                .arg(consoleYellow)
+                                                .arg(QDir::toNativeSeparators(p))
+                                                );
             }
         }
 
@@ -744,7 +752,10 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(launchType == LaunchType::Convert) {
 
         if(ui->actionMock_Conversion->isChecked()) {
-            ui->ConverterOutputText->append("<font color=\"#D6953E\">" + completeCmdLine + "</font>");
+            ui->ConverterOutputText->append(QString{"<font color=\"%1\"> mkdir %2 </font>"}
+                .arg(consoleAmber)
+                .arg(completeCmdLine)
+            );
             QTimer::singleShot(25, [this] {
                 on_ConverterFinished(0, QProcess::NormalExit);
             });
