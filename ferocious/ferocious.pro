@@ -26,7 +26,6 @@ SOURCES += main.cpp \
     filedropdialog.cpp \
     filedroptextedit.cpp \
     converterdefinition.cpp \
-    convertersview.cpp \
     convertersmodel.cpp
 
 HEADERS  += mainwindow.h \
@@ -38,7 +37,6 @@ HEADERS  += mainwindow.h \
     filedropdialog.h \
     filedroptextedit.h \
     converterdefinition.h \
-    convertersview.h \
     convertersmodel.h
 
 FORMS    += mainwindow.ui \
