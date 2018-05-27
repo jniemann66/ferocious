@@ -11,6 +11,7 @@ class ConverterOutputBox : public QTextBrowser
 {
 public:
     ConverterOutputBox(QWidget* parent = nullptr);
+
 protected:
     void contextMenuEvent(QContextMenuEvent* e) override;
 };

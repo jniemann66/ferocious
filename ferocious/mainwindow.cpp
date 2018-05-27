@@ -300,9 +300,9 @@ void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
 
     if(!ConverterOutput.isEmpty()) {
         if(channel == 2 ) {
-            ui->ConverterOutputText->append("<font color=\"red\">" + ConverterOutput + "</font>");
+            ui->ConverterOutputText->append("<font color=\"#ff8080\">" + ConverterOutput + "</font>");
         } else {
-            ui->ConverterOutputText->append(ConverterOutput);
+            ui->ConverterOutputText->append("<font color=\"#66A334\">" + ConverterOutput + "</font>");
         }
         ui->ConverterOutputText->verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
     }
@@ -620,14 +620,14 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
             else if(ui->actionMock_Conversion->isChecked()) { // mock-create directory
                 if(!createdDirectoriesList.contains(p)) {
-                    ui->ConverterOutputText->append("<font color=\"yellow\">mkdir \"" + QDir::toNativeSeparators(p) + "\"</font>");
+                    ui->ConverterOutputText->append("<font color=\"#D6C878\">mkdir \"" + QDir::toNativeSeparators(p) + "\"</font>");
                     createdDirectoriesList.append(p);
                 }
             }
 
             else { // create directory for real
                 if (!dir.exists()) {
-                    ui->ConverterOutputText->append("<font color=\"yellow\">mkdir " + QDir::toNativeSeparators(p) + "</font>");
+                    ui->ConverterOutputText->append("<font color=\"#D6C878\">mkdir " + QDir::toNativeSeparators(p) + "</font>");
                     dir.mkpath(".");
                 }
             }
@@ -744,7 +744,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(launchType == LaunchType::Convert) {
 
         if(ui->actionMock_Conversion->isChecked()) {
-            ui->ConverterOutputText->append("<font color=\"orange\">" + completeCmdLine + "</font>");
+            ui->ConverterOutputText->append("<font color=\"#D6953E\">" + completeCmdLine + "</font>");
             QTimer::singleShot(25, [this] {
                 on_ConverterFinished(0, QProcess::NormalExit);
             });
