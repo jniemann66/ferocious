@@ -1,8 +1,23 @@
 #include "convertersmodel.h"
 
-ConvertersModel::ConvertersModel(QObject* parent) : QAbstractTableModel(parent)
-{
+ConvertersModel::ConvertersModel(QObject* parent) : QAbstractTableModel(parent) {}
 
+QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, int role) const {
+   // if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return {};
+    switch (section) {
+    case 0: return "Priority";
+    case 1: return "Enabled";
+    case 2: return "Name";
+    case 3: return "Comment";
+    case 4: return "Input File Extension";
+    case 5: return "Output File Extension";
+    case 6: return "Executable";
+    case 7: return "Executable Path";
+    case 8: return "Command Line";
+    case 9: return "Download Locations";
+    case 10: return "Operating Systems";
+    default: return {};
+    }
 }
 
 QVariant ConvertersModel::data(const QModelIndex &index, int role) const
