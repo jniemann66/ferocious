@@ -1192,8 +1192,7 @@ void MainWindow::on_actionConverter_Location_triggered()
 
         if(!converterConfigurationDialog->getMainConverterPath().isEmpty()) {
             converterPath = converterConfigurationDialog->getMainConverterPath();
-            // get converter version:
-            getResamplerVersion();
+            getResamplerVersion();  // get converter version
         }
     }
 }
