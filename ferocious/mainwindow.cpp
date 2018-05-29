@@ -38,16 +38,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     browseInMenu = new QMenu(this);
     browseInMenu->setHidden(true);
     convertTaskMenu = new QMenu(this);
+    converterConfigurationDialog = new ConverterConfigurationDialog(this, Qt::Window);
     convertTaskMenu->setHidden(true);
 
     readSettings();
     applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.css")
 
-    if(ConverterPath.isEmpty()) {
-        ConverterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath
+    if(converterPath.isEmpty()) {
+        converterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath
     }
 
-    if(!fileExists(ConverterPath)) {
+    if(!fileExists(converterPath)) {
         QString s("Please locate the file: ");
         s.append(expectedConverter);
 
@@ -57,18 +58,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         QString filter = "";
 #endif
 
-        ConverterPath=QFileDialog::getOpenFileName(this,
+        converterPath=QFileDialog::getOpenFileName(this,
                                                    s,
                                                    QDir::currentPath(),
                                                    filter);
 
-        if(ConverterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
-            ConverterPath.clear();
+        if(converterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
+            converterPath.clear();
             QMessageBox::warning(this, tr("Converter Location"), tr("That is not the right program!\n"), QMessageBox::Ok);
         }
     }
 
-    if(!fileExists(ConverterPath)) {
+    if(!fileExists(converterPath)) {
         QMessageBox msgBox;
         QString s("The path to the required command-line program (");
         s.append(expectedConverter);
@@ -147,9 +148,9 @@ void MainWindow::readSettings()
     qDebug() << "Reading settings file: " << settings.fileName();
 
     settings.beginGroup("Paths");
-    MainWindow::ConverterPath = settings.value("ConverterPath", MainWindow::ConverterPath).toString();
-    if(ConverterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
-        ConverterPath.clear();
+    MainWindow::converterPath = settings.value("ConverterPath", MainWindow::converterPath).toString();
+    if(converterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
+        converterPath.clear();
     }
     MainWindow::inFileBrowsePath = settings.value("InputFileBrowsePath", MainWindow::inFileBrowsePath).toString();
     MainWindow::outFileBrowsePath = settings.value("OutputFileBrowsePath", MainWindow::outFileBrowsePath).toString();
@@ -230,7 +231,7 @@ void MainWindow::writeSettings()
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "JuddSoft", "Ferocious");
 
     settings.beginGroup("Paths");
-    settings.setValue("ConverterPath", MainWindow::ConverterPath);
+    settings.setValue("ConverterPath", MainWindow::converterPath);
     settings.setValue("InputFileBrowsePath", MainWindow::inFileBrowsePath);
     settings.setValue("OutputFileBrowsePath", MainWindow::outFileBrowsePath);
     settings.endGroup();
@@ -821,7 +822,7 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
     QStringList args;
 
     // start with the program
-    args << QDir::toNativeSeparators(ConverterPath);
+    args << QDir::toNativeSeparators(converterPath);
 
     // format args: Main
     args << "-i" << infn << "-o" << outfn << "-r" << ui->SamplerateCombo->currentText();
@@ -1108,7 +1109,7 @@ void MainWindow::PopulateBitFormats(const QString& fileName)
     int extidx = fileName.lastIndexOf(".");
     if(extidx > -1) {
         QString ext = fileName.right(fileName.length() - extidx - 1); // get file extension from file name
-        ConverterQuery.start(ConverterPath, QStringList() << "--listsubformats" << ext); // ask converter for a list of subformats for the given file extension
+        ConverterQuery.start(converterPath, QStringList() << "--listsubformats" << ext); // ask converter for a list of subformats for the given file extension
 
         if (!ConverterQuery.waitForFinished())
             return;
@@ -1126,7 +1127,7 @@ void MainWindow::getResamplerVersion()
 {
     QString v;
     QProcess ConverterQuery;
-    ConverterQuery.start(ConverterPath, QStringList() << "--version"); // ask converter for its version number
+    ConverterQuery.start(converterPath, QStringList() << "--version"); // ask converter for its version number
 
     if (!ConverterQuery.waitForFinished())
         return;
@@ -1185,23 +1186,12 @@ void MainWindow::on_DitherAmountEdit_editingFinished()
 
 void MainWindow::on_actionConverter_Location_triggered()
 {
-    QString s("Please locate the file: ");
-    s.append(expectedConverter);
+    converterConfigurationDialog->setExpectedMainConverter(expectedConverter);
+    converterConfigurationDialog->setMainConverterPath(converterPath);
+    if(converterConfigurationDialog->exec() == QDialog::Accepted) {
 
-#if defined (Q_OS_WIN)
-    QString filter = "*.exe";
-#else
-    QString filter = "";
-#endif
-
-    QString cp =QFileDialog::getOpenFileName(this, s, ConverterPath,  filter);
-
-    if(!cp.isNull()) {
-        ConverterPath = cp;
-        if(ConverterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
-            ConverterPath.clear();
-            QMessageBox::warning(this, tr("Converter Location"), tr("That is not the right program!\n"), QMessageBox::Ok);
-        } else {
+        if(!converterConfigurationDialog->getMainConverterPath().isEmpty()) {
+            converterPath = converterConfigurationDialog->getMainConverterPath();
             // get converter version:
             getResamplerVersion();
         }
@@ -1431,7 +1421,7 @@ void MainWindow::populateDitherProfileMenu()
 
     // Launch external process, and populate Menu using output from the process:
     QProcess ConverterQuery;
-    ConverterQuery.start(ConverterPath, QStringList() << "--showDitherProfiles");
+    ConverterQuery.start(converterPath, QStringList() << "--showDitherProfiles");
     if (!ConverterQuery.waitForFinished() || (ConverterQuery.exitCode() != 0)) {
         // note: earlier versions of ReSampler that don't understand --showDitherProfiles
         // are expected to return exitCode of 1

@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "converterconfigurationdialog.h"
+
 #include <QMainWindow>
 #include <QProcess>
 #include <QMenu>
@@ -56,7 +58,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    QString ConverterPath;
+    QString converterPath;
     QString MultiFileSeparator;
     static QStringList getQuotedArgs(const QStringList &args);
 
@@ -107,6 +109,7 @@ private:
     Ui::MainWindow *ui;
     QMenu* convertTaskMenu;
     QMenu* browseInMenu;
+    ConverterConfigurationDialog* converterConfigurationDialog;
 
     // state
     QProcess process;
