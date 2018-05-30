@@ -1,6 +1,8 @@
 #include "converterconfigurationdialog.h"
 
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDialogButtonBox>
@@ -9,8 +11,11 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 {
     // allocate
     auto mainLayout = new QVBoxLayout;
+    auto mainConverterLayout = new QHBoxLayout;
     mainConverterLocationLabel = new QLabel("Location of Main Converter:");
     mainConverterLocationEdit = new FancyLineEdit;
+    browseButton = new QPushButton("Browse ...");
+
     additionalConvertersLabel = new QLabel("Additional converters:");
     auto stdButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
@@ -22,7 +27,10 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
     // attach widgets to main layout
     mainLayout->addWidget(mainConverterLocationLabel);
-    mainLayout->addWidget(mainConverterLocationEdit);
+    mainConverterLayout->addWidget(mainConverterLocationEdit);
+    mainConverterLayout->addWidget(browseButton);
+    mainLayout->addLayout(mainConverterLayout);
+
     mainLayout->addWidget(additionalConvertersLabel);
     mainLayout->addWidget(&tableView);
     mainLayout->addWidget(stdButtons);
@@ -32,8 +40,10 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     connect(mainConverterLocationEdit, &QLineEdit::editingFinished, this, [this]{
        mainConverterPath = mainConverterLocationEdit->text();
     });
+    connect(browseButton, &QPushButton::clicked, this, &ConverterConfigurationDialog::promptForResamplerLocation);
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
+
 }
 
 void ConverterConfigurationDialog::showEvent(QShowEvent* event) {

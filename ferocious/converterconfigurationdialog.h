@@ -30,6 +30,7 @@ private:
     QLabel* mainConverterLocationLabel;
     QLabel* additionalConvertersLabel;
     FancyLineEdit* mainConverterLocationEdit;
+    QPushButton* browseButton;
     QTableView tableView;
     ConvertersModel convertersModel;
     QString expectedMainConverter;
