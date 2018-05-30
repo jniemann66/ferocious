@@ -15,6 +15,8 @@ public:
     int columnCount(const QModelIndex &) const override { return 11; }
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    QVector<ConverterDefinition> getConverterDefinitions() const;
+    void setConverterDefinitions(const QVector<ConverterDefinition> &value);
 };
 
 #endif // CONVERTERSMODEL_H

@@ -58,6 +58,16 @@ void ConverterConfigurationDialog::showEvent(QShowEvent* event) {
     QDialog::showEvent(event);
 }
 
+QVector<ConverterDefinition> ConverterConfigurationDialog::getConverterDefinitions() const
+{
+    return convertersModel.getConverterDefinitions();
+}
+
+void ConverterConfigurationDialog::setConverterDefinitions(const QVector<ConverterDefinition> &value)
+{
+    convertersModel.setConverterDefinitions(value);
+}
+
 
 void ConverterConfigurationDialog::promptForResamplerLocation() {
     QString s("Please locate the file: ");

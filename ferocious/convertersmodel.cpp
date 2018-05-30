@@ -2,6 +2,8 @@
 
 ConvertersModel::ConvertersModel(QObject* parent) : QAbstractTableModel(parent) {}
 
+
+
 QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, int role) const {
     Q_UNUSED(orientation); // if (orientation != Qt::Horizontal ...
     if (role != Qt::DisplayRole) return {};
@@ -42,4 +44,17 @@ QVariant ConvertersModel::data(const QModelIndex &index, int role) const
     case 10: return converter.operatingSystems;
     default: return {};
     };
+}
+
+QVector<ConverterDefinition> ConvertersModel::getConverterDefinitions() const
+{
+    QVector<ConverterDefinition> converterDefinitions; // todo
+    return converterDefinitions;
+}
+
+void ConvertersModel::setConverterDefinitions(const QVector<ConverterDefinition> &value)
+{
+    Q_UNUSED(value);
+    // todo
+
 }

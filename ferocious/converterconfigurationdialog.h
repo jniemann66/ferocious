@@ -21,6 +21,9 @@ public:
     QString getMainConverterPath() const;
     void setMainConverterPath(const QString &value);
 
+    QVector<ConverterDefinition> getConverterDefinitions() const;
+    void setConverterDefinitions(const QVector<ConverterDefinition> &value);
+
 public slots:
 
 protected:
