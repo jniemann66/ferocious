@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDialogButtonBox>
+#include <QHeaderView>
 
 ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f) : QDialog(parent, f)
 {
@@ -21,6 +22,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
     // set model
     tableView.setModel(&convertersModel);
+
+    tableView.verticalHeader()->setHidden(true);
+
 
     // configure widgets
     mainConverterLocationEdit->hideEditButton();
@@ -43,9 +47,6 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     connect(browseButton, &QPushButton::clicked, this, &ConverterConfigurationDialog::promptForResamplerLocation);
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
-
-
-
 }
 
 void ConverterConfigurationDialog::showEvent(QShowEvent* event) {
@@ -58,6 +59,17 @@ void ConverterConfigurationDialog::showEvent(QShowEvent* event) {
     mainConverterLocationEdit->setText(mainConverterPath);
 
     QDialog::showEvent(event);
+}
+
+void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
+{
+    int tw = event->size().width();
+    int w = tw / convertersModel.columnCount({});
+    for(int col = 0; col < convertersModel.columnCount({}); col++) {
+        tableView.setColumnWidth(col, w);
+    }
+
+    QDialog::resizeEvent(event);
 }
 
 QVector<ConverterDefinition> ConverterConfigurationDialog::getConverterDefinitions() const
