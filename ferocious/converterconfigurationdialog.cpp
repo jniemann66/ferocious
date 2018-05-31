@@ -44,6 +44,8 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
+
+
 }
 
 void ConverterConfigurationDialog::showEvent(QShowEvent* event) {

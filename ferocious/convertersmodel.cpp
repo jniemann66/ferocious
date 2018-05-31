@@ -5,8 +5,7 @@ ConvertersModel::ConvertersModel(QObject* parent) : QAbstractTableModel(parent) 
 
 
 QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, int role) const {
-    Q_UNUSED(orientation); // if (orientation != Qt::Horizontal ...
-    if (role != Qt::DisplayRole) return {};
+    if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return {};
 
     switch (section) {
     case 0: return "Priority";
