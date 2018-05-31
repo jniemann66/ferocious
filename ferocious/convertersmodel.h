@@ -7,7 +7,7 @@
 
 class ConvertersModel : public QAbstractTableModel
 {
-    QList<ConverterDefinition> converterDefinitions;
+    QVector<ConverterDefinition> converterDefinitions;
 
 public:
     ConvertersModel(QObject *parent = nullptr);

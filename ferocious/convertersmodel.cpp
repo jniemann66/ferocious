@@ -54,7 +54,5 @@ QVector<ConverterDefinition> ConvertersModel::getConverterDefinitions() const
 
 void ConvertersModel::setConverterDefinitions(const QVector<ConverterDefinition> &value)
 {
-    Q_UNUSED(value);
-    // todo
-
+    converterDefinitions = value;
 }
