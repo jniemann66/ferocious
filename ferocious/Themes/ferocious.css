@@ -316,6 +316,7 @@ QTableView {
 	border:  0px solid #1b2018;
 }
 
+
 QHeaderView::section {
 	color: #fff;
 	border: 1px solid #1b2018;
@@ -324,7 +325,6 @@ QHeaderView::section {
 	fx: 0.3, fy: -0.4,
 	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
 	padding: 2px;
-	min-width: 66px;
 }
 
 /* -------------------- */
