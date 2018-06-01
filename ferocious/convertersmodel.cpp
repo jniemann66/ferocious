@@ -2,8 +2,6 @@
 
 ConvertersModel::ConvertersModel(QObject* parent) : QAbstractTableModel(parent) {}
 
-
-
 QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return {};
 
@@ -47,7 +45,7 @@ QVariant ConvertersModel::data(const QModelIndex &index, int role) const
 
 QVector<ConverterDefinition> ConvertersModel::getConverterDefinitions() const
 {
-    QVector<ConverterDefinition> converterDefinitions; // todo
+    QVector<ConverterDefinition> converterDefinitions;
     return converterDefinitions;
 }
 
