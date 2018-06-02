@@ -23,7 +23,6 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     // set model
     tableView.setModel(&convertersModel);
     tableView.verticalHeader()->setHidden(true);
-    //tableView.horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     // configure widgets
     mainConverterLocationEdit->hideEditButton();
