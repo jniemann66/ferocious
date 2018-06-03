@@ -64,11 +64,11 @@ void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
     int tw = event->size().width();
     int w = tw / convertersModel.columnCount({});
     tableView.horizontalHeader()->setDefaultSectionSize(w);
-   // for(int col = 0; col < convertersModel.columnCount({}); col++) {
-    //    tableView.setColumnWidth(col, w);
-    //tableView.horizontalHeader()->resizeSection(5, w);
 
-   // }
+//    for(int col = 0; col < convertersModel.columnCount({}); col++) {
+//        tableView.setColumnWidth(col, w);
+//        tableView.horizontalHeader()->resizeSection(5, w);
+//    }
 
     tableView.horizontalHeader()->setHidden(false);
 
