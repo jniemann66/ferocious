@@ -254,6 +254,19 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 	background: none;
 }
 
+QTableView {
+	background-color: black;
+	border:  0px solid #1b2018;
+}
+
+
+QHeaderView::section {
+	color: #fff;
+	border: 1px solid #1b2018;
+	padding: 2px;
+}
+
+
 /* -------------------- */
 
 QTextBrowser {
