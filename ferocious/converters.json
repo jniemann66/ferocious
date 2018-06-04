@@ -6,7 +6,7 @@
             "http://lame.sourceforge.net/download.php"
         ],
         "enabled": true,
-        "executable": "lame.exe",
+        "executablename": "lame.exe",
         "executablepath": "c:\\bin\\lame.exe",
         "inputfileext": "mp3",
         "outputfileext": "wav",
@@ -24,7 +24,7 @@
             "http://lame.sourceforge.net/download.php"
         ],
         "enabled": true,
-        "executable": "lame.exe",
+        "executablename": "lame.exe",
         "executablepath": "c:\\bin\\lame.exe",
         "inputfileext": "wav",
         "outputfileext": "mp3",
@@ -42,7 +42,7 @@
             "https://en.wikipedia.org/wiki/Nero_AAC_Codec"
         ],
         "enabled": true,
-        "executable": "neroAacEnc.exe",
+        "executablename": "neroAacEnc.exe",
         "executablepath": "c:\\bin\\neroAacEnc.exe",
         "inputfileext": "wav",
         "outputfileext": "m4a",
@@ -60,7 +60,7 @@
             "https://en.wikipedia.org/wiki/Nero_AAC_Codec"
         ],
         "enabled": true,
-        "executable": "neroAacDec.exe",
+        "executablename": "neroAacDec.exe",
         "executablepath": "c:\\bin\\neroAacDec.exe",
         "inputfileext": "m4a",
         "outputfileext": "wav",
@@ -78,7 +78,7 @@
             "http://www.wavpack.com/downloads.html"
         ],
         "enabled": true,
-        "executable": "wvunpack.exe",
+        "executablename": "wvunpack.exe",
         "executablepath": "c:\\bin\\wvunpack.exe",
         "inputfileext": "wv",
         "outputfileext": "wav",
@@ -96,7 +96,7 @@
             "http://www.wavpack.com/downloads.html"
         ],
         "enabled": true,
-        "executable": "wavpack.exe",
+        "executablename": "wavpack.exe",
         "executablepath": "c:\\bin\\wavpack.exe",
         "inputfileext": "wav",
         "outputfileext": "wv",
@@ -114,7 +114,7 @@
             "http://www.wavpack.com/downloads.html"
         ],
         "enabled": false,
-        "executable": "azid.exe",
+        "executablename": "azid.exe",
         "executablepath": "c:\\bin\\azid.exe",
         "inputfileext": "ac3",
         "outputfileext": "wav",
