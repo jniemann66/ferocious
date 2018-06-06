@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QDialogButtonBox>
 #include <QHeaderView>
+#include <QDebug>
 
 ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f) : QDialog(parent, f)
 {
@@ -15,6 +16,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     auto mainConverterLayout = new QHBoxLayout;
     mainConverterLocationLabel = new QLabel("Location of Main Converter:");
     mainConverterLocationEdit = new FancyLineEdit;
+    contextMenu = new QMenu(this);
     browseButton = new QPushButton("Browse ...");
 
     additionalConvertersLabel = new QLabel("Additional converters:");
@@ -27,6 +29,20 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.verticalHeader()->setHidden(true);
     tableView.setSelectionMode(QAbstractItemView::SingleSelection);
     tableView.setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableView.setContextMenuPolicy(Qt::CustomContextMenu);
+
+    // configure menu
+    contextMenu->addAction("Edit", [this]{
+       onEditRequested(tableView.currentIndex());
+    });
+
+    contextMenu->addAction("Delete", [this]{
+       onDeleteRequested(tableView.currentIndex());
+    });
+
+    contextMenu->addAction("Clone", [this]{
+       onCloneRequested(tableView.currentIndex());
+    });
 
     // configure widgets
     mainConverterLocationEdit->hideEditButton();
@@ -47,6 +63,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
        mainConverterPath = mainConverterLocationEdit->text();
     });
     connect(browseButton, &QPushButton::clicked, this, &ConverterConfigurationDialog::promptForResamplerLocation);
+    connect(&tableView, &QWidget::customContextMenuRequested, this, [this](const QPoint& pos){
+        contextMenu->popup(QPoint{this->mapToGlobal(pos).x(), this->mapToGlobal(pos).y() + contextMenu->sizeHint().height()});
+    });
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
@@ -129,4 +148,26 @@ QString ConverterConfigurationDialog::getExpectedMainConverter() const
 void ConverterConfigurationDialog::setExpectedMainConverter(const QString &value)
 {
     expectedMainConverter = value;
+}
+
+void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex)
+{
+    int row = modelIndex.row();
+    auto dlg = new ConverterConfigurationEditDialog(this);
+    QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
+    qDebug() << converterDefinitions.count();
+    if(row < converterDefinitions.count()) {
+        dlg->setConverterDefinition(converterDefinitions.at(row));
+        dlg->exec();
+    }
+}
+
+void ConverterConfigurationDialog::onDeleteRequested(const QModelIndex& modelIndex)
+{
+    qDebug() << "delete row " << modelIndex.row();
+}
+
+void ConverterConfigurationDialog::onCloneRequested(const QModelIndex& modelIndex)
+{
+    qDebug() << "clone row " << modelIndex.row();
 }

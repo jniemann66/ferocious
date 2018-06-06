@@ -45,7 +45,6 @@ QVariant ConvertersModel::data(const QModelIndex &index, int role) const
 
 QVector<ConverterDefinition> ConvertersModel::getConverterDefinitions() const
 {
-    QVector<ConverterDefinition> converterDefinitions;
     return converterDefinitions;
 }
 

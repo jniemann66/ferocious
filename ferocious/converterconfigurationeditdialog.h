@@ -14,6 +14,9 @@ class ConverterConfigurationEditDialog : public QDialog
 public:
     ConverterConfigurationEditDialog(QWidget* parent);
 
+    ConverterDefinition getConverterDefinition() const;
+    void setConverterDefinition(const ConverterDefinition &value);
+
 private:
     QLineEdit* priorityEdit;
     QCheckBox* enabledCheckbox;
@@ -24,6 +27,8 @@ private:
     QLineEdit* executableEdit;
     QLineEdit* executablePathEdit;
     QLineEdit* commandLineEdit;
+
+    ConverterDefinition converterDefinition;
 
 };
 

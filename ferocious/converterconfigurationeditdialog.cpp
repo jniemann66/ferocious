@@ -50,3 +50,23 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
 
     this->setLayout(mainLayout);
 }
+
+ConverterDefinition ConverterConfigurationEditDialog::getConverterDefinition() const
+{
+    return converterDefinition;
+}
+
+void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDefinition &value)
+{
+    converterDefinition = value;
+
+    priorityEdit->setText(QString::number(converterDefinition.priority));
+    enabledCheckbox->setChecked(converterDefinition.enabled);
+    nameEdit->setText(converterDefinition.name);
+    commentEdit->setText(converterDefinition.comment);
+    inputFileExtEdit->setText(converterDefinition.inputFileExt);
+    outputFileExtEdit->setText(converterDefinition.outputFileExt);
+    executableEdit->setText(converterDefinition.executable);
+    executablePathEdit->setText(converterDefinition.executablePath);
+    commandLineEdit->setText(converterDefinition.commandLine);
+}

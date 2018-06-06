@@ -3,15 +3,18 @@
 
 #include "convertersmodel.h"
 #include "fancylineedit.h"
+#include "converterconfigurationeditdialog.h"
 
 #include <QObject>
 #include <QDialog>
 #include <QLineEdit>
 #include <QTableView>
-
+#include <Qmenu>
 
 class ConverterConfigurationDialog : public QDialog
 {
+    Q_OBJECT
+
 public:
     ConverterConfigurationDialog(QWidget *parent, Qt::WindowFlags f);
 
@@ -30,15 +33,22 @@ protected:
     void showEvent(QShowEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
 
+private slots:
+    void onEditRequested(const QModelIndex &modelIndex);
+    void onDeleteRequested(const QModelIndex &modelIndex);
+    void onCloneRequested(const QModelIndex &modelIndex);
+
 private:
     QLabel* mainConverterLocationLabel;
     QLabel* additionalConvertersLabel;
     FancyLineEdit* mainConverterLocationEdit;
     QPushButton* browseButton;
+    QMenu* contextMenu;
     QTableView tableView;
     ConvertersModel convertersModel;
     QString expectedMainConverter;
     QString mainConverterPath;
+
 
     void promptForResamplerLocation();
 };
