@@ -22,7 +22,11 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
     // set model
     tableView.setModel(&convertersModel);
+
+    // configure view
     tableView.verticalHeader()->setHidden(true);
+    tableView.setSelectionMode(QAbstractItemView::SingleSelection);
+    tableView.setSelectionBehavior(QAbstractItemView::SelectRows);
 
     // configure widgets
     mainConverterLocationEdit->hideEditButton();
@@ -68,7 +72,7 @@ void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
 //    for(int col = 0; col < convertersModel.columnCount({}); col++) {
 //        tableView.setColumnWidth(col, w);
 //        tableView.horizontalHeader()->resizeSection(5, w);
-//    }
+//    }00.
 
     tableView.horizontalHeader()->setHidden(false);
 
