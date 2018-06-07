@@ -19,6 +19,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     executableEdit = new QLineEdit;
     executablePathEdit = new QLineEdit;
     commandLineEdit = new QLineEdit;
+    dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     // labels
     QLabel* priorityLabel = new QLabel("Priority");
@@ -47,8 +48,14 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(executablePathEdit);
     mainLayout->addWidget(commandLineLabel);
     mainLayout->addWidget(commandLineEdit);
+    mainLayout->addWidget(dialogButtonBox);
 
+    // set main Layout
     this->setLayout(mainLayout);
+
+    // connect signals / slots
+    connect(dialogButtonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(dialogButtonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
 
 ConverterDefinition ConverterConfigurationEditDialog::getConverterDefinition() const

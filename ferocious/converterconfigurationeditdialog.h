@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QDialogButtonBox>
 
 class ConverterConfigurationEditDialog : public QDialog
 {
@@ -27,6 +28,7 @@ private:
     QLineEdit* executableEdit;
     QLineEdit* executablePathEdit;
     QLineEdit* commandLineEdit;
+    QDialogButtonBox* dialogButtonBox;
 
     ConverterDefinition converterDefinition;
 
