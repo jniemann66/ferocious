@@ -32,15 +32,15 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setContextMenuPolicy(Qt::CustomContextMenu);
 
     // configure menu
-    contextMenu->addAction("Edit", [this]{
+    contextMenu->addAction("Edit", [this] {
        onEditRequested(tableView.currentIndex());
     });
 
-    contextMenu->addAction("Delete", [this]{
+    contextMenu->addAction("Delete", [this] {
        onDeleteRequested(tableView.currentIndex());
     });
 
-    contextMenu->addAction("Clone", [this]{
+    contextMenu->addAction("Clone", [this] {
        onCloneRequested(tableView.currentIndex());
     });
 
