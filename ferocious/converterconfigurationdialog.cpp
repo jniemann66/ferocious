@@ -152,9 +152,12 @@ void ConverterConfigurationDialog::setExpectedMainConverter(const QString &value
 
 void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex)
 {
+     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
+    if (converterDefinitions.isEmpty())
+        return;
+
     int row = modelIndex.row();
     auto dlg = new ConverterConfigurationEditDialog(this);
-    QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
     qDebug() << converterDefinitions.count();
     if(row < converterDefinitions.count()) {
         dlg->setConverterDefinition(converterDefinitions.at(row));

@@ -767,7 +767,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 #ifdef Q_OS_WIN
             process.start("cmd.exe /c " + completeCmdLine);
 #else
-            converter.start("bash", QStringList() << "-c" << completeCmdLine);
+            process.start("bash", QStringList() << "-c" << completeCmdLine);
 #endif
 
         }

@@ -9,7 +9,7 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QTableView>
-#include <Qmenu>
+#include <QMenu>
 
 class ConverterConfigurationDialog : public QDialog
 {
