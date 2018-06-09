@@ -70,6 +70,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(executablePathEdit);
     mainLayout->addWidget(commandLineLabel);
     mainLayout->addWidget(commandLineEdit);
+    mainLayout->addSpacing(12);
     mainLayout->addWidget(dialogButtonBox);
     mainLayout->addStretch();
 
@@ -85,13 +86,21 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
 
 ConverterDefinition ConverterConfigurationEditDialog::getConverterDefinition() const
 {
+    ConverterDefinition converterDefinition;
+    converterDefinition.priority = priorityEdit->text().toInt();
+    converterDefinition.enabled = enabledCheckbox->isChecked();
+    converterDefinition.name = nameEdit->text();
+    converterDefinition.comment = commentEdit->text();
+    converterDefinition.inputFileExt = inputFileExtEdit->text();
+    converterDefinition.outputFileExt = outputFileExtEdit->text();
+    converterDefinition.executable = executableEdit->text();
+    converterDefinition.executablePath = executablePathEdit->text();
+    converterDefinition.commandLine = commandLineEdit->text();
     return converterDefinition;
 }
 
-void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDefinition &value)
+void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDefinition &converterDefinition)
 {
-    converterDefinition = value;
-
     priorityEdit->setText(QString::number(converterDefinition.priority));
     enabledCheckbox->setChecked(converterDefinition.enabled);
     nameEdit->setText(converterDefinition.name);

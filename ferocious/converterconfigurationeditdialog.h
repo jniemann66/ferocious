@@ -16,7 +16,7 @@ public:
     ConverterConfigurationEditDialog(QWidget* parent);
 
     ConverterDefinition getConverterDefinition() const;
-    void setConverterDefinition(const ConverterDefinition &value);
+    void setConverterDefinition(const ConverterDefinition &converterDefinition);
 
 private:
     QLineEdit* priorityEdit;
@@ -29,8 +29,6 @@ private:
     QLineEdit* executablePathEdit;
     QLineEdit* commandLineEdit;
     QDialogButtonBox* dialogButtonBox;
-
-    ConverterDefinition converterDefinition;
 
 };
 

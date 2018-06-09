@@ -1195,6 +1195,7 @@ void MainWindow::on_actionConverter_Location_triggered()
             converterPath = converterConfigurationDialog->getMainConverterPath();
             getResamplerVersion();  // get converter version
         }
+        converterDefinitions = converterConfigurationDialog->getConverterDefinitions();
     }
 }
 
