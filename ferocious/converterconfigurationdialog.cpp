@@ -12,15 +12,14 @@
 ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f) : QDialog(parent, f)
 {
     // allocate
-    auto mainLayout = new QVBoxLayout;
-    auto mainConverterLayout = new QHBoxLayout;
     mainConverterLocationLabel = new QLabel("Location of Main Converter:");
     mainConverterLocationEdit = new FancyLineEdit;
     contextMenu = new QMenu(this);
     browseButton = new QPushButton("Browse ...");
-
     additionalConvertersLabel = new QLabel("Additional converters:");
     auto stdButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    auto mainLayout = new QVBoxLayout;
+    auto mainConverterLayout = new QHBoxLayout;
 
     // set model
     tableView.setModel(&convertersModel);
