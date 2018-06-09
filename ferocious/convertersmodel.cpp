@@ -2,6 +2,14 @@
 
 ConvertersModel::ConvertersModel(QObject* parent) : QAbstractTableModel(parent) {}
 
+int ConvertersModel::rowCount(const QModelIndex &) const {
+    return converterDefinitions.count();
+}
+
+int ConvertersModel::columnCount(const QModelIndex &) const {
+    return 11;
+}
+
 QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return {};
 
