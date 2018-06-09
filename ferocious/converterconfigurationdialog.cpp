@@ -157,6 +157,10 @@ void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex
         return;
 
     int row = modelIndex.row();
+
+    if (row < 0)
+        return;
+
     auto dlg = new ConverterConfigurationEditDialog(this);
     qDebug() << converterDefinitions.count();
     if(row < converterDefinitions.count()) {
