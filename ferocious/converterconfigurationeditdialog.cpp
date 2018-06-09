@@ -8,6 +8,9 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
 {
     // layouts
     auto mainLayout = new QVBoxLayout;
+    auto fileExtenstionsLayout = new QHBoxLayout;
+    auto inputFileExtLayout = new QVBoxLayout;
+    auto outputFileExLayout = new QVBoxLayout;
 
     // widgets
     enabledCheckbox = new QCheckBox("Enabled");
@@ -22,6 +25,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     // labels
+    QLabel* heading = new QLabel("Edit External Converter Settings");
     QLabel* priorityLabel = new QLabel("Priority");
     QLabel* nameLabel = new QLabel("Name");
     QLabel* commentLabel = new QLabel("Comments");
@@ -31,17 +35,35 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     QLabel* executablePathLabel = new QLabel("Executable Path");
     QLabel* commandLineLabel = new QLabel("Command Line Arguments");
 
+    // set fonts
+    QFont f = heading->font();
+    QFont headingFont{f};
+    headingFont.setPointSize(f.pointSize() + 2);
+    heading->setFont(headingFont);
+
+    // configure widgets
+    heading->setAlignment(Qt::AlignHCenter);
+
+    // hide things
+    priorityLabel->setHidden(true);
+    priorityEdit->setHidden(true);
+
     // attach
+    mainLayout->addWidget(heading);
+    mainLayout->addSpacing(12);
     mainLayout->addWidget(priorityLabel);
     mainLayout->addWidget(priorityEdit);
     mainLayout->addWidget(nameLabel);
     mainLayout->addWidget(nameEdit);
     mainLayout->addWidget(commentLabel);
     mainLayout->addWidget(commentEdit);
-    mainLayout->addWidget(inputFileExtLabel);
-    mainLayout->addWidget(inputFileExtEdit);
-    mainLayout->addWidget(outputFileExtLabel);
-    mainLayout->addWidget(outputFileExtEdit);
+    inputFileExtLayout->addWidget(inputFileExtLabel);
+    inputFileExtLayout->addWidget(inputFileExtEdit);
+    outputFileExLayout->addWidget(outputFileExtLabel);
+    outputFileExLayout->addWidget(outputFileExtEdit);
+    fileExtenstionsLayout->addLayout(inputFileExtLayout);
+    fileExtenstionsLayout->addLayout(outputFileExLayout);
+    mainLayout->addLayout(fileExtenstionsLayout);
     mainLayout->addWidget(executableLabel);
     mainLayout->addWidget(executableEdit);
     mainLayout->addWidget(executablePathLabel);
@@ -49,9 +71,12 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(commandLineLabel);
     mainLayout->addWidget(commandLineEdit);
     mainLayout->addWidget(dialogButtonBox);
+    mainLayout->addStretch();
 
     // set main Layout
     this->setLayout(mainLayout);
+
+    setContentsMargins(12, 12, 12, 12);
 
     // connect signals / slots
     connect(dialogButtonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);

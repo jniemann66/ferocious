@@ -59,4 +59,5 @@ QVector<ConverterDefinition> ConvertersModel::getConverterDefinitions() const
 void ConvertersModel::setConverterDefinitions(const QVector<ConverterDefinition> &value)
 {
     converterDefinitions = value;
+    emit rowsInserted({}, 0, converterDefinitions.count() - 1, {});
 }

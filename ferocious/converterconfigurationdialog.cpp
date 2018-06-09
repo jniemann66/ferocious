@@ -58,7 +58,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     setLayout(mainLayout);
 
     // connect signals / slots
-    connect(mainConverterLocationEdit, &QLineEdit::editingFinished, this, [this]{
+    connect(mainConverterLocationEdit, &QLineEdit::editingFinished, this, [this] {
        mainConverterPath = mainConverterLocationEdit->text();
     });
     connect(browseButton, &QPushButton::clicked, this, &ConverterConfigurationDialog::promptForResamplerLocation);
@@ -106,7 +106,6 @@ void ConverterConfigurationDialog::setConverterDefinitions(const QVector<Convert
 {
     convertersModel.setConverterDefinitions(value);
 }
-
 
 void ConverterConfigurationDialog::promptForResamplerLocation() {
     QString s("Please locate the file: ");
