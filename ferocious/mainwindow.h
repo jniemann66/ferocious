@@ -158,8 +158,6 @@ private:
     void processInputFilenames(const QStringList &fileNames);
     void loadConverterDefinitions(const QString &fileName);
     void saveConverterDefinitions(const QString &fileName) const;
-    ConverterDefinition getSampleConverterDefinition();
-    bool testConverterDefinitionIO();
     ConverterDefinition getSpecialistConverter(const QString &inExt, const QString &outExt);
     QStringList prepareSpecialistConverterArgs(const ConverterDefinition &converterDefinition, const QString &outfn, const QString &infn);
     static QString getRandomString(int length);

@@ -967,24 +967,6 @@ void MainWindow::saveConverterDefinitions(const QString& fileName) const {
     jsonFile.write(d.toJson());
 }
 
-ConverterDefinition MainWindow::getSampleConverterDefinition() {
-    ConverterDefinition d
-    {
-        0,
-        true,
-        "Lame Decode mp3",
-        "Lame mp3 converter",
-        "mp3",
-        "wav",
-        "lame.exe",
-        "c:\\bin\\lame.exe",
-        "-V2 {i} {o}",
-        {"http://lame.sourceforge.net/download.php"},
-        {"win"}
-    };
-    return d;
-}
-
 void MainWindow::on_InfileEdit_editingFinished()
 {
     QString inFilename = ui->InfileEdit->text();
@@ -1493,19 +1475,6 @@ void MainWindow::on_actionMultiStageConversion_triggered(bool checked)
 void MainWindow::on_actionUse_a_temp_file_triggered(bool checked)
 {
     bNoTempFile = !checked;
-}
-
-bool MainWindow::testConverterDefinitionIO(){
-    bool result = false;;
-    converterDefinitions.append(getSampleConverterDefinition());
-    saveConverterDefinitions("e:\\t\\converters.json");
-    loadConverterDefinitions("e:\\t\\converters.json");
-    if(!converterDefinitions.isEmpty()) {
-        result = (converterDefinitions.first() == getSampleConverterDefinition());
-        qDebug() << "Equal ? " << result;
-        qDebug() << converterDefinitions.first().toJson();
-    }
-    return result;
 }
 
 QString MainWindow::getRandomString(int length)

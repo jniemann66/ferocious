@@ -177,12 +177,11 @@ void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex
         return;
 
     auto dlg = new ConverterConfigurationEditDialog(this);
-    qDebug() << converterDefinitions.count();
     if(row < converterDefinitions.count()) {
         dlg->setConverterDefinition(converterDefinitions.at(row));
         int result = dlg->exec();
         if(result == QDialog::Accepted) {
-            qDebug() << "Edit accepted";
+            qDebug() << "Edit of Converter Definition accepted";
             converterDefinitions[row] = dlg->getConverterDefinition();
             convertersModel.setConverterDefinitions(converterDefinitions);
         }
