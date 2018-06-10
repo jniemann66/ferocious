@@ -51,6 +51,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     // attach
     mainLayout->addWidget(heading);
     mainLayout->addSpacing(12);
+    mainLayout->addWidget(enabledCheckbox);
     mainLayout->addWidget(priorityLabel);
     mainLayout->addWidget(priorityEdit);
     mainLayout->addWidget(nameLabel);
