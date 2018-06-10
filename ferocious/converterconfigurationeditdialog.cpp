@@ -2,7 +2,6 @@
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QLabel>
 
 ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *parent) : QDialog(parent)
 {
@@ -25,6 +24,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     // labels
+    executablePathLabel = new QLabel("Path of Executable");
     QLabel* heading = new QLabel("Edit External Converter Settings");
     QLabel* priorityLabel = new QLabel("Priority");
     QLabel* nameLabel = new QLabel("Name");
@@ -32,7 +32,6 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     QLabel* inputFileExtLabel = new QLabel("Input File Extension");
     QLabel* outputFileExtLabel = new QLabel("Output File Extension");
     QLabel* executableLabel = new QLabel("Executable");
-    QLabel* executablePathLabel = new QLabel("Executable Path");
     QLabel* commandLineLabel = new QLabel("Command Line Arguments");
 
     // set fonts
@@ -47,6 +46,8 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     // hide things
     priorityLabel->setHidden(true);
     priorityEdit->setHidden(true);
+    executableLabel->setHidden(true);
+    executableEdit->setHidden(true);
 
     // attach
     mainLayout->addWidget(heading);
@@ -57,8 +58,6 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(nameEdit);
     mainLayout->addWidget(priorityLabel);
     mainLayout->addWidget(priorityEdit);
-    mainLayout->addWidget(commentLabel);
-    mainLayout->addWidget(commentEdit);
     inputFileExtLayout->addWidget(inputFileExtLabel);
     inputFileExtLayout->addWidget(inputFileExtEdit);
     outputFileExLayout->addWidget(outputFileExtLabel);
@@ -72,6 +71,8 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(executablePathEdit);
     mainLayout->addWidget(commandLineLabel);
     mainLayout->addWidget(commandLineEdit);
+    mainLayout->addWidget(commentLabel);
+    mainLayout->addWidget(commentEdit);
     mainLayout->addSpacing(12);
     mainLayout->addWidget(dialogButtonBox);
     mainLayout->addStretch();
@@ -110,6 +111,13 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     inputFileExtEdit->setText(converterDefinition.inputFileExt);
     outputFileExtEdit->setText(converterDefinition.outputFileExt);
     executableEdit->setText(converterDefinition.executable);
+
+    if(converterDefinition.executable.isEmpty()) {
+        executablePathLabel->setText("Path of Executable");
+    } else {
+        executablePathLabel->setText(QString{"Path of Executable (%1)"}.arg(converterDefinition.executable));
+    }
+
     executablePathEdit->setText(converterDefinition.executablePath);
     commandLineEdit->setText(converterDefinition.commandLine);
 }

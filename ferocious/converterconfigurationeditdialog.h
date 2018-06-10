@@ -5,6 +5,7 @@
 
 #include <QDialog>
 #include <QObject>
+#include <QLabel>
 #include <QLineEdit>
 #include <QCheckBox>
 #include <QDialogButtonBox>
@@ -26,6 +27,7 @@ private:
     QLineEdit* inputFileExtEdit;
     QLineEdit* outputFileExtEdit;
     QLineEdit* executableEdit;
+    QLabel* executablePathLabel;
     QLineEdit* executablePathEdit;
     QLineEdit* commandLineEdit;
     QDialogButtonBox* dialogButtonBox;
@@ -34,16 +36,3 @@ private:
 
 #endif // CONVERTERCONFIGURATIONEDITDIALOG_H
 
-/*
-int priority;
-bool enabled;
-QString name;
-QString comment;
-QString inputFileExt;
-QString outputFileExt;
-QString executable;
-QString executablePath;
-QString commandLine;
-QStringList downloadLocations;
-QStringList operatingSystems;
-*/

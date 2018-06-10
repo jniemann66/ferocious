@@ -51,11 +51,17 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     mainConverterLayout->addWidget(mainConverterLocationEdit);
     mainConverterLayout->addWidget(browseButton);
     mainLayout->addLayout(mainConverterLayout);
-
     mainLayout->addWidget(additionalConvertersLabel);
     mainLayout->addWidget(&tableView);
     mainLayout->addWidget(stdButtons);
     setLayout(mainLayout);
+
+    // hide unnecessary columns
+    tableView.setColumnHidden(3, true);
+    tableView.setColumnHidden(6, true);
+    tableView.setColumnHidden(9, true);
+    tableView.setColumnHidden(10, true);
+
 
     // connect signals / slots
     connect(mainConverterLocationEdit, &QLineEdit::editingFinished, this, [this] {
@@ -84,13 +90,24 @@ void ConverterConfigurationDialog::showEvent(QShowEvent* event) {
 void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
 {
     int tw = event->size().width();
-    int w = tw / convertersModel.columnCount({});
-    tableView.horizontalHeader()->setDefaultSectionSize(w);
 
-//    for(int col = 0; col < convertersModel.columnCount({}); col++) {
-//        tableView.setColumnWidth(col, w);
-//        tableView.horizontalHeader()->resizeSection(5, w);
-//    }00.
+    static const QVector<double> columnWidths {
+        5,      /* "Priority" */
+        5,      /* "Enabled" */
+        20,     /* "Name" */
+        0 ,     /* "Comment" */
+        15,     /* "Input File Extension" */
+        15,     /* "Output File Extension" */
+        0 ,     /* "Executable" */
+        20,     /* "Executable Path" */
+        20,     /* "Command Line" */
+        0 ,     /* "Download Locations" */
+        0      /* "Operating Systems" */
+    };
+
+    for(int col = 0; col < convertersModel.columnCount({}); col++) {
+        tableView.horizontalHeader()->resizeSection(col, tw * columnWidths.at(col)/100.0);
+    }
 
     tableView.horizontalHeader()->setHidden(false);
 
