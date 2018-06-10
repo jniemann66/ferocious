@@ -52,10 +52,11 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(heading);
     mainLayout->addSpacing(12);
     mainLayout->addWidget(enabledCheckbox);
-    mainLayout->addWidget(priorityLabel);
-    mainLayout->addWidget(priorityEdit);
+    mainLayout->addSpacing(6);
     mainLayout->addWidget(nameLabel);
     mainLayout->addWidget(nameEdit);
+    mainLayout->addWidget(priorityLabel);
+    mainLayout->addWidget(priorityEdit);
     mainLayout->addWidget(commentLabel);
     mainLayout->addWidget(commentEdit);
     inputFileExtLayout->addWidget(inputFileExtLabel);
