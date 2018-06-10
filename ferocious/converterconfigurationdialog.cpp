@@ -150,7 +150,7 @@ void ConverterConfigurationDialog::setExpectedMainConverter(const QString &value
 
 void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex)
 {
-     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
+    QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
     if (converterDefinitions.isEmpty())
         return;
 
@@ -167,6 +167,7 @@ void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex
         if(result == QDialog::Accepted) {
             qDebug() << "Edit accepted";
             converterDefinitions[row] = dlg->getConverterDefinition();
+            convertersModel.setConverterDefinitions(converterDefinitions);
         }
     }
 }
