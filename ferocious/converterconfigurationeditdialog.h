@@ -10,6 +10,7 @@
 #include <QLineEdit>
 #include <QCheckBox>
 #include <QDialogButtonBox>
+#include <QPushButton>
 
 class ConverterConfigurationEditDialog : public QDialog
 {
@@ -30,6 +31,7 @@ private:
     QLineEdit* executableEdit;
     QLabel* executablePathLabel;
     FancyLineEdit* executablePathEdit;
+    QPushButton* executablePathBrowseButton;
     QLineEdit* commandLineEdit;
     QDialogButtonBox* dialogButtonBox;
 

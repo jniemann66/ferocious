@@ -9,7 +9,8 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     auto mainLayout = new QVBoxLayout;
     auto fileExtenstionsLayout = new QHBoxLayout;
     auto inputFileExtLayout = new QVBoxLayout;
-    auto outputFileExLayout = new QVBoxLayout;
+    auto outputFileExtLayout = new QVBoxLayout;
+    auto executablePathLayout = new QHBoxLayout;
 
     // widgets
     enabledCheckbox = new QCheckBox("Enabled");
@@ -20,6 +21,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     outputFileExtEdit = new QLineEdit;
     executableEdit = new QLineEdit;
     executablePathEdit = new FancyLineEdit;
+    executablePathBrowseButton = new QPushButton("Browse ...");
     commandLineEdit = new QLineEdit;
     dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
@@ -61,15 +63,17 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(priorityEdit);
     inputFileExtLayout->addWidget(inputFileExtLabel);
     inputFileExtLayout->addWidget(inputFileExtEdit);
-    outputFileExLayout->addWidget(outputFileExtLabel);
-    outputFileExLayout->addWidget(outputFileExtEdit);
+    outputFileExtLayout->addWidget(outputFileExtLabel);
+    outputFileExtLayout->addWidget(outputFileExtEdit);
     fileExtenstionsLayout->addLayout(inputFileExtLayout);
-    fileExtenstionsLayout->addLayout(outputFileExLayout);
+    fileExtenstionsLayout->addLayout(outputFileExtLayout);
     mainLayout->addLayout(fileExtenstionsLayout);
     mainLayout->addWidget(executableLabel);
     mainLayout->addWidget(executableEdit);
     mainLayout->addWidget(executablePathLabel);
-    mainLayout->addWidget(executablePathEdit);
+    executablePathLayout->addWidget(executablePathEdit);
+    executablePathLayout->addWidget(executablePathBrowseButton);
+    mainLayout->addLayout(executablePathLayout);
     mainLayout->addWidget(commandLineLabel);
     mainLayout->addWidget(commandLineEdit);
     mainLayout->addWidget(commentLabel);
