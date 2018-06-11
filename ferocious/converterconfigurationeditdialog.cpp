@@ -2,6 +2,7 @@
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QFileDialog>
 
 ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *parent) : QDialog(parent)
 {
@@ -88,6 +89,9 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     setContentsMargins(12, 12, 12, 12);
 
     // connect signals / slots
+    connect(executablePathBrowseButton, &QPushButton::clicked, this, [this]{
+       promptForExecutableLocation();
+    });
     connect(dialogButtonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(dialogButtonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
@@ -125,4 +129,22 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
 
     executablePathEdit->setText(converterDefinition.executablePath);
     commandLineEdit->setText(converterDefinition.commandLine);
+}
+
+void ConverterConfigurationEditDialog::promptForExecutableLocation() {
+    QString s("Please locate the execuatble file ");
+    if (!getConverterDefinition().executable.isEmpty())
+        s.append(getConverterDefinition().executable);
+
+#if defined (Q_OS_WIN)
+    QString filter = "*.exe";
+#else
+    QString filter = "";
+#endif
+
+    QString cp = QFileDialog::getOpenFileName(this, s, "",  filter);
+
+    if(!cp.isNull()) {
+        executablePathEdit->setText(QDir::toNativeSeparators(cp));
+    }
 }

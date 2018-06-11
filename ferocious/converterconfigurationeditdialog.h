@@ -35,6 +35,7 @@ private:
     QLineEdit* commandLineEdit;
     QDialogButtonBox* dialogButtonBox;
 
+    void promptForExecutableLocation();
 };
 
 #endif // CONVERTERCONFIGURATIONEDITDIALOG_H
