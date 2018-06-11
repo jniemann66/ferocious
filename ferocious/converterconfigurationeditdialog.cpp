@@ -19,7 +19,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     inputFileExtEdit = new QLineEdit;
     outputFileExtEdit = new QLineEdit;
     executableEdit = new QLineEdit;
-    executablePathEdit = new QLineEdit;
+    executablePathEdit = new FancyLineEdit;
     commandLineEdit = new QLineEdit;
     dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
@@ -42,6 +42,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
 
     // configure widgets
     heading->setAlignment(Qt::AlignHCenter);
+    executablePathEdit->hideEditButton();
 
     // hide things
     priorityLabel->setHidden(true);

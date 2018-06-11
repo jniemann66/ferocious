@@ -2,6 +2,7 @@
 #define CONVERTERCONFIGURATIONEDITDIALOG_H
 
 #include "converterdefinition.h"
+#include "fancylineedit.h"
 
 #include <QDialog>
 #include <QObject>
@@ -28,7 +29,7 @@ private:
     QLineEdit* outputFileExtEdit;
     QLineEdit* executableEdit;
     QLabel* executablePathLabel;
-    QLineEdit* executablePathEdit;
+    FancyLineEdit* executablePathEdit;
     QLineEdit* commandLineEdit;
     QDialogButtonBox* dialogButtonBox;
 

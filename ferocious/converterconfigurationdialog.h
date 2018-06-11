@@ -5,7 +5,6 @@
 #include "fancylineedit.h"
 #include "converterconfigurationeditdialog.h"
 
-#include <QObject>
 #include <QDialog>
 #include <QLineEdit>
 #include <QTableView>
