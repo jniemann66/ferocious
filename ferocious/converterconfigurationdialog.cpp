@@ -9,10 +9,12 @@
 #include <QDialogButtonBox>
 #include <QHeaderView>
 #include <QDebug>
+#include <QApplication>
 
 ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f) : QDialog(parent, f)
 {
     // allocate
+    auto headingLabel = new QLabel("Configure External Converters");
     mainConverterLocationLabel = new QLabel("Location of Main Converter:");
     mainConverterLocationEdit = new FancyLineEdit;
     contextMenu = new QMenu(this);
@@ -48,14 +50,28 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
        onDeleteRequested(tableView.currentIndex());
     }, {QKeySequence::Delete});
 
+    // configure fonts
+    QFont defaultFont{qApp->font()};
+    QFont heading2Font{defaultFont};
+    QFont heading1Font{defaultFont};
+    heading2Font.setPointSize(defaultFont.pointSize() + 2);
+    heading1Font.setPointSize(defaultFont.pointSize() + 4);
+
     // configure widgets
+    headingLabel->setFont(heading1Font);
+    headingLabel->setAlignment(Qt::AlignHCenter);
     mainConverterLocationEdit->hideEditButton();
+    mainConverterLocationLabel->setFont(heading2Font);
+    additionalConvertersLabel->setFont(heading2Font);
 
     // attach widgets to main layout
+    mainLayout->addWidget(headingLabel);
+    mainLayout->addSpacing(12);
     mainLayout->addWidget(mainConverterLocationLabel);
     mainConverterLayout->addWidget(mainConverterLocationEdit);
     mainConverterLayout->addWidget(browseButton);
     mainLayout->addLayout(mainConverterLayout);
+    mainLayout->addSpacing(6);
     mainLayout->addWidget(additionalConvertersLabel);
     mainLayout->addWidget(&tableView);
     mainLayout->addWidget(stdButtons);

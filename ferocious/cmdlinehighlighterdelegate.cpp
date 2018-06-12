@@ -35,13 +35,13 @@ QString CmdLineHighlighterDelegate::getHtmlHighlighting(const QString& input) {
     const QString consoleAmber{"#D6953E"};
     const QString consoleRed{"#ff8080"};
 
+    Q_UNUSED(consoleGreen);
+    Q_UNUSED(consoleRed);
+
     QStringList tokens = input.split(" ");
     QStringList htmlTokens;
     for(const QString& token : tokens) {
-        if(token.contains(QRegularExpression{"\\\".*\\\""})) { // enclosed in double-quotes
-            htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleGreen, token));
-        }
-        else if(token.contains(QRegularExpression{"{.*}"})) { // enclosed in braces
+        if(token.contains(QRegularExpression{"{.*}"})) { // enclosed in braces
              htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleAmber, token));
         }
         else if(token.contains(QRegularExpression{"--.*"})) { // double-hyphen option

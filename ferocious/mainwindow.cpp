@@ -1171,6 +1171,7 @@ void MainWindow::on_actionConverter_Location_triggered()
     converterConfigurationDialog->setExpectedMainConverter(expectedConverter);
     converterConfigurationDialog->setMainConverterPath(converterPath);
     converterConfigurationDialog->setConverterDefinitions(converterDefinitions);
+    converterConfigurationDialog->setMinimumWidth(this->width());
     if(converterConfigurationDialog->exec() == QDialog::Accepted) {
 
         if(!converterConfigurationDialog->getMainConverterPath().isEmpty()) {
