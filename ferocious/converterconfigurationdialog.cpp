@@ -30,18 +30,23 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView.setContextMenuPolicy(Qt::CustomContextMenu);
 
-    // configure menu
-    contextMenu->addAction("Edit", [this] {
-       onEditRequested(tableView.currentIndex());
-    });
 
-    contextMenu->addAction("Delete", [this] {
-       onDeleteRequested(tableView.currentIndex());
+    // configure menu
+    contextMenu->addAction("New", [this] {
+       onNewRequested(tableView.currentIndex());
+    }, QKeySequence::New);
+
+    contextMenu->addAction("Edit ...", [this] {
+       onEditRequested(tableView.currentIndex());
     });
 
     contextMenu->addAction("Clone", [this] {
        onCloneRequested(tableView.currentIndex());
-    });
+    }, QKeySequence::Copy);
+
+    contextMenu->addAction("Delete", [this] {
+       onDeleteRequested(tableView.currentIndex());
+    }, {QKeySequence::Delete});
 
     // configure widgets
     mainConverterLocationEdit->hideEditButton();
@@ -164,6 +169,21 @@ void ConverterConfigurationDialog::setExpectedMainConverter(const QString &value
 {
     expectedMainConverter = value;
 }
+
+void ConverterConfigurationDialog::onNewRequested(const QModelIndex& modelIndex)
+{
+    int row = modelIndex.row();
+
+    if(row < 0 )
+        return;
+
+    QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
+    if(row < converterDefinitions.count()) {
+        converterDefinitions.insert(row, {});
+        convertersModel.setConverterDefinitions(converterDefinitions);
+    }
+}
+
 
 void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex)
 {

@@ -33,6 +33,7 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 
 private slots:
+    void onNewRequested(const QModelIndex &modelIndex);
     void onEditRequested(const QModelIndex &modelIndex);
     void onDeleteRequested(const QModelIndex &modelIndex);
     void onCloneRequested(const QModelIndex &modelIndex);
@@ -47,7 +48,6 @@ private:
     ConvertersModel convertersModel;
     QString expectedMainConverter;
     QString mainConverterPath;
-
 
     void promptForResamplerLocation();
 };
