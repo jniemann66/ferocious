@@ -181,7 +181,6 @@ void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex
         dlg->setConverterDefinition(converterDefinitions.at(row));
         int result = dlg->exec();
         if(result == QDialog::Accepted) {
-            qDebug() << "Edit of Converter Definition accepted";
             converterDefinitions[row] = dlg->getConverterDefinition();
             convertersModel.setConverterDefinitions(converterDefinitions);
         }
@@ -190,10 +189,28 @@ void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex
 
 void ConverterConfigurationDialog::onDeleteRequested(const QModelIndex& modelIndex)
 {
-    qDebug() << "delete row " << modelIndex.row();
+    int row = modelIndex.row();
+
+    if(row < 0 )
+        return;
+
+    QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
+    if(row < converterDefinitions.count()) {
+        converterDefinitions.removeAt(row);
+        convertersModel.setConverterDefinitions(converterDefinitions);
+    }
 }
 
 void ConverterConfigurationDialog::onCloneRequested(const QModelIndex& modelIndex)
 {
-    qDebug() << "clone row " << modelIndex.row();
+    int row = modelIndex.row();
+
+    if(row < 0 )
+        return;
+
+    QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
+    if(row < converterDefinitions.count()) {
+        converterDefinitions.insert(row, converterDefinitions.at(row));
+        convertersModel.setConverterDefinitions(converterDefinitions);
+    }
 }
