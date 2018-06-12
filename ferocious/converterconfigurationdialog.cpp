@@ -1,4 +1,5 @@
 #include "converterconfigurationdialog.h"
+#include "cmdlinehighlighterdelegate.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -29,7 +30,6 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setSelectionMode(QAbstractItemView::SingleSelection);
     tableView.setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView.setContextMenuPolicy(Qt::CustomContextMenu);
-
 
     // configure menu
     contextMenu->addAction("New", [this] {
@@ -67,6 +67,8 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setColumnHidden(9, true);
     tableView.setColumnHidden(10, true);
 
+    // set rich-text delegate for command-line column
+    tableView.setItemDelegateForColumn(8, new CmdLineHighlighterDelegate(this));
 
     // connect signals / slots
     connect(mainConverterLocationEdit, &QLineEdit::editingFinished, this, [this] {
