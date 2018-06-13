@@ -31,24 +31,44 @@ QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, i
 
 QVariant ConvertersModel::data(const QModelIndex &index, int role) const
 {
-    if (role != Qt::DisplayRole && role != Qt::EditRole) return {};
+    /*if (role == Qt::TextAlignmentRole) {
+        switch(index.column()) {
+        case 0: return Qt::AlignHCenter;
+        case 1: return Qt::AlignLeft;
+        case 2: return Qt::AlignLeft;
+        case 3: return Qt::AlignLeft;
+        case 4: return Qt::AlignHCenter;
+        case 5: return Qt::AlignHCenter;
+        case 6: return Qt::AlignLeft;
+        case 7: return Qt::AlignLeft;
+        case 8: return Qt::AlignLeft;
+        case 9: return Qt::AlignLeft;
+        case 10: return Qt::AlignHCenter;
+        default: return Qt::AlignLeft;// QAbstractTableModel::data(index, role, Qt::TextAlignmentRole);
+        };
+    }
 
-    const auto& converter = converterDefinitions.at(index.row());
+    else*/ if (role == Qt::DisplayRole || role == Qt::EditRole) {
+        const auto& converter = converterDefinitions.at(index.row());
+        switch(index.column()) {
+        case 0: return converter.priority;
+        case 1: return converter.enabled;
+        case 2: return converter.name;
+        case 3: return converter.comment;
+        case 4: return converter.inputFileExt;
+        case 5: return converter.outputFileExt;
+        case 6: return converter.executable;
+        case 7: return converter.executablePath;
+        case 8: return converter.commandLine;
+        case 9: return converter.downloadLocations;
+        case 10: return converter.operatingSystems;
+        default: return {};
+        };
+    }
 
-    switch(index.column()) {
-    case 0: return converter.priority;
-    case 1: return converter.enabled;
-    case 2: return converter.name;
-    case 3: return converter.comment;
-    case 4: return converter.inputFileExt;
-    case 5: return converter.outputFileExt;
-    case 6: return converter.executable;
-    case 7: return converter.executablePath;
-    case 8: return converter.commandLine;
-    case 9: return converter.downloadLocations;
-    case 10: return converter.operatingSystems;
-    default: return {};
-    };
+    else {
+        return {};
+    }
 }
 
 bool ConvertersModel::setData(const QModelIndex &index, const QVariant &value, int role)

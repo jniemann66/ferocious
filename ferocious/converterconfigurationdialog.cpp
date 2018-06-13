@@ -34,6 +34,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView.setContextMenuPolicy(Qt::CustomContextMenu);
 
+
     // configure menu
     contextMenu->addAction("New", [this] {
        onNewRequested(tableView.currentIndex());

@@ -22,8 +22,7 @@ bool CheckBoxDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, con
 {
     if (event->type() == QEvent::MouseButtonRelease)
     {
-        // toggle checkbox state
-        model->setData(index, !index.data().toBool());
+        model->setData(index, !index.data().toBool());  // toggle checkbox state
         return true;
     }
 
