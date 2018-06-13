@@ -31,24 +31,24 @@ QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, i
 
 QVariant ConvertersModel::data(const QModelIndex &index, int role) const
 {
-    /*if (role == Qt::TextAlignmentRole) {
+    if (role == Qt::TextAlignmentRole) {
         switch(index.column()) {
-        case 0: return Qt::AlignHCenter;
-        case 1: return Qt::AlignLeft;
-        case 2: return Qt::AlignLeft;
-        case 3: return Qt::AlignLeft;
-        case 4: return Qt::AlignHCenter;
-        case 5: return Qt::AlignHCenter;
-        case 6: return Qt::AlignLeft;
-        case 7: return Qt::AlignLeft;
-        case 8: return Qt::AlignLeft;
-        case 9: return Qt::AlignLeft;
-        case 10: return Qt::AlignHCenter;
-        default: return Qt::AlignLeft;// QAbstractTableModel::data(index, role, Qt::TextAlignmentRole);
+        case 0: return Qt::AlignCenter;
+        case 1: return Qt::AlignVCenter;
+        case 2: return Qt::AlignVCenter;
+        case 3: return Qt::AlignVCenter;
+        case 4: return Qt::AlignCenter;
+        case 5: return Qt::AlignCenter;
+        case 6: return Qt::AlignVCenter;
+        case 7: return Qt::AlignVCenter;
+        case 8: return Qt::AlignVCenter;
+        case 9: return Qt::AlignVCenter;
+        case 10: return Qt::AlignCenter;
+        default: return Qt::AlignVCenter;// QAbstractTableModel::data(index, role, Qt::TextAlignmentRole);
         };
     }
 
-    else*/ if (role == Qt::DisplayRole || role == Qt::EditRole) {
+    else if (role == Qt::DisplayRole || role == Qt::EditRole) {
         const auto& converter = converterDefinitions.at(index.row());
         switch(index.column()) {
         case 0: return converter.priority;

@@ -11,18 +11,19 @@ void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionView
     if (option.state & QStyle::State_Selected)
         painter->fillRect( option.rect, option.palette.highlight());
 
-    painter->save();
+
 
     QTextDocument document;
     document.setTextWidth(option.rect.width());
     QVariant value = index.data(Qt::DisplayRole);
+
+    painter->save();
     if(value.isValid() && !value.isNull())
     {
         document.setHtml(getHtmlHighlighting(value.toString()));
-        painter->translate(option.rect.topLeft());
+        painter->translate(QPoint{option.rect.left(), option.rect.top() + 4 /* to-do : how to calculate this properly ? */});
         document.drawContents(painter);
     }
-
     painter->restore();
 }
 
