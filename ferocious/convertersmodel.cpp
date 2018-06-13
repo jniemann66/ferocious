@@ -51,6 +51,23 @@ QVariant ConvertersModel::data(const QModelIndex &index, int role) const
     };
 }
 
+bool ConvertersModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if(role == Qt::EditRole) {
+        switch(index.column()) {
+        case 1:
+            converterDefinitions[index.row()].enabled = value.toBool();
+            emit dataChanged(index, index);
+            return true;
+
+        default:
+            {
+            }
+        }
+    }
+    return false;
+}
+
 QVector<ConverterDefinition> ConvertersModel::getConverterDefinitions() const
 {
     return converterDefinitions;

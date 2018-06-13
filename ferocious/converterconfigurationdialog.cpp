@@ -1,4 +1,5 @@
 #include "converterconfigurationdialog.h"
+#include "checkboxdelegate.h"
 #include "cmdlinehighlighterdelegate.h"
 
 #include <QVBoxLayout>
@@ -66,7 +67,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
     // attach widgets to main layout
     mainLayout->addWidget(headingLabel);
-    mainLayout->addSpacing(12);
+    mainLayout->addSpacing(6);
     mainLayout->addWidget(mainConverterLocationLabel);
     mainConverterLayout->addWidget(mainConverterLocationEdit);
     mainConverterLayout->addWidget(browseButton);
@@ -83,8 +84,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setColumnHidden(9, true);
     tableView.setColumnHidden(10, true);
 
-    // set rich-text delegate for command-line column
+    // set delegates
     tableView.setItemDelegateForColumn(8, new CmdLineHighlighterDelegate(this));
+    tableView.setItemDelegateForColumn(1, new CheckBoxDelegate(this));
 
     // connect signals / slots
     connect(mainConverterLocationEdit, &QLineEdit::editingFinished, this, [this] {

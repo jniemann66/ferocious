@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     convertersmodel.cpp \
     converterconfigurationdialog.cpp \
     converterconfigurationeditdialog.cpp \
-    cmdlinehighlighterdelegate.cpp
+    cmdlinehighlighterdelegate.cpp \
+    checkboxdelegate.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     convertersmodel.h \
     converterconfigurationdialog.h \
     converterconfigurationeditdialog.h \
-    cmdlinehighlighterdelegate.h
+    cmdlinehighlighterdelegate.h \
+    checkboxdelegate.h
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui \
