@@ -16,7 +16,6 @@ FileDropDialog::FileDropDialog(QWidget *parent) : QDialog(parent)
     setLayout(mainLayout);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-
 }
 
 void FileDropDialog::setText(const QString &title, const QString &label, const QString &text)

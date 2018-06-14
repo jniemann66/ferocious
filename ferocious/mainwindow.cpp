@@ -666,8 +666,6 @@ void MainWindow::convertNext() {
 // convert() - the function that actually launches the converter(s)
 // converts file infn to outfn using current parameters
 
-
-
 void MainWindow::convert(const QString &outfn, const QString& infn)
 {
     if(outfn.isEmpty() || infn.isEmpty())

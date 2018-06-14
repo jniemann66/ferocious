@@ -13,11 +13,12 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     auto outputFileExtLayout = new QVBoxLayout;
     auto executablePathLayout = new QHBoxLayout;
 
-    // widgets
+    // Widgets
     enabledCheckbox = new QCheckBox("Enabled");
     priorityEdit = new QLineEdit;
     nameEdit = new QLineEdit;
     commentEdit = new QLineEdit;
+    downloadLocationEdit = new QLineEdit;
     inputFileExtEdit = new QLineEdit;
     outputFileExtEdit = new QLineEdit;
     executableEdit = new QLineEdit;
@@ -32,6 +33,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     QLabel* priorityLabel = new QLabel("Priority");
     QLabel* nameLabel = new QLabel("Name");
     QLabel* commentLabel = new QLabel("Comments");
+    QLabel* downloadLocationLabel = new QLabel("Download Location");
     QLabel* inputFileExtLabel = new QLabel("Input File Extension");
     QLabel* outputFileExtLabel = new QLabel("Output File Extension");
     QLabel* executableLabel = new QLabel("Executable");
@@ -79,6 +81,8 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(commandLineEdit);
     mainLayout->addWidget(commentLabel);
     mainLayout->addWidget(commentEdit);
+    mainLayout->addWidget(downloadLocationLabel);
+    mainLayout->addWidget(downloadLocationEdit);
     mainLayout->addSpacing(12);
     mainLayout->addWidget(dialogButtonBox);
     mainLayout->addStretch();
@@ -89,9 +93,10 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     setContentsMargins(12, 12, 12, 12);
 
     // connect signals / slots
-    connect(executablePathBrowseButton, &QPushButton::clicked, this, [this]{
+    connect(executablePathBrowseButton, &QPushButton::clicked, this, [this] {
        promptForExecutableLocation();
     });
+
     connect(dialogButtonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(dialogButtonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
@@ -103,6 +108,7 @@ ConverterDefinition ConverterConfigurationEditDialog::getConverterDefinition() c
     converterDefinition.enabled = enabledCheckbox->isChecked();
     converterDefinition.name = nameEdit->text();
     converterDefinition.comment = commentEdit->text();
+    converterDefinition.downloadLocations = QStringList{downloadLocationEdit->text()};
     converterDefinition.inputFileExt = inputFileExtEdit->text();
     converterDefinition.outputFileExt = outputFileExtEdit->text();
     converterDefinition.executable = executableEdit->text();
@@ -117,6 +123,7 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     enabledCheckbox->setChecked(converterDefinition.enabled);
     nameEdit->setText(converterDefinition.name);
     commentEdit->setText(converterDefinition.comment);
+    downloadLocationEdit->setText(converterDefinition.downloadLocations.first());
     inputFileExtEdit->setText(converterDefinition.inputFileExt);
     outputFileExtEdit->setText(converterDefinition.outputFileExt);
     executableEdit->setText(converterDefinition.executable);
