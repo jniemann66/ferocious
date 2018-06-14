@@ -111,7 +111,7 @@
         "commandline": "{i} {o}",
         "comment": "Decode ac3 to wav using azid",
         "downloadlocations": [
-            "http://www.wavpack.com/downloads.html"
+            ""
         ],
         "enabled": false,
         "executablename": "azid.exe",
