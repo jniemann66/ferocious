@@ -935,10 +935,11 @@ void MainWindow::loadConverterDefinitions(const QString& fileName) {
         QJsonDocument d = QJsonDocument::fromJson(jsonFile.readAll());
         if(d.isArray()) {
             converterDefinitions.clear();
+            int i = 0;
             for(const QJsonValue& v : d.array()) {
                 ConverterDefinition c;
                 c.fromJson(v.toObject());
-
+                c.priority = i++;
 #if defined(Q_OS_WIN)
                 if(c.operatingSystems.contains("win", Qt::CaseInsensitive))
 #elif defined(Q_OS_LINUX)
