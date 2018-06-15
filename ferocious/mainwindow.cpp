@@ -108,8 +108,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Add kinetic scroller to converter output
     QScroller::grabGesture(ui->ConverterOutputText->viewport(), QScroller::LeftMouseButtonGesture);
 
-    // load factory converter definitions
-    loadConverterDefinitions(":/converters.json");
+    if(converterDefinitions.isEmpty()) {
+        // load factory converter definitions
+        loadConverterDefinitions(":/converters.json");
+    }
 
     // to-do:
     // save / load converter definitions to disk
@@ -224,6 +226,10 @@ void MainWindow::readSettings()
     }
     settings.endGroup();
     filenameGenerator.loadSettings(settings);
+
+    QString converterDefinitionsFilename =
+            QDir::toNativeSeparators(QFileInfo(settings.fileName()).path() + "/" + "converters.json");
+    loadConverterDefinitions(converterDefinitionsFilename);
 }
 
 void MainWindow::writeSettings()
@@ -265,6 +271,12 @@ void MainWindow::writeSettings()
     settings.setValue("noiseShape", MainWindow::noiseShape);
     settings.setValue("ditherProfile", MainWindow::ditherProfile);
     settings.endGroup();
+
+    if(!converterDefinitions.isEmpty()) {
+       QString converterDefinitionsFilename =
+               QDir::toNativeSeparators(QFileInfo(settings.fileName()).path() + "/" + "converters.json");
+       saveConverterDefinitions(converterDefinitionsFilename);
+    }
 
     filenameGenerator.saveSettings(settings);
 }
@@ -931,9 +943,13 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
 
 void MainWindow::loadConverterDefinitions(const QString& fileName) {
     QFile jsonFile(fileName);
+    QDebug dbg = qDebug();
+    dbg.noquote() << "Reading converter definitions from" << fileName << "...";
+
     if(jsonFile.open(QFile::ReadOnly)) {
         QJsonDocument d = QJsonDocument::fromJson(jsonFile.readAll());
         if(d.isArray()) {
+            dbg << "success.";
             converterDefinitions.clear();
             int i = 0;
             for(const QJsonValue& v : d.array()) {
@@ -952,6 +968,8 @@ void MainWindow::loadConverterDefinitions(const QString& fileName) {
                 }
             }
         }
+    } else {
+        dbg << "failed.";
     }
 }
 
@@ -963,7 +981,14 @@ void MainWindow::saveConverterDefinitions(const QString& fileName) const {
     QFile jsonFile(fileName);
     jsonFile.open(QFile::WriteOnly);
     QJsonDocument d(a);
-    jsonFile.write(d.toJson());
+
+    QDebug dbg = qDebug();
+    dbg.noquote() << "writing converter definitions to" << fileName << "...";
+    if(jsonFile.write(d.toJson()) == -1) {
+        dbg << "failed.";
+    } else {
+        dbg << "success.";
+    }
 }
 
 void MainWindow::on_InfileEdit_editingFinished()

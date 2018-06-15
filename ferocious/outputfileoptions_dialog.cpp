@@ -104,14 +104,12 @@ void FilenameGenerator::saveSettings(QSettings &settings)
 void FilenameGenerator::loadSettings(QSettings &settings)
 {
     settings.beginGroup("OutputFileOptions");
-
     FilenameGenerator::appendSuffix = settings.value("appendSuffix", FilenameGenerator::appendSuffix).toBool();
     FilenameGenerator::Suffix = settings.value("Suffix", FilenameGenerator::Suffix).toString();
     FilenameGenerator::useSpecificOutputDirectory = settings.value("useSpecificOutputDirectory", FilenameGenerator::useSpecificOutputDirectory).toBool();
     FilenameGenerator::outputDirectory = QDir::toNativeSeparators(settings.value("outputDirectory",  FilenameGenerator::outputDirectory).toString());
     FilenameGenerator::useSpecificFileExt = settings.value("useSpecificFileExt", FilenameGenerator::useSpecificFileExt).toBool();
     FilenameGenerator::fileExt = settings.value("fileExt", FilenameGenerator::fileExt).toString();
-
     settings.endGroup();
 }
 
@@ -171,13 +169,13 @@ void OutputFileOptions_Dialog::on_OutputFileOptions_buttonBox_accepted()
     // Output Directory Settings:
     pFilenameGenerator->useSpecificOutputDirectory=ui->useOutputDirectory_checkBox->isChecked();
     pFilenameGenerator->outputDirectory=ui->outDirectory_lineEdit->text();
-    if(pFilenameGenerator->outputDirectory.right(1)==QDir::separator())
+    if(pFilenameGenerator->outputDirectory.right(1) == QDir::separator())
         pFilenameGenerator->outputDirectory = pFilenameGenerator->outputDirectory.left(pFilenameGenerator->outputDirectory.length()-1); // remove separator from end of string
 
     // File extension Settings:
     pFilenameGenerator->useSpecificFileExt=ui->setFileExt_radioButton->isChecked();
     pFilenameGenerator->fileExt=ui->outFileExt_lineEdit->text();
-    if( pFilenameGenerator->fileExt.left(1)==".")
+    if( pFilenameGenerator->fileExt.left(1) == ".")
         pFilenameGenerator->fileExt = pFilenameGenerator->fileExt.right(pFilenameGenerator->fileExt.length()-1); // remove leading "." from file extension
 }
 
