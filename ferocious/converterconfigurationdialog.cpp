@@ -80,6 +80,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     setLayout(mainLayout);
 
     // hide unnecessary columns
+    tableView.setColumnHidden(0, true);
     tableView.setColumnHidden(3, true);
     tableView.setColumnHidden(6, true);
     tableView.setColumnHidden(9, true);
@@ -118,8 +119,8 @@ void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
     int tw = event->size().width();
 
     static const QVector<double> columnWidths {
-        5,      /* "Priority" */
-        5,      /* "Enabled" */
+        0,      /* "Priority" */
+        10,     /* "Enabled" */
         20,     /* "Name" */
         0 ,     /* "Comment" */
         15,     /* "Input File Extension" */
@@ -189,6 +190,15 @@ QString ConverterConfigurationDialog::getExpectedMainConverter() const
 void ConverterConfigurationDialog::setExpectedMainConverter(const QString &value)
 {
     expectedMainConverter = value;
+    // set tooltips
+    mainConverterLocationLabel->setToolTip(QString{"Please enter the location of %1 in the box below.\n"
+                                           "(%1 is the command-line audio converter that Ferocious was designed to work with.)"
+                                           }.arg(expectedMainConverter));
+    mainConverterLocationEdit->setToolTip(QString{"Location of %1\n"
+                                          "Note: you can also use drag-and-drop, or the 'Browse' button"}.arg(expectedMainConverter));
+    browseButton->setToolTip(QString{"Browse to location of %1"}.arg(expectedMainConverter));
+    additionalConvertersLabel->setToolTip("Use the table below to cofigure additional converters for specialized file formats.");
+
 }
 
 void ConverterConfigurationDialog::onNewRequested(const QModelIndex& modelIndex)

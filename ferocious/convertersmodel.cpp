@@ -18,8 +18,8 @@ QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, i
     case 1: return "Enabled";
     case 2: return "Name";
     case 3: return "Comment";
-    case 4: return "Input File Extension";
-    case 5: return "Output File Extension";
+    case 4: return "Input Type";
+    case 5: return "Output Type";
     case 6: return "Executable";
     case 7: return "Executable Path";
     case 8: return "Command Line";
