@@ -114,10 +114,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
 
     // to-do:
-    // save / load converter definitions to disk
-    // only load definitions that match the OS
     // check if each executable exists and disable/enable conveter accordingly
-    // write gui for editing converter definitions
 
     connect(&process, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
     connect(&process, &QProcess::readyReadStandardError, this, &MainWindow::on_StderrAvailable);
@@ -983,7 +980,7 @@ void MainWindow::saveConverterDefinitions(const QString& fileName) const {
     QJsonDocument d(a);
 
     QDebug dbg = qDebug();
-    dbg.noquote() << "writing converter definitions to" << fileName << "...";
+    dbg.noquote() << "Writing converter definitions to" << fileName << "...";
     if(jsonFile.write(d.toJson()) == -1) {
         dbg << "failed.";
     } else {
