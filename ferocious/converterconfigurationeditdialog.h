@@ -27,6 +27,7 @@ private:
     QLineEdit* nameEdit;
     QLineEdit* commentEdit;
     QLineEdit* downloadLocationEdit;
+    QPushButton* openURLButton;
     QLineEdit* inputFileExtEdit;
     QLineEdit* outputFileExtEdit;
     QLineEdit* executableEdit;

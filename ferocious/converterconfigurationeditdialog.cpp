@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFileDialog>
+#include <QDesktopServices>
 
 ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *parent) : QDialog(parent)
 {
@@ -12,6 +13,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     auto inputFileExtLayout = new QVBoxLayout;
     auto outputFileExtLayout = new QVBoxLayout;
     auto executablePathLayout = new QHBoxLayout;
+    auto downloadLocationLayout = new QHBoxLayout;
 
     // Widgets
     enabledCheckbox = new QCheckBox("Enabled");
@@ -19,6 +21,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     nameEdit = new QLineEdit;
     commentEdit = new QLineEdit;
     downloadLocationEdit = new QLineEdit;
+    openURLButton = new QPushButton("Launch");
     inputFileExtEdit = new QLineEdit;
     outputFileExtEdit = new QLineEdit;
     executableEdit = new QLineEdit;
@@ -82,7 +85,9 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addWidget(commentLabel);
     mainLayout->addWidget(commentEdit);
     mainLayout->addWidget(downloadLocationLabel);
-    mainLayout->addWidget(downloadLocationEdit);
+    downloadLocationLayout->addWidget(downloadLocationEdit);
+    downloadLocationLayout->addWidget(openURLButton);
+    mainLayout->addLayout(downloadLocationLayout);
     mainLayout->addSpacing(12);
     mainLayout->addWidget(dialogButtonBox);
     mainLayout->addStretch();
@@ -95,6 +100,10 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     // connect signals / slots
     connect(executablePathBrowseButton, &QPushButton::clicked, this, [this] {
        promptForExecutableLocation();
+    });
+
+    connect(openURLButton, &QPushButton::clicked, this, [this] {
+       QDesktopServices::openUrl(QUrl(downloadLocationEdit->text()));
     });
 
     connect(dialogButtonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
