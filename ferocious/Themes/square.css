@@ -18,7 +18,7 @@ QDialog {
 	background-color: #3a4234;
 }
 
-QLineEdit {
+QLineEdit, QTextEdit {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);
 	selection-background-color: rgb(0, 0, 127);
