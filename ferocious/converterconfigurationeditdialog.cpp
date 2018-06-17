@@ -19,7 +19,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     enabledCheckbox = new QCheckBox("Enabled");
     priorityEdit = new QLineEdit;
     nameEdit = new QLineEdit;
-    commentEdit = new QLineEdit;
+    commentEdit = new QTextEdit;
     downloadLocationEdit = new QLineEdit;
     openURLButton = new QPushButton("Launch");
     inputFileExtEdit = new QLineEdit;
@@ -51,6 +51,9 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     // configure widgets
     heading->setAlignment(Qt::AlignHCenter);
     executablePathEdit->hideEditButton();
+    QFontMetrics m(commentEdit->font());
+    commentEdit->setMaximumHeight(10 * m.lineSpacing());
+    commentEdit->setStyleSheet(nameEdit->styleSheet());
 
     // hide things
     priorityLabel->setHidden(true);
@@ -89,8 +92,9 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     downloadLocationLayout->addWidget(openURLButton);
     mainLayout->addLayout(downloadLocationLayout);
     mainLayout->addSpacing(12);
-    mainLayout->addWidget(dialogButtonBox);
     mainLayout->addStretch();
+    mainLayout->addWidget(dialogButtonBox);
+
 
     // set main Layout
     this->setLayout(mainLayout);
@@ -116,7 +120,7 @@ ConverterDefinition ConverterConfigurationEditDialog::getConverterDefinition() c
     converterDefinition.priority = priorityEdit->text().toInt();
     converterDefinition.enabled = enabledCheckbox->isChecked();
     converterDefinition.name = nameEdit->text();
-    converterDefinition.comment = commentEdit->text();
+    converterDefinition.comment = commentEdit->document()->toPlainText();
     converterDefinition.downloadLocations = QStringList{downloadLocationEdit->text()};
     converterDefinition.inputFileExt = inputFileExtEdit->text();
     converterDefinition.outputFileExt = outputFileExtEdit->text();
@@ -131,7 +135,7 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     priorityEdit->setText(QString::number(converterDefinition.priority));
     enabledCheckbox->setChecked(converterDefinition.enabled);
     nameEdit->setText(converterDefinition.name);
-    commentEdit->setText(converterDefinition.comment);
+    commentEdit->setPlainText(converterDefinition.comment);
     downloadLocationEdit->setText(converterDefinition.downloadLocations.first());
     inputFileExtEdit->setText(converterDefinition.inputFileExt);
     outputFileExtEdit->setText(converterDefinition.outputFileExt);

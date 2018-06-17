@@ -25,7 +25,7 @@ private:
     QLineEdit* priorityEdit;
     QCheckBox* enabledCheckbox;
     QLineEdit* nameEdit;
-    QLineEdit* commentEdit;
+    QTextEdit* commentEdit;
     QLineEdit* downloadLocationEdit;
     QPushButton* openURLButton;
     QLineEdit* inputFileExtEdit;
