@@ -53,7 +53,6 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     executablePathEdit->hideEditButton();
     QFontMetrics m(commentEdit->font());
     commentEdit->setMaximumHeight(10 * m.lineSpacing());
-    commentEdit->setStyleSheet(nameEdit->styleSheet());
 
     // hide things
     priorityLabel->setHidden(true);
