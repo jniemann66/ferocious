@@ -33,7 +33,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     QLabel* priorityLabel = new QLabel("Priority");
     QLabel* nameLabel = new QLabel("Name");
     QLabel* commentLabel = new QLabel("Comments");
-    QLabel* downloadLocationLabel = new QLabel("Download Location");
+    QLabel* downloadLocationLabel = new QLabel("Link to Download / Information");
     QLabel* inputFileExtLabel = new QLabel("Input File Extension");
     QLabel* outputFileExtLabel = new QLabel("Output File Extension");
     QLabel* executableLabel = new QLabel("Executable");
