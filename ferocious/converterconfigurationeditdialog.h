@@ -17,7 +17,6 @@ class ConverterConfigurationEditDialog : public QDialog
 
 public:
     ConverterConfigurationEditDialog(QWidget* parent);
-
     ConverterDefinition getConverterDefinition() const;
     void setConverterDefinition(const ConverterDefinition &converterDefinition);
 

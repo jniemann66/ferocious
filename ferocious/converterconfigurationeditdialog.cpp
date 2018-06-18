@@ -54,6 +54,9 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     QFontMetrics m(commentEdit->font());
     commentEdit->setMaximumHeight(10 * m.lineSpacing());
 
+    // set tooltips
+    openURLButton->setToolTip("Open link in Browser");
+
     // hide things
     priorityLabel->setHidden(true);
     priorityEdit->setHidden(true);
@@ -93,7 +96,6 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     mainLayout->addSpacing(12);
     mainLayout->addStretch();
     mainLayout->addWidget(dialogButtonBox);
-
 
     // set main Layout
     this->setLayout(mainLayout);
