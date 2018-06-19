@@ -291,11 +291,13 @@ void ConverterConfigurationDialog::onMoveUpRequested(const QModelIndex& modelInd
     if(row < converterDefinitions.count()) {
         qSwap(converterDefinitions[row], converterDefinitions[row - 1]);
         convertersModel.setConverterDefinitions(converterDefinitions);
+        tableView.selectRow(row - 1);
     }
 }
 
 void ConverterConfigurationDialog::onMoveDownRequested(const QModelIndex& modelIndex)
 {
+
     int row = modelIndex.row();
 
     if(row < 0 ) {
@@ -306,5 +308,6 @@ void ConverterConfigurationDialog::onMoveDownRequested(const QModelIndex& modelI
     if(row < converterDefinitions.count() - 1) {
         qSwap(converterDefinitions[row], converterDefinitions[row + 1]);
         convertersModel.setConverterDefinitions(converterDefinitions);
+        tableView.selectRow(row + 1);
     }
 }
