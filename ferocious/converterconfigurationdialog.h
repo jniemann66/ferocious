@@ -37,6 +37,8 @@ private slots:
     void onEditRequested(const QModelIndex &modelIndex);
     void onDeleteRequested(const QModelIndex &modelIndex);
     void onCloneRequested(const QModelIndex &modelIndex);
+    void onMoveUpRequested(const QModelIndex &modelIndex);
+    void onMoveDownRequested(const QModelIndex &modelIndex);
 
 private:
     QLabel* mainConverterLocationLabel;
@@ -50,6 +52,7 @@ private:
     QString mainConverterPath;
 
     void promptForResamplerLocation();
+    void initMenu();
 };
 
 #endif // CONVERTERCONFIGURATIONDIALOG_H

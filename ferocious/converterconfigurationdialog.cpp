@@ -36,21 +36,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
 
     // configure menu
-    contextMenu->addAction("New", [this] {
-       onNewRequested(tableView.currentIndex());
-    }, QKeySequence::New);
-
-    contextMenu->addAction("Edit ...", [this] {
-       onEditRequested(tableView.currentIndex());
-    });
-
-    contextMenu->addAction("Clone", [this] {
-       onCloneRequested(tableView.currentIndex());
-    }, QKeySequence::Copy);
-
-    contextMenu->addAction("Delete", [this] {
-       onDeleteRequested(tableView.currentIndex());
-    }, {QKeySequence::Delete});
+    initMenu();
 
     // configure fonts
     QFont defaultFont{qApp->font()};
@@ -100,6 +86,33 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     });
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
+}
+
+void ConverterConfigurationDialog::initMenu() {
+    contextMenu->addAction("New", [this] {
+       onNewRequested(tableView.currentIndex());
+    }, QKeySequence::New);
+
+    contextMenu->addAction("Edit ...", [this] {
+       onEditRequested(tableView.currentIndex());
+    });
+
+    contextMenu->addAction("Clone", [this] {
+       onCloneRequested(tableView.currentIndex());
+    }, QKeySequence::Copy);
+
+    contextMenu->addAction("Delete", [this] {
+       onDeleteRequested(tableView.currentIndex());
+    }, {QKeySequence::Delete});
+
+    contextMenu->addAction("Move Up", [this] {
+        onMoveUpRequested(tableView.currentIndex());
+    });
+
+    contextMenu->addAction("Move Down", [this] {
+        onMoveDownRequested(tableView.currentIndex());
+    });
+
 }
 
 void ConverterConfigurationDialog::showEvent(QShowEvent* event) {
@@ -262,6 +275,36 @@ void ConverterConfigurationDialog::onCloneRequested(const QModelIndex& modelInde
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
     if(row < converterDefinitions.count()) {
         converterDefinitions.insert(row, converterDefinitions.at(row));
+        convertersModel.setConverterDefinitions(converterDefinitions);
+    }
+}
+
+void ConverterConfigurationDialog::onMoveUpRequested(const QModelIndex& modelIndex)
+{
+    int row = modelIndex.row();
+
+    if(row < 1 ) {
+        return;
+    }
+
+    QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
+    if(row < converterDefinitions.count()) {
+        qSwap(converterDefinitions[row], converterDefinitions[row - 1]);
+        convertersModel.setConverterDefinitions(converterDefinitions);
+    }
+}
+
+void ConverterConfigurationDialog::onMoveDownRequested(const QModelIndex& modelIndex)
+{
+    int row = modelIndex.row();
+
+    if(row < 0 ) {
+        return;
+    }
+
+    QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
+    if(row < converterDefinitions.count() - 1) {
+        qSwap(converterDefinitions[row], converterDefinitions[row + 1]);
         convertersModel.setConverterDefinitions(converterDefinitions);
     }
 }

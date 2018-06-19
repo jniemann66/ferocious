@@ -935,7 +935,7 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
         break;
     }
 
-    return args;
+    return args; 
 }
 
 void MainWindow::loadConverterDefinitions(const QString& fileName) {
