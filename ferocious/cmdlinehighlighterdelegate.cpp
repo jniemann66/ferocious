@@ -11,8 +11,6 @@ void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionView
     if (option.state & QStyle::State_Selected)
         painter->fillRect( option.rect, option.palette.highlight());
 
-
-
     QTextDocument document;
     document.setTextWidth(option.rect.width());
     QVariant value = index.data(Qt::DisplayRole);

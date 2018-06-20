@@ -68,7 +68,6 @@ FancyLineEdit:disabled {
 	border-color: #2b3126;
 }
 
-
 QPushButton {
 	color: #fff;
 	border: 1px solid #1b2018;
@@ -314,6 +313,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 QTableView {
         background-color: black;
         border:  0px solid #1b2018;
+        selection-background-color: #202040;
 }
 
 QHeaderView::section {

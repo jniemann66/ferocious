@@ -6,11 +6,13 @@
 
 class CmdLineHighlighterDelegate : public QStyledItemDelegate
 {
+
 public:
     CmdLineHighlighterDelegate(QObject *parent);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
 private:
     static QString getHtmlHighlighting(const QString &input);
 };
