@@ -33,7 +33,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setSelectionMode(QAbstractItemView::SingleSelection);
     tableView.setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView.setContextMenuPolicy(Qt::CustomContextMenu);
-
+    tableView.horizontalHeader()->setStretchLastSection(true);
 
     // configure menu
     initMenu();
@@ -136,8 +136,8 @@ void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
         10,     /* "Enabled" */
         20,     /* "Name" */
         0 ,     /* "Comment" */
-        15,     /* "Input File Extension" */
-        15,     /* "Output File Extension" */
+        12,     /* "Input File Extension" */
+        12,     /* "Output File Extension" */
         0 ,     /* "Executable" */
         20,     /* "Executable Path" */
         20,     /* "Command Line" */
@@ -145,7 +145,7 @@ void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
         0      /* "Operating Systems" */
     };
 
-    for(int col = 0; col < convertersModel.columnCount({}); col++) {
+    for(int col = 0; col < convertersModel.columnCount({}) - 1; col++) {
         tableView.horizontalHeader()->resizeSection(col, tw * columnWidths.at(col)/100.0);
     }
 
