@@ -1,7 +1,7 @@
 #include "outputfileoptions_dialog.h"
 #include "ui_outputfileoptions_dialog.h"
-#include <QFileDialog>
 
+#include <QFileDialog>
 
 FilenameGenerator::FilenameGenerator() {
     // factory defaults:

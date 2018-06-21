@@ -1,7 +1,6 @@
 #ifndef CMDLINEHIGHLIGHTERDELEGATE_H
 #define CMDLINEHIGHLIGHTERDELEGATE_H
 
-
 #include <QStyledItemDelegate>
 
 class CmdLineHighlighterDelegate : public QStyledItemDelegate

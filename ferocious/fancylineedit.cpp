@@ -1,9 +1,9 @@
+#include "fancylineedit.h"
+
 #include <QToolButton>
 #include <QStyle>
 #include <QInputDialog>
 #include <QDir>
-
-#include "fancylineedit.h"
 
 FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
 {
