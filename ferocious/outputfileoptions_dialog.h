@@ -2,10 +2,8 @@
 #define OUTPUTFILEOPTIONS_DIALOG_H
 
 // outputfileoptionsdialog.h
-// by J. Niemann
 // defines FilenameGenerator class and
 // OutputFileOptions_Dialog class
-//
 
 #include <QDialog>
 #include <QSettings>

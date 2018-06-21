@@ -7,6 +7,7 @@
 
 class CheckBoxDelegate : public QStyledItemDelegate
 {
+
 public:
     CheckBoxDelegate(QObject* parent = nullptr);
 
