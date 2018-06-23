@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include <QTableView>
 #include <QMenu>
+#include <QToolBar>
 
 class ConverterConfigurationDialog : public QDialog
 {
@@ -46,6 +47,7 @@ private:
     FancyLineEdit* mainConverterLocationEdit;
     QPushButton* browseButton;
     QMenu* contextMenu;
+    QToolBar* contextToolBar;
     QTableView tableView;
     ConvertersModel convertersModel;
     QString expectedMainConverter;
@@ -53,6 +55,7 @@ private:
 
     void promptForResamplerLocation();
     void initMenu();
+    void initToolBar();
 };
 
 #endif // CONVERTERCONFIGURATIONDIALOG_H

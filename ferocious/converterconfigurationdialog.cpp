@@ -19,6 +19,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     mainConverterLocationLabel = new QLabel("Location of Main Converter:");
     mainConverterLocationEdit = new FancyLineEdit;
     contextMenu = new QMenu(this);
+    contextToolBar = new QToolBar(this);
     browseButton = new QPushButton("Browse ...");
     additionalConvertersLabel = new QLabel("Additional converters:");
     auto stdButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -35,8 +36,10 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setContextMenuPolicy(Qt::CustomContextMenu);
     tableView.horizontalHeader()->setStretchLastSection(true);
 
-    // configure menu
+    // configure menu & toolbar
     initMenu();
+    initToolBar();
+    contextToolBar->hide();
 
     // configure fonts
     QFont defaultFont{qApp->font()};
@@ -84,6 +87,13 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     connect(&tableView, &QWidget::customContextMenuRequested, this, [this](const QPoint& pos){
         contextMenu->popup(QPoint{this->mapToGlobal(pos).x(), this->mapToGlobal(pos).y() + contextMenu->sizeHint().height()});
     });
+    connect(&tableView, &QTableView::clicked, this, [this](const QModelIndex& modelIndex) {
+      // qDebug() << "Booyah";
+        QPoint p{tableView.columnViewportPosition(modelIndex.column()) , tableView.rowViewportPosition(modelIndex.row())};
+       contextToolBar->move(QPoint{this->mapToGlobal(p).x(), this->mapToGlobal(p).y() + contextToolBar->sizeHint().height()});
+       contextToolBar->show();
+       contextToolBar->raise();
+    });
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
@@ -110,6 +120,33 @@ void ConverterConfigurationDialog::initMenu() {
     });
 
     contextMenu->addAction("Move Down", [this] {
+        onMoveDownRequested(tableView.currentIndex());
+    });
+
+}
+
+void ConverterConfigurationDialog::initToolBar() {
+    contextToolBar->addAction("New", [this] {
+       onNewRequested(tableView.currentIndex());
+    });
+
+    contextToolBar->addAction("Edit ...", [this] {
+       onEditRequested(tableView.currentIndex());
+    });
+
+    contextToolBar->addAction("Clone", [this] {
+       onCloneRequested(tableView.currentIndex());
+    });
+
+    contextToolBar->addAction("Delete", [this] {
+       onDeleteRequested(tableView.currentIndex());
+    });
+
+    contextToolBar->addAction("Move Up", [this] {
+        onMoveUpRequested(tableView.currentIndex());
+    });
+
+    contextToolBar->addAction("Move Down", [this] {
         onMoveDownRequested(tableView.currentIndex());
     });
 
