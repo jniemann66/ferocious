@@ -368,6 +368,7 @@ void MainWindow::on_browseInfileButton_clicked()
     QFileDialog fileDialog(this);
     fileDialog.setDirectory(inFileBrowsePath);
     fileDialog.setFileMode(QFileDialog::ExistingFiles);
+    // todo: set name filter dynamically, based on installed external converters
     fileDialog.setNameFilter("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)");
     fileDialog.setViewMode(QFileDialog::Detail);
     QStringList fileNames;
