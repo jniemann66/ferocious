@@ -160,4 +160,40 @@
         ],
         "priority": 0
     }
+,
+    {
+        "commandline": "-o {o} {i}",
+        "comment": "Decode m4a to wav using faad",
+        "downloadlocations": [
+            "http://www.audiocoding.com/index.html"
+        ],
+        "enabled": true,
+        "executablename": "faad",
+        "executablepath": "faad",
+        "inputfileext": "m4a",
+        "outputfileext": "wav",
+        "name": "Decode m4a to wav using faad",
+        "operatingsystems": [
+            "linux"
+        ],
+        "priority": 0
+    }
+,
+    {
+        "commandline": "-q 150 -o {o} {i}",
+        "comment": "Encode wav to m4a using faac",
+        "downloadlocations": [
+            "http://www.audiocoding.com/index.html"
+        ],
+        "enabled": true,
+        "executablename": "faac",
+        "executablepath": "faac",
+        "inputfileext": "wav",
+        "outputfileext": "m4a",
+        "name": "Encode wav to m4a using faac",
+        "operatingsystems": [
+            "linux"
+        ],
+        "priority": 0
+    }
 ]
