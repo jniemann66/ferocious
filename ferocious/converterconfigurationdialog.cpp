@@ -88,11 +88,10 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
         contextMenu->popup(QPoint{this->mapToGlobal(pos).x(), this->mapToGlobal(pos).y() + contextMenu->sizeHint().height()});
     });
     connect(&tableView, &QTableView::clicked, this, [this](const QModelIndex& modelIndex) {
-      // qDebug() << "Booyah";
         QPoint p{tableView.columnViewportPosition(modelIndex.column()) , tableView.rowViewportPosition(modelIndex.row())};
-       contextToolBar->move(QPoint{this->mapToGlobal(p).x(), this->mapToGlobal(p).y() + contextToolBar->sizeHint().height()});
-       contextToolBar->show();
-       contextToolBar->raise();
+        contextToolBar->move(p + QPoint{0, (int)tableView.geometry().top() + contextToolBar->sizeHint().height() * 3} );
+        contextToolBar->show();
+        contextToolBar->raise();
     });
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
@@ -128,27 +127,37 @@ void ConverterConfigurationDialog::initMenu() {
 void ConverterConfigurationDialog::initToolBar() {
     contextToolBar->addAction("New", [this] {
        onNewRequested(tableView.currentIndex());
+       contextToolBar->hide();
     });
 
     contextToolBar->addAction("Edit ...", [this] {
        onEditRequested(tableView.currentIndex());
+       contextToolBar->hide();
     });
 
     contextToolBar->addAction("Clone", [this] {
        onCloneRequested(tableView.currentIndex());
+       contextToolBar->hide();
     });
 
     contextToolBar->addAction("Delete", [this] {
        onDeleteRequested(tableView.currentIndex());
+       contextToolBar->hide();
     });
 
     contextToolBar->addAction("Move Up", [this] {
         onMoveUpRequested(tableView.currentIndex());
+        //contextToolBar->hide();
     });
 
-    contextToolBar->addAction("Move Down", [this] {
+    qDebug() << contextToolBar->addAction("Move Down", [this] {
         onMoveDownRequested(tableView.currentIndex());
+        //contextToolBar->hide();
     });
+
+    contextToolBar->setContentsMargins(0, 0, 0, 0);
+    contextToolBar->setMinimumWidth(tableView.width() / 2);
+    contextToolBar->setMaximumWidth(tableView.width());
 
 }
 
