@@ -196,4 +196,23 @@
         ],
         "priority": 0
     }
+,
+    {
+        "commandline": "--bitrate 160 {i} {o}",
+        "comment": "Ubuntu: sudo apt install opus-tools",
+        "downloadlocations": [
+            "http://opus-codec.org/"
+        ],
+        "enabled": true,
+        "executablename": "opusenc",
+        "executablepath": "opusenc",
+        "inputfileext": "wav",
+        "outputfileext": "opus",
+        "name": "Encode wav to opus using opusenc",
+        "operatingsystems": [
+            "linux"
+        ],
+        "priority": 0
+    }
+
 ]
