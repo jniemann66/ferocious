@@ -368,8 +368,7 @@ void MainWindow::on_browseInfileButton_clicked()
     QFileDialog fileDialog(this);
     fileDialog.setDirectory(inFileBrowsePath);
     fileDialog.setFileMode(QFileDialog::ExistingFiles);
-    // todo: set name filter dynamically, based on installed external converters
-    fileDialog.setNameFilter("Audio Files (*.aif *.aifc *.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)");
+    fileDialog.setNameFilter(getInfileFilter());
     fileDialog.setViewMode(QFileDialog::Detail);
     QStringList fileNames;
     if(fileDialog.exec()) {
@@ -1074,8 +1073,8 @@ void MainWindow::on_browseOutfileButton_clicked()
 {
     QString path = ui->OutfileEdit->text().isEmpty() ? outFileBrowsePath : ui->OutfileEdit->text(); // if OutfileEdit is populated, use that. Otherwise, use last output file browse path
 
-    QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Select Output File"), path, tr("Audio Files (*.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Select Output File"), path, getOutfileFilter());
+      //  tr("Audio Files (*.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"
 
     if(!fileName.isNull()) {
         QDir path(fileName);
@@ -1500,6 +1499,36 @@ void MainWindow::on_actionUse_a_temp_file_triggered(bool checked)
     bNoTempFile = !checked;
 }
 
+// getInfileFiler() : returns a filename filter, taking into consideration all file formats which can be handled in the current state
+QString MainWindow::getInfileFilter() {
+
+    QSet<QString> infileFormats{
+        "*.aif", "*.aifc", "*.aiff", "*.au", "*.avr", "*.caf", "*.dff", "*.dsf", "*.flac", "*.htk", "*.iff", "*.mat", "*.mpc", "*.oga", "*.paf", "*.pvf", "*.raw", "*.rf64", "*.sd2", "*.sds", "*.sf", "*.voc", "*.w64", "*.wav", "*.wve", "*.xi"
+    };
+
+    for(const ConverterDefinition& d : converterDefinitions) {
+        if(d.enabled) {
+            infileFormats.insert(QString{"*."} + d.inputFileExt);
+        }
+    }
+
+    return QString{"Audio Files (%1)"}.arg(infileFormats.toList().join(" "));
+}
+
+QString MainWindow::getOutfileFilter() {
+    QSet<QString> outfileFormats{
+        "*.aiff", "*.au", "*.avr", "*.caf", "*.flac", "*.htk", "*.iff", "*.mat", "*.mpc", "*.oga", "*.paf", "*.pvf", "*.raw", "*.rf64", "*.sd2", "*.sds", "*.sf", "*.voc", "*.w64", "*.wav", "*.wve", "*.xi"
+    };
+
+    for(const ConverterDefinition& d : converterDefinitions) {
+        if(d.enabled) {
+            outfileFormats.insert(QString{"*."} + d.outputFileExt);
+        }
+    }
+
+    return QString{"Audio Files (%1)"}.arg(outfileFormats.toList().join(" "));
+}
+
 QString MainWindow::getRandomString(int length)
 {
    QString s;
@@ -1509,3 +1538,4 @@ QString MainWindow::getRandomString(int length)
    }
    return s;
 }
+

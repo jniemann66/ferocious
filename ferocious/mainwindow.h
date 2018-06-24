@@ -161,6 +161,8 @@ private:
     ConverterDefinition getSpecialistConverter(const QString &inExt, const QString &outExt);
     QStringList prepareSpecialistConverterArgs(const ConverterDefinition &converterDefinition, const QString &outfn, const QString &infn);
     static QString getRandomString(int length);
+    QString getInfileFilter();
+    QString getOutfileFilter();
 };
 
 #endif // MAINWINDOW_H
