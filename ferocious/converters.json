@@ -198,6 +198,24 @@
     }
 ,
     {
+        "commandline": "{i} {o}",
+        "comment": "Ubuntu: sudo apt install opus-tools",
+        "downloadlocations": [
+            "http://opus-codec.org/"
+        ],
+        "enabled": true,
+        "executablename": "opusdec",
+        "executablepath": "opusdec",
+        "inputfileext": "opus",
+        "outputfileext": "wav",
+        "name": "Decode opus to wav using opusdec",
+        "operatingsystems": [
+            "linux"
+        ],
+        "priority": 0
+    }
+,
+    {
         "commandline": "--bitrate 160 {i} {o}",
         "comment": "Ubuntu: sudo apt install opus-tools",
         "downloadlocations": [
@@ -214,5 +232,4 @@
         ],
         "priority": 0
     }
-
 ]
