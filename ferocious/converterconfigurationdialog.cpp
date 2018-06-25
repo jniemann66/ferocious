@@ -83,17 +83,20 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     connect(mainConverterLocationEdit, &QLineEdit::editingFinished, this, [this] {
        mainConverterPath = mainConverterLocationEdit->text();
     });
+
     connect(browseButton, &QPushButton::clicked, this, &ConverterConfigurationDialog::promptForResamplerLocation);
     connect(&tableView, &QWidget::customContextMenuRequested, this, [this](const QPoint& pos){
         contextMenu->popup(QPoint{this->mapToGlobal(pos).x(), this->mapToGlobal(pos).y() + contextMenu->sizeHint().height()});
         contextToolBar->hide();
     });
+
     connect(&tableView, &QTableView::clicked, this, [this](const QModelIndex& modelIndex) {
         QPoint p{tableView.columnViewportPosition(modelIndex.column()) , tableView.rowViewportPosition(std::min(tableView.model()->rowCount() - 2,  modelIndex.row()))};
-        contextToolBar->move(p + QPoint{0, (int)tableView.geometry().top() + contextToolBar->sizeHint().height() * 3} );
+        contextToolBar->move(p + QPoint{12, (int)tableView.geometry().top() + contextToolBar->sizeHint().height() * 3} );
         contextToolBar->show();
         contextToolBar->raise();
     });
+
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
