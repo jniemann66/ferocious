@@ -11,6 +11,7 @@
 #include <QHeaderView>
 #include <QDebug>
 #include <QApplication>
+#include <QToolButton>
 
 ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f) : QDialog(parent, f)
 {
@@ -91,8 +92,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     });
 
     connect(&tableView, &QTableView::clicked, this, [this](const QModelIndex& modelIndex) {
-        QPoint p{tableView.columnViewportPosition(modelIndex.column()) , tableView.rowViewportPosition(std::min(tableView.model()->rowCount() - 2,  modelIndex.row()))};
-        contextToolBar->move(p + QPoint{12, (int)tableView.geometry().top() + contextToolBar->sizeHint().height() * 3} );
+        Q_UNUSED(modelIndex);
+        QPoint p = QCursor::pos();
+        contextToolBar->move(mapFromGlobal(p) + QPoint{25 /*tableView.columnWidth(modelIndex.column()) / 2*/, -contextToolBar->sizeHint().height() / 2});
         contextToolBar->show();
         contextToolBar->raise();
     });
@@ -129,39 +131,52 @@ void ConverterConfigurationDialog::initMenu() {
 }
 
 void ConverterConfigurationDialog::initToolBar() {
-    contextToolBar->addAction("New", [this] {
+    QList<QAction*> actions;
+
+    actions.append(contextToolBar->addAction("New", [this] {
        onNewRequested(tableView.currentIndex());
        contextToolBar->hide();
-    });
+    }));
 
-    contextToolBar->addAction("Edit ...", [this] {
+    actions.append(contextToolBar->addAction("Edit ...", [this] {
        onEditRequested(tableView.currentIndex());
        contextToolBar->hide();
-    });
+    }));
 
-    contextToolBar->addAction("Clone", [this] {
+    actions.append(contextToolBar->addAction("Clone", [this] {
        onCloneRequested(tableView.currentIndex());
        contextToolBar->hide();
-    });
+    }));
 
-    contextToolBar->addAction("Delete", [this] {
+    actions.append(contextToolBar->addAction("Delete", [this] {
        onDeleteRequested(tableView.currentIndex());
        contextToolBar->hide();
-    });
+    }));
 
-    contextToolBar->addAction("Move Up", [this] {
+    actions.append(contextToolBar->addAction("Move Up", [this] {
         onMoveUpRequested(tableView.currentIndex());
         //contextToolBar->hide();
-    });
+    }));
 
-    qDebug() << contextToolBar->addAction("Move Down", [this] {
+    actions.append(contextToolBar->addAction("Move Down", [this] {
         onMoveDownRequested(tableView.currentIndex());
         //contextToolBar->hide();
-    });
+    }));
 
     contextToolBar->setContentsMargins(0, 0, 0, 0);
     contextToolBar->setMinimumWidth(tableView.width() / 2);
     contextToolBar->setMaximumWidth(tableView.width());
+    contextToolBar->setFixedHeight(40);
+    contextToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    contextToolBar->setStyleSheet("QToolBar {background-color: rgba(0,0,0,0);}");
+
+    for(QAction* a : actions) {
+        QWidget* w = contextToolBar->widgetForAction(a);
+        if(QString(w->metaObject()->className()) == "QToolButton") {
+            QToolButton* t = qobject_cast<QToolButton*>(w);
+            t->setStyleSheet("QToolButton {padding: 5px; border-radius: 3px}");
+        }
+    }
 
 }
 

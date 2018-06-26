@@ -18,7 +18,7 @@ QDialog {
 	background-color: #3a4234;
 }
 
-QLineEdit, QTextEdit {
+QLineEdit {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);
 	selection-background-color: rgb(0, 0, 127);
@@ -295,7 +295,7 @@ QScrollBar::right-arrow:horizontal {
 	padding: 0px;
 	background: qradialgradient(cx: 0.3, cy: -0.4,
 	fx: 0.3, fy: -0.4,
-	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
+	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);k
 }
 
 
@@ -308,7 +308,6 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 QTableView {
 	background-color: black;
 	border:  0px solid #1b2018;
-	selection-background-color: #202040;
 }
 
 
