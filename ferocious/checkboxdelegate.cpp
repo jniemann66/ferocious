@@ -6,8 +6,6 @@ CheckBoxDelegate::CheckBoxDelegate(QObject *parent) : QStyledItemDelegate(parent
 
 void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    painter->save();
-
     if (option.state & QStyle::State_Selected)
         painter->fillRect(option.rect, option.palette.highlight());
 
@@ -15,7 +13,6 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     checkBoxOptions.rect = option.rect;
     checkBoxOptions.state |= (index.data().toBool() ? QStyle::State_On : QStyle::State_Off);
     QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkBoxOptions, painter);
-    painter->restore();
 }
 
 bool CheckBoxDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
