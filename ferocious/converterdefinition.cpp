@@ -99,3 +99,21 @@ QVector<ConverterDefinition> ConverterDefinition::loadConverterDefinitions(const
     }
     return converterDefinitions;
 }
+
+void ConverterDefinition::saveConverterDefinitions(const QString& fileName, const QVector<ConverterDefinition>& converterDefinitions) {
+    QJsonArray a;
+    for(const ConverterDefinition& converterDefinition: converterDefinitions) {
+        a.append(converterDefinition.toJson());
+    }
+    QFile jsonFile(fileName);
+    jsonFile.open(QFile::WriteOnly);
+    QJsonDocument d(a);
+
+    QDebug dbg = qDebug();
+    dbg.noquote() << "Writing converter definitions to" << fileName << "...";
+    if(jsonFile.write(d.toJson()) == -1) {
+        dbg << "failed.";
+    } else {
+        dbg << "success.";
+    }
+}

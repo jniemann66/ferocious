@@ -30,6 +30,7 @@ struct ConverterDefinition
 
 public:
     static QVector<ConverterDefinition> loadConverterDefinitions(const QString &fileName);
+    static void saveConverterDefinitions(const QString &fileName, const QVector<ConverterDefinition> &converterDefinitions);
 };
 
 #endif // CONVERTERDEFINITION_H
