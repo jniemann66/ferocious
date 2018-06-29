@@ -145,7 +145,7 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     if(converterDefinition.executable.isEmpty()) {
         executablePathLabel->setText(tr("Path of Executable"));
     } else {
-        executablePathLabel->setText(QString{"Path of Executable (%1)"}.arg(converterDefinition.executable));
+        executablePathLabel->setText(QString(tr("Path of Executable (%1)")).arg(converterDefinition.executable));
     }
 
     executablePathEdit->setText(converterDefinition.executablePath);
