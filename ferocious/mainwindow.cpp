@@ -953,8 +953,8 @@ void MainWindow::on_InfileEdit_editingFinished()
     if(inFilename.isEmpty()) {
 
         // reset to single file mode:
-        ui->InfileLabel->setText("Input File:");
-        ui->OutfileLabel->setText("Output File:");
+        ui->InfileLabel->setText(tr("Input File:"));
+        ui->OutfileLabel->setText(tr("Output File:"));
         ui->OutfileEdit->setReadOnly(false);
 
         // reset outFilename
@@ -994,8 +994,8 @@ void MainWindow::on_InfileEdit_editingFinished()
 
     if(inFilename.indexOf(MultiFileSeparator) == -1) { // Single-file mode:
 
-        ui->InfileLabel->setText("Input File:");
-        ui->OutfileLabel->setText("Output File:");
+        ui->InfileLabel->setText(tr("Input File:"));
+        ui->OutfileLabel->setText(tr("Output File:"));
         ui->OutfileEdit->setReadOnly(false);
 
         if(bRefreshOutfileEdit) {
@@ -1017,10 +1017,10 @@ void MainWindow::on_InfileEdit_editingFinished()
         }
         filenameGenerator.generateOutputFilename(outFilename, outFilename); // Generate output filename by applying name-generation rules
         ui->OutfileEdit->setText(outFilename);
-        ui->OutfileLabel->setText("Output Files: (filenames auto-generated)");
+        ui->OutfileLabel->setText(tr("Output Files: (filenames auto-generated)"));
         ui->OutfileEdit->setReadOnly(true);
         ui->OutfileEdit->update();
-        ui->InfileLabel->setText("Input Files:");
+        ui->InfileLabel->setText(tr("Input Files:"));
     }
 
     // trigger an update of options if output file extension changed:
@@ -1030,9 +1030,7 @@ void MainWindow::on_InfileEdit_editingFinished()
 void MainWindow::on_browseOutfileButton_clicked()
 {
     QString path = ui->OutfileEdit->text().isEmpty() ? outFileBrowsePath : ui->OutfileEdit->text(); // if OutfileEdit is populated, use that. Otherwise, use last output file browse path
-
     QString fileName = QFileDialog::getSaveFileName(this, tr("Select Output File"), path, getOutfileFilter());
-      //  tr("Audio Files (*.aiff *.au *.avr *.caf *.dff *.dsf *.flac *.htk *.iff *.mat *.mpc *.oga *.paf *.pvf *.raw *.rf64 *.sd2 *.sds *.sf *.voc *.w64 *.wav *.wve *.xi)"
 
     if(!fileName.isNull()) {
         QDir path(fileName);
@@ -1170,10 +1168,10 @@ void MainWindow::on_actionOutput_File_Options_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QString info("Ferocious File Conversion\n By J.Niemann\n\n");
+    QString info(tr("Ferocious File Conversion\n By J.Niemann\n\n"));
 
-    info += "GUI Version: " + QString(APP_VERSION) + "\n";
-    info += "Converter Vesion: " + resamplerVersion + "\n";
+    info += tr("GUI Version: ") + QString(APP_VERSION) + "\n";
+    info += tr("Converter Vesion: ") + resamplerVersion + "\n";
 
     QMessageBox msgBox;
     msgBox.setText("About");
@@ -1237,12 +1235,12 @@ void MainWindow::applyStylesheet() {
         stylesheetFilePath = ":/ferocious.css"; // factory default
 
     if(stylesheetFilePath == ":/ferocious.css") {
-        qDebug() << "using factory default theme";
+        qDebug() << tr("using factory default theme");
         return;
     }
 
     if(!fileExists(stylesheetFilePath)) {
-        qDebug() << "stylesheet " << stylesheetFilePath << " doesn't exist";
+        qDebug() << tr("stylesheet ") << stylesheetFilePath << tr(" doesn't exist");
         return;
     }
 
@@ -1254,13 +1252,13 @@ void MainWindow::applyStylesheet() {
         a->setStyleSheet(ss.readAll());
         ss.close();
     } else {
-        qDebug() << "Couldn't open stylesheet resource " << stylesheetFilePath;
+        qDebug() << tr("Couldn't open stylesheet resource ") << stylesheetFilePath;
     }
 }
 
 void MainWindow::on_actionTheme_triggered()
 {
-    stylesheetFilePath = QFileDialog::getOpenFileName(this, "Choose a Stylesheet", QDir::currentPath(), tr("Style Sheets (*.css *.css)"));
+    stylesheetFilePath = QFileDialog::getOpenFileName(this, tr("Choose a Stylesheet"), QDir::currentPath(), tr("Style Sheets (*.qss *.css)"));
     applyStylesheet();
 }
 
@@ -1416,7 +1414,7 @@ void MainWindow::on_actionCustom_Parameters_triggered()
 void MainWindow::getCustomLpfParameters() {
     auto d = new lpfParametersDlg(this);
     d->setValues(customLpfCutoff, customLpfTransition);
-    d->setWindowTitle("Custom LPF Parameters");
+    d->setWindowTitle(tr("Custom LPF Parameters"));
     connect(d, &QDialog::accepted, this, [this, d] {
         auto v = d->getValues();
         customLpfCutoff = v.first;
@@ -1430,8 +1428,8 @@ void MainWindow::on_convertButton_rightClicked() {
        convertTaskMenu->removeAction(a);
    }
 
-   convertTaskMenu->addAction("Convert", this, &MainWindow::on_convertButton_clicked);
-   convertTaskMenu->addAction("Copy Command Line to Clipboard", [this] {
+   convertTaskMenu->addAction(tr("Convert"), this, &MainWindow::on_convertButton_clicked);
+   convertTaskMenu->addAction(tr("Copy Command Line to Clipboard"), [this] {
         QGuiApplication::clipboard()->clear();
         launchType = LaunchType::Clipboard;
         launch();
@@ -1444,7 +1442,7 @@ void MainWindow::on_stopRequested() {
     qDebug() << "STOP!";
     conversionQueue.clear();
     process.kill();
-    ui->StatusLabel->setText("Status: conversion stopped");
+    ui->StatusLabel->setText(tr("Status: conversion stopped"));
 }
 
 void MainWindow::on_actionMultiStageConversion_triggered(bool checked)

@@ -6,7 +6,7 @@ void ConverterOutputBox::contextMenuEvent(QContextMenuEvent *e)
 {
     auto m = createStandardContextMenu();
     m->addSeparator();
-    m->addAction("Clear", [this]() {
+    m->addAction(tr("Clear"), [this]() {
         clear();
     });
     m->exec(e->globalPos());

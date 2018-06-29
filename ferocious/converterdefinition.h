@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QVector>
 
 struct ConverterDefinition
 {

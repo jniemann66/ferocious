@@ -16,31 +16,31 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     auto downloadLocationLayout = new QHBoxLayout;
 
     // Widgets
-    enabledCheckbox = new QCheckBox("Enabled");
+    enabledCheckbox = new QCheckBox(tr("Enabled"));
     priorityEdit = new QLineEdit;
     nameEdit = new QLineEdit;
     commentEdit = new QTextEdit;
     downloadLocationEdit = new QLineEdit;
-    openURLButton = new QPushButton("Launch");
+    openURLButton = new QPushButton(tr("Launch"));
     inputFileExtEdit = new QLineEdit;
     outputFileExtEdit = new QLineEdit;
     executableEdit = new QLineEdit;
     executablePathEdit = new FancyLineEdit;
-    executablePathBrowseButton = new QPushButton("Browse ...");
+    executablePathBrowseButton = new QPushButton(tr("Browse ..."));
     commandLineEdit = new QLineEdit;
     dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     // labels
-    executablePathLabel = new QLabel("Path of Executable");
-    QLabel* heading = new QLabel("Edit External Converter Settings");
-    QLabel* priorityLabel = new QLabel("Priority");
-    QLabel* nameLabel = new QLabel("Name");
-    QLabel* commentLabel = new QLabel("Comments");
-    QLabel* downloadLocationLabel = new QLabel("Link to Download / Information");
-    QLabel* inputFileExtLabel = new QLabel("Input File Extension");
-    QLabel* outputFileExtLabel = new QLabel("Output File Extension");
-    QLabel* executableLabel = new QLabel("Executable");
-    QLabel* commandLineLabel = new QLabel("Command Line Arguments");
+    executablePathLabel = new QLabel(tr("Path of Executable"));
+    QLabel* heading = new QLabel(tr("Edit External Converter Settings"));
+    QLabel* priorityLabel = new QLabel(tr("Priority"));
+    QLabel* nameLabel = new QLabel(tr("Name"));
+    QLabel* commentLabel = new QLabel(tr("Comments"));
+    QLabel* downloadLocationLabel = new QLabel(tr("Link to Download / Information"));
+    QLabel* inputFileExtLabel = new QLabel(tr("Input File Extension"));
+    QLabel* outputFileExtLabel = new QLabel(tr("Output File Extension"));
+    QLabel* executableLabel = new QLabel(tr("Executable"));
+    QLabel* commandLineLabel = new QLabel(tr("Command Line Arguments"));
 
     // set fonts
     QFont f = heading->font();
@@ -55,7 +55,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     commentEdit->setMaximumHeight(10 * m.lineSpacing());
 
     // set tooltips
-    openURLButton->setToolTip("Open link in Browser");
+    openURLButton->setToolTip(tr("Open link in Browser"));
 
     // hide things
     priorityLabel->setHidden(true);
@@ -143,7 +143,7 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     executableEdit->setText(converterDefinition.executable);
 
     if(converterDefinition.executable.isEmpty()) {
-        executablePathLabel->setText("Path of Executable");
+        executablePathLabel->setText(tr("Path of Executable"));
     } else {
         executablePathLabel->setText(QString{"Path of Executable (%1)"}.arg(converterDefinition.executable));
     }
@@ -153,7 +153,7 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
 }
 
 void ConverterConfigurationEditDialog::promptForExecutableLocation() {
-    QString s("Please locate the execuatble file ");
+    QString s(tr("Please locate the execuatble file "));
     if (!getConverterDefinition().executable.isEmpty())
         s.append(getConverterDefinition().executable);
 

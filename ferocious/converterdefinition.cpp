@@ -1,6 +1,5 @@
 #include "converterdefinition.h"
 
-#include <QVector>
 #include <QFile>
 #include <QDebug>
 #include <QJsonDocument>

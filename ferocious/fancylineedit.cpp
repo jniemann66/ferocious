@@ -97,7 +97,7 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
 
 void FancyLineEdit::on_editButton_Clicked()
 {
-    fileDropDialog->setText("Edit multiple filenames", "Edit filenames below, and click 'OK' when done.", this->text());
+    fileDropDialog->setText(tr("Edit multiple filenames"), tr("Edit filenames below, and click 'OK' when done."), this->text());
     fileDropDialog->show();
 
     connect(fileDropDialog, &FileDropDialog::accepted, this, [this]{

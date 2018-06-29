@@ -14,17 +14,17 @@ QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, i
     if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return {};
 
     switch (section) {
-    case 0: return "Priority";
-    case 1: return "Enabled";
-    case 2: return "Name";
-    case 3: return "Comment";
-    case 4: return "Input Type";
-    case 5: return "Output Type";
-    case 6: return "Executable";
-    case 7: return "Executable Path";
-    case 8: return "Command Line";
-    case 9: return "Download Locations";
-    case 10: return "Operating Systems";
+    case 0: return tr("Priority");
+    case 1: return tr("Enabled");
+    case 2: return tr("Name");
+    case 3: return tr("Comment");
+    case 4: return tr("Input Type");
+    case 5: return tr("Output Type");
+    case 6: return tr("Executable");
+    case 7: return tr("Executable Path");
+    case 8: return tr("Command Line");
+    case 9: return tr("Download Locations");
+    case 10: return tr("Operating Systems");
     default: return {};
     }
 }

@@ -236,7 +236,7 @@ void ConverterConfigurationDialog::setConverterDefinitions(const QVector<Convert
 }
 
 void ConverterConfigurationDialog::promptForResamplerLocation() {
-    QString s("Please locate the file: ");
+    QString s(tr("Please locate the file: "));
     s.append(expectedMainConverter);
 
 #if defined (Q_OS_WIN)
