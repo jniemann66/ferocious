@@ -3,20 +3,18 @@
 #include <QApplication>
 #include <QDebug>
 
-CheckBoxDelegate::CheckBoxDelegate(QObject *parent) : QStyledItemDelegate(parent), scale(1.1) {}
+CheckBoxDelegate::CheckBoxDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 
 void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QRect rect(option.rect.left() / scale, option.rect.top() / scale, option.rect.width() / scale, option.rect.height() / scale);
     painter->save();
-    painter->scale(scale, scale);
-
     if (option.state & QStyle::State_Selected)
-        painter->fillRect(rect, option.palette.highlight());
+        painter->fillRect(option.rect, option.palette.highlight());
 
     QStyleOptionButton cbIndicator;
-    cbIndicator.rect = rect;
+    cbIndicator.rect = option.rect;
     cbIndicator.state |= (index.data().toBool() ? QStyle::State_On : QStyle::State_Off);
+    cbIndicator.palette = option.palette;
     QApplication::style()->drawControl(QStyle::CE_CheckBox, &cbIndicator, painter);
     painter->restore();
 }
@@ -30,14 +28,4 @@ bool CheckBoxDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, con
     }
 
     return QStyledItemDelegate::editorEvent(event, model, option, index);
-}
-
-qreal CheckBoxDelegate::getScale() const
-{
-    return scale;
-}
-
-void CheckBoxDelegate::setScale(const qreal &value)
-{
-    scale = value;
 }

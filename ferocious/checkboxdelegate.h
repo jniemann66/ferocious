@@ -7,18 +7,12 @@
 
 class CheckBoxDelegate : public QStyledItemDelegate
 {
-
 public:
     CheckBoxDelegate(QObject* parent = nullptr);
-    qreal getScale() const;
-    void setScale(const qreal &value);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
-
-private:
-    qreal scale;
 
 };
 
