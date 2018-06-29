@@ -6,7 +6,6 @@ CheckBoxDelegate::CheckBoxDelegate(QObject *parent) : QStyledItemDelegate(parent
 
 void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-
     QRect rect(option.rect.left() / scale, option.rect.top() / scale, option.rect.width() / scale, option.rect.height() / scale);
     painter->save();
     painter->scale(scale, scale);
@@ -14,10 +13,14 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     if (option.state & QStyle::State_Selected)
         painter->fillRect(rect, option.palette.highlight());
 
-    QStyleOptionButton checkBoxOptions;
-    checkBoxOptions.rect = rect;
-    checkBoxOptions.state |= (index.data().toBool() ? QStyle::State_On : QStyle::State_Off);
-    QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkBoxOptions, painter);
+    QBrush b(QColor(10,10,10));
+    painter->setBrush(b);
+    QPen p(QColor(10,10,10));
+    painter->setPen(p);
+    QStyleOptionButton cbIndicator;
+    cbIndicator.rect = rect;
+    cbIndicator.state |= (index.data().toBool() ? QStyle::State_On : QStyle::State_Off);
+    QApplication::style()->drawControl(QStyle::CE_CheckBox, &cbIndicator, painter);
     painter->restore();
 }
 
