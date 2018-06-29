@@ -23,7 +23,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     contextToolBar = new QToolBar(this);
     browseButton = new QPushButton("Browse ...");
     additionalConvertersLabel = new QLabel("Additional converters:");
-    auto stdButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    auto stdButtons = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     auto mainLayout = new QVBoxLayout;
     auto mainConverterLayout = new QHBoxLayout;
 
@@ -97,6 +97,12 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
         contextToolBar->move(mapFromGlobal(p) + QPoint{25 /*tableView.columnWidth(modelIndex.column()) / 2*/, -contextToolBar->sizeHint().height() / 2});
         contextToolBar->show();
         contextToolBar->raise();
+    });
+
+    connect(stdButtons, &QDialogButtonBox::clicked, this, [this, stdButtons](QAbstractButton* b){
+        if(b == stdButtons->button(QDialogButtonBox::RestoreDefaults)){
+            onRestoreDefaults();
+        }
     });
 
     connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -375,4 +381,8 @@ void ConverterConfigurationDialog::onMoveDownRequested(const QModelIndex& modelI
         convertersModel.setConverterDefinitions(converterDefinitions);
         tableView.selectRow(row + 1);
     }
+}
+
+void ConverterConfigurationDialog::onRestoreDefaults() {
+    setConverterDefinitions(ConverterDefinition::loadConverterDefinitions(":/converters.json"));
 }

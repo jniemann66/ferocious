@@ -27,6 +27,9 @@ struct ConverterDefinition
     QJsonObject toJson() const;
 
     bool operator==(const ConverterDefinition& other);
+
+public:
+    static QVector<ConverterDefinition> loadConverterDefinitions(const QString &fileName);
 };
 
 #endif // CONVERTERDEFINITION_H

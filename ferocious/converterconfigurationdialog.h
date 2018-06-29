@@ -40,6 +40,7 @@ private slots:
     void onCloneRequested(const QModelIndex &modelIndex);
     void onMoveUpRequested(const QModelIndex &modelIndex);
     void onMoveDownRequested(const QModelIndex &modelIndex);
+    void onRestoreDefaults();
 
 private:
     QLabel* mainConverterLocationLabel;

@@ -939,35 +939,7 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
 }
 
 void MainWindow::loadConverterDefinitions(const QString& fileName) {
-    QFile jsonFile(fileName);
-    QDebug dbg = qDebug();
-    dbg.noquote() << "Reading converter definitions from" << fileName << "...";
-
-    if(jsonFile.open(QFile::ReadOnly)) {
-        QJsonDocument d = QJsonDocument::fromJson(jsonFile.readAll());
-        if(d.isArray()) {
-            dbg << "success.";
-            converterDefinitions.clear();
-            int i = 0;
-            for(const QJsonValue& v : d.array()) {
-                ConverterDefinition c;
-                c.fromJson(v.toObject());
-                c.priority = i++;
-#if defined(Q_OS_WIN)
-                if(c.operatingSystems.contains("win", Qt::CaseInsensitive))
-#elif defined(Q_OS_LINUX)
-                if(c.operatingSystems.contains("linux", Qt::CaseInsensitive))
-#elif defined(Q_OS_MACOS)
-                if(c.operatingSystems.contains("macos", Qt::CaseInsensitive))
-#endif
-                {
-                    converterDefinitions.append(c);
-                }
-            }
-        }
-    } else {
-        dbg << "failed.";
-    }
+   converterDefinitions = ConverterDefinition::loadConverterDefinitions(fileName);
 }
 
 void MainWindow::saveConverterDefinitions(const QString& fileName) const {
