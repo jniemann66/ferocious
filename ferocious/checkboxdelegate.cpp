@@ -13,8 +13,7 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
     QStyleOptionButton cbIndicator;
     cbIndicator.rect = option.rect;
-    cbIndicator.state |= (index.data().toBool() ? QStyle::State_On : QStyle::State_Off);
-    cbIndicator.palette = option.palette;
+    cbIndicator.state = QStyle::State_Enabled | (index.data().toBool() ? QStyle::State_On : QStyle::State_Off);
     QApplication::style()->drawControl(QStyle::CE_CheckBox, &cbIndicator, painter);
     painter->restore();
 }
