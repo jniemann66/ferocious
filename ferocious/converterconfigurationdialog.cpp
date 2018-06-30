@@ -92,6 +92,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     });
 
     connect(&tableView, &QTableView::clicked, this, [this](const QModelIndex& modelIndex) {
+        if(modelIndex.column() == 1)
+            return;
+
         Q_UNUSED(modelIndex);
         QPoint p = QCursor::pos();
         contextToolBar->move(mapFromGlobal(p) + QPoint{25 /*tableView.columnWidth(modelIndex.column()) / 2*/, -contextToolBar->sizeHint().height() / 2});
