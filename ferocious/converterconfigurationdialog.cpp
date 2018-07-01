@@ -95,9 +95,11 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
         if(modelIndex.column() == 1)
             return;
 
-        Q_UNUSED(modelIndex);
-        QPoint p = QCursor::pos();
-        contextToolBar->move(mapFromGlobal(p) + QPoint{25 /*tableView.columnWidth(modelIndex.column()) / 2*/, -contextToolBar->sizeHint().height() / 2});
+    //    QPoint p = QCursor::pos();
+    //    contextToolBar->move(mapFromGlobal(p) + QPoint{25 /*tableView.columnWidth(modelIndex.column()) / 2*/, -contextToolBar->sizeHint().height() / 2});
+        QPoint p = QPoint{tableView.columnViewportPosition(4), tableView.rowViewportPosition(modelIndex.row())};
+        QPoint q = tableView.mapTo(this, p + QPoint{0, tableView.rowHeight(modelIndex.row()) / 2});
+        contextToolBar->move(q);
         contextToolBar->show();
         contextToolBar->raise();
     });
