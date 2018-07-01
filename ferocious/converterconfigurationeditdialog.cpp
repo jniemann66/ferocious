@@ -137,7 +137,8 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     enabledCheckbox->setChecked(converterDefinition.enabled);
     nameEdit->setText(converterDefinition.name);
     commentEdit->setPlainText(converterDefinition.comment);
-    downloadLocationEdit->setText(converterDefinition.downloadLocations.first());
+    if(!converterDefinition.downloadLocations.isEmpty())
+        downloadLocationEdit->setText(converterDefinition.downloadLocations.first());
     inputFileExtEdit->setText(converterDefinition.inputFileExt);
     outputFileExtEdit->setText(converterDefinition.outputFileExt);
     executableEdit->setText(converterDefinition.executable);

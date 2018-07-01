@@ -95,8 +95,6 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
         if(modelIndex.column() == 1)
             return;
 
-    //    QPoint p = QCursor::pos();
-    //    contextToolBar->move(mapFromGlobal(p) + QPoint{25 /*tableView.columnWidth(modelIndex.column()) / 2*/, -contextToolBar->sizeHint().height() / 2});
         QPoint p = QPoint{tableView.columnViewportPosition(4), tableView.rowViewportPosition(modelIndex.row())};
         QPoint q = tableView.mapTo(this, p + QPoint{0, tableView.rowHeight(modelIndex.row()) / 2});
         contextToolBar->move(q);
@@ -138,7 +136,6 @@ void ConverterConfigurationDialog::initMenu() {
     contextMenu->addAction("Move Down", [this] {
         onMoveDownRequested(tableView.currentIndex());
     });
-
 }
 
 void ConverterConfigurationDialog::initToolBar() {
@@ -188,7 +185,6 @@ void ConverterConfigurationDialog::initToolBar() {
             t->setStyleSheet("QToolButton {padding: 5px; border-radius: 3px}");
         }
     }
-
 }
 
 void ConverterConfigurationDialog::showEvent(QShowEvent* event) {
