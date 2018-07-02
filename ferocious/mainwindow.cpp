@@ -1439,7 +1439,6 @@ void MainWindow::on_convertButton_rightClicked() {
 }
 
 void MainWindow::on_stopRequested() {
-    qDebug() << "STOP!";
     conversionQueue.clear();
     process.kill();
     ui->StatusLabel->setText(tr("Status: conversion stopped"));
