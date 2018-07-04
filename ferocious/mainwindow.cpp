@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     convertTaskMenu->setHidden(true);
 
     readSettings();
+
     applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.css")
 
     if(converterPath.isEmpty()) {
@@ -146,6 +147,13 @@ void MainWindow::readSettings()
 
     qDebug() << "Reading settings file: " << settings.fileName();
 
+    settings.beginGroup("WindowGeometry");
+    QRect converterConfigDialogGeometry = settings.value("ConverterConfigurationDialogGeometry").toRect();
+    if(!converterConfigDialogGeometry.isNull() && converterConfigurationDialog != nullptr) {
+        converterConfigurationDialog->setGeometry(converterConfigDialogGeometry);
+    }
+    settings.endGroup();
+
     settings.beginGroup("Paths");
     MainWindow::converterPath = settings.value("ConverterPath", MainWindow::converterPath).toString();
     if(converterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
@@ -232,6 +240,12 @@ void MainWindow::readSettings()
 void MainWindow::writeSettings()
 {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "JuddSoft", "Ferocious");
+
+    settings.beginGroup("WindowGeometry");
+    if(converterConfigurationDialog != nullptr) {
+        settings.setValue("ConverterConfigurationDialogGeometry", converterConfigurationDialog->geometry());
+    }
+    settings.endGroup();
 
     settings.beginGroup("Paths");
     settings.setValue("ConverterPath", MainWindow::converterPath);
