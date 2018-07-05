@@ -27,6 +27,13 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     auto mainLayout = new QVBoxLayout;
     auto mainConverterLayout = new QHBoxLayout;
 
+    // set tooltips
+    additionalConvertersLabel->setToolTip("Use the table below to cofigure additional converters for specialized file formats.");
+    QPushButton* restorDefaultsButton = stdButtons->button(QDialogButtonBox::RestoreDefaults);
+    if(restorDefaultsButton != nullptr) {
+        restorDefaultsButton->setToolTip(tr("Restore converter configuration to default settings"));
+    }
+
     // set model
     tableView.setModel(&convertersModel);
 
@@ -282,8 +289,6 @@ void ConverterConfigurationDialog::setExpectedMainConverter(const QString &value
     mainConverterLocationEdit->setToolTip(QString{"Location of %1\n"
                                           "Note: you can also use drag-and-drop, or the 'Browse' button"}.arg(expectedMainConverter));
     browseButton->setToolTip(QString{"Browse to location of %1"}.arg(expectedMainConverter));
-    additionalConvertersLabel->setToolTip("Use the table below to cofigure additional converters for specialized file formats.");
-
 }
 
 void ConverterConfigurationDialog::onNewRequested(const QModelIndex& modelIndex)
