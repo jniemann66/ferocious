@@ -148,9 +148,15 @@ void MainWindow::readSettings()
     qDebug() << "Reading settings file: " << settings.fileName();
 
     settings.beginGroup("WindowGeometry");
-    QRect converterConfigDialogGeometry = settings.value("ConverterConfigurationDialogGeometry").toRect();
-    if(!converterConfigDialogGeometry.isNull() && converterConfigurationDialog != nullptr) {
-        converterConfigurationDialog->setGeometry(converterConfigDialogGeometry);
+    if(converterConfigurationDialog != nullptr) {
+        QRect converterConfigDialogGeometry = settings.value("ConverterConfigurationDialogGeometry").toRect();
+        if(!converterConfigDialogGeometry.isNull()) {
+            converterConfigurationDialog->setGeometry(converterConfigDialogGeometry);
+        }
+        QRect converterConfigEditDialogGeometry = settings.value("ConverterConfigurationEditDialogGeometry").toRect();
+        if(!converterConfigEditDialogGeometry.isNull()) {
+            converterConfigurationDialog->setEditDialogGeometry(converterConfigEditDialogGeometry);
+        }
     }
     settings.endGroup();
 
@@ -244,6 +250,9 @@ void MainWindow::writeSettings()
     settings.beginGroup("WindowGeometry");
     if(converterConfigurationDialog != nullptr) {
         settings.setValue("ConverterConfigurationDialogGeometry", converterConfigurationDialog->geometry());
+    }
+    if(!converterConfigurationDialog->getEditDialogGeometry().isNull()) {
+        settings.setValue("ConverterConfigurationEditDialogGeometry", converterConfigurationDialog->getEditDialogGeometry());
     }
     settings.endGroup();
 

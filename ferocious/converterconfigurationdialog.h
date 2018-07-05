@@ -29,6 +29,9 @@ public:
 
     void setShowToolTips(bool value);
 
+    QRect getEditDialogGeometry() const;
+    void setEditDialogGeometry(const QRect &value);
+
 public slots:
 
 protected:
@@ -58,6 +61,7 @@ private:
     QString mainConverterPath;
 
     bool showToolTips;
+    QRect editDialogGeometry;
 
     void promptForResamplerLocation();
     void initMenu();
