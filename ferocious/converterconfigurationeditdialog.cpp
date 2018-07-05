@@ -5,7 +5,7 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 
-ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *parent) : QDialog(parent)
+ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *parent) : QDialog(parent), showToolTips(true)
 {
     // layouts
     auto mainLayout = new QVBoxLayout;
@@ -155,6 +155,11 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     commandLineEdit->setText(converterDefinition.commandLine);
 }
 
+void ConverterConfigurationEditDialog::setShowToolTips(bool value)
+{
+    showToolTips = value;
+}
+
 void ConverterConfigurationEditDialog::promptForExecutableLocation() {
     QString s(tr("Please locate the execuatble file "));
     if (!getConverterDefinition().executable.isEmpty())
@@ -171,4 +176,13 @@ void ConverterConfigurationEditDialog::promptForExecutableLocation() {
     if(!cp.isNull()) {
         executablePathEdit->setText(QDir::toNativeSeparators(cp));
     }
+}
+
+bool ConverterConfigurationEditDialog::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::ToolTip) // Intercept tooltip event
+        return (showToolTips);
+
+    else
+        return ConverterConfigurationEditDialog::eventFilter(obj, event);
 }

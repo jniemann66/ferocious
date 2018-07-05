@@ -318,6 +318,7 @@ void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex
         return;
 
     auto dlg = new ConverterConfigurationEditDialog(this);
+    dlg->setShowToolTips(showToolTips);
     if(row < converterDefinitions.count()) {
         dlg->setConverterDefinition(converterDefinitions.at(row));
         int result = dlg->exec();

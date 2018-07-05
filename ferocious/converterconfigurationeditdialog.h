@@ -19,6 +19,10 @@ public:
     ConverterConfigurationEditDialog(QWidget* parent);
     ConverterDefinition getConverterDefinition() const;
     void setConverterDefinition(const ConverterDefinition &converterDefinition);
+    void setShowToolTips(bool value);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     QLineEdit* priorityEdit;
@@ -35,6 +39,8 @@ private:
     QPushButton* executablePathBrowseButton;
     QLineEdit* commandLineEdit;
     QDialogButtonBox* dialogButtonBox;
+
+    bool showToolTips;
 
     void promptForExecutableLocation();
 };
