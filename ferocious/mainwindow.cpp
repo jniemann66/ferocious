@@ -1163,6 +1163,7 @@ void MainWindow::on_actionConverter_Location_triggered()
     converterConfigurationDialog->setMainConverterPath(converterPath);
     converterConfigurationDialog->setConverterDefinitions(converterDefinitions);
     converterConfigurationDialog->setMinimumWidth(this->width());
+    converterConfigurationDialog->setShowToolTips(ui->actionEnable_Tooltips->isChecked());
     if(converterConfigurationDialog->exec() == QDialog::Accepted) {
 
         if(!converterConfigurationDialog->getMainConverterPath().isEmpty()) {

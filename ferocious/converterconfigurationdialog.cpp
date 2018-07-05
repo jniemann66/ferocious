@@ -13,7 +13,7 @@
 #include <QApplication>
 #include <QToolButton>
 
-ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f) : QDialog(parent, f)
+ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f) : QDialog(parent, f), showToolTips(true)
 {
     // allocate
     auto headingLabel = new QLabel("Configure External Converters");
@@ -391,4 +391,18 @@ void ConverterConfigurationDialog::onMoveDownRequested(const QModelIndex& modelI
 
 void ConverterConfigurationDialog::onRestoreDefaults() {
     setConverterDefinitions(ConverterDefinition::loadConverterDefinitions(":/converters.json"));
+}
+
+void ConverterConfigurationDialog::setShowToolTips(bool value)
+{
+    showToolTips = value;
+}
+
+bool ConverterConfigurationDialog::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::ToolTip) // Intercept tooltip event
+        return (showToolTips);
+
+    else
+        return ConverterConfigurationDialog::eventFilter(obj, event);
 }

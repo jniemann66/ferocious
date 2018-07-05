@@ -27,11 +27,14 @@ public:
     QVector<ConverterDefinition> getConverterDefinitions() const;
     void setConverterDefinitions(const QVector<ConverterDefinition> &value);
 
+    void setShowToolTips(bool value);
+
 public slots:
 
 protected:
     void showEvent(QShowEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private slots:
     void onNewRequested(const QModelIndex &modelIndex);
@@ -53,6 +56,8 @@ private:
     ConvertersModel convertersModel;
     QString expectedMainConverter;
     QString mainConverterPath;
+
+    bool showToolTips;
 
     void promptForResamplerLocation();
     void initMenu();
