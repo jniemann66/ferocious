@@ -55,7 +55,9 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     commentEdit->setMaximumHeight(10 * m.lineSpacing());
 
     // set tooltips
+    executablePathEdit->setToolTip(tr("Filename of actual converter program"));
     openURLButton->setToolTip(tr("Open link in Browser"));
+    commandLineEdit->setToolTip(tr("Use {i} for Input File and {o} for Output File"));
 
     // hide things
     priorityLabel->setHidden(true);
