@@ -767,8 +767,8 @@ to process multiple files.</string>
      <addaction name="actionMultiStageConversion"/>
      <addaction name="actionUse_a_temp_file"/>
     </widget>
-    <addaction name="actionConverter_Location"/>
     <addaction name="actionOutput_File_Options"/>
+    <addaction name="actionConverter_Location"/>
     <addaction name="menuCompression_Levels"/>
     <addaction name="menuLowpass_Filter"/>
     <addaction name="menuAdvanced_Dither_Options"/>
