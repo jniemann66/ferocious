@@ -17,18 +17,13 @@ class ConverterConfigurationDialog : public QDialog
 
 public:
     ConverterConfigurationDialog(QWidget *parent, Qt::WindowFlags f);
-
     QString getExpectedMainConverter() const;
     void setExpectedMainConverter(const QString &value);
-
     QString getMainConverterPath() const;
     void setMainConverterPath(const QString &value);
-
     QVector<ConverterDefinition> getConverterDefinitions() const;
     void setConverterDefinitions(const QVector<ConverterDefinition> &value);
-
     void setShowToolTips(bool value);
-
     QRect getEditDialogGeometry() const;
     void setEditDialogGeometry(const QRect &value);
 
