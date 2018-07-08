@@ -295,7 +295,7 @@ void ConverterConfigurationDialog::onNewRequested(const QModelIndex& modelIndex)
 {
     int row = modelIndex.row();
 
-    if(row < 0 )
+    if(row < 0)
         return;
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
@@ -304,7 +304,6 @@ void ConverterConfigurationDialog::onNewRequested(const QModelIndex& modelIndex)
         convertersModel.setConverterDefinitions(converterDefinitions);
     }
 }
-
 
 void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex)
 {
@@ -338,7 +337,7 @@ void ConverterConfigurationDialog::onDeleteRequested(const QModelIndex& modelInd
 {
     int row = modelIndex.row();
 
-    if(row < 0 )
+    if(row < 0)
         return;
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
@@ -352,7 +351,7 @@ void ConverterConfigurationDialog::onCloneRequested(const QModelIndex& modelInde
 {
     int row = modelIndex.row();
 
-    if(row < 0 )
+    if(row < 0)
         return;
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
@@ -366,7 +365,7 @@ void ConverterConfigurationDialog::onMoveUpRequested(const QModelIndex& modelInd
 {
     int row = modelIndex.row();
 
-    if(row < 1 ) {
+    if(row < 1) {
         return;
     }
 
@@ -380,10 +379,9 @@ void ConverterConfigurationDialog::onMoveUpRequested(const QModelIndex& modelInd
 
 void ConverterConfigurationDialog::onMoveDownRequested(const QModelIndex& modelIndex)
 {
-
     int row = modelIndex.row();
 
-    if(row < 0 ) {
+    if(row < 0) {
         return;
     }
 

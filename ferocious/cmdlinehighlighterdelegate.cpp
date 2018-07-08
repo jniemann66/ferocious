@@ -7,7 +7,6 @@ CmdLineHighlighterDelegate::CmdLineHighlighterDelegate(QObject* parent) : QStyle
 
 void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-
     if (option.state & QStyle::State_Selected)
         painter->fillRect( option.rect, option.palette.highlight());
 
@@ -26,7 +25,6 @@ void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionView
 }
 
 QString CmdLineHighlighterDelegate::getHtmlHighlighting(const QString& input) {
-
     const QString consoleGreen{"#66A334"};
     const QString consoleWhite{"#C0C0C0"};
     const QString consoleCyan{"#45C6D6"};
