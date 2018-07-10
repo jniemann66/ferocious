@@ -1,7 +1,7 @@
 #ifndef CONVERTEROUTPUTBOX_H
 #define CONVERTEROUTPUTBOX_H
 
-// ConverterOutputBox - widget for displaying std output from converter
+// ConverterOutputBox - widget for displaying output from converter
 
 #include <QTextBrowser>
 #include <QContextMenuEvent>

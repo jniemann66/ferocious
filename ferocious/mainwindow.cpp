@@ -125,9 +125,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             this,
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
     );
-    connect(ui->convertButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_convertButton_rightClicked);
-    connect(ui->convertButton, &flashingPushbutton::stopRequested, this, &MainWindow::on_stopRequested);
-    connect(ui->browseInfileButton, &flashingPushbutton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);  
+    connect(ui->convertButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_convertButton_rightClicked);
+    connect(ui->convertButton, &FlashingPushButton::stopRequested, this, &MainWindow::on_stopRequested);
+    connect(ui->browseInfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
 }
 
 MainWindow::~MainWindow()

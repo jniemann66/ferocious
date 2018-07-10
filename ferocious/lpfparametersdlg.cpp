@@ -3,7 +3,7 @@
 
 lpfParametersDlg::lpfParametersDlg(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::lpfParametersDlg),
+    ui(new Ui::LpfParametersDlg),
     nyquistFrequency(0.0)
 {
     ui->setupUi(this);

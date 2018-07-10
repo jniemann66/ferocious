@@ -7,7 +7,7 @@
 #include <QPair>
 
 namespace Ui {
-class lpfParametersDlg;
+class LpfParametersDlg;
 }
 
 class lpfParametersDlg : public QDialog
@@ -23,7 +23,7 @@ public:
     QPair<double, double> getValues();
 
 private:
-    Ui::lpfParametersDlg *ui;
+    Ui::LpfParametersDlg *ui;
     double nyquistFrequency;
 
 };

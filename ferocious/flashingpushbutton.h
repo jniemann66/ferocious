@@ -9,18 +9,18 @@
 #include <QStyle>
 #include <QMouseEvent>
 
-class flashingPushbutton : public QPushButton
+class FlashingPushButton : public QPushButton
 {
     Q_OBJECT
 
 public:
-    flashingPushbutton(QWidget* parent = nullptr) : QPushButton(parent), isActive(false), flashState(0)
+    FlashingPushButton(QWidget* parent = nullptr) : QPushButton(parent), isActive(false), flashState(0)
     {
-        connect(&timer, &QTimer::timeout,this, &flashingPushbutton::flashWhenActive);
+        connect(&timer, &QTimer::timeout,this, &FlashingPushButton::flashWhenActive);
         timer.start(500);
     }
 
-    ~flashingPushbutton(){}
+    ~FlashingPushButton(){}
 
     bool getIsActive() const;
     void setIsActive(bool value);
@@ -65,7 +65,7 @@ private:
 
 };
 
-inline void flashingPushbutton::mousePressEvent(QMouseEvent *mouseEvent)
+inline void FlashingPushButton::mousePressEvent(QMouseEvent *mouseEvent)
 {
 
     if(isActive) {
@@ -79,12 +79,12 @@ inline void flashingPushbutton::mousePressEvent(QMouseEvent *mouseEvent)
     }
 }
 
-inline bool flashingPushbutton::getIsActive() const
+inline bool FlashingPushButton::getIsActive() const
 {
     return isActive;
 }
 
-inline void flashingPushbutton::setIsActive(bool value)
+inline void FlashingPushButton::setIsActive(bool value)
 {
     isActive = value;
 }

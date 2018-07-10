@@ -411,7 +411,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      </widget>
     </item>
     <item row="1" column="6">
-     <widget class="flashingPushbutton" name="browseInfileButton">
+     <widget class="FlashingPushButton" name="browseInfileButton">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -499,7 +499,7 @@ Only recommended when converting to a lower bit depth
      </widget>
     </item>
     <item row="5" column="6">
-     <widget class="flashingPushbutton" name="convertButton">
+     <widget class="FlashingPushButton" name="convertButton">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -1410,7 +1410,7 @@ to process multiple files.</string>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>flashingPushbutton</class>
+   <class>FlashingPushButton</class>
    <extends>QPushButton</extends>
    <header>flashingpushbutton.h</header>
   </customwidget>
