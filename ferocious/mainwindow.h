@@ -23,7 +23,7 @@ const QString consoleYellow{"#D6C878"};
 const QString consoleAmber{"#D6953E"};
 const QString consoleRed{"#ff8080"};
 
-class conversionTask
+class ConversionTask
 {
 public:
     QString inFilename;
@@ -59,7 +59,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QString converterPath;
-    QString MultiFileSeparator;
+    QString multiFileSeparator;
     static QStringList getQuotedArgs(const QStringList &args);
 
 protected:
@@ -113,7 +113,7 @@ private:
 
     // state
     QProcess process;
-    QVector<conversionTask> conversionQueue;
+    QVector<ConversionTask> conversionQueue;
     QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
     QString outFileBrowsePath;  // used for storing the the path on "open output file" Dialog
@@ -123,7 +123,7 @@ private:
     bool bShowProgressBar;
     int flacCompressionLevel;
     double vorbisQualityLevel;
-    LPFType LPFtype;
+    LPFType lpfType;
     double customLpfCutoff;
     double customLpfTransition;
     bool bDisableClippingProtection; // if true, the --noClippingProtection switch will be sent to the converter
@@ -138,12 +138,12 @@ private:
     QVector<ConverterDefinition> converterDefinitions;
 
     // functions
-    void PopulateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
+    void populateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file
     void readSettings();        // read settings from ini file
     void getResamplerVersion();   // function to retrieve version number of main external converter
-    void ProcessOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
+    void processOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
     QStringList prepareMidConverterArgs(const QString &outfn, const QString &infn); // prepare commandline args for ReSampler
     void wildcardPushToQueue(const QString &inFilename); // interpret filename containing wildcards, and push tasks onto queue as appropraite

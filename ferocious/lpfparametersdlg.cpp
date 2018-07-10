@@ -1,7 +1,7 @@
 #include "lpfparametersdlg.h"
 #include "ui_lpfparametersdlg.h"
 
-lpfParametersDlg::lpfParametersDlg(QWidget *parent) :
+LpfParametersDlg::LpfParametersDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LpfParametersDlg),
     nyquistFrequency(0.0)
@@ -23,23 +23,23 @@ lpfParametersDlg::lpfParametersDlg(QWidget *parent) :
     });
 }
 
-void lpfParametersDlg::setValues(double cutoff, double transition) {
+void LpfParametersDlg::setValues(double cutoff, double transition) {
     ui->cutoffSpinBox->setValue(cutoff);
     ui->transitionSpinBox->setValue(transition);
 }
 
-void lpfParametersDlg::setNyquistFrequency(double Hz) {
+void LpfParametersDlg::setNyquistFrequency(double Hz) {
     nyquistFrequency = Hz;
 }
 
-QPair<double, double> lpfParametersDlg::getValues() {
+QPair<double, double> LpfParametersDlg::getValues() {
     QPair<double, double> v;
     v.first = ui->cutoffSpinBox->value();
     v.second = ui->transitionSpinBox->value();
     return v;
 }
 
-lpfParametersDlg::~lpfParametersDlg()
+LpfParametersDlg::~LpfParametersDlg()
 {
     delete ui;
 }

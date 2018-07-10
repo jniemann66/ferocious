@@ -6,7 +6,7 @@
 FilenameGenerator::FilenameGenerator() {
     // factory defaults:
     appendSuffix=true;
-    Suffix=QString("(converted)");
+    suffix=QString("(converted)");
     inputDirectoryRoot=QString();
     useSpecificOutputDirectory=false;
     outputDirectory=QString("");
@@ -20,7 +20,7 @@ FilenameGenerator::FilenameGenerator(const FilenameGenerator &O)
       useSpecificOutputDirectory(O.useSpecificOutputDirectory),
       replicateDirectoryStructure(O.replicateDirectoryStructure),
       useSpecificFileExt(O.useSpecificFileExt),
-      Suffix(O.Suffix),
+      suffix(O.suffix),
       inputDirectoryRoot(O.inputDirectoryRoot),
       outputDirectory(O.outputDirectory),
       fileExt(O.fileExt)
@@ -69,7 +69,7 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
     if(appendSuffix) {
         if(!inFilename.isEmpty()) {
             if(strOutFilename.find(".") != std::string::npos){
-                strOutFilename.insert(strOutFilename.find_last_of("."), Suffix.toStdString());     // insert suffix just before file extension
+                strOutFilename.insert(strOutFilename.find_last_of("."), suffix.toStdString());     // insert suffix just before file extension
             }
         }
     }
@@ -92,7 +92,7 @@ void FilenameGenerator::saveSettings(QSettings &settings)
     settings.beginGroup("OutputFileOptions");
 
     settings.setValue("appendSuffix", FilenameGenerator::appendSuffix);
-    settings.setValue("Suffix", FilenameGenerator::Suffix);
+    settings.setValue("Suffix", FilenameGenerator::suffix);
     settings.setValue("useSpecificOutputDirectory", FilenameGenerator::useSpecificOutputDirectory);
     settings.setValue("outputDirectory", QDir(FilenameGenerator::outputDirectory).absolutePath());
     settings.setValue("useSpecificFileExt", FilenameGenerator::useSpecificFileExt);
@@ -105,7 +105,7 @@ void FilenameGenerator::loadSettings(QSettings &settings)
 {
     settings.beginGroup("OutputFileOptions");
     FilenameGenerator::appendSuffix = settings.value("appendSuffix", FilenameGenerator::appendSuffix).toBool();
-    FilenameGenerator::Suffix = settings.value("Suffix", FilenameGenerator::Suffix).toString();
+    FilenameGenerator::suffix = settings.value("Suffix", FilenameGenerator::suffix).toString();
     FilenameGenerator::useSpecificOutputDirectory = settings.value("useSpecificOutputDirectory", FilenameGenerator::useSpecificOutputDirectory).toBool();
     FilenameGenerator::outputDirectory = QDir::toNativeSeparators(settings.value("outputDirectory",  FilenameGenerator::outputDirectory).toString());
     FilenameGenerator::useSpecificFileExt = settings.value("useSpecificFileExt", FilenameGenerator::useSpecificFileExt).toBool();
@@ -122,7 +122,7 @@ OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& filenameGe
 
     // populate controls using members of OFN object
     ui->FilenameSuffix_checkBox->setChecked(pFilenameGenerator->appendSuffix);
-    ui->outFilenameSuffix_lineEdit->setText(pFilenameGenerator->Suffix);
+    ui->outFilenameSuffix_lineEdit->setText(pFilenameGenerator->suffix);
     ui->useOutputDirectory_checkBox->setChecked(pFilenameGenerator->useSpecificOutputDirectory);
     ui->outDirectory_lineEdit->setText(pFilenameGenerator->outputDirectory);
     ui->SameFileExt_radioButton->setChecked(!pFilenameGenerator->useSpecificFileExt);
@@ -164,7 +164,7 @@ void OutputFileOptions_Dialog::on_OutputFileOptions_buttonBox_accepted()
 {
     // suffix settings:
     pFilenameGenerator->appendSuffix=ui->FilenameSuffix_checkBox->isChecked();
-    pFilenameGenerator->Suffix=ui->outFilenameSuffix_lineEdit->text();
+    pFilenameGenerator->suffix=ui->outFilenameSuffix_lineEdit->text();
 
     // Output Directory Settings:
     pFilenameGenerator->useSpecificOutputDirectory=ui->useOutputDirectory_checkBox->isChecked();

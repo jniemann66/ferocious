@@ -104,7 +104,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     qApp->installEventFilter(this);
 
     // Set the separator for Multiple-files:
-    MultiFileSeparator = "\n";
+    multiFileSeparator = "\n";
 
     // Add kinetic scroller to converter output
     QScroller::grabGesture(ui->ConverterOutputText->viewport(), QScroller::LeftMouseButtonGesture);
@@ -197,13 +197,13 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    MainWindow::LPFtype = static_cast<LPFType>(settings.value("LPFtype", 1).toInt());
+    MainWindow::lpfType = static_cast<LPFType>(settings.value("LPFtype", 1).toInt());
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
     ui->actionCustomLPF->setChecked(false);
 
-    switch(LPFtype) {
+    switch(lpfType) {
     case relaxedLPF:
          ui->actionRelaxedLPF->setChecked(true);
         break;
@@ -280,7 +280,7 @@ void MainWindow::writeSettings()
     settings.endGroup();
 
     settings.beginGroup("LPFSettings");
-    settings.setValue("LPFtype", MainWindow::LPFtype);
+    settings.setValue("LPFtype", MainWindow::lpfType);
     settings.setValue("customLpfCutoff", MainWindow::customLpfCutoff);
     settings.setValue("customLpfTransition", MainWindow::customLpfTransition);
     settings.endGroup();
@@ -453,7 +453,7 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
         QStringList::const_iterator it;
         for (it = fileNames.constBegin(); it != fileNames.constEnd(); ++it) {
             filenameSpec += QDir::toNativeSeparators(*it);
-            filenameSpec += MultiFileSeparator;
+            filenameSpec += multiFileSeparator;
         }
 
         // set widget text. Note: MultiFileSeparator should be a non-displayable character, but still be picked-up in copy/paste
@@ -477,7 +477,7 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
     }
 
     // trigger an update of options if file extension changed:
-    ProcessOutfileExtension();
+    processOutfileExtension();
 }
 
 void MainWindow::on_convertButton_clicked()
@@ -490,7 +490,7 @@ void MainWindow::launch() {
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     ui->StatusLabel->setText("Status: Preparing conversion tasks ...");
     repaint();
-    QStringList filenames=ui->InfileEdit->text().split(MultiFileSeparator);
+    QStringList filenames=ui->InfileEdit->text().split(multiFileSeparator);
 
     // iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration
     for (const QString& inFilename : filenames) {
@@ -503,7 +503,7 @@ void MainWindow::launch() {
             }
 
             else { // No Wildcard:
-                conversionTask T;
+                ConversionTask T;
                 T.inFilename = inFilename;
                 if(filenames.count() > 1) { // multi-file mode:
                     filenameGenerator.generateOutputFilename(T.outFilename, inFilename);
@@ -589,10 +589,10 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
     // (use whatever is between last '*' and '.')
     int outLastStarBeforeDot = ui->OutfileEdit->text().left(outLastDot).lastIndexOf("*");
     if(outLastStarBeforeDot > -1) {
-        O.Suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
+        O.suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
         O.appendSuffix = true;
     } else { // no Suffix
-        O.Suffix = "";
+        O.suffix = "";
         O.appendSuffix = false;
     }
 
@@ -614,7 +614,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         if (!match.hasMatch())
             continue; // no match ? move on to next file ...
 
-        conversionTask T;
+        ConversionTask T;
         T.inFilename = QDir::toNativeSeparators(nextFilename);
 
 #ifdef RECURSIVE_DIR_TRAVERSAL
@@ -686,7 +686,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
 void MainWindow::convertNext() {
     if(!conversionQueue.empty()) {
-        conversionTask& nextTask = MainWindow::conversionQueue.first();
+        ConversionTask& nextTask = MainWindow::conversionQueue.first();
         ui->StatusLabel->setText("Status: processing " + nextTask.inFilename);
         ui->progressBar->setFormat("Status: processing " + nextTask.inFilename);
         this->repaint();
@@ -943,7 +943,7 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
     }
 
     // format args: LPF type:
-    switch(LPFtype) {
+    switch(lpfType) {
     case relaxedLPF:
         args << "--relaxedLPF";
         break;
@@ -1010,12 +1010,12 @@ void MainWindow::on_InfileEdit_editingFinished()
 
     QString outFilename;
 
-    if(inFilename.right(1) == MultiFileSeparator) {
+    if(inFilename.right(1) == multiFileSeparator) {
         inFilename=inFilename.left(inFilename.size() - 1); // Trim Multifile separator off the end
         ui->InfileEdit->setText(inFilename);
     }
 
-    if(inFilename.indexOf(MultiFileSeparator) == -1) { // Single-file mode:
+    if(inFilename.indexOf(multiFileSeparator) == -1) { // Single-file mode:
 
         ui->InfileLabel->setText(tr("Input File:"));
         ui->OutfileLabel->setText(tr("Output File:"));
@@ -1031,7 +1031,7 @@ void MainWindow::on_InfileEdit_editingFinished()
 
     else { // multi-file mode:
 
-        QString outFilename=inFilename.left(inFilename.indexOf(MultiFileSeparator)); // use first filename as a basis for generating output filename
+        QString outFilename=inFilename.left(inFilename.indexOf(multiFileSeparator)); // use first filename as a basis for generating output filename
         int LastDot = outFilename.lastIndexOf(".");
         int LastSep = outFilename.lastIndexOf(QDir::separator());
         QString s = outFilename.mid(LastSep + 1, LastDot - LastSep - 1); // get what is between last separator and last '.'
@@ -1047,7 +1047,7 @@ void MainWindow::on_InfileEdit_editingFinished()
     }
 
     // trigger an update of options if output file extension changed:
-    ProcessOutfileExtension();
+    processOutfileExtension();
 }
 
 void MainWindow::on_browseOutfileButton_clicked()
@@ -1059,10 +1059,10 @@ void MainWindow::on_browseOutfileButton_clicked()
         QDir path(fileName);
         outFileBrowsePath = path.absolutePath(); // remember this browse session (Unix separators)
         ui->OutfileEdit->setText(QDir::toNativeSeparators(fileName));
-        PopulateBitFormats(ui->OutfileEdit->text());
+        populateBitFormats(ui->OutfileEdit->text());
 
         // trigger an update of options if file extension changed:
-        ProcessOutfileExtension();
+        processOutfileExtension();
     }
 }
 
@@ -1084,7 +1084,7 @@ void MainWindow::on_BitDepthCheckBox_clicked()
 }
 
 // Launch external process, and populate QComboBox using output from the process:
-void MainWindow::PopulateBitFormats(const QString& fileName)
+void MainWindow::populateBitFormats(const QString& fileName)
 {
     QProcess ConverterQuery;
     ui->BitDepthCombo->clear();
@@ -1132,11 +1132,11 @@ void MainWindow::getResamplerVersion()
 
 void MainWindow::on_OutfileEdit_editingFinished()
 {
-   ProcessOutfileExtension(); // trigger an update of options if user changed the file extension
+   processOutfileExtension(); // trigger an update of options if user changed the file extension
 }
 
 // ProcessoutFileExtension() - analyze extension of outfile and update subformats dropdown accordingly
-void MainWindow::ProcessOutfileExtension()
+void MainWindow::processOutfileExtension()
 {
 
     QString fileName = ui->OutfileEdit->text();
@@ -1146,7 +1146,7 @@ void MainWindow::ProcessOutfileExtension()
 
         // if user has changed the extension (ie type) of the filename, then repopulate subformats combobox:
         if(ext != lastOutputFileExt) {
-            PopulateBitFormats(fileName);
+            populateBitFormats(fileName);
             lastOutputFileExt=ext;
         }
     }
@@ -1288,7 +1288,7 @@ void MainWindow::on_actionTheme_triggered()
 
 void MainWindow::on_actionRelaxedLPF_triggered()
 {
-    LPFtype = relaxedLPF;
+    lpfType = relaxedLPF;
     ui->actionRelaxedLPF->setChecked(true);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
@@ -1298,7 +1298,7 @@ void MainWindow::on_actionRelaxedLPF_triggered()
 
 void MainWindow::on_actionStandardLPF_triggered()
 {
-    LPFtype = standardLPF;
+    lpfType = standardLPF;
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(true);
     ui->actionSteepLPF->setChecked(false);
@@ -1308,7 +1308,7 @@ void MainWindow::on_actionStandardLPF_triggered()
 
 void MainWindow::on_actionSteepLPF_triggered()
 {
-    LPFtype = steepLPF;
+    lpfType = steepLPF;
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(true);
@@ -1318,7 +1318,7 @@ void MainWindow::on_actionSteepLPF_triggered()
 
 void MainWindow::on_actionCustomLPF_triggered()
 {
-    LPFtype = customLPF;
+    lpfType = customLPF;
     ui->actionRelaxedLPF->setChecked(false);
     ui->actionStandardLPF->setChecked(false);
     ui->actionSteepLPF->setChecked(false);
@@ -1436,7 +1436,7 @@ void MainWindow::on_actionCustom_Parameters_triggered()
 }
 
 void MainWindow::getCustomLpfParameters() {
-    auto d = new lpfParametersDlg(this);
+    auto d = new LpfParametersDlg(this);
     d->setValues(customLpfCutoff, customLpfTransition);
     d->setWindowTitle(tr("Custom LPF Parameters"));
     connect(d, &QDialog::accepted, this, [this, d] {

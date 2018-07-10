@@ -10,13 +10,13 @@ namespace Ui {
 class LpfParametersDlg;
 }
 
-class lpfParametersDlg : public QDialog
+class LpfParametersDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit lpfParametersDlg(QWidget *parent = nullptr);
-    ~lpfParametersDlg();
+    explicit LpfParametersDlg(QWidget *parent = nullptr);
+    ~LpfParametersDlg();
 
     void setValues(double cutoff, double transition);
     void setNyquistFrequency(double Hz);

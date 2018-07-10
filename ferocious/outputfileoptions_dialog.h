@@ -28,7 +28,7 @@ public:
     bool replicateDirectoryStructure;
     bool useSpecificFileExt;
 
-    QString Suffix;
+    QString suffix;
     QString inputDirectoryRoot;
     QString outputDirectory;
     QString fileExt;
