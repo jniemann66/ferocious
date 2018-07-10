@@ -1,7 +1,7 @@
 #ifndef CONVERTERCONFIGURATIONDIALOG_H
 #define CONVERTERCONFIGURATIONDIALOG_H
 
-#include "convertersmodel.h"
+#include "converterdefinitionsmodel.h"
 #include "fancylineedit.h"
 #include "converterconfigurationeditdialog.h"
 
@@ -51,12 +51,11 @@ private:
     QMenu* contextMenu;
     QToolBar* contextToolBar;
     QTableView tableView;
-    ConvertersModel convertersModel;
+    ConverterDefinitionsModel convertersModel;
     QString expectedMainConverter;
     QString mainConverterPath;
-
-    bool showToolTips;
     QRect editDialogGeometry;
+    bool showToolTips;
 
     void promptForResamplerLocation();
     void initMenu();

@@ -1,16 +1,16 @@
-#include "convertersmodel.h"
+#include "converterdefinitionsmodel.h"
 
-ConvertersModel::ConvertersModel(QObject* parent) : QAbstractTableModel(parent) {}
+ConverterDefinitionsModel::ConverterDefinitionsModel(QObject* parent) : QAbstractTableModel(parent) {}
 
-int ConvertersModel::rowCount(const QModelIndex &) const {
+int ConverterDefinitionsModel::rowCount(const QModelIndex &) const {
     return converterDefinitions.count();
 }
 
-int ConvertersModel::columnCount(const QModelIndex &) const {
+int ConverterDefinitionsModel::columnCount(const QModelIndex &) const {
     return 11;
 }
 
-QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant ConverterDefinitionsModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return {};
 
     switch (section) {
@@ -29,7 +29,7 @@ QVariant ConvertersModel::headerData(int section, Qt::Orientation orientation, i
     }
 }
 
-QVariant ConvertersModel::data(const QModelIndex &index, int role) const
+QVariant ConverterDefinitionsModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::TextAlignmentRole) {
         switch(index.column()) {
@@ -71,7 +71,7 @@ QVariant ConvertersModel::data(const QModelIndex &index, int role) const
     }
 }
 
-bool ConvertersModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool ConverterDefinitionsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if(role == Qt::EditRole) {
         switch(index.column()) {
@@ -88,12 +88,12 @@ bool ConvertersModel::setData(const QModelIndex &index, const QVariant &value, i
     return false;
 }
 
-QVector<ConverterDefinition> ConvertersModel::getConverterDefinitions() const
+QVector<ConverterDefinition> ConverterDefinitionsModel::getConverterDefinitions() const
 {
     return converterDefinitions;
 }
 
-void ConvertersModel::setConverterDefinitions(const QVector<ConverterDefinition> &value)
+void ConverterDefinitionsModel::setConverterDefinitions(const QVector<ConverterDefinition> &value)
 {
     converterDefinitions = value;
     emit rowsInserted({}, 0, converterDefinitions.count() - 1, {});

@@ -1,16 +1,16 @@
-#ifndef CONVERTERSMODEL_H
-#define CONVERTERSMODEL_H
+#ifndef CONVERTERDEFINITIONSMODEL_H
+#define CONVERTERDEFINITIONSMODEL_H
 
 #include "converterdefinition.h"
 
 #include <QAbstractTableModel>
 
-class ConvertersModel : public QAbstractTableModel
+class ConverterDefinitionsModel : public QAbstractTableModel
 {
     QVector<ConverterDefinition> converterDefinitions;
 
 public:
-    ConvertersModel(QObject *parent = nullptr);
+    ConverterDefinitionsModel(QObject *parent = nullptr);
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
@@ -20,4 +20,4 @@ public:
     void setConverterDefinitions(const QVector<ConverterDefinition> &value);
 };
 
-#endif // CONVERTERSMODEL_H
+#endif // CONVERTERDEFINITIONSMODEL_H
