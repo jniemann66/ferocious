@@ -380,11 +380,11 @@ QMenuBar::item:pressed {
 
 QMenu {
 	color: #fff;
-	border: 1px solid #1b2018;
+        border: 1px solid #1b2018;
 	border-radius: 9px;
 	padding: 5px;
-	background: qradialgradient(cx: 0.3, cy: -0.4,
-	fx: 0.3, fy: -0.4,
+        background: qradialgradient(cx: 0.3, cy: -0.4,
+        fx: 0.3, fy: -0.4,
 	radius: 1.35, stop: 0 #46503f, stop: 1 #2d3328);
 	min-width: 66px;
 }

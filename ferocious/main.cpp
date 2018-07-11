@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         a.setStyleSheet(ss.readAll());
         ss.close();
     } else {
-        qDebug() << "Couldn't open stylesheet resource";
+        qDebug() << QString{"Couldn't open stylesheet resource: %1"}.arg(ss.fileName());
     }
 
     MainWindow w;
