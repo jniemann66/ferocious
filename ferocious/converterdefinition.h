@@ -23,10 +23,8 @@ struct ConverterDefinition
     QStringList downloadLocations;
     QStringList operatingSystems;
 
-    // json services
     void fromJson(const QJsonObject& json);
     QJsonObject toJson() const;
-
     bool operator==(const ConverterDefinition& other);
 
 public:
