@@ -20,7 +20,7 @@ class FancyLineEdit : public QLineEdit
 
 public:
     FancyLineEdit(QWidget *parent = nullptr);
-   ~FancyLineEdit();
+    ~FancyLineEdit();
 
     void hideEditButton();
     void hideClearButton();
@@ -28,9 +28,9 @@ public:
     void showClearButton();
 
 protected:
-  void resizeEvent(QResizeEvent *) override;
-  void dragEnterEvent(QDragEnterEvent* e) override;
-  void dropEvent(QDropEvent* e) override;
+    void resizeEvent(QResizeEvent *) override;
+    void dragEnterEvent(QDragEnterEvent* e) override;
+    void dropEvent(QDropEvent* e) override;
 
 private:
     QToolButton *editButton;
