@@ -102,7 +102,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
         if(modelIndex.column() == 1)
             return;
 
-        QPoint p = QPoint{tableView.columnViewportPosition(4), tableView.rowViewportPosition(modelIndex.row())};
+        QPoint p{tableView.columnViewportPosition(4), tableView.rowViewportPosition(modelIndex.row())};
         QPoint q = tableView.mapTo(this, p + QPoint{0, tableView.rowHeight(modelIndex.row()) / 2});
         contextToolBar->move(q);
         contextToolBar->show();

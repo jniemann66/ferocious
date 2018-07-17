@@ -1,10 +1,7 @@
 #include "lpfparametersdlg.h"
 #include "ui_lpfparametersdlg.h"
 
-LpfParametersDlg::LpfParametersDlg(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::LpfParametersDlg),
-    nyquistFrequency(0.0)
+LpfParametersDlg::LpfParametersDlg(QWidget *parent) : QDialog(parent), ui(new Ui::LpfParametersDlg), nyquistFrequency(0.0)
 {
     ui->setupUi(this);
 
