@@ -1,16 +1,16 @@
 
 ## Synopsis
 
-Ferocious File Converter is a high-quality audio file-format conversion tool, which utilitizes the resampling capabilities of its companion program, [ReSampler](https://github.com/jniemann66/ReSampler "ReSampler").
+Ferocious File Converter is a graphical front-end for [ReSampler](https://github.com/jniemann66/ReSampler "ReSampler"), 
+and potentially any number of other command-line audio conversion tools.  
 
-It provides a convenient and easy-to-use graphical interface for converting audio files between a number of formats.
+It provides a convenient and easy-to-use method for converting audio files between a number of formats.
 
 ![Ferocious File Converter screenshot](https://github.com/jniemann66/ferocious/blob/master/screenshot.jpg)
 
 ## Description of Code
 
-Ferocious File Converter was originally developed using Qt 5.5 on Windows, but also runs just fine on Linux and macOS. It has been compiled on Qt versions up to 5.10.
-Since Qt is cross-platform, it is possible to compile and run ferocious on any platform targeted by Qt.
+Ferocious File Converter was originally developed using Qt 5.5 on Windows, but also runs just fine on Linux and macOS. 
 
 ## Motivation
 
@@ -58,9 +58,9 @@ Wildcards (using '*') in filenames (but not directory paths) are also recognized
 
 Note: all items configured in the Options menu are *persistent* (ie they will be remembered next time you run the program) unless otherwise indicated.
 
-**Options/Configure Converter(s) ...**   Use this to specify the location of ReSampler (**ReSampler.exe** for Windows, **ReSampler** for Linux), and to configure additional converters for handling specialized file formats.
-
 **Options/Output File Options ...** This allows you to control the settings that govern the generation of automatically-generated output file names:
+
+**Options/Converter Configuration ...**   Use this to specify the location of ReSampler (**ReSampler.exe** for Windows, **ReSampler** for Linux), and to configure additional converters for handling specialized file formats.
 
 **Append this suffix To Output File name:**
 
