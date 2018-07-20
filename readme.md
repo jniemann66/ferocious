@@ -10,7 +10,7 @@ It provides a convenient and easy-to-use method for converting audio files betwe
 
 ## Description of Code
 
-Ferocious File Converter was originally developed using Qt 5.5 on Windows, but also runs just fine on Linux and macOS. 
+Ferocious File Converter in written in C++ using Qt. It was originally developed for Windows, but also runs just fine on Linux and macOS. 
 
 ## Motivation
 
