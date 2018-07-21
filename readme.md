@@ -14,7 +14,9 @@ Ferocious File Converter is written in C++ using Qt. It was originally developed
 
 ## Motivation
 
-Having written a command-line sample rate converter, I thought the next logical step was to write a user-friendly GUI for it, with a very close coupling between the features of the GUI and commandline.
+I wanted a tool to quickly and reliably convert music files between one format and another whenever the need arises.
+
+Having written a command-line sample rate converter, the next logical step was to write a user-friendly GUI for it, with a very close coupling between the features of the GUI and commandline.
 
 ## Installation
 
