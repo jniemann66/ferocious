@@ -5,7 +5,7 @@
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "lame.exe",
         "executablepath": "",
         "inputfileext": "mp3",
@@ -23,7 +23,7 @@
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "lame.exe",
         "executablepath": "",
         "inputfileext": "wav",
@@ -41,7 +41,7 @@
         "downloadlocations": [
             "https://en.wikipedia.org/wiki/Nero_AAC_Codec"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "neroAacEnc.exe",
         "executablepath": "",
         "inputfileext": "wav",
@@ -59,7 +59,7 @@
         "downloadlocations": [
             "https://en.wikipedia.org/wiki/Nero_AAC_Codec"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "neroAacDec.exe",
         "executablepath": "",
         "inputfileext": "m4a",
@@ -77,7 +77,7 @@
         "downloadlocations": [
             "http://www.wavpack.com/downloads.html"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "wvunpack.exe",
         "executablepath": "",
         "inputfileext": "wv",
@@ -95,7 +95,7 @@
         "downloadlocations": [
             "http://www.wavpack.com/downloads.html"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "wavpack.exe",
         "executablepath": "",
         "inputfileext": "wav",
@@ -113,7 +113,7 @@
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "lame",
         "executablepath": "lame",
         "inputfileext": "mp3",
@@ -131,7 +131,7 @@
         "downloadlocations": [
             "http://lame.sourceforge.net/download.php"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "lame",
         "executablepath": "lame",
         "inputfileext": "wav",
@@ -149,7 +149,7 @@
         "downloadlocations": [
             "http://www.audiocoding.com/index.html"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "faad",
         "executablepath": "faad",
         "inputfileext": "m4a",
@@ -167,7 +167,7 @@
         "downloadlocations": [
             "http://www.audiocoding.com/index.html"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "faac",
         "executablepath": "faac",
         "inputfileext": "wav",
@@ -185,7 +185,7 @@
         "downloadlocations": [
             "http://opus-codec.org/"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "opusdec",
         "executablepath": "opusdec",
         "inputfileext": "opus",
@@ -203,7 +203,7 @@
         "downloadlocations": [
             "http://opus-codec.org/"
         ],
-        "enabled": true,
+        "enabled": false,
         "executablename": "opusenc",
         "executablepath": "opusenc",
         "inputfileext": "wav",
