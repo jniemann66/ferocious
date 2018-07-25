@@ -423,9 +423,6 @@ QToolButton:pressed {
 	radius: 1.35, stop: 0 #70e01a, stop: 1 #3b770e);
 }
 
-
-/* --- SpinBox --- */
-
 QSpinBox {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);
