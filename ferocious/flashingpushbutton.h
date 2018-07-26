@@ -20,8 +20,6 @@ public:
         timer.start(500);
     }
 
-    ~FlashingPushButton(){}
-
     bool getIsActive() const;
     void setIsActive(bool value);
 
