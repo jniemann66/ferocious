@@ -90,14 +90,12 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
 void FilenameGenerator::saveSettings(QSettings &settings)
 {
     settings.beginGroup("OutputFileOptions");
-
     settings.setValue("appendSuffix", FilenameGenerator::appendSuffix);
     settings.setValue("Suffix", FilenameGenerator::suffix);
     settings.setValue("useSpecificOutputDirectory", FilenameGenerator::useSpecificOutputDirectory);
     settings.setValue("outputDirectory", QDir(FilenameGenerator::outputDirectory).absolutePath());
     settings.setValue("useSpecificFileExt", FilenameGenerator::useSpecificFileExt);
     settings.setValue("fileExt", FilenameGenerator::fileExt);
-
     settings.endGroup();
 }
 
