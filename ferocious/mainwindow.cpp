@@ -7,7 +7,6 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDir>
-#include <QProcess>
 #include <QObject>
 #include <QSettings>
 #include <QDebug>
@@ -461,9 +460,11 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
         int LastDot = outFilename.lastIndexOf(".");
         int LastSep = outFilename.lastIndexOf(QDir::separator());
         QString s = outFilename.mid(LastSep + 1, LastDot - LastSep - 1); // get what is between last separator and last '.'
+
         if(!s.isEmpty() && !s.isNull()) {
             outFilename.replace(s, "*"); // replace everything between last separator and file extension with a wildcard ('*'):
         }
+
         filenameGenerator.generateOutputFilename(outFilename,outFilename); // Generate output filename by applying name-generation rules
 
         // update the output filename widget and label

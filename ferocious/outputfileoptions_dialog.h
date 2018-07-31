@@ -8,7 +8,7 @@
 #include <QDialog>
 #include <QSettings>
 #include <QDir>
-#include <qdebug.h>
+#include <QDebug>
 
 // class FilenameGenerator. Purpose:
 // 1. Keep a persistent record of user preferences for naming of output file
