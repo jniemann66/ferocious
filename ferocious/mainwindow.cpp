@@ -110,9 +110,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         loadConverterDefinitions(":/converters.json");
     }
 
-    // to-do:
-    // check if each executable exists and disable/enable conveter accordingly
-
     connect(&process, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
     connect(&process, &QProcess::readyReadStandardError, this, &MainWindow::on_StderrAvailable);
     connect(&process, &QProcess::started, this, &MainWindow::on_ConverterStarted);
@@ -1508,6 +1505,7 @@ QString MainWindow::getOutfileFilter() {
     return QString{"Audio Files (%1)"}.arg(outfileFormats.toList().join(" "));
 }
 
+// check if each executable exists and disable if not found
 void MainWindow::checkConverterAvailability()
 {
     for(ConverterDefinition& d : converterDefinitions) {
