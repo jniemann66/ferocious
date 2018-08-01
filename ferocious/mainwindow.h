@@ -163,6 +163,7 @@ private:
     static QString getRandomString(int length);
     QString getInfileFilter();
     QString getOutfileFilter();
+    void checkConverterAvailability();
 };
 
 #endif // MAINWINDOW_H

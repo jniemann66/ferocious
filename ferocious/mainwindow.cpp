@@ -961,6 +961,7 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
 
 void MainWindow::loadConverterDefinitions(const QString& fileName) {
    converterDefinitions = ConverterDefinition::loadConverterDefinitions(fileName);
+   checkConverterAvailability();
 }
 
 void MainWindow::saveConverterDefinitions(const QString& fileName) const {
@@ -1178,6 +1179,7 @@ void MainWindow::on_actionConverter_Location_triggered()
             getResamplerVersion();  // get converter version
         }
         converterDefinitions = converterConfigurationDialog->getConverterDefinitions();
+        checkConverterAvailability();
     }
 }
 
@@ -1504,6 +1506,13 @@ QString MainWindow::getOutfileFilter() {
     }
 
     return QString{"Audio Files (%1)"}.arg(outfileFormats.toList().join(" "));
+}
+
+void MainWindow::checkConverterAvailability()
+{
+    for(ConverterDefinition& d : converterDefinitions) {
+        d.enabled = d.enabled && QFile::exists(d.executablePath);
+    }
 }
 
 QString MainWindow::getRandomString(int length)
