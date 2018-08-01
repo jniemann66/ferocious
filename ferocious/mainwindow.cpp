@@ -1509,7 +1509,7 @@ QString MainWindow::getOutfileFilter() {
 void MainWindow::checkConverterAvailability()
 {
     for(ConverterDefinition& d : converterDefinitions) {
-        d.enabled = d.enabled && QFile::exists(d.executablePath);
+        d.enabled = d.enabled && !d.executablePath.isEmpty() && QFile::exists(d.executablePath);
     }
 }
 
