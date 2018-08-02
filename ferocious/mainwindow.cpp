@@ -1522,4 +1522,3 @@ QString MainWindow::getRandomString(int length)
    }
    return s;
 }
-
