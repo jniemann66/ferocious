@@ -12,8 +12,9 @@ FileDropDialog::FileDropDialog(QWidget *parent) : QDialog(parent)
     mainLayout->addWidget(textLabel);
     mainLayout->addWidget(textEdit);
     mainLayout->addWidget(buttonBox);
-
     setLayout(mainLayout);
+
+    // connect signals / slots
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
