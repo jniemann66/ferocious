@@ -60,9 +60,11 @@ Wildcards (using '*') in filenames (but not directory paths) are also recognized
 
 Note: all items configured in the Options menu are *persistent* (ie they will be remembered next time you run the program) unless otherwise indicated.
 
-**Options/Output File Options ...** This allows you to control the settings that govern the generation of automatically-generated output file names:
+**Options/Output File Options ...** This allows you to control the settings that govern the generation of automatically-generated output file names
 
 **Options/Converter Configuration ...**   Use this to specify the location of ReSampler (**ReSampler.exe** for Windows, **ReSampler** for Linux), and to configure additional converters for handling specialized file formats.
+
+![Configure External Converters - Screenshot](./ConfigureExternalConverters.jpg)
 
 **Append this suffix To Output File name:**
 
