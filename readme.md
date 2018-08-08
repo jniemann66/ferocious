@@ -6,7 +6,7 @@ and potentially any number of other command-line audio conversion tools.
 
 It provides a convenient and easy-to-use method for converting audio files between a number of formats.
 
-![Ferocious File Converter screenshot](https://github.com/jniemann66/ferocious/blob/master/screenshot.jpg)
+![Ferocious File Converter screenshot](./screenshot.jpg)
 
 ## Description of Code
 
@@ -192,6 +192,6 @@ The "standard" (ie more common) type of Finite Impulse Response filter used in a
 
 Here are some actual examples of impulse responses, showing the difference between Linear Phase and Minimum Phase. These are the the impulse responses for resampling from 96kHz down to 44.1kHz:
 
-![Linear Phase vs Minimum Phase](https://github.com/jniemann66/ferocious/blob/master/LinearPhaseVsMinPhase.JPG)
+![Linear Phase vs Minimum Phase](./LinearPhaseVsMinPhase.JPG)
 
 **Double-Precision** Causes all processing calculations to be performed in 64-bit double-precision. (By default, 32-bit single precision is used). Please note that double-precision may decrease processing speed slightly.
