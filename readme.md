@@ -53,7 +53,7 @@ When opening files for conversion, multiple files may be selected (by holding do
 
 In multi-file mode, the output filenames are automatically generated according to the rules you set in "Output File Options"
 
-Wildcards (using '*') in filenames (but not directory paths) are also recognized. For details on wildcard processing rules, please refer to [this document](https://github.com/jniemann66/ferocious/blob/master/Ferocious-Wildcard-specs.pdf "this document") 
+Wildcards (using '*') in filenames (but not directory paths) are also recognized. For details on wildcard processing rules, please refer to [this document](./Ferocious-Wildcard-specs.pdf "this document") 
 
 
 ## Menu Items
