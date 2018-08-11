@@ -143,7 +143,7 @@ Display the version of Ferocious and the version of ReSampler.
 
 **Help/about Qt ...**
 
-Display information about Qt, the Toolkit used for developing Ferocious.
+Display information about Qt, the Toolkit used to develop Ferocious.
 
 ## Context Menus
 
