@@ -2,6 +2,7 @@
 
 #include <QMimeData>
 #include <QDir>
+#include <QDebug>
 
 FileDropTextEdit::FileDropTextEdit(QWidget *parent) : QPlainTextEdit (parent)
 {
