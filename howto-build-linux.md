@@ -14,8 +14,6 @@ Download latest Qt package:
 
 [download page](https://www.qt.io/download-open-source/#section-2)
 
-*tested with Offline installer*
-
 make the installer file executable, eg:
 ~~~
 chmod +x qt-opensource-linux-x64-5.8.0.run
