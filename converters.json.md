@@ -1,7 +1,7 @@
 | JSON  | Comments |
 | ------------- | ------------- |
-|[
-|&nbsp;&nbsp;     { | |
+|[|Array of converter configurations|
+|&nbsp;&nbsp;     {
 |&nbsp;&nbsp;&nbsp;&nbsp;         "commandline": "--decode --silent {i} {o}", | command line **{i}** = substitute input file name, **{o}** = substitute output file name |
 |&nbsp;&nbsp;&nbsp;&nbsp;         "comment": "Decode mp3 to wav using Lame", | comment describing what this converter (and the given command line) achieves. |
 |&nbsp;&nbsp;&nbsp;&nbsp;         "downloadlocations": [|List of possible download locations for the converter|
