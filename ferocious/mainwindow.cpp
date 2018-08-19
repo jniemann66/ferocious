@@ -1192,7 +1192,7 @@ void MainWindow::on_actionAbout_triggered()
     QString info(tr("Ferocious File Conversion\n By J.Niemann\n\n"));
 
     info += tr("GUI Version: ") + QString(APP_VERSION) + "\n";
-    info += tr("Converter Vesion: ") + resamplerVersion + "\n";
+    info += tr("Converter Version: ") + resamplerVersion + "\n";
 
     QMessageBox msgBox;
     msgBox.setText("About");
