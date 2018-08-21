@@ -1,3 +1,9 @@
+## Structure of the converters.json file
+
+Ferocious stores the configuration for external command-line converters (other than ReSampler) in the **converters.json** file.
+This document briefly outlines the structure of **converters.json**
+
+
 | JSON  | Comments |
 | ------------- | ------------- |
 |[|Array of converter configurations|
