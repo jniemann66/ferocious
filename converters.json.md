@@ -2,9 +2,9 @@
 
 This document briefly outlines the structure of the **converters.json** configuration file, which is where Ferocious stores the configuration for external command-line converters (other than ReSampler).
 
-Within the context of the **converters.json** file, a *converter configuration* represents a description of a given command-line converter tool, the parameters it is to be invoked with, and various metadata associated with it.
+Within the context of the **converters.json** file, a *converter configuration* represents a description of a given command-line converter tool, the type of input and output files it accepts, the parameters it is to be invoked with, and various metadata associated with it.
 
-The JSON structure contains an array of converter configurations. 
+The JSON structure contains an array of such converter configurations. 
 
 | JSON  | Comments |
 | ------------- | ------------- |
@@ -15,7 +15,7 @@ The JSON structure contains an array of converter configurations.
 |&nbsp;&nbsp;&nbsp;&nbsp;         "downloadlocations": [|List of possible download locations for the converter|
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   "http://lame.sourceforge.net/download.php"
 |&nbsp;&nbsp;&nbsp;&nbsp;         ], 
-|&nbsp;&nbsp;&nbsp;&nbsp;         "enabled": false,
+|&nbsp;&nbsp;&nbsp;&nbsp;         "enabled": false,|Note: the "enabled" state of the converter has an effect on whether Ferocious will recognize file types handled by the converter. Also, Ferocious will check to see if the converter exists at the configured path upon startup, and disable it, if it is not found. 
 |&nbsp;&nbsp;&nbsp;&nbsp;         "executablename": "lame.exe",| *expected* filename of converter (gui uses this when asking user for the path)|
 |&nbsp;&nbsp;&nbsp;&nbsp;         "executablepath": "",|path of converter|
 |&nbsp;&nbsp;&nbsp;&nbsp;         "inputfileext": "mp3",|the type of file the converter accepts|
