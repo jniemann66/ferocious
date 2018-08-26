@@ -6,7 +6,7 @@ Within the context of the **converters.json** file, a *converter configuration* 
 
 The JSON structure contains an array of such converter configurations. 
 
-| JSON  | Comments |
+| sample JSON  | Comments |
 | ------------- | ------------- |
 |[|Array of converter configurations|
 |&nbsp;&nbsp;     {
