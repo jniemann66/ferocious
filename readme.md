@@ -67,6 +67,7 @@ Note: all items configured in the Options menu are *persistent* (ie they will be
 Additional converters open up the possibility of convertering to / from file formats which ReSampler does not understand. This allows conversions between a potentially unlimited number of file formats, provided suitable command-line converters are available for those formats.
 
 ![Configure External Converters - Screenshot](./ConfigureExternalConverters.jpg)
+
 *Above : Converter Configuration Dialog*
 
 Note: The settings in the Converter Configuration dialog are stored in the [**converters.json**](./converters.json.md) file, which may also be edited by hand using a text editor, if desired.  
