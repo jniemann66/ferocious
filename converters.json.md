@@ -23,7 +23,6 @@ The JSON structure contains an array of such converter configurations.
 |&nbsp;&nbsp;&nbsp;&nbsp;         "name": "Decode mp3 with Lame",|name of this converter configuration|
 |&nbsp;&nbsp;&nbsp;&nbsp;         "operatingsystems": [|if converters for multiple operating systems are configured, Ferocious will only show the ones that are relevant for the operating system Ferocious is currently running on|
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             "win"| valid options are: win \| linux \| macos
-|&nbsp;&nbsp;&nbsp;&nbsp;         ],
-|&nbsp;&nbsp;&nbsp;&nbsp;         "priority": 0
+|&nbsp;&nbsp;&nbsp;&nbsp;         ]
 |&nbsp;&nbsp;}
 |]
