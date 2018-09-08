@@ -44,3 +44,15 @@ git clone https://github.com/jniemann66/ferocious.git
 - Choose 'Open File or Project' from the File menu
 - Open 'ferocious.pro'
 - Build the project from the Build menu
+
+#### or, build from command-line
+
+~~~
+cd ferocious && path-to-qmake/qmake && make && make clean
+~~~
+
+where "ferocious" is the directory containg the ferocious source (and the ferocious.pro file for qmake) 
+
+and path-to-qmake is the path to the directory conating qmake, which will depend on where you installed Qt and which kits you installed. For example,
+
+**~/Qt/5.10.1/gcc_64/bin**
