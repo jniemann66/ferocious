@@ -1,7 +1,5 @@
 #include "checkboxdelegate.h"
-
 #include <QApplication>
-#include <QDebug>
 
 CheckBoxDelegate::CheckBoxDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 

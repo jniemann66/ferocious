@@ -9,7 +9,6 @@
 #include <QMessageBox>
 #include <QDialogButtonBox>
 #include <QHeaderView>
-#include <QDebug>
 #include <QApplication>
 #include <QToolButton>
 
