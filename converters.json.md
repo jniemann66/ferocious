@@ -2,9 +2,13 @@
 
 The **converters.json** configuration file is where Ferocious stores the configuration for external command-line converters (other than ReSampler).
 
-Within the context of the **converters.json** file, a *converter configuration* represents a description of a given command-line converter tool, the type of input and output files it accepts, the parameters it is to be invoked with, and various metadata associated with it.
+Within the context of the **converters.json** file, a *converter configuration* represents a description of: 
+1. a given command-line converter tool, 
+2. the type of input and output files it accepts, 
+3. the parameters it is to be invoked with, 
+4. and various metadata associated with it.
 
-The JSON structure contains an array of such converter configurations. 
+The JSON structure in **converters.json** contains an array of such converter configurations. 
 
 | sample JSON  | Comments |
 | ------------- | ------------- |
