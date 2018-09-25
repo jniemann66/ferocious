@@ -14,7 +14,7 @@ The JSON structure in **converters.json** contains an array of such converter co
 | ------------- | ------------- |
 |[|Array of converter configurations|
 |&nbsp;&nbsp;     {
-|&nbsp;&nbsp;&nbsp;&nbsp;         "commandline": "--decode --silent {i} {o}", | command line arguments and options to be issued to the converter. **{i}** = substitute input file name, **{o}** = substitute output file name |
+|&nbsp;&nbsp;&nbsp;&nbsp;         "commandline": "--decode --silent {i} {o}", | command line arguments and options to be issued to the converter. <br>**{i}** = substitute input file name,<br> **{o}** = substitute output file name |
 |&nbsp;&nbsp;&nbsp;&nbsp;         "comment": "Decode mp3 to wav using Lame", | comment describing what this converter (and the given command line) achieves. |
 |&nbsp;&nbsp;&nbsp;&nbsp;         "downloadlocations": [|List of possible download locations for the converter|
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   "http://lame.sourceforge.net/download.php"
