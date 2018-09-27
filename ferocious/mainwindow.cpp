@@ -430,9 +430,10 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
             if(bRefreshOutFilename) {
                 QString outFileName;
                 filenameGenerator.generateOutputFilename(outFileName,ui->InfileEdit->text());
-                if(!outFileName.isNull() && !outFileName.isEmpty())
+                if(!outFileName.isNull() && !outFileName.isEmpty()) {
                     ui->OutfileEdit->setText(outFileName);
                     ui->OutfileEdit->update();
+                }
             }
         }
 
