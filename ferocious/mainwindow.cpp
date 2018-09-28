@@ -1210,8 +1210,9 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::ToolTip) // Intercept tooltip event
+    if (event->type() == QEvent::ToolTip) { // Intercept tooltip event
         return (!ui->actionEnable_Tooltips->isChecked());
+    }
 
     else
         return QMainWindow::eventFilter(obj, event);

@@ -11,7 +11,9 @@ int ConverterDefinitionsModel::columnCount(const QModelIndex &) const {
 }
 
 QVariant ConverterDefinitionsModel::headerData(int section, Qt::Orientation orientation, int role) const {
-    if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return {};
+    if (orientation != Qt::Horizontal || role != Qt::DisplayRole) {
+        return {};
+    }
 
     switch (section) {
     case 0: return tr("Priority");
