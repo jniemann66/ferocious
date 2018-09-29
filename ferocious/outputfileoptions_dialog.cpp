@@ -111,9 +111,7 @@ void FilenameGenerator::loadSettings(QSettings &settings)
     settings.endGroup();
 }
 
-OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::OutputFileOptions_Dialog)
+OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, QWidget *parent) : QDialog(parent), ui(new Ui::OutputFileOptions_Dialog)
 {
     ui->setupUi(this);
     pFilenameGenerator = &filenameGenerator; // keep a pointer to caller's referenced object
