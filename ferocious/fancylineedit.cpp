@@ -8,16 +8,17 @@
 FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
 {
     clearButton = new QToolButton(this);
+    editButton = new QToolButton(this);
+    fileDropDialog = new FileDropDialog(this);
+
     clearButton->resize(24, 18);
     clearButton->setText("x");
     clearButton->setCursor(Qt::ArrowCursor);
 
-    editButton = new QToolButton(this);
     editButton->resize(24, 18);
     editButton->setText("...");
     editButton->setCursor(Qt::ArrowCursor);
 
-    fileDropDialog = new FileDropDialog(this);
     fileDropDialog->hide();
     setAcceptDrops(true);
 
