@@ -29,7 +29,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), launchType(LaunchType::Convert)
 {
-    qsrand(QTime::currentTime().msec());
+    qsrand(static_cast<unsigned int>(QTime::currentTime().msec()));
 
     ui->setupUi(this);
     ui->SamplerateCombo->setCurrentText("44100");
