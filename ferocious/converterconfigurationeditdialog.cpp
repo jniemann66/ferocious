@@ -139,8 +139,11 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     enabledCheckbox->setChecked(converterDefinition.enabled);
     nameEdit->setText(converterDefinition.name);
     commentEdit->setPlainText(converterDefinition.comment);
-    if(!converterDefinition.downloadLocations.isEmpty())
+
+    if(!converterDefinition.downloadLocations.isEmpty()) {
         downloadLocationEdit->setText(converterDefinition.downloadLocations.first());
+    }
+
     inputFileExtEdit->setText(converterDefinition.inputFileExt);
     outputFileExtEdit->setText(converterDefinition.outputFileExt);
     executableEdit->setText(converterDefinition.executable);
@@ -162,8 +165,9 @@ void ConverterConfigurationEditDialog::setShowToolTips(bool value)
 
 void ConverterConfigurationEditDialog::promptForExecutableLocation() {
     QString s(tr("Please locate the execuatble file "));
-    if (!getConverterDefinition().executable.isEmpty())
+    if (!getConverterDefinition().executable.isEmpty()) {
         s.append(getConverterDefinition().executable);
+    }
 
 #if defined (Q_OS_WIN)
     QString filter = "*.exe";
@@ -184,6 +188,7 @@ bool ConverterConfigurationEditDialog::eventFilter(QObject *obj, QEvent *event)
         return (showToolTips);
     }
 
-    else
+    else {
         return ConverterConfigurationEditDialog::eventFilter(obj, event);
+    }
 }

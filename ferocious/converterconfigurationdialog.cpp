@@ -28,9 +28,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
     // set tooltips
     additionalConvertersLabel->setToolTip("Use the table below to cofigure additional converters for specialized file formats.");
-    QPushButton* restorDefaultsButton = stdButtons->button(QDialogButtonBox::RestoreDefaults);
-    if(restorDefaultsButton != nullptr) {
-        restorDefaultsButton->setToolTip(tr("Restore converter configuration to default settings"));
+    QPushButton* restoreDefaultsButton = stdButtons->button(QDialogButtonBox::RestoreDefaults);
+    if(restoreDefaultsButton != nullptr) {
+        restoreDefaultsButton->setToolTip(tr("Restore converter configuration to default settings"));
     }
 
     // set model
