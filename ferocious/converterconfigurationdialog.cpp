@@ -109,7 +109,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     });
 
     connect(stdButtons, &QDialogButtonBox::clicked, this, [this, stdButtons](QAbstractButton* b) {
-        if(b == stdButtons->button(QDialogButtonBox::RestoreDefaults)){
+        if(b == stdButtons->button(QDialogButtonBox::RestoreDefaults)) {
             onRestoreDefaults();
         }
     });

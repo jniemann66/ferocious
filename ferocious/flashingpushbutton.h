@@ -31,10 +31,8 @@ signals:
     void rightClicked();
 
 private slots:
-    void flashWhenActive()
-    {
-        if (isActive) // flash when active
-        {
+    void flashWhenActive() {
+        if (isActive) { // flash when active
             if (flashState == 0) {
                 flashState = 1;
                 setProperty("flashing", true);
