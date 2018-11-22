@@ -15,15 +15,15 @@ FilenameGenerator::FilenameGenerator() {
     replicateDirectoryStructure = false;
 }
 
-FilenameGenerator::FilenameGenerator(const FilenameGenerator &O)
-    : appendSuffix(O.appendSuffix),
-      useSpecificOutputDirectory(O.useSpecificOutputDirectory),
-      replicateDirectoryStructure(O.replicateDirectoryStructure),
-      useSpecificFileExt(O.useSpecificFileExt),
-      suffix(O.suffix),
-      inputDirectoryRoot(O.inputDirectoryRoot),
-      outputDirectory(O.outputDirectory),
-      fileExt(O.fileExt)
+FilenameGenerator::FilenameGenerator(const FilenameGenerator &o)
+    : appendSuffix(o.appendSuffix),
+      useSpecificOutputDirectory(o.useSpecificOutputDirectory),
+      replicateDirectoryStructure(o.replicateDirectoryStructure),
+      useSpecificFileExt(o.useSpecificFileExt),
+      suffix(o.suffix),
+      inputDirectoryRoot(o.inputDirectoryRoot),
+      outputDirectory(o.outputDirectory),
+      fileExt(o.fileExt)
 {
     /*---*/
 }
