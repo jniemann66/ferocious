@@ -15,8 +15,7 @@ void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionView
     QVariant value = index.data(Qt::DisplayRole);
 
     painter->save();
-    if(value.isValid() && !value.isNull())
-    {
+    if(value.isValid() && !value.isNull()) {
         document.setHtml(getHtmlHighlighting(value.toString()));
         painter->translate(QPoint{option.rect.left(), option.rect.top() + 4 /* to-do : how to calculate this properly ? */});
         document.drawContents(painter);

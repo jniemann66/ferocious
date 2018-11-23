@@ -28,9 +28,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
     // set tooltips
     additionalConvertersLabel->setToolTip("Use the table below to cofigure additional converters for specialized file formats.");
-    QPushButton* restorDefaultsButton = stdButtons->button(QDialogButtonBox::RestoreDefaults);
-    if(restorDefaultsButton != nullptr) {
-        restorDefaultsButton->setToolTip(tr("Restore converter configuration to default settings"));
+    QPushButton* restoreDefaultsButton = stdButtons->button(QDialogButtonBox::RestoreDefaults);
+    if(restoreDefaultsButton != nullptr) {
+        restoreDefaultsButton->setToolTip(tr("Restore converter configuration to default settings"));
     }
 
     // set model
@@ -109,7 +109,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     });
 
     connect(stdButtons, &QDialogButtonBox::clicked, this, [this, stdButtons](QAbstractButton* b) {
-        if(b == stdButtons->button(QDialogButtonBox::RestoreDefaults)){
+        if(b == stdButtons->button(QDialogButtonBox::RestoreDefaults)) {
             onRestoreDefaults();
         }
     });
@@ -188,7 +188,9 @@ void ConverterConfigurationDialog::initToolBar() {
         QWidget* w = contextToolBar->widgetForAction(a);
         if(QString(w->metaObject()->className()) == "QToolButton") {
             QToolButton* t = qobject_cast<QToolButton*>(w);
-            t->setStyleSheet("QToolButton {padding: 5px; border-radius: 3px}");
+            if(t != nullptr) {
+                t->setStyleSheet("QToolButton {padding: 5px; border-radius: 3px}");
+            }
         }
     }
 }
