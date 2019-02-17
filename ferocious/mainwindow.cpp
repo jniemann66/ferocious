@@ -379,6 +379,9 @@ void MainWindow::on_browseInButton_rightClicked()
     browseInMenu->popup(QCursor::pos());
 }
 
+// todo: add a browse In Button rightClicked handler
+// offer user a "select output directory" option
+
 void MainWindow::on_browseInfileButton_clicked()
 {   
     QFileDialog fileDialog(this);
