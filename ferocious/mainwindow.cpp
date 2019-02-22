@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     browseInMenu = new QMenu(this);
     browseInMenu->setHidden(true);
+    browseOutMenu = new QMenu(this);
+    browseOutMenu->setHidden(true);
     convertTaskMenu = new QMenu(this);
     converterConfigurationDialog = new ConverterConfigurationDialog(this, Qt::Window);
     convertTaskMenu->setHidden(true);
@@ -121,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->convertButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_convertButton_rightClicked);
     connect(ui->convertButton, &FlashingPushButton::stopRequested, this, &MainWindow::on_stopRequested);
     connect(ui->browseInfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
+    connect(ui->browseOutfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_browseOutButton_rightClicked);
 }
 
 MainWindow::~MainWindow()
@@ -377,6 +380,31 @@ void MainWindow::on_browseInButton_rightClicked()
     });
 
     browseInMenu->popup(QCursor::pos());
+}
+
+void MainWindow::on_browseOutButton_rightClicked()
+{
+    for (auto& a : browseOutMenu->actions()) {
+        browseOutMenu->removeAction(a);
+    }
+
+    browseOutMenu->addAction("Select Output File ...", this, &MainWindow::on_browseOutfileButton_clicked);
+    browseOutMenu->addAction("Select Output Directory ...", [this] {
+        QFileDialog fileDialog(this);
+        fileDialog.setDirectory(outFileBrowsePath);
+        fileDialog.setFileMode(QFileDialog::Directory);
+        fileDialog.setViewMode(QFileDialog::Detail);
+
+        if(fileDialog.exec()) {
+            QString dirName = QDir::toNativeSeparators(fileDialog.selectedFiles().first());
+            if(!dirName.isEmpty()) {
+                filenameGenerator.outputDirectory = dirName;
+                MainWindow::on_InfileEdit_editingFinished(); // trigger refresh
+            }
+        }
+    });
+
+    browseOutMenu->popup(QCursor::pos());
 }
 
 void MainWindow::on_browseInfileButton_clicked()

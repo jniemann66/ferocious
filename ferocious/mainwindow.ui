@@ -555,7 +555,7 @@ to process multiple files.</string>
      </widget>
     </item>
     <item row="3" column="6">
-     <widget class="QPushButton" name="browseOutfileButton">
+     <widget class="FlashingPushButton" name="browseOutfileButton">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -705,7 +705,7 @@ to process multiple files.</string>
      <x>0</x>
      <y>0</y>
      <width>803</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
