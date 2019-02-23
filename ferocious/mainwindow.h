@@ -166,6 +166,7 @@ private:
     QString getInfileFilter();
     QString getOutfileFilter();
     void checkConverterAvailability();
+    void openChooseOutputDirectory();
 };
 
 #endif // MAINWINDOW_H
