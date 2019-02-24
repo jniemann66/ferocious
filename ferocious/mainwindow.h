@@ -103,12 +103,14 @@ private slots:
     void on_convertButton_rightClicked();
     void on_stopRequested();
     void on_browseInButton_rightClicked();
+    void on_browseOutButton_rightClicked();
 
 private:
     // resources
     Ui::MainWindow *ui;
     QMenu* convertTaskMenu;
     QMenu* browseInMenu;
+    QMenu* browseOutMenu;
     ConverterConfigurationDialog* converterConfigurationDialog;
 
     // state
@@ -164,6 +166,7 @@ private:
     QString getInfileFilter();
     QString getOutfileFilter();
     void checkConverterAvailability();
+    void openChooseOutputDirectory();
 };
 
 #endif // MAINWINDOW_H

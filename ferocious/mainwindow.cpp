@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     browseInMenu = new QMenu(this);
     browseInMenu->setHidden(true);
+    browseOutMenu = new QMenu(this);
+    browseOutMenu->setHidden(true);
     convertTaskMenu = new QMenu(this);
     converterConfigurationDialog = new ConverterConfigurationDialog(this, Qt::Window);
     convertTaskMenu->setHidden(true);
@@ -121,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->convertButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_convertButton_rightClicked);
     connect(ui->convertButton, &FlashingPushButton::stopRequested, this, &MainWindow::on_stopRequested);
     connect(ui->browseInfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
+    connect(ui->browseOutfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_browseOutButton_rightClicked);
 }
 
 MainWindow::~MainWindow()
@@ -364,8 +367,17 @@ void MainWindow::on_browseInButton_rightClicked()
 
     browseInMenu->addAction("Select Files ...", this, &MainWindow::on_browseInfileButton_clicked);
     browseInMenu->addAction("Select Entire Directory ...", [this] {
+        QFileInfo fi(inFileBrowsePath);
+        QString inFileBrowseDir;
+        if(fi.isDir()) {
+            inFileBrowseDir = inFileBrowsePath;
+        } else {
+            inFileBrowseDir = fi.path();
+        }
+
         QFileDialog fileDialog(this);
-        fileDialog.setDirectory(inFileBrowsePath);
+        fileDialog.setWindowTitle(tr("Select Input Directory"));
+        fileDialog.setDirectory(inFileBrowseDir);
         fileDialog.setFileMode(QFileDialog::Directory);
         fileDialog.setViewMode(QFileDialog::Detail);
 
@@ -379,13 +391,34 @@ void MainWindow::on_browseInButton_rightClicked()
     browseInMenu->popup(QCursor::pos());
 }
 
-// todo: add a browse In Button rightClicked handler
-// offer user a "select output directory" option
+void MainWindow::on_browseOutButton_rightClicked()
+{
+    for (auto& a : browseOutMenu->actions()) {
+        browseOutMenu->removeAction(a);
+    }
+
+    browseOutMenu->addAction("Select Output File ...", this, &MainWindow::on_browseOutfileButton_clicked);
+    browseOutMenu->addAction("Select Output Directory ...", [this] {
+        openChooseOutputDirectory();
+    });
+    browseOutMenu->addAction("Set Output File Options ...", this, &MainWindow::on_actionOutput_File_Options_triggered);
+
+    browseOutMenu->popup(QCursor::pos());
+}
 
 void MainWindow::on_browseInfileButton_clicked()
 {   
     QFileDialog fileDialog(this);
-    fileDialog.setDirectory(inFileBrowsePath);
+
+    QFileInfo fi(inFileBrowsePath);
+    QString inFileBrowseDir;
+    if(fi.isDir()) {
+        inFileBrowseDir = inFileBrowsePath;
+    } else {
+        inFileBrowseDir = fi.path();
+    }
+
+    fileDialog.setDirectory(inFileBrowseDir);
     fileDialog.setFileMode(QFileDialog::ExistingFiles);
     fileDialog.setNameFilter(getInfileFilter());
     fileDialog.setViewMode(QFileDialog::Detail);
@@ -1052,6 +1085,13 @@ void MainWindow::on_InfileEdit_editingFinished()
 
 void MainWindow::on_browseOutfileButton_clicked()
 {
+    QStringList infileList = ui->InfileEdit->text().split(multiFileSeparator);
+    if(infileList.count() > 1) {
+        // multi-file mode
+        openChooseOutputDirectory();
+        return;
+    }
+
     QString path = ui->OutfileEdit->text().isEmpty() ? outFileBrowsePath : ui->OutfileEdit->text(); // if OutfileEdit is populated, use that. Otherwise, use last output file browse path
     QString fileName = QFileDialog::getSaveFileName(this, tr("Select Output File"), path, getOutfileFilter());
 
@@ -1526,4 +1566,30 @@ QString MainWindow::getRandomString(int length)
        s.append(charSet.at(qrand() % charSet.length()));
    }
    return s;
+}
+
+void MainWindow::openChooseOutputDirectory()
+{
+    QFileInfo fi(outFileBrowsePath);
+    QString outFileBrowseDir;
+    if(fi.isDir()) {
+        outFileBrowseDir = outFileBrowsePath;
+    } else {
+        outFileBrowseDir = fi.path();
+    }
+
+    QFileDialog fileDialog(this);
+    fileDialog.setWindowTitle(tr("Select Output Directory"));
+    fileDialog.setDirectory(outFileBrowseDir);
+    fileDialog.setFileMode(QFileDialog::Directory);
+    fileDialog.setViewMode(QFileDialog::Detail);
+
+    if(fileDialog.exec()) {
+        QString dirName = QDir::toNativeSeparators(fileDialog.selectedFiles().first());
+        if(!dirName.isEmpty()) {
+            filenameGenerator.outputDirectory = dirName;
+            outFileBrowsePath = dirName;
+            MainWindow::on_InfileEdit_editingFinished(); // trigger refresh
+        }
+    }
 }
