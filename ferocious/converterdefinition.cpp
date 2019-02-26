@@ -4,8 +4,6 @@
 #include <QDebug>
 #include <QJsonDocument>
 
-// todo: add APE definition in defaults
-
 void ConverterDefinition::fromJson(const QJsonObject &json)
 {
     priority = json.value("priority").toInt();

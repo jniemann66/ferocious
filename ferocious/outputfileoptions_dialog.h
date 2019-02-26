@@ -43,7 +43,7 @@ class OutputFileOptions_Dialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit OutputFileOptions_Dialog(FilenameGenerator& OFN, QWidget *parent = nullptr);
+    explicit OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, QWidget *parent = nullptr);
     ~OutputFileOptions_Dialog();
 
 private slots:
