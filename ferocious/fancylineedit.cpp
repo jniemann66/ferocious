@@ -92,8 +92,10 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
 
     }
 
-    if(!paths.isEmpty())
+    if(!paths.isEmpty()) {
         setText(paths.join("\n"));
+        emit QLineEdit::editingFinished();
+    }
 }
 
 void FancyLineEdit::on_editButton_Clicked()
