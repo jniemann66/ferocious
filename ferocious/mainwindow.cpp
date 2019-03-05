@@ -1127,21 +1127,42 @@ void MainWindow::on_BitDepthCheckBox_clicked()
 void MainWindow::populateBitFormats(const QString& fileName)
 {
     QProcess ConverterQuery;
-    ui->BitDepthCombo->clear();
+
     int extidx = fileName.lastIndexOf(".");
-    if(extidx > -1) {
-        QString ext = fileName.right(fileName.length() - extidx - 1); // get file extension from file name
+    const QString fallBackExtension{"wav"};
+
+    // get file extension from file name, or use default
+    QString ext = (extidx > -1) ? fileName.right(fileName.length() - extidx - 1) : fallBackExtension;
+
+    bool bitFormatsAcquired;
+    do {
+        ui->BitDepthCombo->clear();
         ConverterQuery.start(converterPath, QStringList() << "--listsubformats" << ext); // ask converter for a list of subformats for the given file extension
 
-        if (!ConverterQuery.waitForFinished())
+        if(!ConverterQuery.waitForStarted(1000)) {
             return;
+        }
 
+        if (!ConverterQuery.waitForFinished(2000)) {
+            return;
+        }
+
+        bitFormatsAcquired = true;
         ConverterQuery.setReadChannel(QProcess::StandardOutput);
+
         while(ConverterQuery.canReadLine()) {
             QString line = QString::fromLocal8Bit(ConverterQuery.readLine());
+            if(line.contains("unknown")) {
+                ext = fallBackExtension;
+                bitFormatsAcquired = false;
+                if(ui->BitDepthCombo->currentText().isEmpty()) {
+                    ui->BitDepthCombo->setCurrentText("16"); // default to 16-bit
+                }
+                break;
+            }
             ui->BitDepthCombo->addItem(line.simplified());
         }
-    }
+    } while (!bitFormatsAcquired);
 }
 
 // Query Converter for version number:
