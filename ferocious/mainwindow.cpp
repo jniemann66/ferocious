@@ -990,6 +990,9 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
         break;
     }
 
+	// format args: progress update frequency
+	args << "--progress-updates" << "100";
+
     return args; 
 }
 
