@@ -307,7 +307,6 @@ void MainWindow::on_StdoutAvailable()
     processConverterOutput(process.readAllStandardOutput(), 1);
 }
 
-
 void MainWindow::processConverterOutput(QString converterOutput, int channel) {
 	// capture progress updates
 	QRegularExpression progressRx("\\d+%[\\b]+");
@@ -595,34 +594,34 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
     QRegularExpression regex(regexString);
 
     // set up a FilenameGenerator for generating output file names:
-    FilenameGenerator O(filenameGenerator); // initialize to default settings, as a fallback position.
+	FilenameGenerator filenameGenerator(filenameGenerator); // initialize to default settings, as a fallback position.
 
     // initialize output directory:
-    O.outputDirectory = QDir::toNativeSeparators(outDir);
-    O.useSpecificOutputDirectory = true;
+	filenameGenerator.outputDirectory = QDir::toNativeSeparators(outDir);
+	filenameGenerator.useSpecificOutputDirectory = true;
 
     // initialize output file extension:
     int outLastDot = ui->OutfileEdit->text().lastIndexOf(".");
     if(outLastDot > -1) {
-        O.fileExt = ui->OutfileEdit->text().right(ui->OutfileEdit->text().length() - outLastDot - 1); // get file extension from file nam
-        if(O.fileExt.lastIndexOf("*") > -1) { // outfile extension has a wildcard in it
-            O.useSpecificFileExt = false;   // use source file extension
+		filenameGenerator.fileExt = ui->OutfileEdit->text().right(ui->OutfileEdit->text().length() - outLastDot - 1); // get file extension from file nam
+		if(filenameGenerator.fileExt.lastIndexOf("*") > -1) { // outfile extension has a wildcard in it
+			filenameGenerator.useSpecificFileExt = false;   // use source file extension
         } else {
-            O.useSpecificFileExt = true;    // use file extension of outfile name
+			filenameGenerator.useSpecificFileExt = true;    // use file extension of outfile name
         }
     } else{ // outfile name has no file extension
-        O.useSpecificFileExt = false; // use source file extension
+		filenameGenerator.useSpecificFileExt = false; // use source file extension
     }
 
     // initialize output file suffix:
     // (use whatever is between last '*' and '.')
-    int outLastStarBeforeDot = ui->OutfileEdit->text().left(outLastDot).lastIndexOf("*");
+	int outLastStarBeforeDot = ui->OutfileEdit->text().leftRef(outLastDot).lastIndexOf("*");
     if(outLastStarBeforeDot > -1) {
-        O.suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
-        O.appendSuffix = true;
+		filenameGenerator.suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
+		filenameGenerator.appendSuffix = true;
     } else { // no Suffix
-        O.suffix = "";
-        O.appendSuffix = false;
+		filenameGenerator.suffix = "";
+		filenameGenerator.appendSuffix = false;
     }
 
     // traverse input directory
@@ -640,11 +639,12 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         QString nextFilename = QDir::toNativeSeparators(it.next());
         QRegularExpressionMatch match = regex.match(nextFilename);
 
-        if (!match.hasMatch())
+		if (!match.hasMatch()) {
             continue; // no match ? move on to next file ...
+		}
 
-        ConversionTask T;
-        T.inFilename = QDir::toNativeSeparators(nextFilename);
+		ConversionTask conversionTask;
+		conversionTask.inFilename = QDir::toNativeSeparators(nextFilename);
 
 #ifdef RECURSIVE_DIR_TRAVERSAL
 
@@ -665,7 +665,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         if(!sd.isEmpty()) {
 
             // create output subdirectory if it doesn't already exist
-            QDir dir(QDir::toNativeSeparators(O.outputDirectory + "/" + sd));
+			QDir dir(QDir::toNativeSeparators(filenameGenerator.outputDirectory + "/" + sd));
             QString p(dir.absolutePath());
 
              bool newDirCreated = false;
@@ -695,19 +695,17 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
                 }
             }
 
-            if(newDirCreated) {
-                ui->ConverterOutputText->append(QString{"<font color=\"%1\"> mkdir %2 </font>"}
-                                                .arg(consoleYellow)
-                                                .arg(QDir::toNativeSeparators(p))
-                                                );
-            }
+			if(newDirCreated) {
+				ui->ConverterOutputText->append(QString{"<font color=\"%1\"> mkdir %2 </font>"}
+												.arg(consoleYellow, QDir::toNativeSeparators(p)));
+			}
         }
 
-        O.generateOutputFilename(T.outFilename, T.inFilename, QDir::toNativeSeparators(sd));
+		filenameGenerator.generateOutputFilename(conversionTask.outFilename, conversionTask.inFilename, QDir::toNativeSeparators(sd));
 #else
-        O.generateOutputFilename(T.outFilename, T.inFilenam);
+		filenameGenerator.generateOutputFilename(conversionTask.outFilename, conversionTask.inFilenam);
 #endif
-        MainWindow::conversionQueue.push_back(T);
+		MainWindow::conversionQueue.push_back(conversionTask);
      }
 }
 
@@ -796,14 +794,14 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(!midCommandLine.isEmpty()) {
         combinedArgs << midCommandLine;
         if(!frontConverterOut.isEmpty()) {
-            combinedArgs << QString{"%1 %2"}.arg(delCommand).arg(frontConverterOut);  // add command to delete temp file
+			combinedArgs << QString{"%1 %2"}.arg(delCommand, frontConverterOut);  // add command to delete temp file
         }
     }
 
     if(!backCommandLine.isEmpty()) {
         combinedArgs << backCommandLine;
         if(!midConverterOut.isEmpty()) {
-            combinedArgs << QString{"%1 %2"}.arg(delCommand).arg(midConverterOut);  // add command to delete temp file
+			combinedArgs << QString{"%1 %2"}.arg(delCommand, midConverterOut);  // add command to delete temp file
         }
     }
 
@@ -812,10 +810,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     if(launchType == LaunchType::Convert) {
 
         if(ui->actionMock_Conversion->isChecked()) {
-            ui->ConverterOutputText->append(QString{"<font color=\"%1\"> mkdir %2 </font>"}
-                .arg(consoleAmber)
-                .arg(completeCmdLine)
-            );
+			ui->ConverterOutputText->append(QString{"<font color=\"%1\"> mkdir %2 </font>"}.arg(consoleAmber, completeCmdLine));
             QTimer::singleShot(25, [this] {
                 on_ConverterFinished(0, QProcess::NormalExit);
             });
@@ -1025,7 +1020,7 @@ void MainWindow::on_InfileEdit_editingFinished()
     if(inFilename.indexOf("*") > -1) { // inFilename has wildcard
         int InLastDot =inFilename.lastIndexOf(".");
         if(InLastDot > -1) {
-            int InLastStarBeforeDot = inFilename.left(InLastDot).lastIndexOf("*");
+			int InLastStarBeforeDot = inFilename.leftRef(InLastDot).lastIndexOf("*");
             if(InLastStarBeforeDot > -1) { // Wilcard in Filename; trigger a refresh:
                 bRefreshOutfileEdit = true;
             }
@@ -1554,7 +1549,7 @@ QString MainWindow::getInfileFilter() {
         }
     }
 
-    return QString{"Audio Files (%1)"}.arg(infileFormats.toList().join(" "));
+	return QString{"Audio Files (%1)"}.arg(infileFormats.toList().join(" "));
 }
 
 QString MainWindow::getOutfileFilter() {
