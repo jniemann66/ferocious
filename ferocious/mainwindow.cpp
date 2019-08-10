@@ -307,30 +307,27 @@ void MainWindow::on_StdoutAvailable()
     processConverterOutput(process.readAllStandardOutput(), 1);
 }
 
-void MainWindow::processConverterOutput(QString ConverterOutput, int channel) {
-    int progress = 0;
 
-    // count backspaces at end of string:
-    int backspaces = 0;
-    while(ConverterOutput.at(ConverterOutput.length() - 1) == '\b') {
-        ConverterOutput.chop(1);
-        ++backspaces;
-    }
+void MainWindow::processConverterOutput(QString converterOutput, int channel) {
+	// capture progress updates
+	QRegularExpression progressRx("\\d+%[\\b]+");
+	auto rxMatches = progressRx.globalMatch(converterOutput);
+	QStringList progressUpdates;
+	while(rxMatches.hasNext()) {
+		progressUpdates.append(rxMatches.next().captured(0));
+	}
 
-    if(backspaces) {
-        // extract percentage:
-        QString whatToChop = ConverterOutput.right(backspaces);
-        if(whatToChop.indexOf("%") != -1) {
-            progress = whatToChop.replace("%", "").toInt();
-            ui->progressBar->setValue(progress);
-        }
-        ConverterOutput.chop(backspaces);
-    }
+	if(!progressUpdates.isEmpty()) {
+		// Use last progress update to set progress bar.
+		ui->progressBar->setValue(progressUpdates.last().replace(QRegularExpression("[^0-9]"), "").toInt());
 
-    if(!ConverterOutput.isEmpty()) {
+		// clean-out progress updates from converter output
+		converterOutput.replace(progressRx, "");
+	}
+
+	if(!converterOutput.isEmpty()) {
         ui->ConverterOutputText->append(QString{"<font color=\"%1\"> %2 </font>"}
-            .arg(channel == 2 ? consoleRed : consoleGreen)
-            .arg(ConverterOutput)
+			.arg(channel == 2 ? consoleRed : consoleGreen, converterOutput)
         );
         ui->ConverterOutputText->verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
     }

@@ -156,7 +156,7 @@ private:
     void on_action_DitherProfile_triggered(QAction* action, int id); // not using old "private slots:" system (just an ordinary member function.)
     void getCustomLpfParameters();
     void launch();
-    void processConverterOutput(QString ConverterOutput, int channel);
+	void processConverterOutput(QString converterOutput, int channel);
     void processInputFilenames(const QStringList &fileNames);
     void loadConverterDefinitions(const QString &fileName);
     void saveConverterDefinitions(const QString &fileName) const;
