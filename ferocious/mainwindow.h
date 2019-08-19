@@ -136,7 +136,7 @@ private:
     int seedValue;
     NoiseShape noiseShape;
     int ditherProfile;
-    LaunchType launchType;
+    LaunchType launchType{LaunchType::Convert};
     QVector<ConverterDefinition> converterDefinitions;
 
     // functions

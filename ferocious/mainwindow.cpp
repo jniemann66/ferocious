@@ -27,7 +27,7 @@
 
 #define RECURSIVE_DIR_TRAVERSAL
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), launchType(LaunchType::Convert)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     qsrand(static_cast<unsigned int>(QTime::currentTime().msec()));
 
