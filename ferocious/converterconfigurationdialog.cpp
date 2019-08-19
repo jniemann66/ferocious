@@ -419,6 +419,5 @@ bool ConverterConfigurationDialog::eventFilter(QObject *obj, QEvent *event)
         return (showToolTips);
     }
 
-    
-        return ConverterConfigurationDialog::eventFilter(obj, event);
+	return ConverterConfigurationDialog::eventFilter(obj, event);
 }
