@@ -8,7 +8,7 @@ FileDropDialog::FileDropDialog(QWidget *parent) : QDialog(parent)
     auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     // attach to layout
-    QVBoxLayout* mainLayout = new QVBoxLayout;
+    auto* mainLayout = new QVBoxLayout;
     mainLayout->addWidget(textLabel);
     mainLayout->addWidget(textEdit);
     mainLayout->addWidget(buttonBox);

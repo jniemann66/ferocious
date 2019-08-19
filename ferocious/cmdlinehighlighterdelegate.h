@@ -10,7 +10,7 @@ public:
     CmdLineHighlighterDelegate(QObject *parent);
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
     static QString getHtmlHighlighting(const QString &input);

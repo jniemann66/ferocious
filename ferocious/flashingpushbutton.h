@@ -14,7 +14,7 @@ class FlashingPushButton : public QPushButton
     Q_OBJECT
 
 public:
-    FlashingPushButton(QWidget* parent = nullptr) : QPushButton(parent), isActive(false), flashState(0)
+	FlashingPushButton(QWidget* parent = nullptr) : QPushButton(parent)
     {
         connect(&timer, &QTimer::timeout,this, &FlashingPushButton::flashWhenActive);
         timer.start(500);
@@ -55,8 +55,8 @@ private slots:
     }
 
 private:
-    bool isActive;
-    int flashState;
+    bool isActive{false};
+    int flashState{0};
     QTimer timer;
 
 };

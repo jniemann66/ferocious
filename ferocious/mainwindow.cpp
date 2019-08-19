@@ -1273,8 +1273,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return (!ui->actionEnable_Tooltips->isChecked());
     }
 
-    else
-        return QMainWindow::eventFilter(obj, event);
+	return QMainWindow::eventFilter(obj, event);
 }
 
 void MainWindow::on_actionFlac_triggered()

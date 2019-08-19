@@ -44,7 +44,7 @@ class OutputFileOptions_Dialog : public QDialog
 
 public:
     explicit OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, QWidget *parent = nullptr);
-    ~OutputFileOptions_Dialog();
+    ~OutputFileOptions_Dialog() override;
 
 private slots:
     void on_FilenameSuffix_checkBox_clicked();

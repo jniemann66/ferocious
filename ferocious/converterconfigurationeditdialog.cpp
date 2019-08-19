@@ -184,11 +184,9 @@ void ConverterConfigurationEditDialog::promptForExecutableLocation() {
 
 bool ConverterConfigurationEditDialog::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::ToolTip) { // Intercept tooltip event
-        return (showToolTips);
-    }
+	if (event->type() == QEvent::ToolTip) { // Intercept tooltip event
+		return (showToolTips);
+	}
 
-    else {
-        return ConverterConfigurationEditDialog::eventFilter(obj, event);
-    }
+	return ConverterConfigurationEditDialog::eventFilter(obj, event);
 }

@@ -20,7 +20,7 @@ class FancyLineEdit : public QLineEdit
 
 public:
     FancyLineEdit(QWidget *parent = nullptr);
-    ~FancyLineEdit();
+    ~FancyLineEdit() override;
 
     void hideEditButton();
     void hideClearButton();

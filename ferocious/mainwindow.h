@@ -57,7 +57,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override;
     QString converterPath;
     QString multiFileSeparator;
     static QStringList getQuotedArgs(const QStringList &args);

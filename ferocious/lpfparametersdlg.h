@@ -16,7 +16,7 @@ class LpfParametersDlg : public QDialog
 
 public:
     explicit LpfParametersDlg(QWidget *parent = nullptr);
-    ~LpfParametersDlg();
+    ~LpfParametersDlg() override;
 
     void setValues(double cutoff, double transition);
     void setNyquistFrequency(double Hz);
@@ -24,7 +24,7 @@ public:
 
 private:
     Ui::LpfParametersDlg *ui;
-    double nyquistFrequency;
+    double nyquistFrequency{0.0};
 
 };
 

@@ -187,7 +187,7 @@ void ConverterConfigurationDialog::initToolBar() {
     for(QAction* a : actions) {
         QWidget* w = contextToolBar->widgetForAction(a);
         if(QString(w->metaObject()->className()) == "QToolButton") {
-            QToolButton* t = qobject_cast<QToolButton*>(w);
+            auto* t = qobject_cast<QToolButton*>(w);
             if(t != nullptr) {
                 t->setStyleSheet("QToolButton {padding: 5px; border-radius: 3px}");
             }
@@ -419,6 +419,6 @@ bool ConverterConfigurationDialog::eventFilter(QObject *obj, QEvent *event)
         return (showToolTips);
     }
 
-    else
+    
         return ConverterConfigurationDialog::eventFilter(obj, event);
 }
