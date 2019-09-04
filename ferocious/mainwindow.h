@@ -19,9 +19,11 @@ const char expectedConverter[] ="ReSampler";
 #include "converterdefinition.h"
 
 const QString consoleGreen{"#66A334"};
+const QString consoleLtGreen{"#a3c785"};
 const QString consoleYellow{"#D6C878"};
 const QString consoleAmber{"#D6953E"};
 const QString consoleRed{"#ff8080"};
+
 
 class ConversionTask
 {

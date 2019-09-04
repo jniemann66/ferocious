@@ -326,7 +326,7 @@ void MainWindow::processConverterOutput(QString converterOutput, int channel) {
 
 	if(!converterOutput.isEmpty()) {
         ui->ConverterOutputText->append(QString{"<font color=\"%1\"> %2 </font>"}
-			.arg(channel == 2 ? consoleRed : consoleGreen, converterOutput)
+			.arg(channel == 2 ? consoleLtGreen : consoleGreen, converterOutput)
         );
         ui->ConverterOutputText->verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
     }
