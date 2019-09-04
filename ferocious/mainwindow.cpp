@@ -594,34 +594,34 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
     QRegularExpression regex(regexString);
 
     // set up a FilenameGenerator for generating output file names:
-	FilenameGenerator filenameGenerator(filenameGenerator); // initialize to default settings, as a fallback position.
+	FilenameGenerator f(MainWindow::filenameGenerator); // initialize to default settings, as a fallback position.
 
     // initialize output directory:
-	filenameGenerator.outputDirectory = QDir::toNativeSeparators(outDir);
-	filenameGenerator.useSpecificOutputDirectory = true;
+	f.outputDirectory = QDir::toNativeSeparators(outDir);
+	f.useSpecificOutputDirectory = true;
 
     // initialize output file extension:
     int outLastDot = ui->OutfileEdit->text().lastIndexOf(".");
     if(outLastDot > -1) {
-		filenameGenerator.fileExt = ui->OutfileEdit->text().right(ui->OutfileEdit->text().length() - outLastDot - 1); // get file extension from file nam
-		if(filenameGenerator.fileExt.lastIndexOf("*") > -1) { // outfile extension has a wildcard in it
-			filenameGenerator.useSpecificFileExt = false;   // use source file extension
+		f.fileExt = ui->OutfileEdit->text().right(ui->OutfileEdit->text().length() - outLastDot - 1); // get file extension from file nam
+		if(f.fileExt.lastIndexOf("*") > -1) { // outfile extension has a wildcard in it
+			f.useSpecificFileExt = false;   // use source file extension
         } else {
-			filenameGenerator.useSpecificFileExt = true;    // use file extension of outfile name
+			f.useSpecificFileExt = true;    // use file extension of outfile name
         }
     } else{ // outfile name has no file extension
-		filenameGenerator.useSpecificFileExt = false; // use source file extension
+		f.useSpecificFileExt = false; // use source file extension
     }
 
     // initialize output file suffix:
     // (use whatever is between last '*' and '.')
 	int outLastStarBeforeDot = ui->OutfileEdit->text().leftRef(outLastDot).lastIndexOf("*");
     if(outLastStarBeforeDot > -1) {
-		filenameGenerator.suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
-		filenameGenerator.appendSuffix = true;
+		f.suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
+		f.appendSuffix = true;
     } else { // no Suffix
-		filenameGenerator.suffix = "";
-		filenameGenerator.appendSuffix = false;
+		f.suffix = "";
+		f.appendSuffix = false;
     }
 
     // traverse input directory
@@ -665,7 +665,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
         if(!sd.isEmpty()) {
 
             // create output subdirectory if it doesn't already exist
-			QDir dir(QDir::toNativeSeparators(filenameGenerator.outputDirectory + "/" + sd));
+			QDir dir(QDir::toNativeSeparators(f.outputDirectory + "/" + sd));
             QString p(dir.absolutePath());
 
              bool newDirCreated = false;
@@ -701,9 +701,9 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 			}
         }
 
-		filenameGenerator.generateOutputFilename(conversionTask.outFilename, conversionTask.inFilename, QDir::toNativeSeparators(sd));
+		f.generateOutputFilename(conversionTask.outFilename, conversionTask.inFilename, QDir::toNativeSeparators(sd));
 #else
-		filenameGenerator.generateOutputFilename(conversionTask.outFilename, conversionTask.inFilenam);
+		f.generateOutputFilename(conversionTask.outFilename, conversionTask.inFilenam);
 #endif
 		MainWindow::conversionQueue.push_back(conversionTask);
      }
