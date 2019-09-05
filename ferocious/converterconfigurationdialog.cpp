@@ -119,27 +119,27 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 }
 
 void ConverterConfigurationDialog::initMenu() {
-    contextMenu->addAction("New", [this] {
+	contextMenu->addAction(tr("New"), [this] {
        onNewRequested(tableView.currentIndex());
     }, QKeySequence::New);
 
-    contextMenu->addAction("Edit ...", [this] {
+	contextMenu->addAction(tr("Edit ..."), [this] {
        onEditRequested(tableView.currentIndex());
     });
 
-    contextMenu->addAction("Clone", [this] {
+	contextMenu->addAction(tr("Clone"), [this] {
        onCloneRequested(tableView.currentIndex());
     }, QKeySequence::Copy);
 
-    contextMenu->addAction("Delete", [this] {
+	contextMenu->addAction(tr("Delete"), [this] {
        onDeleteRequested(tableView.currentIndex());
     }, {QKeySequence::Delete});
 
-    contextMenu->addAction("Move Up", [this] {
+	contextMenu->addAction(tr("Move Up"), [this] {
         onMoveUpRequested(tableView.currentIndex());
     });
 
-    contextMenu->addAction("Move Down", [this] {
+	contextMenu->addAction(tr("Move Down"), [this] {
         onMoveDownRequested(tableView.currentIndex());
     });
 }
@@ -147,32 +147,32 @@ void ConverterConfigurationDialog::initMenu() {
 void ConverterConfigurationDialog::initToolBar() {
     QList<QAction*> actions;
 
-    actions.append(contextToolBar->addAction("New", [this] {
+	actions.append(contextToolBar->addAction(tr("New"), [this] {
        onNewRequested(tableView.currentIndex());
        contextToolBar->hide();
     }));
 
-    actions.append(contextToolBar->addAction("Edit ...", [this] {
+	actions.append(contextToolBar->addAction(tr("Edit ..."), [this] {
        onEditRequested(tableView.currentIndex());
        contextToolBar->hide();
     }));
 
-    actions.append(contextToolBar->addAction("Clone", [this] {
+	actions.append(contextToolBar->addAction(tr("Clone"), [this] {
        onCloneRequested(tableView.currentIndex());
        contextToolBar->hide();
     }));
 
-    actions.append(contextToolBar->addAction("Delete", [this] {
+	actions.append(contextToolBar->addAction(tr("Delete"), [this] {
        onDeleteRequested(tableView.currentIndex());
        contextToolBar->hide();
     }));
 
-    actions.append(contextToolBar->addAction("Move Up", [this] {
+	actions.append(contextToolBar->addAction(tr("Move Up"), [this] {
         onMoveUpRequested(tableView.currentIndex());
         //contextToolBar->hide();
     }));
 
-    actions.append(contextToolBar->addAction("Move Down", [this] {
+	actions.append(contextToolBar->addAction(tr("Move Down"), [this] {
         onMoveDownRequested(tableView.currentIndex());
         //contextToolBar->hide();
     }));

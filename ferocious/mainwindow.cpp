@@ -70,11 +70,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     if(!fileExists(converterPath)) {
         QMessageBox msgBox;
-        QString s("The path to the required command-line program (");
-        s.append(expectedConverter);
-        s.append(") wasn't specified");
-        msgBox.setText("Unable to locate converter");
-        msgBox.setInformativeText(s);
+		QString s = QString{"The path to the command-line program (%1) wasn't specified"}.arg(expectedConverter);
+		msgBox.setText(tr("Unable to locate converter"));
+		msgBox.setInformativeText(s);
         msgBox.exec();
         qApp->exit();
     }
@@ -714,8 +712,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 void MainWindow::convertNext() {
     if(!conversionQueue.empty()) {
         ConversionTask& nextTask = MainWindow::conversionQueue.first();
-        ui->StatusLabel->setText("Status: processing " + nextTask.inFilename);
-        ui->progressBar->setFormat("Status: processing " + nextTask.inFilename);
+		ui->StatusLabel->setText(tr("Status: processing ") + nextTask.inFilename);
+		ui->progressBar->setFormat(tr("Status: processing ") + nextTask.inFilename);
         this->repaint();
         MainWindow::convert(nextTask.outFilename, nextTask.inFilename);
         conversionQueue.removeFirst();
@@ -1255,7 +1253,7 @@ void MainWindow::on_actionAbout_triggered()
     info += tr("Converter Version: ") + resamplerVersion + "\n";
 
     QMessageBox msgBox;
-    msgBox.setText("About");
+	msgBox.setText(tr("About"));
     msgBox.setInformativeText(info);
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setIconPixmap(QPixmap(":/images/sine_sweep-32x32-buttonized.png"));
