@@ -28,14 +28,14 @@ FilenameGenerator::FilenameGenerator(const FilenameGenerator &o)
     /*---*/
 }
 
-void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename, const QString subDirectory /* = QString() */) {
+void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename, const QString& subDirectory /* = QString() */) {
 
     outFilename = inFilename;
 
     // if outFilename contains a wildcard, replace everything between last separator and file extension with a wildcard ('*'):
     int outLastDot = outFilename.lastIndexOf(".");
     if((inFilename.indexOf("*") > -1) && (outLastDot > -1)) {
-        int outLastStarBeforeDot = outFilename.left(outLastDot).lastIndexOf(QDir::separator());
+        int outLastStarBeforeDot = outFilename.leftRef(outLastDot).lastIndexOf(QDir::separator());
         if(outLastStarBeforeDot > -1) {
             QString s = outFilename.mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
             if(!s.isEmpty() && !s.isNull()) {
@@ -68,16 +68,16 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
     // conditionally append suffix to filename:
     if(appendSuffix) {
         if(!inFilename.isEmpty()) {
-            if(strOutFilename.find(".") != std::string::npos) {
-                strOutFilename.insert(strOutFilename.find_last_of("."), suffix.toStdString());     // insert suffix just before file extension
+            if(strOutFilename.find('.') != std::string::npos) {
+                strOutFilename.insert(strOutFilename.find_last_of('.'), suffix.toStdString());     // insert suffix just before file extension
             }
         }
     }
 
     // conditionally change file extension:
     if(useSpecificFileExt) {
-        if (strOutFilename.find_last_of(".") != std::string::npos) { // has an extension
-            strOutFilename = strOutFilename.substr(0,strOutFilename.find_last_of("."))+ "." + fileExt.toStdString(); // replace extension with fileExt
+        if (strOutFilename.find_last_of('.') != std::string::npos) { // has an extension
+            strOutFilename = strOutFilename.substr(0,strOutFilename.find_last_of('.'))+ "." + fileExt.toStdString(); // replace extension with fileExt
         }
         else { // doesn't have an extension
             strOutFilename.append("." + fileExt.toStdString()); // append fileExt
