@@ -18,7 +18,7 @@
 class FilenameGenerator {
 public:
     FilenameGenerator();
-    FilenameGenerator(const FilenameGenerator& o);
+	FilenameGenerator(const FilenameGenerator& o) = default;
 	void generateOutputFilename(QString& outFilename, const QString& inFilename, const QString& subDirectory = {});
     void saveSettings(QSettings& settings);
     void loadSettings(QSettings& settings);

@@ -15,18 +15,18 @@ FilenameGenerator::FilenameGenerator() {
     replicateDirectoryStructure = false;
 }
 
-FilenameGenerator::FilenameGenerator(const FilenameGenerator &o)
-    : appendSuffix(o.appendSuffix),
-      useSpecificOutputDirectory(o.useSpecificOutputDirectory),
-      replicateDirectoryStructure(o.replicateDirectoryStructure),
-      useSpecificFileExt(o.useSpecificFileExt),
-      suffix(o.suffix),
-      inputDirectoryRoot(o.inputDirectoryRoot),
-      outputDirectory(o.outputDirectory),
-      fileExt(o.fileExt)
-{
-    /*---*/
-}
+//FilenameGenerator::FilenameGenerator(const FilenameGenerator &o)
+//    : appendSuffix(o.appendSuffix),
+//      useSpecificOutputDirectory(o.useSpecificOutputDirectory),
+//      replicateDirectoryStructure(o.replicateDirectoryStructure),
+//      useSpecificFileExt(o.useSpecificFileExt),
+//      suffix(o.suffix),
+//      inputDirectoryRoot(o.inputDirectoryRoot),
+//      outputDirectory(o.outputDirectory),
+//      fileExt(o.fileExt)
+//{
+//    /*---*/
+//}
 
 void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename, const QString& subDirectory /* = QString() */) {
 

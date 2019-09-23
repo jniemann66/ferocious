@@ -1536,7 +1536,7 @@ void MainWindow::on_actionUse_a_temp_file_triggered(bool checked)
 // getInfileFiler() : returns a filename filter, taking into consideration all file formats which can be handled in the current state
 QString MainWindow::getInfileFilter() {
 
-    QSet<QString> infileFormats{
+	QSet<QString> infileFormats{
         "*.aif", "*.aifc", "*.aiff", "*.au", "*.avr", "*.caf", "*.dff", "*.dsf", "*.flac", "*.htk", "*.iff", "*.mat", "*.mpc", "*.oga", "*.paf", "*.pvf", "*.raw", "*.rf64", "*.sd2", "*.sds", "*.sf", "*.voc", "*.w64", "*.wav", "*.wve", "*.xi"
     };
 
