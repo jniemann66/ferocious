@@ -18,13 +18,13 @@ void ConverterDefinition::fromJson(const QJsonObject &json)
 
     downloadLocations.clear();
     QJsonArray dlArray = json.value("downloadlocations").toArray();
-    for(const QJsonValue& dl : dlArray) {
+	for(const QJsonValueRef dl : dlArray) {
         downloadLocations.append(dl.toString());
     }
 
     operatingSystems.clear();
     QJsonArray osArray = json.value("operatingsystems").toArray();
-    for(const QJsonValue& os : osArray) {
+	for(const QJsonValueRef os : osArray) {
         operatingSystems.append(os.toString());
     }
 }
@@ -77,7 +77,7 @@ QVector<ConverterDefinition> ConverterDefinition::loadConverterDefinitions(const
             dbg << "success.";
             converterDefinitions.clear();
             int i = 0;
-            for(const QJsonValue& v : d.array()) {
+			for(const QJsonValueRef v : d.array()) {
                 ConverterDefinition c;
                 c.fromJson(v.toObject());
                 c.priority = i++;
