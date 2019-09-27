@@ -162,7 +162,7 @@
     }
 ,
     {
-        "commandline": "-q 150 -o {o} {i}",
+	    "commandline": "-q 150 --overwrite -o {o} {i}",
         "comment": "Encode wav to m4a using faac",
         "downloadlocations": [
             "http://www.audiocoding.com/index.html"
