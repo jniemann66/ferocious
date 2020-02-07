@@ -1546,7 +1546,7 @@ QString MainWindow::getInfileFilter() {
         }
     }
 
-	return QString{"Audio Files (%1)"}.arg(infileFormats.toList().join(" "));
+    return QString{"Audio Files (%1)"}.arg(infileFormats.values().join(" "));
 }
 
 QString MainWindow::getOutfileFilter() {
@@ -1560,7 +1560,7 @@ QString MainWindow::getOutfileFilter() {
         }
     }
 
-    return QString{"Audio Files (%1)"}.arg(outfileFormats.toList().join(" "));
+    return QString{"Audio Files (%1)"}.arg(outfileFormats.values().join(" "));
 }
 
 // check if each executable exists and disable if not found
