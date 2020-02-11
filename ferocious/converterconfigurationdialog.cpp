@@ -178,12 +178,10 @@ void ConverterConfigurationDialog::initToolBar() {
 
 	actions.append(contextToolBar->addAction(tr("Move Up"), [this] {
         onMoveUpRequested(tableView.currentIndex());
-        //contextToolBar->hide();
     }));
 
 	actions.append(contextToolBar->addAction(tr("Move Down"), [this] {
         onMoveDownRequested(tableView.currentIndex());
-        //contextToolBar->hide();
     }));
 
     contextToolBar->setContentsMargins(0, 0, 0, 0);
