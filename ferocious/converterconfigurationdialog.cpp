@@ -422,7 +422,7 @@ void ConverterConfigurationDialog::setShowToolTips(bool value)
 
 bool ConverterConfigurationDialog::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::ToolTip) { // Intercept tooltip event
+    if (event->type() == QEvent::ToolTip) {
         return (showToolTips);
     }
 
