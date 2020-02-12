@@ -189,7 +189,7 @@ void ConverterConfigurationDialog::initToolBar() {
     contextToolBar->setMaximumWidth(tableView.width());
     contextToolBar->setFixedHeight(40);
     contextToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    contextToolBar->setStyleSheet("QToolBar {background-color: rgba(0,0,0,0);}");
+    contextToolBar->setStyleSheet("QToolBar {background-color: rgba(0, 0, 0, 0);}");
 
     for(QAction* a : actions) {
         QWidget* w = contextToolBar->widgetForAction(a);
@@ -290,7 +290,6 @@ QString ConverterConfigurationDialog::getExpectedMainConverter() const
 void ConverterConfigurationDialog::setExpectedMainConverter(const QString &value)
 {
     expectedMainConverter = value;
-    // set tooltips
     mainConverterLocationLabel->setToolTip(QString{"Please enter the location of %1 in the box below.\n"
                                            "(%1 is the command-line audio converter that Ferocious was designed to work with.)"
                                            }.arg(expectedMainConverter));

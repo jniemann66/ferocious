@@ -179,5 +179,4 @@ void OutputFileOptions_Dialog::on_pushButton_clicked()
                                                     | QFileDialog::DontResolveSymlinks);
     if(!dir.isNull() && !dir.isEmpty())
         ui->outDirectory_lineEdit->setText(QDir::toNativeSeparators(dir));
-
 }
