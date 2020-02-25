@@ -10,9 +10,7 @@ VERSION = 2.1.3
 # Define a preprocessor macro for the version:
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
-QT += core gui concurrent
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core gui concurrent widgets
 
 TARGET = ferocious
 TEMPLATE = app
@@ -50,7 +48,6 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui \
     lpfparametersdlg.ui
-
 
 RC_FILE = ferocious.rc
 
