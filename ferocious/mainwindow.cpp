@@ -127,10 +127,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             this,
             static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
     );
-    connect(ui->convertButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_convertButton_rightClicked);
-    connect(ui->convertButton, &FlashingPushButton::stopRequested, this, &MainWindow::on_stopRequested);
-    connect(ui->browseInfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_browseInButton_rightClicked);
-    connect(ui->browseOutfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::on_browseOutButton_rightClicked);
+	connect(ui->convertButton, &FlashingPushButton::stopRequested, this, &MainWindow::on_stopRequested);
+	connect(ui->convertButton, &FlashingPushButton::rightClicked, this, &MainWindow::onConvertButtonRightClicked);
+	connect(ui->browseInfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::onBrowseInButtonRightClicked);
+	connect(ui->browseOutfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::onBrowseOutButtonRightClicked);
 }
 
 MainWindow::~MainWindow()
@@ -362,7 +362,7 @@ void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitSta
     }
 }
 
-void MainWindow::on_browseInButton_rightClicked()
+void MainWindow::onBrowseInButtonRightClicked()
 {
     for (auto& a : browseInMenu->actions()) {
         browseInMenu->removeAction(a);
@@ -394,7 +394,7 @@ void MainWindow::on_browseInButton_rightClicked()
     browseInMenu->popup(QCursor::pos());
 }
 
-void MainWindow::on_browseOutButton_rightClicked()
+void MainWindow::onBrowseOutButtonRightClicked()
 {
     for (auto& a : browseOutMenu->actions()) {
         browseOutMenu->removeAction(a);
@@ -1511,7 +1511,7 @@ void MainWindow::getCustomLpfParameters() {
     d->exec();
 }
 
-void MainWindow::on_convertButton_rightClicked() {
+void MainWindow::onConvertButtonRightClicked() {
    for (auto& a : convertTaskMenu->actions()) {
        convertTaskMenu->removeAction(a);
    }

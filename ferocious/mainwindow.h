@@ -111,10 +111,10 @@ private slots:
     void on_actionUse_a_temp_file_triggered(bool checked);
     void on_actionCustomLPF_triggered();
     void on_actionCustom_Parameters_triggered();
-    void on_convertButton_rightClicked();
+	void onConvertButtonRightClicked();
     void on_stopRequested();
-    void on_browseInButton_rightClicked();
-    void on_browseOutButton_rightClicked();
+	void onBrowseInButtonRightClicked();
+	void onBrowseOutButtonRightClicked();
 
 private:
     // resources
