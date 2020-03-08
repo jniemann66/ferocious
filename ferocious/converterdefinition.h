@@ -12,8 +12,6 @@
 
 // converterdefinition.h - Type for defining properties of external file converters
 
-// todo: converter definition for qaac
-
 #include <QString>
 #include <QStringList>
 #include <QJsonObject>
