@@ -11,7 +11,7 @@ VERSION = 2.1.3
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 QT += core gui concurrent widgets
-
+CONFIG += c++11
 TARGET = ferocious
 TEMPLATE = app
 
@@ -54,5 +54,3 @@ RC_FILE = ferocious.rc
 RESOURCES += \
     ferocious.qrc \
     converterdefinitions.qrc
-
-CONFIG += c++11
