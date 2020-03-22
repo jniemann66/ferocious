@@ -33,7 +33,6 @@ public:
 private:
     QLabel* textLabel;
     FileDropTextEdit* textEdit;
-
 };
 
 #endif // FILEDROPDIALOG_H

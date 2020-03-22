@@ -58,6 +58,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     heading->setFont(headingFont);
 
     // configure widgets
+    setContentsMargins(12, 12, 12, 12);
     heading->setAlignment(Qt::AlignHCenter);
     executablePathEdit->hideEditButton();
     QFontMetrics m(commentEdit->font());
@@ -110,8 +111,6 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
 
     // set main Layout
     this->setLayout(mainLayout);
-
-    setContentsMargins(12, 12, 12, 12);
 
     // connect signals / slots
     connect(executablePathBrowseButton, &QPushButton::clicked, this, [this] {

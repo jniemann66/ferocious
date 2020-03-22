@@ -19,6 +19,7 @@ void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionView
     if (option.state & QStyle::State_Selected) {
         painter->fillRect( option.rect, option.palette.highlight());
     }
+
     QTextDocument document;
     document.setTextWidth(option.rect.width());
     QVariant value = index.data(Qt::DisplayRole);
@@ -29,6 +30,7 @@ void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionView
         painter->translate(QPoint{option.rect.left(), option.rect.top() + 4 /* to-do : how to calculate this properly ? */});
         document.drawContents(painter);
     }
+
     painter->restore();
 }
 
