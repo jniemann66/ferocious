@@ -302,8 +302,9 @@ void ConverterConfigurationDialog::onNewRequested(const QModelIndex& modelIndex)
 {
     int row = modelIndex.row();
 
-    if(row < 0)
+    if(row < 0) {
         return;
+    }
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
     if(row < converterDefinitions.count()) {
@@ -315,13 +316,15 @@ void ConverterConfigurationDialog::onNewRequested(const QModelIndex& modelIndex)
 void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex)
 {
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
-    if (converterDefinitions.isEmpty())
+    if (converterDefinitions.isEmpty()) {
         return;
+    }
 
     int row = modelIndex.row();
 
-    if (row < 0)
+    if (row < 0) {
         return;
+    }
 
     auto dlg = new ConverterConfigurationEditDialog(this);
     dlg->setShowToolTips(showToolTips);
@@ -344,8 +347,9 @@ void ConverterConfigurationDialog::onDeleteRequested(const QModelIndex& modelInd
 {
     int row = modelIndex.row();
 
-    if(row < 0)
+    if(row < 0) {
         return;
+    }
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
     if(row < converterDefinitions.count()) {
@@ -358,8 +362,9 @@ void ConverterConfigurationDialog::onCloneRequested(const QModelIndex& modelInde
 {
     int row = modelIndex.row();
 
-    if(row < 0)
+    if(row < 0) {
         return;
+    }
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
     if(row < converterDefinitions.count()) {
