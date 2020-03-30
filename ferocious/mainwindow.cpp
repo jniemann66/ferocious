@@ -343,8 +343,9 @@ void MainWindow::on_ConverterStarted()
 {
     ui->convertButton->setIsActive(true);
     ui->progressBar->setValue(0);
-    if(bShowProgressBar)
+    if(bShowProgressBar) {
         ui->progressBar->setVisible(true);
+    }
 }
 
 void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitStatus)
@@ -439,8 +440,9 @@ void MainWindow::processInputFilenames(const QStringList& fileNames) {
 
     QString filenameSpec;
 
-    if(fileNames.isEmpty())
+    if(fileNames.isEmpty()) {
         return;
+    }
 
     if(fileNames.count() >= 1) {
         QDir path(fileNames.first());

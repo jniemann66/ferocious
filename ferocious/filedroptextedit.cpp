@@ -47,9 +47,11 @@ void FileDropTextEdit::dropEvent(QDropEvent *e)
     QString txt = this->toPlainText();
 
     // if current text doesn't end in newline, add newline ...
-    if(!txt.isEmpty() && txt.right(1) != '\n')
+    if(!txt.isEmpty() && txt.right(1) != '\n') {
         insertPlainText("\n");
+    }
 
-    if(!paths.isEmpty())
+    if(!paths.isEmpty()) {
         insertPlainText(paths.join("\n"));
+    }
 }
