@@ -139,7 +139,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::fileExists(const QString& path) {
+bool MainWindow::fileExists(const QString& path)
+{
     QFileInfo fi(path);
     return (fi.exists() && fi.isFile());
 }
@@ -314,7 +315,8 @@ void MainWindow::on_StdoutAvailable()
     processConverterOutput(process.readAllStandardOutput(), 1);
 }
 
-void MainWindow::processConverterOutput(QString converterOutput, int channel) {
+void MainWindow::processConverterOutput(QString converterOutput, int channel)
+{
 	// capture progress updates
 	QRegularExpression progressRx("\\d+%[\\b]+");
 	auto rxMatches = progressRx.globalMatch(converterOutput);
@@ -436,7 +438,8 @@ void MainWindow::on_browseInfileButton_clicked()
     processInputFilenames(fileNames);
 }
 
-void MainWindow::processInputFilenames(const QStringList& fileNames) {
+void MainWindow::processInputFilenames(const QStringList& fileNames)
+{
 
     QString filenameSpec;
 
@@ -523,7 +526,8 @@ void MainWindow::on_convertButton_clicked()
     launch();
 }
 
-void MainWindow::launch() {
+void MainWindow::launch()
+{
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     ui->StatusLabel->setText("Status: Preparing conversion tasks ...");
     repaint();
@@ -559,7 +563,8 @@ void MainWindow::launch() {
 }
 
 // wildcardPushtoQueue() - expand wildcard in filespec, and push matching filenames into queue:
-void MainWindow::wildcardPushToQueue(const QString& inFilename) {
+void MainWindow::wildcardPushToQueue(const QString& inFilename)
+{
     int inLastSepIndex = inFilename.lastIndexOf(QDir::separator());     // position of last separator in Infile
     int outLastSepIndex = ui->OutfileEdit->text().lastIndexOf(QDir::separator());   // position of last separator in Outfile
 
@@ -720,7 +725,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename) {
 
 // convertNext() - take the next conversion task from the front of the queue, convert it, then remove it from queue.
 
-void MainWindow::convertNext() {
+void MainWindow::convertNext()
+{
     if(!conversionQueue.empty()) {
         ConversionTask& nextTask = MainWindow::conversionQueue.first();
 		ui->StatusLabel->setText(tr("Status: processing ") + nextTask.inFilename);
@@ -850,7 +856,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
     }
 }
 
-ConverterDefinition MainWindow::getSpecialistConverter(const QString& inExt, const QString& outExt ) {
+ConverterDefinition MainWindow::getSpecialistConverter(const QString& inExt, const QString& outExt )
+{
     for(const ConverterDefinition& converterDefinition : converterDefinitions) {
         if(converterDefinition.inputFileExt == inExt && converterDefinition.outputFileExt == outExt) {
             return converterDefinition;
@@ -863,7 +870,8 @@ ConverterDefinition MainWindow::getSpecialistConverter(const QString& inExt, con
 // 1. spaces definitely need quotes
 // 2. parentheses and backslashes, and probably a whole lot of other characters, can cause problems with bash
 
-QStringList MainWindow::getQuotedArgs(const QStringList& args) {
+QStringList MainWindow::getQuotedArgs(const QStringList& args)
+{
     QStringList quotedArgs;
     for(const QString& arg : args) {
         quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
@@ -872,7 +880,8 @@ QStringList MainWindow::getQuotedArgs(const QStringList& args) {
 }
 
 
-QStringList MainWindow::prepareSpecialistConverterArgs(const ConverterDefinition& converterDefinition, const QString& outfn, const QString& infn) {
+QStringList MainWindow::prepareSpecialistConverterArgs(const ConverterDefinition& converterDefinition, const QString& outfn, const QString& infn)
+{
     QStringList args;
     QString params = converterDefinition.commandLine;
     params.replace("{i}", "\"" + infn + "\"").replace("{o}", "\"" + outfn + "\"");
@@ -880,7 +889,8 @@ QStringList MainWindow::prepareSpecialistConverterArgs(const ConverterDefinition
     return args;
 }
 
-QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QString& infn) {
+QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QString& infn)
+{
 
     QStringList args;
 
@@ -997,12 +1007,14 @@ QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QStr
     return args; 
 }
 
-void MainWindow::loadConverterDefinitions(const QString& fileName) {
+void MainWindow::loadConverterDefinitions(const QString& fileName)
+{
    converterDefinitions = ConverterDefinition::loadConverterDefinitions(fileName);
    checkConverterAvailability();
 }
 
-void MainWindow::saveConverterDefinitions(const QString& fileName) const {
+void MainWindow::saveConverterDefinitions(const QString& fileName) const
+{
   ConverterDefinition::saveConverterDefinitions(fileName, converterDefinitions);
 }
 
@@ -1319,7 +1331,8 @@ void MainWindow::on_actionEnable_Clipping_Protection_triggered()
     bDisableClippingProtection = !ui->actionEnable_Clipping_Protection->isChecked();
 }
 
-void MainWindow::applyStylesheet() {
+void MainWindow::applyStylesheet()
+{
 
     if(stylesheetFilePath.isEmpty())
         stylesheetFilePath = ":/ferocious.css"; // factory default
@@ -1501,7 +1514,8 @@ void MainWindow::on_actionCustom_Parameters_triggered()
     getCustomLpfParameters();
 }
 
-void MainWindow::getCustomLpfParameters() {
+void MainWindow::getCustomLpfParameters()
+{
     auto d = new LpfParametersDlg(this);
     d->setValues(customLpfCutoff, customLpfTransition);
     d->setWindowTitle(tr("Custom LPF Parameters"));
@@ -1513,7 +1527,8 @@ void MainWindow::getCustomLpfParameters() {
     d->exec();
 }
 
-void MainWindow::onConvertButtonRightClicked() {
+void MainWindow::onConvertButtonRightClicked()
+{
    for (auto& a : convertTaskMenu->actions()) {
        convertTaskMenu->removeAction(a);
    }
@@ -1528,7 +1543,8 @@ void MainWindow::onConvertButtonRightClicked() {
    convertTaskMenu->popup(QCursor::pos());
 }
 
-void MainWindow::on_stopRequested() {
+void MainWindow::on_stopRequested()
+{
     conversionQueue.clear();
     process.kill();
     ui->StatusLabel->setText(tr("Status: conversion stopped"));
@@ -1545,7 +1561,8 @@ void MainWindow::on_actionUse_a_temp_file_triggered(bool checked)
 }
 
 // getInfileFiler() : returns a filename filter, taking into consideration all file formats which can be handled in the current state
-QString MainWindow::getInfileFilter() {
+QString MainWindow::getInfileFilter()
+{
 
 	QSet<QString> infileFormats{
         "*.aif", "*.aifc", "*.aiff", "*.au", "*.avr", "*.caf", "*.dff", "*.dsf", "*.flac", "*.htk", "*.iff", "*.mat", "*.mpc", "*.oga", "*.paf", "*.pvf", "*.raw", "*.rf64", "*.sd2", "*.sds", "*.sf", "*.voc", "*.w64", "*.wav", "*.wve", "*.xi"
@@ -1560,7 +1577,8 @@ QString MainWindow::getInfileFilter() {
     return QString{"Audio Files (%1)"}.arg(infileFormats.values().join(" "));
 }
 
-QString MainWindow::getOutfileFilter() {
+QString MainWindow::getOutfileFilter()
+{
     QSet<QString> outfileFormats{
         "*.aiff", "*.au", "*.avr", "*.caf", "*.flac", "*.htk", "*.iff", "*.mat", "*.mpc", "*.oga", "*.paf", "*.pvf", "*.raw", "*.rf64", "*.sd2", "*.sds", "*.sf", "*.voc", "*.w64", "*.wav", "*.wve", "*.xi"
     };

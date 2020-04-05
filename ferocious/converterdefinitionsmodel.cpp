@@ -11,15 +11,18 @@
 
 ConverterDefinitionsModel::ConverterDefinitionsModel(QObject* parent) : QAbstractTableModel(parent) {}
 
-int ConverterDefinitionsModel::rowCount(const QModelIndex &) const {
+int ConverterDefinitionsModel::rowCount(const QModelIndex &) const
+{
     return converterDefinitions.count();
 }
 
-int ConverterDefinitionsModel::columnCount(const QModelIndex &) const {
+int ConverterDefinitionsModel::columnCount(const QModelIndex &) const
+{
     return 11;
 }
 
-QVariant ConverterDefinitionsModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant ConverterDefinitionsModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
     if (orientation != Qt::Horizontal || role != Qt::DisplayRole) {
         return {};
     }

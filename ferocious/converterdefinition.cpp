@@ -74,7 +74,8 @@ bool ConverterDefinition::operator==(const ConverterDefinition &other)
     operatingSystems == other.operatingSystems;
 }
 
-QVector<ConverterDefinition> ConverterDefinition::loadConverterDefinitions(const QString& fileName) {
+QVector<ConverterDefinition> ConverterDefinition::loadConverterDefinitions(const QString& fileName)
+{
     QVector<ConverterDefinition> converterDefinitions; // retval
     QFile jsonFile(fileName);
     QDebug dbg = qDebug();
@@ -108,7 +109,8 @@ QVector<ConverterDefinition> ConverterDefinition::loadConverterDefinitions(const
     return converterDefinitions;
 }
 
-void ConverterDefinition::saveConverterDefinitions(const QString& fileName, const QVector<ConverterDefinition>& converterDefinitions) {
+void ConverterDefinition::saveConverterDefinitions(const QString& fileName, const QVector<ConverterDefinition>& converterDefinitions)
+{
     QJsonArray a;
     for(const ConverterDefinition& converterDefinition: converterDefinitions) {
         a.append(converterDefinition.toJson());

@@ -127,7 +127,8 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     connect(stdButtons, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
 
-void ConverterConfigurationDialog::initMenu() {
+void ConverterConfigurationDialog::initMenu()
+{
 	contextMenu->addAction(tr("New"), [this] {
        onNewRequested(tableView.currentIndex());
     }, QKeySequence::New);
@@ -153,7 +154,8 @@ void ConverterConfigurationDialog::initMenu() {
     });
 }
 
-void ConverterConfigurationDialog::initToolBar() {
+void ConverterConfigurationDialog::initToolBar()
+{
     QList<QAction*> actions;
 
 	actions.append(contextToolBar->addAction(tr("New"), [this] {
@@ -202,7 +204,8 @@ void ConverterConfigurationDialog::initToolBar() {
     }
 }
 
-void ConverterConfigurationDialog::showEvent(QShowEvent* event) {
+void ConverterConfigurationDialog::showEvent(QShowEvent* event)
+{
 
     if(mainConverterPath.isEmpty() || !QFile::exists(mainConverterPath)) {
        promptForResamplerLocation();
@@ -405,7 +408,8 @@ void ConverterConfigurationDialog::onMoveDownRequested(const QModelIndex& modelI
     }
 }
 
-void ConverterConfigurationDialog::onRestoreDefaults() {
+void ConverterConfigurationDialog::onRestoreDefaults()
+{
     setConverterDefinitions(ConverterDefinition::loadConverterDefinitions(":/converters.json"));
 }
 
