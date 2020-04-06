@@ -15,9 +15,11 @@ CheckBoxDelegate::CheckBoxDelegate(QObject *parent) : QStyledItemDelegate(parent
 void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     painter->save();
+
     if (option.state & QStyle::State_Selected) {
         painter->fillRect(option.rect, option.palette.highlight());
     }
+
     QStyleOptionButton cbIndicator;
     cbIndicator.rect = option.rect;
     bool isChecked = index.data().toBool();
