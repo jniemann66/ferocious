@@ -408,7 +408,6 @@ void MainWindow::onBrowseOutButtonRightClicked()
         openChooseOutputDirectory();
     });
     browseOutMenu->addAction("Set Output File Options ...", this, &MainWindow::on_actionOutput_File_Options_triggered);
-
     browseOutMenu->popup(QCursor::pos());
 }
 
@@ -440,7 +439,6 @@ void MainWindow::on_browseInfileButton_clicked()
 
 void MainWindow::processInputFilenames(const QStringList& fileNames)
 {
-
     QString filenameSpec;
 
     if(fileNames.isEmpty()) {
@@ -623,7 +621,7 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename)
         } else {
 			f.useSpecificFileExt = true;    // use file extension of outfile name
         }
-    } else{ // outfile name has no file extension
+	} else { // outfile name has no file extension
 		f.useSpecificFileExt = false; // use source file extension
     }
 
