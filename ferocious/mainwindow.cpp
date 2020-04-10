@@ -740,8 +740,9 @@ void MainWindow::convertNext()
 
 void MainWindow::convert(const QString &outfn, const QString& infn)
 {
-    if(outfn.isEmpty() || infn.isEmpty())
+	if(outfn.isEmpty() || infn.isEmpty()) {
         return;
+	}
 
     // Up to three actual converters (ie conversion programs) may be employed to complete the conversion task.
     // ReSampler is the middle converter, and specialist converters may also be patched-in at the front or back positions
