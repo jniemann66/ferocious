@@ -61,8 +61,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     QFont defaultFont{qApp->font()};
     QFont heading2Font{defaultFont};
     QFont heading1Font{defaultFont};
-    heading2Font.setPointSize(defaultFont.pointSize() + 2);
-    heading1Font.setPointSize(defaultFont.pointSize() + 4);
+  //  defaultFont.setPointSize(defaultFont.pointSize() + 2);
+  //  heading2Font.setPointSize(defaultFont.pointSize() + 2);
+  //  heading1Font.setPointSize(defaultFont.pointSize() + 4);
 
     // configure widgets
     headingLabel->setFont(heading1Font);

@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     readSettings();
 
-    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.css")
+//    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.css")
 
     if(converterPath.isEmpty()) {
         converterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath

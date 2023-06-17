@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>803</width>
+    <width>818</width>
     <height>703</height>
    </rect>
   </property>
@@ -60,6 +60,11 @@
         <height>22</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="toolTip">
        <string>Enter an amount between 0 and 1.0</string>
       </property>
@@ -78,6 +83,11 @@
         <width>164</width>
         <height>16777215</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
       </property>
       <property name="toolTip">
        <string>Selects the type of impulse response used in the Lowpass Filter
@@ -105,6 +115,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
         <width>91</width>
         <height>22</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -194,6 +209,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
       </property>
       <property name="font">
        <font>
+        <pointsize>7</pointsize>
         <stylestrategy>PreferAntialias</stylestrategy>
        </font>
       </property>
@@ -207,6 +223,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     </item>
     <item row="0" column="0">
      <widget class="QLabel" name="InfileLabel">
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Input File:</string>
       </property>
@@ -214,6 +235,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     </item>
     <item row="2" column="0" colspan="6">
      <widget class="QLabel" name="OutfileLabel">
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Output File:</string>
       </property>
@@ -226,6 +252,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
         <width>16777215</width>
         <height>14</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
       </property>
       <property name="value">
        <number>0</number>
@@ -251,6 +282,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
         <width>91</width>
         <height>22</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
       </property>
       <property name="toolTip">
        <string>Set the output sample-rate.
@@ -332,6 +368,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Status: Ready</string>
       </property>
@@ -359,7 +400,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>7</pointsize>
         <stylestrategy>PreferAntialias</stylestrategy>
        </font>
       </property>
@@ -376,6 +417,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     </item>
     <item row="6" column="0" colspan="2">
      <widget class="QLabel" name="ConverterOutputLabel">
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Converter Output:</string>
       </property>
@@ -383,11 +429,22 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     </item>
     <item row="3" column="0" colspan="6">
      <widget class="FancyLineEdit" name="OutfileEdit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
         <height>22</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
       </property>
       <property name="toolTip">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output File specification:&lt;/p&gt;&lt;p&gt;Wildcards (*) may be used in the filename or file extension, provided they are also used in the input file specification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -402,6 +459,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     </item>
     <item row="4" column="0">
      <widget class="QLabel" name="SampleRateLabel">
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="toolTip">
        <string/>
       </property>
@@ -412,6 +474,12 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     </item>
     <item row="1" column="6">
      <widget class="FlashingPushButton" name="browseInfileButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -420,6 +488,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
       </property>
       <property name="font">
        <font>
+        <pointsize>7</pointsize>
         <stylestrategy>PreferAntialias</stylestrategy>
        </font>
       </property>
@@ -448,6 +517,11 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
         <height>16777215</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="toolTip">
        <string>Set the output file sub-format.
 (Available sub-formats will depend on file type)</string>
@@ -467,7 +541,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>7</pointsize>
        </font>
       </property>
       <property name="toolTip">
@@ -488,6 +562,11 @@ Post- ringing only.</string>
         <height>120</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="toolTip">
        <string>Generate dither.
 Only recommended when converting to a lower bit depth
@@ -503,6 +582,12 @@ Only recommended when converting to a lower bit depth
       <property name="enabled">
        <bool>true</bool>
       </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -511,6 +596,7 @@ Only recommended when converting to a lower bit depth
       </property>
       <property name="font">
        <font>
+        <pointsize>7</pointsize>
         <stylestrategy>PreferAntialias</stylestrategy>
        </font>
       </property>
@@ -527,6 +613,12 @@ Only recommended when converting to a lower bit depth
     </item>
     <item row="1" column="0" colspan="6">
      <widget class="FancyLineEdit" name="InfileEdit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -535,6 +627,7 @@ Only recommended when converting to a lower bit depth
       </property>
       <property name="font">
        <font>
+        <pointsize>7</pointsize>
         <stylestrategy>PreferAntialias</stylestrategy>
        </font>
       </property>
@@ -556,6 +649,12 @@ to process multiple files.</string>
     </item>
     <item row="3" column="6">
      <widget class="FlashingPushButton" name="browseOutfileButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -564,6 +663,7 @@ to process multiple files.</string>
       </property>
       <property name="font">
        <font>
+        <pointsize>7</pointsize>
         <stylestrategy>PreferAntialias</stylestrategy>
        </font>
       </property>
@@ -586,6 +686,11 @@ to process multiple files.</string>
         <height>16777215</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="toolTip">
        <string>Set the peak level of the output file
 (1.0 is maximum)</string>
@@ -605,7 +710,7 @@ to process multiple files.</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>7</pointsize>
        </font>
       </property>
       <property name="toolTip">
@@ -634,6 +739,11 @@ to process multiple files.</string>
         <height>22</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="toolTip">
        <string>Specify the number of bits of dither to add
 (1.0 is default)</string>
@@ -656,7 +766,7 @@ to process multiple files.</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>7</pointsize>
         <weight>50</weight>
         <bold>false</bold>
         <kerning>true</kerning>
@@ -700,23 +810,53 @@ to process multiple files.</string>
    <zorder>StatusLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>803</width>
-     <height>22</height>
+     <width>818</width>
+     <height>29</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+     <horstretch>2</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="font">
     <font>
      <stylestrategy>PreferAntialias</stylestrategy>
     </font>
    </property>
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="defaultUp">
+    <bool>false</bool>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>true</bool>
+   </property>
    <widget class="QMenu" name="menuOptions">
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="title">
      <string>Options</string>
     </property>
@@ -1256,6 +1396,13 @@ to process multiple files.</string>
   <action name="actionOutput_File_Options">
    <property name="text">
     <string>Output File Options ...</string>
+   </property>
+   <property name="font">
+    <font>
+     <strikeout>false</strikeout>
+     <stylestrategy>PreferDefault</stylestrategy>
+     <kerning>true</kerning>
+    </font>
    </property>
   </action>
   <action name="actionAbout">
