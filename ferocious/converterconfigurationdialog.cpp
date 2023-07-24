@@ -8,6 +8,7 @@
 */
 
 #include "converterconfigurationdialog.h"
+#include "converterconfigurationeditdialog.h"
 #include "checkboxdelegate.h"
 #include "cmdlinehighlighterdelegate.h"
 

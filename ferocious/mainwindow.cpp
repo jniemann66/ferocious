@@ -318,7 +318,7 @@ void MainWindow::on_StdoutAvailable()
 void MainWindow::processConverterOutput(QString converterOutput, int channel)
 {
 	// capture progress updates
-	QRegularExpression progressRx("\\d+%[\\b]+");
+	static const QRegularExpression progressRx("\\d+%[\\b]+");
 	auto rxMatches = progressRx.globalMatch(converterOutput);
 	QStringList progressUpdates;
 	while(rxMatches.hasNext()) {
@@ -327,10 +327,11 @@ void MainWindow::processConverterOutput(QString converterOutput, int channel)
 
 	if(!progressUpdates.isEmpty()) {
 		// Use last progress update to set progress bar.
-		ui->progressBar->setValue(progressUpdates.last().replace(QRegularExpression("[^0-9]"), "").toInt());
+		static const QRegularExpression rx{"[^0-9]"};
+		ui->progressBar->setValue(progressUpdates.last().remove(rx).toInt());
 
 		// clean-out progress updates from converter output
-		converterOutput.replace(progressRx, "");
+		converterOutput.remove(progressRx);
 	}
 
 	if(!converterOutput.isEmpty()) {
@@ -404,7 +405,7 @@ void MainWindow::onBrowseOutButtonRightClicked()
     }
 
     browseOutMenu->addAction("Select Output File ...", this, &MainWindow::on_browseOutfileButton_clicked);
-    browseOutMenu->addAction("Select Output Directory ...", [this] {
+	browseOutMenu->addAction("Select Output Directory ...", this, [this] {
         openChooseOutputDirectory();
     });
     browseOutMenu->addAction("Set Output File Options ...", this, &MainWindow::on_actionOutput_File_Options_triggered);
@@ -532,7 +533,7 @@ void MainWindow::launch()
     QStringList filenames=ui->InfileEdit->text().split(multiFileSeparator);
 
     // iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration
-    for (const QString& inFilename : filenames) {
+	for (const QString& inFilename : qAsConst(filenames)) {
 
         if(!inFilename.isEmpty() && !inFilename.isNull()) {
 
@@ -1567,7 +1568,13 @@ QString MainWindow::getInfileFilter()
         "*.aif", "*.aifc", "*.aiff", "*.au", "*.avr", "*.caf", "*.dff", "*.dsf", "*.flac", "*.htk", "*.iff", "*.mat", "*.mpc", "*.oga", "*.paf", "*.pvf", "*.raw", "*.rf64", "*.sd2", "*.sds", "*.sf", "*.voc", "*.w64", "*.wav", "*.wve", "*.xi"
     };
 
-    for(const ConverterDefinition& d : converterDefinitions) {
+
+	// todo: check libsndfile version of Resampler (write function to query it)
+	// if(sndfileversion >= 1.1 ) {...}
+
+	infileFormats.insert("*.mp3");
+
+	for(const ConverterDefinition& d : qAsConst(converterDefinitions)) {
         if(d.enabled) {
             infileFormats.insert(QString{"*."} + d.inputFileExt);
         }
@@ -1582,7 +1589,7 @@ QString MainWindow::getOutfileFilter()
         "*.aiff", "*.au", "*.avr", "*.caf", "*.flac", "*.htk", "*.iff", "*.mat", "*.mpc", "*.oga", "*.paf", "*.pvf", "*.raw", "*.rf64", "*.sd2", "*.sds", "*.sf", "*.voc", "*.w64", "*.wav", "*.wve", "*.xi"
     };
 
-    for(const ConverterDefinition& d : converterDefinitions) {
+	for(const ConverterDefinition& d : qAsConst(converterDefinitions)) {
         if(d.enabled) {
             outfileFormats.insert(QString{"*."} + d.outputFileExt);
         }

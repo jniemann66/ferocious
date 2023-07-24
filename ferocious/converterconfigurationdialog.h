@@ -12,7 +12,6 @@
 
 #include "converterdefinitionsmodel.h"
 #include "fancylineedit.h"
-#include "converterconfigurationeditdialog.h"
 
 #include <QDialog>
 #include <QLineEdit>
