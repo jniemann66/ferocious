@@ -21,7 +21,7 @@
 struct ConverterDefinition
 {
     int priority{};
-    bool enabled{};
+	bool enabled{false};
     QString name;
     QString comment;
     QString inputFileExt;

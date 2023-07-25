@@ -27,13 +27,13 @@ void ConverterDefinition::fromJson(const QJsonObject &json)
 
     downloadLocations.clear();
     QJsonArray dlArray = json.value("downloadlocations").toArray();
-	for(const QJsonValueRef dl : dlArray) {
+	for(const QJsonValue& dl : qAsConst(dlArray)) {
         downloadLocations.append(dl.toString());
     }
 
     operatingSystems.clear();
     QJsonArray osArray = json.value("operatingsystems").toArray();
-	for(const QJsonValueRef os : osArray) {
+	for(const QJsonValue& os : qAsConst(osArray)) {
         operatingSystems.append(os.toString());
     }
 }

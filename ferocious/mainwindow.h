@@ -133,6 +133,7 @@ private:
     QString stylesheetFilePath;
     FilenameGenerator filenameGenerator;  // output filename generator
     QString resamplerVersion;   // version string of main external converter
+	QString resamplerSndfileVersion;
     bool bShowProgressBar{};
     int flacCompressionLevel{};
     double vorbisQualityLevel{};
@@ -144,6 +145,7 @@ private:
     bool bSingleStage{};
     bool bNoTempFile{};
     bool bFixedSeed{};
+	bool bReSamplerMp3{false};
     int seedValue{};
     NoiseShape noiseShape;
     int ditherProfile{};
@@ -155,7 +157,8 @@ private:
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file
     void readSettings();        // read settings from ini file
-    void getResamplerVersion();   // function to retrieve version number of main external converter
+	void queryResamplerVersion();   // function to retrieve version number of main external converter
+	void queryResamplerSndfileVersion();
     void processOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
     QStringList prepareMidConverterArgs(const QString &outfn, const QString &infn); // prepare commandline args for ReSampler
@@ -177,7 +180,8 @@ private:
     QString getInfileFilter();
     QString getOutfileFilter();
     void checkConverterAvailability();
-    void openChooseOutputDirectory();
+	void openChooseOutputDirectory();
+	QString queryResampler(const QStringList &cmdlineOptions);
 };
 
 #endif // MAINWINDOW_H

@@ -100,7 +100,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->statusBar->setVisible(false);
 
     // get converter version:
-    getResamplerVersion();
+	queryResamplerVersion();
+	queryResamplerSndfileVersion();
 
     // retrieve dither profiles and add them to menu:
     populateDitherProfileMenu();
@@ -1182,29 +1183,49 @@ void MainWindow::populateBitFormats(const QString& fileName)
 }
 
 // Query Converter for version number:
-void MainWindow::getResamplerVersion()
+void MainWindow::queryResamplerVersion()
 {
-    QString v;
-    QProcess ConverterQuery;
-    ConverterQuery.start(converterPath, QStringList() << "--version"); // ask converter for its version number
+	const QString v = queryResampler({"--version"});
 
-    if (!ConverterQuery.waitForFinished())
-        return;
+	// split the version number into components:
+	QStringList ResamplerVersionNumbers = v.split(".");
 
-    ConverterQuery.setReadChannel(QProcess::StandardOutput);
-    while(ConverterQuery.canReadLine()) {
-        v += (QString::fromLocal8Bit(ConverterQuery.readLine())).simplified();
+	// set various options accoring to resampler version:
+	int vA=ResamplerVersionNumbers[0].toInt(); // 1st number
+	int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
 
-        // split the version number into components:
-        QStringList ResamplerVersionNumbers = v.split(".");
+	bShowProgressBar = (vA > 1) || (vB >= 1); // (no progress output on ReSampler versions prior to 1.1.0)
+	resamplerVersion=v;
+}
 
-        // set various options accoring to resampler version:
-        int vA=ResamplerVersionNumbers[0].toInt(); // 1st number
-        int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
+void MainWindow::queryResamplerSndfileVersion()
+{
+	static const QRegularExpression rx{".*(?:\\d+)\\.(\\d+)\\.(?:\\d+)"};
 
-        bShowProgressBar = (vA > 1) || (vB >= 1); // (no progress output on ReSampler versions prior to 1.1.0)
-        resamplerVersion=v;
-    }
+	resamplerSndfileVersion = queryResampler({"--sndfile-version"});
+	auto rxm = rx.match(resamplerSndfileVersion);
+
+	if(rxm.hasMatch()) {
+		bReSamplerMp3 = (rxm.captured(1).toInt() >= 1);
+	}
+}
+
+QString MainWindow::queryResampler(const QStringList& cmdlineOptions)
+{
+	QString v;
+	QProcess ConverterQuery;
+	ConverterQuery.start(converterPath, cmdlineOptions); // ask converter for its version number
+
+	if (!ConverterQuery.waitForFinished()) {
+		return {};
+	}
+
+	ConverterQuery.setReadChannel(QProcess::StandardOutput);
+	while(ConverterQuery.canReadLine()) {
+		v += (QString::fromLocal8Bit(ConverterQuery.readLine())).simplified();
+	}
+
+	return v;
 }
 
 void MainWindow::on_OutfileEdit_editingFinished()
@@ -1254,7 +1275,7 @@ void MainWindow::on_actionConverter_Location_triggered()
 
         if(!converterConfigurationDialog->getMainConverterPath().isEmpty()) {
             converterPath = converterConfigurationDialog->getMainConverterPath();
-            getResamplerVersion();  // get converter version
+			queryResamplerVersion();  // get converter version
         }
         converterDefinitions = converterConfigurationDialog->getConverterDefinitions();
         checkConverterAvailability();
@@ -1563,16 +1584,13 @@ void MainWindow::on_actionUse_a_temp_file_triggered(bool checked)
 // getInfileFiler() : returns a filename filter, taking into consideration all file formats which can be handled in the current state
 QString MainWindow::getInfileFilter()
 {
-
 	QSet<QString> infileFormats{
         "*.aif", "*.aifc", "*.aiff", "*.au", "*.avr", "*.caf", "*.dff", "*.dsf", "*.flac", "*.htk", "*.iff", "*.mat", "*.mpc", "*.oga", "*.paf", "*.pvf", "*.raw", "*.rf64", "*.sd2", "*.sds", "*.sf", "*.voc", "*.w64", "*.wav", "*.wve", "*.xi"
     };
 
-
-	// todo: check libsndfile version of Resampler (write function to query it)
-	// if(sndfileversion >= 1.1 ) {...}
-
-	infileFormats.insert("*.mp3");
+	if(bReSamplerMp3) {
+		infileFormats.insert("*.mp3");
+	}
 
 	for(const ConverterDefinition& d : qAsConst(converterDefinitions)) {
         if(d.enabled) {
