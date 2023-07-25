@@ -145,7 +145,7 @@ private:
     bool bSingleStage{};
     bool bNoTempFile{};
     bool bFixedSeed{};
-	bool bReSamplerMp3{false};
+	bool bReSamplerMp3{};
     int seedValue{};
     NoiseShape noiseShape;
     int ditherProfile{};
@@ -157,6 +157,7 @@ private:
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file
     void readSettings();        // read settings from ini file
+	QString queryResampler(const QStringList &cmdlineOptions);
 	void queryResamplerVersion();   // function to retrieve version number of main external converter
 	void queryResamplerSndfileVersion();
     void processOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
@@ -181,7 +182,6 @@ private:
     QString getOutfileFilter();
     void checkConverterAvailability();
 	void openChooseOutputDirectory();
-	QString queryResampler(const QStringList &cmdlineOptions);
 };
 
 #endif // MAINWINDOW_H
