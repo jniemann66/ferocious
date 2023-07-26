@@ -316,7 +316,7 @@ void MainWindow::on_StdoutAvailable()
 }
 
 void MainWindow::processConverterOutput(QString converterOutput, int channel)
-{
+{	
 	// capture progress updates
 	static const QRegularExpression progressRx("\\d+%[\\b]+");
 	auto rxMatches = progressRx.globalMatch(converterOutput);
@@ -334,8 +334,12 @@ void MainWindow::processConverterOutput(QString converterOutput, int channel)
 		converterOutput.remove(progressRx);
 	}
 
+	qDebug() << converterOutput;
+	static const QRegularExpression rxNewline{"\\r?\\n"};
+	converterOutput.replace(rxNewline, QStringLiteral("<br/>"));
+
 	if(!converterOutput.isEmpty()) {
-		ui->ConverterOutputText->append(QString{"<font color=\"%1\"> %2 </font>"}
+		ui->ConverterOutputText->append(QStringLiteral("<font color=\"%1\"> %2 </font>")
 										.arg(channel == 2 ? consoleLtGreen : consoleGreen, converterOutput)
 										);
 		ui->ConverterOutputText->verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
