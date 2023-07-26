@@ -13,8 +13,11 @@
 
 int main(int argc, char *argv[])
 {
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     QApplication a(argc, argv);
     a.setApplicationVersion(APP_VERSION);
+
 
     // activate anti-aliasing on all fonts:
     QFont font = QApplication::font();
