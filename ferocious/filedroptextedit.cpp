@@ -26,7 +26,7 @@ void FileDropTextEdit::dragEnterEvent(QDragEnterEvent *e)
 
 void FileDropTextEdit::dropEvent(QDropEvent *e)
 {
-    QStringList urlStrings = e->mimeData()->text().split("\n");
+	const QStringList urlStrings = e->mimeData()->text().split("\n");
     QUrl url;
     QStringList paths;
     for(const auto& urlString : urlStrings) {
