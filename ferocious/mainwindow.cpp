@@ -33,13 +33,12 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QTime>
+#include <QRandomGenerator>
 
 #define RECURSIVE_DIR_TRAVERSAL
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-	qsrand(static_cast<unsigned int>(QTime::currentTime().msec()));
-
 	ui->setupUi(this);
 	ui->SamplerateCombo->setCurrentText("44100");
 
@@ -255,9 +254,9 @@ void MainWindow::writeSettings()
 	settings.beginGroup("WindowGeometry");
 	if(converterConfigurationDialog != nullptr) {
 		settings.setValue("ConverterConfigurationDialogGeometry", converterConfigurationDialog->geometry());
-	}
-	if(!converterConfigurationDialog->getEditDialogGeometry().isNull()) {
-		settings.setValue("ConverterConfigurationEditDialogGeometry", converterConfigurationDialog->getEditDialogGeometry());
+		if(!converterConfigurationDialog->getEditDialogGeometry().isNull()) {
+			settings.setValue("ConverterConfigurationEditDialogGeometry", converterConfigurationDialog->getEditDialogGeometry());
+		}
 	}
 	settings.endGroup();
 
@@ -374,7 +373,7 @@ void MainWindow::onBrowseInButtonRightClicked()
 	}
 
 	browseInMenu->addAction("Select Files ...", this, &MainWindow::on_browseInfileButton_clicked);
-	browseInMenu->addAction("Select Entire Directory ...", [this] {
+	browseInMenu->addAction("Select Entire Directory ...", this, [this] {
 		QFileInfo fi(inFileBrowsePath);
 		QString inFileBrowseDir;
 		if(fi.isDir()) {
@@ -390,7 +389,7 @@ void MainWindow::onBrowseInButtonRightClicked()
 		fileDialog.setViewMode(QFileDialog::Detail);
 
 		if(fileDialog.exec()) {
-			QString fName = QDir::toNativeSeparators(fileDialog.selectedFiles().first() + "/*");
+			QString fName = QDir::toNativeSeparators(fileDialog.selectedFiles().constFirst() + "/*");
 			if(!fName.isEmpty())
 				processInputFilenames(QStringList{fName});
 		}
@@ -1678,10 +1677,12 @@ void MainWindow::checkConverterAvailability()
 
 QString MainWindow::getRandomString(int length)
 {
+	static QRandomGenerator rng{static_cast<quint32>(QDateTime::currentSecsSinceEpoch() & 0xffffffff)};
+
 	QString s;
 	const QString charSet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 	for(int i = 0; i < length; ++i) {
-		s.append(charSet.at(qrand() % charSet.length()));
+		s.append(charSet.at(rng.bounded(0, static_cast<int>(charSet.size()) - 1)));
 	}
 	return s;
 }
