@@ -52,7 +52,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -125,7 +125,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -135,8 +135,7 @@
        </font>
       </property>
       <property name="toolTip">
-       <string>Set the output sample-rate.
-(Note: you can type in a non-standard rate, if desired)</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the output sample-rate.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(Note: you can type in a non-standard rate, if desired)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="editable">
        <bool>true</bool>
@@ -255,7 +254,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -280,7 +279,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -304,7 +303,7 @@
      <widget class="QLabel" name="SampleRateLabel">
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -373,7 +372,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -508,7 +507,7 @@ Post- ringing only.</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -553,7 +552,7 @@ Only recommended when converting to a lower bit depth
        </font>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output File specification:&lt;/p&gt;&lt;p&gt;Wildcards (*) may be used in the filename or file extension, provided they are also used in the input file specification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Output File specification:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Enter the filename of the output file.&lt;/p&gt;&lt;p&gt;Wildcards (*) may be used in the filename or file extension, provided they are also used in the input file specification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -609,7 +608,7 @@ Only recommended when converting to a lower bit depth
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -631,7 +630,7 @@ Only recommended when converting to a lower bit depth
      <widget class="QLabel" name="OutfileLabel">
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -695,7 +694,7 @@ Only recommended when converting to a lower bit depth
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -780,9 +779,7 @@ Only recommended when converting to a lower bit depth
        </font>
       </property>
       <property name="toolTip">
-       <string>Input File specification:
-Wildcards (*) may be used in the filename or file extension
-to process multiple files.</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Input File specification:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Enter the filename(s) of the input file(s).&lt;/p&gt;&lt;p&gt;Wildcards (*) may be used in the filename or file extension&lt;/p&gt;&lt;p&gt;to process multiple files.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;You can also drag-and-drop a file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
@@ -805,7 +802,7 @@ to process multiple files.</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -858,7 +855,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <widget class="QLabel" name="InfileLabel">
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -882,7 +879,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
@@ -903,7 +900,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <widget class="QLabel" name="ConverterOutputLabel">
       <property name="font">
        <font>
-        <pointsize>7</pointsize>
+        <pointsize>8</pointsize>
         <italic>false</italic>
         <bold>false</bold>
         <underline>false</underline>
