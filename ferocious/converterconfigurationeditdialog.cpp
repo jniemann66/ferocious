@@ -173,6 +173,9 @@ void ConverterConfigurationEditDialog::setShowToolTips(bool value)
 
 void ConverterConfigurationEditDialog::promptForExecutableLocation()
 {
+
+
+
     QString s(tr("Please locate the execuatble file "));
     if (!getConverterDefinition().executable.isEmpty()) {
         s.append(getConverterDefinition().executable);

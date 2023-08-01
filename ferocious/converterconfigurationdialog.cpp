@@ -209,9 +209,9 @@ void ConverterConfigurationDialog::initToolBar()
 void ConverterConfigurationDialog::showEvent(QShowEvent* event)
 {
 
-    if(mainConverterPath.isEmpty() || !QFile::exists(mainConverterPath)) {
+	if(mainConverterPath.isEmpty() || !QFile::exists(mainConverterPath)) {
        promptForResamplerLocation();
-    }
+	}
 
     mainConverterLocationLabel->setText(QString{"Location of Main Converter (%1):"}.arg(expectedMainConverter));
     mainConverterLocationEdit->setText(mainConverterPath);
@@ -257,6 +257,10 @@ void ConverterConfigurationDialog::setConverterDefinitions(const QVector<Convert
 }
 
 void ConverterConfigurationDialog::promptForResamplerLocation() {
+
+	QString msg = tr("Ferocious is designed to work in conjunction with ReSampler<br/>Please show ferocious where the ReSampler executable is located");
+	QMessageBox::information(this, tr("Please locate the ReSampler binary"), msg);
+
     QString s(tr("Please locate the file: "));
     s.append(expectedMainConverter);
 
