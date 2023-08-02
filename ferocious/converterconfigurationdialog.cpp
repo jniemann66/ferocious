@@ -62,9 +62,6 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     QFont defaultFont{qApp->font()};
     QFont heading2Font{defaultFont};
     QFont heading1Font{defaultFont};
-  //  defaultFont.setPointSize(defaultFont.pointSize() + 2);
-  //  heading2Font.setPointSize(defaultFont.pointSize() + 2);
-  //  heading1Font.setPointSize(defaultFont.pointSize() + 4);
 
     // configure widgets
     headingLabel->setFont(heading1Font);
@@ -131,27 +128,27 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
 void ConverterConfigurationDialog::initMenu()
 {
-	contextMenu->addAction(tr("New"), [this] {
+	contextMenu->addAction(tr("New"), this, [this] {
        onNewRequested(tableView.currentIndex());
     }, QKeySequence::New);
 
-	contextMenu->addAction(tr("Edit ..."), [this] {
+	contextMenu->addAction(tr("Edit ..."), this, [this] {
        onEditRequested(tableView.currentIndex());
     });
 
-	contextMenu->addAction(tr("Clone"), [this] {
+	contextMenu->addAction(tr("Clone"), this, [this] {
        onCloneRequested(tableView.currentIndex());
     }, QKeySequence::Copy);
 
-	contextMenu->addAction(tr("Delete"), [this] {
+	contextMenu->addAction(tr("Delete"), this, [this] {
        onDeleteRequested(tableView.currentIndex());
     }, {QKeySequence::Delete});
 
-	contextMenu->addAction(tr("Move Up"), [this] {
+	contextMenu->addAction(tr("Move Up"), this, [this] {
         onMoveUpRequested(tableView.currentIndex());
     });
 
-	contextMenu->addAction(tr("Move Down"), [this] {
+	contextMenu->addAction(tr("Move Down"), this, [this] {
         onMoveDownRequested(tableView.currentIndex());
     });
 }
@@ -160,31 +157,31 @@ void ConverterConfigurationDialog::initToolBar()
 {
     QList<QAction*> actions;
 
-	actions.append(contextToolBar->addAction(tr("New"), [this] {
+	actions.append(contextToolBar->addAction(tr("New"), this, [this] {
        onNewRequested(tableView.currentIndex());
        contextToolBar->hide();
     }));
 
-	actions.append(contextToolBar->addAction(tr("Edit ..."), [this] {
+	actions.append(contextToolBar->addAction(tr("Edit ..."), this, [this] {
        onEditRequested(tableView.currentIndex());
        contextToolBar->hide();
     }));
 
-	actions.append(contextToolBar->addAction(tr("Clone"), [this] {
+	actions.append(contextToolBar->addAction(tr("Clone"), this, [this] {
        onCloneRequested(tableView.currentIndex());
        contextToolBar->hide();
     }));
 
-	actions.append(contextToolBar->addAction(tr("Delete"), [this] {
+	actions.append(contextToolBar->addAction(tr("Delete"), this, [this] {
        onDeleteRequested(tableView.currentIndex());
        contextToolBar->hide();
     }));
 
-	actions.append(contextToolBar->addAction(tr("Move Up"), [this] {
+	actions.append(contextToolBar->addAction(tr("Move Up"), this, [this] {
         onMoveUpRequested(tableView.currentIndex());
     }));
 
-	actions.append(contextToolBar->addAction(tr("Move Down"), [this] {
+	actions.append(contextToolBar->addAction(tr("Move Down"), this, [this] {
         onMoveDownRequested(tableView.currentIndex());
     }));
 
