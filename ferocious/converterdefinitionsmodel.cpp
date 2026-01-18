@@ -9,7 +9,10 @@
 
 #include "converterdefinitionsmodel.h"
 
-ConverterDefinitionsModel::ConverterDefinitionsModel(QObject* parent) : QAbstractTableModel(parent) {}
+ConverterDefinitionsModel::ConverterDefinitionsModel(QObject* parent)
+    : QAbstractTableModel(parent)
+{
+}
 
 int ConverterDefinitionsModel::rowCount(const QModelIndex &) const
 {
@@ -87,7 +90,7 @@ QVariant ConverterDefinitionsModel::data(const QModelIndex &index, int role) con
 
 bool ConverterDefinitionsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if(role == Qt::EditRole) {
+    if  (role == Qt::EditRole) {
         switch(index.column()) {
         case 1:
             converterDefinitions[index.row()].enabled = value.toBool();
@@ -110,5 +113,5 @@ QVector<ConverterDefinition> ConverterDefinitionsModel::getConverterDefinitions(
 void ConverterDefinitionsModel::setConverterDefinitions(const QVector<ConverterDefinition> &value)
 {
     converterDefinitions = value;
-    emit rowsInserted({}, 0, converterDefinitions.count() - 1, {});
+  //  emit QAbstractItemModel::rowsInserted(this->mod, 0, converterDefinitions.count() - 1);
 }

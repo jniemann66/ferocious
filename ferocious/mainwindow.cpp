@@ -632,7 +632,8 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename)
 
 	// initialize output file suffix:
 	// (use whatever is between last '*' and '.')
-	int outLastStarBeforeDot = ui->OutfileEdit->text().leftRef(outLastDot).lastIndexOf("*");
+	QStringView outfileEdit_text(ui->OutfileEdit->text());
+	int outLastStarBeforeDot = outfileEdit_text.left(outLastDot).lastIndexOf('*');
 	if(outLastStarBeforeDot > -1) {
 		f.suffix = ui->OutfileEdit->text().mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
 		f.appendSuffix = true;
@@ -876,9 +877,10 @@ ConverterDefinition MainWindow::getSpecialistConverter(const QString& inExt, con
 
 QStringList MainWindow::getQuotedArgs(const QStringList& args)
 {
+	static const QRegularExpression rx{"[() \\\\]"};
 	QStringList quotedArgs;
 	for(const QString& arg : args) {
-		quotedArgs.append(arg.contains(QRegExp("[() \\\\]")) ? "\"" + arg + "\"" : arg);
+		quotedArgs.append(arg.contains(rx) ? "\"" + arg + "\"" : arg);
 	}
 	return quotedArgs;
 }
@@ -1045,7 +1047,8 @@ void MainWindow::on_InfileEdit_editingFinished()
 	if(inFilename.indexOf("*") > -1) { // inFilename has wildcard
 		int InLastDot =inFilename.lastIndexOf(".");
 		if(InLastDot > -1) {
-			int InLastStarBeforeDot = inFilename.leftRef(InLastDot).lastIndexOf("*");
+			QStringView inFileName_view(inFilename);
+			int InLastStarBeforeDot = inFileName_view.left(InLastDot).lastIndexOf('*');
 			if(InLastStarBeforeDot > -1) { // Wilcard in Filename; trigger a refresh:
 				bRefreshOutfileEdit = true;
 			}

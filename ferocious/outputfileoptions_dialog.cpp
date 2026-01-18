@@ -31,7 +31,8 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
     // if outFilename contains a wildcard, replace everything between last separator and file extension with a wildcard ('*'):
     int outLastDot = outFilename.lastIndexOf(".");
     if((inFilename.indexOf("*") > -1) && (outLastDot > -1)) {
-        int outLastStarBeforeDot = outFilename.leftRef(outLastDot).lastIndexOf(QDir::separator());
+        QStringView outFilename_view(outFilename);
+        int outLastStarBeforeDot = outFilename_view.left(outLastDot).lastIndexOf(QDir::separator());
         if(outLastStarBeforeDot > -1) {
             QString s = outFilename.mid(outLastStarBeforeDot + 1, outLastDot-outLastStarBeforeDot - 1); // get what is between last '*' and last '.'
             if(!s.isEmpty() && !s.isNull()) {
