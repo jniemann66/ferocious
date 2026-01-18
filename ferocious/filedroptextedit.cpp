@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -12,14 +12,15 @@
 #include <QMimeData>
 #include <QDir>
 
-FileDropTextEdit::FileDropTextEdit(QWidget *parent) : QPlainTextEdit (parent)
+FileDropTextEdit::FileDropTextEdit(QWidget *parent)
+    : QPlainTextEdit (parent)
 {
      setAcceptDrops(true);
 }
 
 void FileDropTextEdit::dragEnterEvent(QDragEnterEvent *e)
 {
-    if(e->mimeData()->hasText()) {
+    if (e->mimeData()->hasText()) {
         e->acceptProposedAction();
     }
 }
@@ -29,14 +30,14 @@ void FileDropTextEdit::dropEvent(QDropEvent *e)
 	const QStringList urlStrings = e->mimeData()->text().split("\n");
     QUrl url;
     QStringList paths;
-    for(const auto& urlString : urlStrings) {
-        if(urlString.isEmpty())
+    for (const auto& urlString : urlStrings) {
+        if (urlString.isEmpty())
             continue;
         url = urlString;
         QString path = QDir::toNativeSeparators(url.path());
 
 #ifdef Q_OS_WIN
-        if(path.startsWith('\\')) {
+        if (path.startsWith('\\')) {
             path.remove(0, 1);
         }
 #endif
@@ -47,11 +48,11 @@ void FileDropTextEdit::dropEvent(QDropEvent *e)
     QString txt = this->toPlainText();
 
     // if current text doesn't end in newline, add newline ...
-    if(!txt.isEmpty() && txt.right(1) != '\n') {
+    if (!txt.isEmpty() && txt.right(1) != '\n') {
         insertPlainText("\n");
     }
 
-    if(!paths.isEmpty()) {
+    if (!paths.isEmpty()) {
         insertPlainText(paths.join("\n"));
     }
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -9,7 +9,10 @@
 
 #include "converteroutputbox.h"
 
-ConverterOutputBox::ConverterOutputBox(QWidget* parent) : QTextBrowser(parent) {}
+ConverterOutputBox::ConverterOutputBox(QWidget* parent)
+    : QTextBrowser(parent)
+{
+}
 
 void ConverterOutputBox::contextMenuEvent(QContextMenuEvent *e)
 {

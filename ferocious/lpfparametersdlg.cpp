@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -10,19 +10,20 @@
 #include "lpfparametersdlg.h"
 #include "ui_lpfparametersdlg.h"
 
-LpfParametersDlg::LpfParametersDlg(QWidget *parent) : QDialog(parent), ui(new Ui::LpfParametersDlg)
+LpfParametersDlg::LpfParametersDlg(QWidget *parent)
+    : QDialog(parent), ui(new Ui::LpfParametersDlg)
 {
     ui->setupUi(this);
 
     connect(ui->cutoffSpinBox, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [this](double val) {
-       if(nyquistFrequency != 0.0) {
+       if (nyquistFrequency != 0.0) {
            QString suffix = " %   (" + QString::number(nyquistFrequency * 0.01 * val, 'f', 2) + " Hz)";
            ui->cutoffSpinBox->setSuffix(suffix);
        }
     });
 
     connect(ui->transitionSpinBox, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [this](double val) {
-       if(nyquistFrequency != 0.0) {
+       if (nyquistFrequency != 0.0) {
            QString suffix = " %   (" + QString::number(nyquistFrequency * 0.01 * val, 'f', 2) + " Hz)";
            ui->transitionSpinBox->setSuffix(suffix);
        }

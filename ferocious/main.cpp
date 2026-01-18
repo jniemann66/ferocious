@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
     // retrieve and apply factory Stylesheet:
     QFile ss(":/ferocious.css");
-    if(ss.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (ss.open(QIODevice::ReadOnly | QIODevice::Text)) {
         a.setStyleSheet(ss.readAll());
         ss.close();
     } else {

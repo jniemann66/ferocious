@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -12,7 +12,10 @@
 #include <QPainter>
 #include <QTextDocument>
 
-CmdLineHighlighterDelegate::CmdLineHighlighterDelegate(QObject* parent) : QStyledItemDelegate(parent) {}
+CmdLineHighlighterDelegate::CmdLineHighlighterDelegate(QObject* parent)
+    : QStyledItemDelegate(parent)
+{
+}
 
 void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
@@ -25,7 +28,7 @@ void CmdLineHighlighterDelegate::paint(QPainter *painter, const QStyleOptionView
     QVariant value = index.data(Qt::DisplayRole);
 
     painter->save();
-    if(value.isValid() && !value.isNull()) {
+    if (value.isValid() && !value.isNull()) {
         document.setHtml(getHtmlHighlighting(value.toString()));
         painter->translate(QPoint{option.rect.left(), option.rect.top() + 4 /* to-do : how to calculate this properly ? */});
         document.drawContents(painter);
@@ -48,14 +51,14 @@ QString CmdLineHighlighterDelegate::getHtmlHighlighting(const QString& input)
 
     QStringList tokens = input.split(" ");
     QStringList htmlTokens;
-    for(const QString& token : tokens) {
-        if(token.contains(QRegularExpression{"{.*}"})) { // enclosed in braces
+    for (const QString& token : tokens) {
+        if (token.contains(QRegularExpression{"{.*}"})) { // enclosed in braces
              htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleAmber, token));
         }
-        else if(token.contains(QRegularExpression{"--.*"})) { // double-hyphen option
+        else if (token.contains(QRegularExpression{"--.*"})) { // double-hyphen option
              htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleCyan, token));
         }
-        else if(token.contains(QRegularExpression{"-[^-]*"})) { // single-hyphen option
+        else if (token.contains(QRegularExpression{"-[^-]*"})) { // single-hyphen option
              htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleYellow, token));
         }
         else {

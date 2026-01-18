@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -23,7 +23,8 @@ class FlashingPushButton : public QPushButton
     Q_OBJECT
 
 public:
-	FlashingPushButton(QWidget* parent = nullptr) : QPushButton(parent)
+    FlashingPushButton(QWidget* parent = nullptr)
+        : QPushButton(parent)
     {
         connect(&timer, &QTimer::timeout,this, &FlashingPushButton::flashWhenActive);
         timer.start(500);
@@ -73,10 +74,10 @@ private:
 inline void FlashingPushButton::mousePressEvent(QMouseEvent *mouseEvent)
 {
 
-    if(isActive) {
+    if (isActive) {
         emit stopRequested();
     } else {
-        if(mouseEvent->button() == Qt::RightButton) {
+        if (mouseEvent->button() == Qt::RightButton) {
             emit rightClicked();
         } else { // default behavior
             QPushButton::mousePressEvent(mouseEvent);

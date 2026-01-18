@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -14,7 +14,8 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 
-ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *parent) : QDialog(parent), showToolTips(true)
+ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *parent)
+    : QDialog(parent), showToolTips(true)
 {
     // layouts
     auto mainLayout = new QVBoxLayout;
@@ -148,7 +149,7 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     nameEdit->setText(converterDefinition.name);
     commentEdit->setPlainText(converterDefinition.comment);
 
-    if(!converterDefinition.downloadLocations.isEmpty()) {
+    if (!converterDefinition.downloadLocations.isEmpty()) {
         downloadLocationEdit->setText(converterDefinition.downloadLocations.first());
     }
 
@@ -156,7 +157,7 @@ void ConverterConfigurationEditDialog::setConverterDefinition(const ConverterDef
     outputFileExtEdit->setText(converterDefinition.outputFileExt);
     executableEdit->setText(converterDefinition.executable);
 
-    if(converterDefinition.executable.isEmpty()) {
+    if (converterDefinition.executable.isEmpty()) {
         executablePathLabel->setText(tr("Path of Executable"));
     } else {
         executablePathLabel->setText(QString(tr("Path of Executable (%1)")).arg(converterDefinition.executable));
@@ -189,7 +190,7 @@ void ConverterConfigurationEditDialog::promptForExecutableLocation()
 
     QString cp = QFileDialog::getOpenFileName(this, s, "",  filter);
 
-    if(!cp.isNull()) {
+    if (!cp.isNull()) {
         executablePathEdit->setText(QDir::toNativeSeparators(cp));
     }
 }

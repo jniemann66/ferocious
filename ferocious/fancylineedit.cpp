@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -14,7 +14,8 @@
 #include <QInputDialog>
 #include <QDir>
 
-FancyLineEdit::FancyLineEdit(QWidget *parent) : QLineEdit(parent)
+FancyLineEdit::FancyLineEdit(QWidget *parent)
+    : QLineEdit(parent)
 {
     clearButton = new QToolButton(this);
     editButton = new QToolButton(this);
@@ -70,7 +71,7 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
 
 void FancyLineEdit::dragEnterEvent(QDragEnterEvent *e)
 {
-    if(e->mimeData()->hasText()) {
+    if (e->mimeData()->hasText()) {
         e->acceptProposedAction();
     }
 }
@@ -80,20 +81,20 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
     QStringList urlStrings = e->mimeData()->text().split("\n");
     QUrl url;
     QStringList paths;
-    for(const auto& urlString : urlStrings) {
-        if(urlString.isEmpty())
+    for (const auto& urlString : urlStrings) {
+        if (urlString.isEmpty())
             continue;
         url = urlString;
         QString path = QDir::toNativeSeparators(url.path());
 
 #ifdef Q_OS_WIN
-        if(path.startsWith('\\')) {
+        if (path.startsWith('\\')) {
             path.remove(0, 1);
         }
 #endif
         // if path is a directory, append a wilcard(*) to it.
         QFileInfo x(path);
-        if(x.isDir()) {
+        if (x.isDir()) {
             path.append("/*");
         }
 
@@ -101,7 +102,7 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
 
     }
 
-    if(!paths.isEmpty()) {
+    if (!paths.isEmpty()) {
         setText(paths.join("\n"));
         emit QLineEdit::editingFinished();
     }

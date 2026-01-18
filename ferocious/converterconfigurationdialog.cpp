@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -22,7 +22,8 @@
 #include <QApplication>
 #include <QToolButton>
 
-ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f) : QDialog(parent, f), showToolTips(true)
+ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f)
+    : QDialog(parent, f), showToolTips(true)
 {
     // allocate
     auto headingLabel = new QLabel("Configure External Converters");
@@ -39,7 +40,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     // set tooltips
     additionalConvertersLabel->setToolTip("Use the table below to cofigure additional converters for specialized file formats.");
     QPushButton* restoreDefaultsButton = stdButtons->button(QDialogButtonBox::RestoreDefaults);
-    if(restoreDefaultsButton != nullptr) {
+    if (restoreDefaultsButton != nullptr) {
         restoreDefaultsButton->setToolTip(tr("Restore converter configuration to default settings"));
     }
 
@@ -106,7 +107,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     });
 
     connect(&tableView, &QTableView::clicked, this, [this](const QModelIndex& modelIndex) {
-        if(modelIndex.column() == 1)
+        if (modelIndex.column() == 1)
             return;
 
         QPoint p{tableView.columnViewportPosition(4), tableView.rowViewportPosition(modelIndex.row())};
@@ -117,7 +118,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     });
 
     connect(stdButtons, &QDialogButtonBox::clicked, this, [this, stdButtons](QAbstractButton* b) {
-        if(b == stdButtons->button(QDialogButtonBox::RestoreDefaults)) {
+        if (b == stdButtons->button(QDialogButtonBox::RestoreDefaults)) {
             onRestoreDefaults();
         }
     });
@@ -192,11 +193,11 @@ void ConverterConfigurationDialog::initToolBar()
     contextToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     contextToolBar->setStyleSheet("QToolBar {background-color: rgba(0, 0, 0, 0);}");
 
-    for(QAction* a : actions) {
+    for (QAction* a : actions) {
         QWidget* w = contextToolBar->widgetForAction(a);
-        if(QString(w->metaObject()->className()) == "QToolButton") {
+        if (QString(w->metaObject()->className()) == "QToolButton") {
             auto* t = qobject_cast<QToolButton*>(w);
-            if(t != nullptr) {
+            if (t != nullptr) {
                 t->setStyleSheet("QToolButton {padding: 5px; border-radius: 3px}");
             }
         }
@@ -206,7 +207,7 @@ void ConverterConfigurationDialog::initToolBar()
 void ConverterConfigurationDialog::showEvent(QShowEvent* event)
 {
 
-	if(mainConverterPath.isEmpty() || !QFile::exists(mainConverterPath)) {
+	if (mainConverterPath.isEmpty() || !QFile::exists(mainConverterPath)) {
        promptForResamplerLocation();
 	}
 
@@ -234,7 +235,7 @@ void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
         0      /* "Operating Systems" */
     };
 
-    for(int col = 0; col < convertersModel.columnCount({}) - 1; col++) {
+    for (int col = 0; col < convertersModel.columnCount({}) - 1; col++) {
         tableView.horizontalHeader()->resizeSection(col, tw * columnWidths.at(col)/100.0);
     }
 
@@ -269,9 +270,9 @@ void ConverterConfigurationDialog::promptForResamplerLocation() {
 
     QString cp = QFileDialog::getOpenFileName(this, s, mainConverterPath,  filter);
 
-    if(!cp.isNull()) {
+    if (!cp.isNull()) {
         mainConverterPath = cp;
-        if(mainConverterPath.lastIndexOf(expectedMainConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
+        if (mainConverterPath.lastIndexOf(expectedMainConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
             mainConverterPath.clear();
             QMessageBox::warning(this, tr("Converter Location"), tr("That is not the right program!\n"), QMessageBox::Ok);
         }
@@ -308,12 +309,12 @@ void ConverterConfigurationDialog::onNewRequested(const QModelIndex& modelIndex)
 {
     int row = modelIndex.row();
 
-    if(row < 0) {
+    if (row < 0) {
         return;
     }
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
-    if(row < converterDefinitions.count()) {
+    if (row < converterDefinitions.count()) {
         converterDefinitions.insert(row, {});
         convertersModel.setConverterDefinitions(converterDefinitions);
     }
@@ -334,15 +335,15 @@ void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex
 
     auto dlg = new ConverterConfigurationEditDialog(this);
     dlg->setShowToolTips(showToolTips);
-    if(!editDialogGeometry.isNull()) {
+    if (!editDialogGeometry.isNull()) {
         dlg->setGeometry(editDialogGeometry);
     }
 
-    if(row < converterDefinitions.count()) {
+    if (row < converterDefinitions.count()) {
         dlg->setConverterDefinition(converterDefinitions.at(row));
         int result = dlg->exec();
         editDialogGeometry = dlg->geometry();
-        if(result == QDialog::Accepted) {
+        if (result == QDialog::Accepted) {
             converterDefinitions[row] = dlg->getConverterDefinition();
             convertersModel.setConverterDefinitions(converterDefinitions);
         }
@@ -353,12 +354,12 @@ void ConverterConfigurationDialog::onDeleteRequested(const QModelIndex& modelInd
 {
     int row = modelIndex.row();
 
-    if(row < 0) {
+    if (row < 0) {
         return;
     }
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
-    if(row < converterDefinitions.count()) {
+    if (row < converterDefinitions.count()) {
         converterDefinitions.removeAt(row);
         convertersModel.setConverterDefinitions(converterDefinitions);
     }
@@ -368,12 +369,12 @@ void ConverterConfigurationDialog::onCloneRequested(const QModelIndex& modelInde
 {
     int row = modelIndex.row();
 
-    if(row < 0) {
+    if (row < 0) {
         return;
     }
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
-    if(row < converterDefinitions.count()) {
+    if (row < converterDefinitions.count()) {
         converterDefinitions.insert(row, converterDefinitions.at(row));
         convertersModel.setConverterDefinitions(converterDefinitions);
     }
@@ -383,12 +384,12 @@ void ConverterConfigurationDialog::onMoveUpRequested(const QModelIndex& modelInd
 {
     int row = modelIndex.row();
 
-    if(row < 1) {
+    if (row < 1) {
         return;
     }
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
-    if(row < converterDefinitions.count()) {
+    if (row < converterDefinitions.count()) {
         qSwap(converterDefinitions[row], converterDefinitions[row - 1]);
         convertersModel.setConverterDefinitions(converterDefinitions);
         tableView.selectRow(row - 1);
@@ -399,12 +400,12 @@ void ConverterConfigurationDialog::onMoveDownRequested(const QModelIndex& modelI
 {
     int row = modelIndex.row();
 
-    if(row < 0) {
+    if (row < 0) {
         return;
     }
 
     QVector<ConverterDefinition> converterDefinitions = convertersModel.getConverterDefinitions();
-    if(row < converterDefinitions.count() - 1) {
+    if (row < converterDefinitions.count() - 1) {
         qSwap(converterDefinitions[row], converterDefinitions[row + 1]);
         convertersModel.setConverterDefinitions(converterDefinitions);
         tableView.selectRow(row + 1);

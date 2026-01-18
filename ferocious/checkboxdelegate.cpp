@@ -10,7 +10,10 @@
 #include "checkboxdelegate.h"
 #include <QApplication>
 
-CheckBoxDelegate::CheckBoxDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
+CheckBoxDelegate::CheckBoxDelegate(QObject *parent)
+    : QStyledItemDelegate(parent)
+{
+}
 
 void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {

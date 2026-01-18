@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2016 - 2023 Judd Niemann - All Rights Reserved.
+* Copyright (C) 2016 - 2026 Judd Niemann - All Rights Reserved.
 * You may use, distribute and modify this code under the
 * terms of the GNU Lesser General Public License, version 2.1
 *
@@ -49,7 +49,7 @@ QVariant ConverterDefinitionsModel::headerData(int section, Qt::Orientation orie
 QVariant ConverterDefinitionsModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::TextAlignmentRole) {
-        switch(index.column()) {
+        switch (index.column()) {
         case 0: return Qt::AlignCenter;
         case 1: return Qt::AlignVCenter;
         case 2: return Qt::AlignVCenter;
@@ -67,7 +67,7 @@ QVariant ConverterDefinitionsModel::data(const QModelIndex &index, int role) con
 
     else if (role == Qt::DisplayRole || role == Qt::EditRole) {
         const auto& converter = converterDefinitions.at(index.row());
-        switch(index.column()) {
+        switch (index.column()) {
         case 0: return converter.priority;
         case 1: return converter.enabled;
         case 2: return converter.name;
@@ -91,7 +91,7 @@ QVariant ConverterDefinitionsModel::data(const QModelIndex &index, int role) con
 bool ConverterDefinitionsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if  (role == Qt::EditRole) {
-        switch(index.column()) {
+        switch (index.column()) {
         case 1:
             converterDefinitions[index.row()].enabled = value.toBool();
             emit dataChanged(index, index);
