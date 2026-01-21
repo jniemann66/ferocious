@@ -15,8 +15,8 @@
 
 #include <QDialog>
 #include <QLineEdit>
-#include <QTableView>
 #include <QMenu>
+#include <QTableView>
 #include <QToolBar>
 
 class ConverterConfigurationDialog : public QDialog

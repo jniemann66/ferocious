@@ -13,17 +13,16 @@
 #include "converterdefinition.h"
 #include "fancylineedit.h"
 
+#include <QCheckBox>
 #include <QDialog>
-#include <QObject>
+#include <QDialogButtonBox>
 #include <QLabel>
 #include <QLineEdit>
-#include <QCheckBox>
-#include <QDialogButtonBox>
+#include <QObject>
 #include <QPushButton>
 
 class ConverterConfigurationEditDialog : public QDialog
 {
-
 public:
     ConverterConfigurationEditDialog(QWidget* parent);
     ConverterDefinition getConverterDefinition() const;

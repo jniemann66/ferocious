@@ -12,15 +12,15 @@
 #include "checkboxdelegate.h"
 #include "cmdlinehighlighterdelegate.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QPushButton>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QDialogButtonBox>
-#include <QHeaderView>
 #include <QApplication>
+#include <QDialogButtonBox>
+#include <QFileDialog>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QMessageBox>
+#include <QPushButton>
 #include <QToolButton>
+#include <QVBoxLayout>
 
 ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f), showToolTips(true)
