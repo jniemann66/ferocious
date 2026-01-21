@@ -1197,12 +1197,15 @@ void MainWindow::queryResamplerVersion()
 	// split the version number into components:
 	QStringList ResamplerVersionNumbers = v.split(".");
 
-	// set various options accoring to resampler version:
-	int vA=ResamplerVersionNumbers[0].toInt(); // 1st number
-	int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
+	if (v.size() > 0) {
 
-	bShowProgressBar = (vA > 1) || (vB >= 1); // (no progress output on ReSampler versions prior to 1.1.0)
-	resamplerVersion=v;
+		// set various options accoring to resampler version:
+		const int vA=ResamplerVersionNumbers[0].toInt(); // 1st number
+		const int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
+
+		bShowProgressBar = (vA > 1) || (vB >= 1); // (no progress output on ReSampler versions prior to 1.1.0)
+		resamplerVersion = v;
+	}
 }
 
 void MainWindow::queryResamplerSndfileVersion()

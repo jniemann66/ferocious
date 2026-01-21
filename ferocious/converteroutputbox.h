@@ -12,9 +12,9 @@
 
 // ConverterOutputBox - widget for displaying output from converter
 
-#include <QTextBrowser>
 #include <QContextMenuEvent>
 #include <QMenu>
+#include <QTextBrowser>
 
 class ConverterOutputBox : public QTextBrowser
 {
