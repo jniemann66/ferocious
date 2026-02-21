@@ -2,9 +2,14 @@
     <qresource prefix="/">
         <file>images/DownArrow8x8.png</file>
         <file>images/sine_sweep-32x32-buttonized.png</file>
-        <file>ferocious.css</file>
         <file>images/UpArrow8x8.png</file>
         <file>images/LeftArrow8x8.png</file>
         <file>images/RightArrow8x8.png</file>
+        <file>Themes/amber-fluid.css</file>
+        <file>Themes/ferocious-blue.css</file>
+        <file>Themes/ferocious.css</file>
+        <file>Themes/flat.css</file>
+        <file>Themes/native.css</file>
+        <file>Themes/square.css</file>
     </qresource>
 </RCC>

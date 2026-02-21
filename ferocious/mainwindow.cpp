@@ -12,6 +12,7 @@
 #include "outputfileoptions_dialog.h"
 #include "fancylineedit.h"
 #include "lpfparametersdlg.h"
+#include "themeselectiondialog.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -53,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	readSettings();
 
-	//    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/ferocious.css")
+	//    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/Themes/ferocious.css")
 
 	if (converterPath.isEmpty()) {
 		converterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath
@@ -176,7 +177,7 @@ void MainWindow::readSettings()
 
 	settings.beginGroup("Ui");
 	ui->actionEnable_Tooltips->setChecked(settings.value("EnableToolTips", true).toBool());
-	MainWindow::stylesheetFilePath = settings.value("StylesheetPath", ":/ferocious.css").toString();
+	MainWindow::stylesheetFilePath = settings.value("StylesheetPath", ":/Themes/ferocious.css").toString();
 	settings.endGroup();
 
 	settings.beginGroup("CompressionSettings");
@@ -1366,9 +1367,9 @@ void MainWindow::applyStylesheet()
 {
 
 	if (stylesheetFilePath.isEmpty())
-		stylesheetFilePath = ":/ferocious.css"; // factory default
+		stylesheetFilePath = ":/Themes/ferocious.css"; // factory default
 
-	if (stylesheetFilePath == ":/ferocious.css") {
+	if (stylesheetFilePath == ":/Themes/ferocious.css") {
 		qDebug() << tr("using factory default theme");
 		return;
 	}
@@ -1392,8 +1393,12 @@ void MainWindow::applyStylesheet()
 
 void MainWindow::on_actionTheme_triggered()
 {
-	stylesheetFilePath = QFileDialog::getOpenFileName(this, tr("Choose a Stylesheet"), QDir::currentPath(), tr("Style Sheets (*.qss *.css)"));
-	applyStylesheet();
+//	stylesheetFilePath = QFileDialog::getOpenFileName(this, tr("Choose a Stylesheet"), QDir::currentPath(), tr("Style Sheets (*.qss *.css)"));
+	auto d = new ThemeSelectionDialog(this);
+	if (d->exec() == QDialog::Accepted) {
+		stylesheetFilePath = d->getSelectedThemeFilename();
+		applyStylesheet();
+	}
 }
 
 void MainWindow::on_actionRelaxedLPF_triggered()

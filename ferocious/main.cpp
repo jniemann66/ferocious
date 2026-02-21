@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     a.setFont(font);
 
     // retrieve and apply factory Stylesheet:
-    QFile ss(":/ferocious.css");
+    QFile ss(":/Themes/ferocious.css");
     if (ss.open(QIODevice::ReadOnly | QIODevice::Text)) {
         a.setStyleSheet(ss.readAll());
         ss.close();

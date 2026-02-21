@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     converterconfigurationeditdialog.cpp \
     cmdlinehighlighterdelegate.cpp \
     checkboxdelegate.cpp \
-    converterdefinitionsmodel.cpp
+    converterdefinitionsmodel.cpp \
+    themeselectiondialog.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     converterconfigurationeditdialog.h \
     cmdlinehighlighterdelegate.h \
     checkboxdelegate.h \
-    converterdefinitionsmodel.h
+    converterdefinitionsmodel.h \
+    themeselectiondialog.h
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui \
@@ -54,3 +56,11 @@ RC_FILE = ferocious.rc
 RESOURCES += \
     ferocious.qrc \
     converterdefinitions.qrc
+
+DISTFILES += \
+    Themes/amber-fluid.css \
+    Themes/ferocious-blue.css \
+    Themes/ferocious.css \
+    Themes/flat.css \
+    Themes/native.css \
+    Themes/square.css

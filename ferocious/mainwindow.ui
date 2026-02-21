@@ -737,13 +737,13 @@ Only recommended when converting to a lower bit depth
        <string>Status: Ready</string>
       </property>
       <property name="textFormat">
-       <enum>Qt::PlainText</enum>
+       <enum>Qt::TextFormat::PlainText</enum>
       </property>
       <property name="scaledContents">
        <bool>false</bool>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTop|Qt::AlignmentFlag::AlignTrailing</set>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
@@ -847,7 +847,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
        <bool>false</bool>
       </property>
       <property name="textDirection">
-       <enum>QProgressBar::TopToBottom</enum>
+       <enum>QProgressBar::Direction::TopToBottom</enum>
       </property>
      </widget>
     </item>
@@ -949,7 +949,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      <x>0</x>
      <y>0</y>
      <width>818</width>
-     <height>17</height>
+     <height>27</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -972,13 +972,13 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     <bool>false</bool>
    </property>
    <property name="contextMenuPolicy">
-    <enum>Qt::DefaultContextMenu</enum>
+    <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
    </property>
    <property name="acceptDrops">
     <bool>false</bool>
    </property>
    <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
+    <enum>Qt::LayoutDirection::LeftToRight</enum>
    </property>
    <property name="autoFillBackground">
     <bool>false</bool>
@@ -991,7 +991,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
    </property>
    <widget class="QMenu" name="menuOptions">
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="title">
      <string>Options</string>
