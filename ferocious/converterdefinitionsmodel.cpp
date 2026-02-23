@@ -63,9 +63,7 @@ QVariant ConverterDefinitionsModel::data(const QModelIndex &index, int role) con
         case 10: return Qt::AlignCenter;
         default: return Qt::AlignVCenter;// QAbstractTableModel::data(index, role, Qt::TextAlignmentRole);
         };
-    }
-
-    else if (role == Qt::DisplayRole || role == Qt::EditRole) {
+    } else if (role == Qt::DisplayRole || role == Qt::EditRole) {
         const auto& converter = converterDefinitions.at(index.row());
         switch (index.column()) {
         case 0: return converter.priority;
@@ -83,14 +81,12 @@ QVariant ConverterDefinitionsModel::data(const QModelIndex &index, int role) con
         };
     }
 
-    else {
-        return {};
-    }
+    return {};
 }
 
 bool ConverterDefinitionsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if  (role == Qt::EditRole) {
+    if (role == Qt::EditRole) {
         switch (index.column()) {
         case 1:
             converterDefinitions[index.row()].enabled = value.toBool();
@@ -98,8 +94,7 @@ bool ConverterDefinitionsModel::setData(const QModelIndex &index, const QVariant
             return true;
 
         default:
-            {
-            }
+            break;
         }
     }
     return false;
@@ -113,5 +108,5 @@ QVector<ConverterDefinition> ConverterDefinitionsModel::getConverterDefinitions(
 void ConverterDefinitionsModel::setConverterDefinitions(const QVector<ConverterDefinition> &value)
 {
     converterDefinitions = value;
-  //  emit QAbstractItemModel::rowsInserted(this->mod, 0, converterDefinitions.count() - 1);
+    //  emit QAbstractItemModel::rowsInserted(this->mod, 0, converterDefinitions.count() - 1);
 }
