@@ -27,13 +27,13 @@ void ConverterDefinition::fromJson(const QJsonObject &json)
 
     downloadLocations.clear();
     QJsonArray dlArray = json.value("downloadlocations").toArray();
-    for (const QJsonValue& dl : qAsConst(dlArray)) {
+    for (const QJsonValue& dl : std::as_const(dlArray)) {
         downloadLocations.append(dl.toString());
     }
 
     operatingSystems.clear();
     QJsonArray osArray = json.value("operatingsystems").toArray();
-    for (const QJsonValue& os : qAsConst(osArray)) {
+    for (const QJsonValue& os : std::as_const(osArray)) {
         operatingSystems.append(os.toString());
     }
 }
@@ -91,6 +91,7 @@ QVector<ConverterDefinition> ConverterDefinition::loadConverterDefinitions(const
                 ConverterDefinition c;
                 c.fromJson(v.toObject());
                 c.priority = i++;
+
 #if defined(Q_OS_WIN)
                 if (c.operatingSystems.contains("win", Qt::CaseInsensitive))
 #elif defined(Q_OS_LINUX)
@@ -98,6 +99,7 @@ QVector<ConverterDefinition> ConverterDefinition::loadConverterDefinitions(const
 #elif defined(Q_OS_MACOS)
                 if (c.operatingSystems.contains("macos", Qt::CaseInsensitive))
 #endif
+
                 {
                     converterDefinitions.append(c);
                 }
@@ -106,6 +108,7 @@ QVector<ConverterDefinition> ConverterDefinition::loadConverterDefinitions(const
     } else {
         dbg << "failed.";
     }
+
     return converterDefinitions;
 }
 
@@ -115,15 +118,16 @@ void ConverterDefinition::saveConverterDefinitions(const QString& fileName, cons
     for (const ConverterDefinition& converterDefinition: converterDefinitions) {
         a.append(converterDefinition.toJson());
     }
-    QFile jsonFile(fileName);
-    jsonFile.open(QFile::WriteOnly);
-    QJsonDocument d(a);
 
-    QDebug dbg = qDebug();
-    dbg.noquote() << "Writing converter definitions to" << fileName << "...";
-    if (jsonFile.write(d.toJson()) == -1) {
-        dbg << "failed.";
-    } else {
-        dbg << "success.";
+    QFile jsonFile(fileName);
+    if (jsonFile.open(QFile::WriteOnly)) {
+        QJsonDocument d(a);
+        QDebug dbg = qDebug();
+        dbg.noquote() << "Writing converter definitions to" << fileName << "...";
+        if (jsonFile.write(d.toJson()) == -1) {
+            dbg << "failed.";
+        } else {
+            dbg << "success.";
+        }
     }
 }

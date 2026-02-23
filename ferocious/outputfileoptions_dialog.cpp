@@ -12,7 +12,8 @@
 
 #include <QFileDialog>
 
-FilenameGenerator::FilenameGenerator() {
+FilenameGenerator::FilenameGenerator()
+{
     // factory defaults:
     appendSuffix=true;
     suffix=QString("(converted)");
@@ -24,8 +25,8 @@ FilenameGenerator::FilenameGenerator() {
     replicateDirectoryStructure = false;
 }
 
-void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename, const QString& subDirectory /* = QString() */) {
-
+void FilenameGenerator::generateOutputFilename(QString &outFilename, const QString &inFilename, const QString& subDirectory /* = QString() */)
+{
     outFilename = inFilename;
 
     // if outFilename contains a wildcard, replace everything between last separator and file extension with a wildcard ('*'):

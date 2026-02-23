@@ -11,7 +11,7 @@ VERSION = 2.1.3
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 QT += core gui concurrent widgets
-CONFIG += c++11
+CONFIG += c++17
 TARGET = ferocious
 TEMPLATE = app
 

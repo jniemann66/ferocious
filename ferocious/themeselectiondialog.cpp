@@ -23,7 +23,6 @@ ThemeSelectionDialog::ThemeSelectionDialog(QWidget *parent, Qt::WindowFlags f)
 	auto mainLayout = new QVBoxLayout;
 	auto stdButtons = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
-
 	completer->setModel(themeModel);
 	themeSelector->setCompleter(completer);
 

@@ -24,7 +24,8 @@
 // 2. Generate output filename, given an input filename, and by applying preferences
 // 3. Provide Loading and Saving services (for persistence), given a QSettings object.
 
-class FilenameGenerator {
+class FilenameGenerator
+{
 public:
     FilenameGenerator();
 	FilenameGenerator(const FilenameGenerator& o) = default;
