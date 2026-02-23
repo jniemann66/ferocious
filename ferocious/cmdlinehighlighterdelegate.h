@@ -14,7 +14,6 @@
 
 class CmdLineHighlighterDelegate : public QStyledItemDelegate
 {
-
 public:
     CmdLineHighlighterDelegate(QObject *parent);
 

@@ -54,14 +54,11 @@ QString CmdLineHighlighterDelegate::getHtmlHighlighting(const QString& input)
     for (const QString& token : tokens) {
         if (token.contains(QRegularExpression{"{.*}"})) { // enclosed in braces
              htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleAmber, token));
-        }
-        else if (token.contains(QRegularExpression{"--.*"})) { // double-hyphen option
+        } else if (token.contains(QRegularExpression{"--.*"})) { // double-hyphen option
              htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleCyan, token));
-        }
-        else if (token.contains(QRegularExpression{"-[^-]*"})) { // single-hyphen option
+        } else if (token.contains(QRegularExpression{"-[^-]*"})) { // single-hyphen option
              htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleYellow, token));
-        }
-        else {
+        } else {
             htmlTokens.append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleWhite, token));
         }
     }

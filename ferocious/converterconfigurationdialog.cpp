@@ -219,7 +219,7 @@ void ConverterConfigurationDialog::showEvent(QShowEvent* event)
 
 void ConverterConfigurationDialog::resizeEvent(QResizeEvent *event)
 {
-    int tw = event->size().width();
+    const int tw = event->size().width();
 
     static const QVector<double> columnWidths {
         0,      /* "Priority" */
@@ -268,7 +268,7 @@ void ConverterConfigurationDialog::promptForResamplerLocation() {
     QString filter = "";
 #endif
 
-    QString cp = QFileDialog::getOpenFileName(this, s, mainConverterPath,  filter);
+    const QString cp = QFileDialog::getOpenFileName(this, s, mainConverterPath,  filter);
 
     if (!cp.isNull()) {
         mainConverterPath = cp;

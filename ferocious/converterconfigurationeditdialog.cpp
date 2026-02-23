@@ -174,9 +174,6 @@ void ConverterConfigurationEditDialog::setShowToolTips(bool value)
 
 void ConverterConfigurationEditDialog::promptForExecutableLocation()
 {
-
-
-
     QString s(tr("Please locate the execuatble file "));
     if (!getConverterDefinition().executable.isEmpty()) {
         s.append(getConverterDefinition().executable);
@@ -188,7 +185,7 @@ void ConverterConfigurationEditDialog::promptForExecutableLocation()
     QString filter = "";
 #endif
 
-    QString cp = QFileDialog::getOpenFileName(this, s, "",  filter);
+    const QString cp = QFileDialog::getOpenFileName(this, s, "",  filter);
 
     if (!cp.isNull()) {
         executablePathEdit->setText(QDir::toNativeSeparators(cp));
