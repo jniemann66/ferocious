@@ -53,8 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 	convertTaskMenu->setHidden(true);
 
 	readSettings();
-
-	//    applyStylesheet(); // note: no-op if file doesn't exist, or file is factory default (":/Themes/ferocious.css")
+	applyStylesheet();
 
 	if (converterPath.isEmpty()) {
 		converterPath=QDir::currentPath() + "/" + expectedConverter; // attempt to find converter in currentPath
@@ -866,7 +865,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
 ConverterDefinition MainWindow::getSpecialistConverter(const QString& inExt, const QString& outExt )
 {
-	for (const ConverterDefinition& converterDefinition : qAsConst(converterDefinitions)) {
+	for (const ConverterDefinition& converterDefinition : std::as_const(converterDefinitions)) {
 		if (converterDefinition.inputFileExt == inExt && converterDefinition.outputFileExt == outExt) {
 			return converterDefinition;
 		}
@@ -1367,8 +1366,9 @@ void MainWindow::on_actionEnable_Clipping_Protection_triggered()
 void MainWindow::applyStylesheet()
 {
 
-	if (stylesheetFilePath.isEmpty())
+	if (stylesheetFilePath.isEmpty()) {
 		stylesheetFilePath = ":/Themes/ferocious.css"; // factory default
+	}
 
 	if (stylesheetFilePath == ":/Themes/ferocious.css") {
 		qDebug() << tr("using factory default theme");
@@ -1635,7 +1635,7 @@ QString MainWindow::getInfileFilter()
 		infileFormats.insert("*.mp3");
 	}
 
-	for (const ConverterDefinition& d : qAsConst(converterDefinitions)) {
+	for (const ConverterDefinition& d : std::as_const(converterDefinitions)) {
 		if (d.enabled) {
 			infileFormats.insert(QString{"*."} + d.inputFileExt);
 		}
@@ -1675,7 +1675,7 @@ QString MainWindow::getOutfileFilter()
 		outfileFormats.insert("*.mp3");
 	}
 
-	for (const ConverterDefinition& d : qAsConst(converterDefinitions)) {
+	for (const ConverterDefinition& d : std::as_const(converterDefinitions)) {
 		if (d.enabled) {
 			outfileFormats.insert(QString{"*."} + d.outputFileExt);
 		}
