@@ -1370,10 +1370,10 @@ void MainWindow::applyStylesheet()
 		stylesheetFilePath = ":/Themes/ferocious.css"; // factory default
 	}
 
-	if (stylesheetFilePath == ":/Themes/ferocious.css") {
-		qDebug() << tr("using factory default theme");
-		return;
-	}
+	// if (stylesheetFilePath == ":/Themes/ferocious.css") {
+	// 	qDebug() << tr("using factory default theme");
+	// 	return;
+	// }
 
 	if (!fileExists(stylesheetFilePath)) {
 		qDebug() << tr("stylesheet ") << stylesheetFilePath << tr(" doesn't exist");

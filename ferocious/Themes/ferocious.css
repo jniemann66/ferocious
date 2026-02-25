@@ -206,6 +206,7 @@ QScrollBar::sub-line:vertical {
 	subcontrol-position: top;
 	subcontrol-origin: margin;
 }
+
 QScrollBar::up-arrow:vertical {
 	image: url(:/images/UpArrow8x8.png);
 	color: #fff;
@@ -239,6 +240,7 @@ QScrollBar:horizontal {
 	border-color: #2b3126;
 	margin: 0px 18px 0px 18px;
 }
+
 QScrollBar::handle:horizontal {
 	border: 1px solid #1b2018;
 	padding: 0px;
@@ -533,4 +535,27 @@ QProgressBar::chunk{
 
 QLabel{
 	background-color: rgba(0,0,0,0%);
+}
+
+/* experimental: RadioButtion styling */
+
+/* Styling the un-checked circle */
+QRadioButton::indicator::unchecked {
+	image: none; /* Remove default image if necessary */
+	width: 2px;
+	height: 2px;
+	border: 2px solid #aaaaaa;
+	border-radius: 8px; /* Makes it circular */
+	background-color: white;
+}
+
+/* Styling the checked circle */
+QRadioButton::indicator::checked {
+	image: none;
+	width: 2px;
+	height: 2px;
+	border: 2px solid #0078d7;
+	border-radius: 8px;
+	background-color: #0078d7;
+	/* You can add an inner dot using a nested image or specialized QSS */
 }
