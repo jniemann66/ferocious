@@ -134,21 +134,21 @@ private:
     FilenameGenerator filenameGenerator;  // output filename generator
     QString resamplerVersion;   // version string of main external converter
 	QString resamplerSndfileVersion;
-    bool bShowProgressBar{};
-    int flacCompressionLevel{};
-    double vorbisQualityLevel{};
+	bool bShowProgressBar{false};
+	int flacCompressionLevel{false};
+	double vorbisQualityLevel{0.0};
     LPFType lpfType;
-    double customLpfCutoff{};
-    double customLpfTransition{};
+	double customLpfCutoff{0.0};
+	double customLpfTransition{0.0};
     bool bDisableClippingProtection{}; // if true, the --noClippingProtection switch will be sent to the converter
-    bool bEnableMultithreading{}; // if true, issue --mt option
-    bool bSingleStage{};
-    bool bNoTempFile{};
-    bool bFixedSeed{};
-	bool bReSamplerMp3{};
-    int seedValue{};
+	bool bEnableMultithreading{false}; // if true, issue --mt option
+	bool bSingleStage{false};
+	bool bNoTempFile{false};
+	bool bFixedSeed{false};
+	bool bReSamplerMp3{false};
+	int seedValue{0};
     NoiseShape noiseShape;
-    int ditherProfile{};
+	int ditherProfile{0};
     LaunchType launchType{LaunchType::Convert};
     QVector<ConverterDefinition> converterDefinitions;
 
