@@ -540,22 +540,21 @@ QLabel{
 /* experimental: RadioButtion styling */
 
 /* Styling the un-checked circle */
-QRadioButton::indicator::unchecked {
-	image: none; /* Remove default image if necessary */
+/*QRadioButton::indicator::unchecked {
+	image: none;
 	width: 2px;
 	height: 2px;
 	border: 2px solid #aaaaaa;
-	border-radius: 8px; /* Makes it circular */
-	background-color: white;
-}
+	border-radius: 8px;
+	background-color: rgba(0,0,0,0%);
+}*/
 
 /* Styling the checked circle */
 QRadioButton::indicator::checked {
 	image: none;
-	width: 2px;
-	height: 2px;
+	width: 12px;
+	height: 12px;
 	border: 2px solid #0078d7;
 	border-radius: 8px;
 	background-color: #0078d7;
-	/* You can add an inner dot using a nested image or specialized QSS */
 }
