@@ -539,7 +539,7 @@ void MainWindow::launch()
 	QStringList filenames=ui->InfileEdit->text().split(multiFileSeparator);
 
 	// iterate over the filenames, adding either a single conversion, or wildcard conversion at each iteration
-	for (const QString& inFilename : qAsConst(filenames)) {
+	for (const QString& inFilename : std::as_const(filenames)) {
 
 		if (!inFilename.isEmpty() && !inFilename.isNull()) {
 
@@ -841,7 +841,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 			process.setProcessChannelMode(QProcess::SeparateChannels);
 
 #ifdef Q_OS_WIN
-			process.start("cmd.exe /c " + completeCmdLine);
+			process.start(completeCmdLine);
+		//	process.start("cmd.exe /c " + completeCmdLine);
 #else
 			process.start("bash", QStringList() << "-c" << completeCmdLine);
 #endif

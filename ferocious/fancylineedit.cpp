@@ -92,6 +92,7 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
             path.remove(0, 1);
         }
 #endif
+
         // if path is a directory, append a wilcard(*) to it.
         QFileInfo x(path);
         if (x.isDir()) {
@@ -99,7 +100,6 @@ void FancyLineEdit::dropEvent(QDropEvent *e)
         }
 
         paths.append(QDir::toNativeSeparators(path));
-
     }
 
     if (!paths.isEmpty()) {
