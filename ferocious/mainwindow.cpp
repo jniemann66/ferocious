@@ -899,7 +899,6 @@ QStringList MainWindow::prepareSpecialistConverterArgs(const ConverterDefinition
 
 QStringList MainWindow::prepareMidConverterArgs(const QString &outfn, const QString& infn)
 {
-
 	QStringList args;
 
 	// start with the program
@@ -1069,7 +1068,7 @@ void MainWindow::on_InfileEdit_editingFinished()
 	QString outFilename;
 
 	if (inFilename.right(1) == multiFileSeparator) {
-		inFilename=inFilename.left(inFilename.size() - 1); // Trim Multifile separator off the end
+		inFilename = inFilename.left(inFilename.size() - 1); // Trim Multifile separator off the end
 		ui->InfileEdit->setText(inFilename);
 	}
 
@@ -1139,8 +1138,9 @@ void MainWindow::on_NormalizeCheckBox_clicked()
 void MainWindow::on_NormalizeAmountEdit_editingFinished()
 {
 	double NormalizeAmount = ui->NormalizeAmountEdit->text().toDouble();
-	if (NormalizeAmount < 0.0 || NormalizeAmount > 1.0)
+	if (NormalizeAmount < 0.0 || NormalizeAmount > 1.0) {
 		ui->NormalizeAmountEdit->setText("1.00");
+	}
 }
 
 void MainWindow::on_BitDepthCheckBox_clicked()
@@ -1199,8 +1199,7 @@ void MainWindow::queryResamplerVersion()
 	QStringList ResamplerVersionNumbers = v.split(".");
 
 	if (v.size() > 0) {
-
-		// set various options accoring to resampler version:
+		// set various options according to resampler version:
 		const int vA=ResamplerVersionNumbers[0].toInt(); // 1st number
 		const int vB=ResamplerVersionNumbers[1].toInt(); // 2nd number
 
@@ -1271,8 +1270,9 @@ void MainWindow::on_DitherCheckBox_clicked()
 void MainWindow::on_DitherAmountEdit_editingFinished()
 {
 	double DitherAmount = ui->DitherAmountEdit->text().toDouble();
-	if (DitherAmount < 0.0 || DitherAmount > 8.0)
+	if (DitherAmount < 0.0 || DitherAmount > 8.0) {
 		ui->DitherAmountEdit->setText("1.0");
+	}
 }
 
 void MainWindow::on_actionConverter_Location_triggered()
