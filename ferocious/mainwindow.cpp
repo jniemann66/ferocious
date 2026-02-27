@@ -773,6 +773,10 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 	QString backConverterIn;
 	QString backConverterOut;
 
+	QStringList frontCommandLineArgs;
+	QStringList midCommandLineArgs;
+	QStringList backCommandLineArgs;
+
 	QString frontCommandLine;
 	QString midCommandLine;
 	QString backCommandLine;
@@ -791,7 +795,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		frontConverterIn = infn;
 		frontConverterOut = QDir::toNativeSeparators(QDir::tempPath() + "/" + getRandomString(8) + ".wav");
 		midConverterIn = frontConverterOut;
-		frontCommandLine = prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn).join(" ");
+		frontCommandLineArgs = prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn);
+		frontCommandLine = frontCommandLineArgs.join(" ");
 	}
 
 	// is the output format to be handled by a specialist converter ?
@@ -802,17 +807,23 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		midConverterOut = QDir::toNativeSeparators(QDir::tempPath() + "/" + getRandomString(8) + ".wav");
 		backConverterIn = midConverterOut;
 		backConverterOut = outfn;
-		backCommandLine = prepareSpecialistConverterArgs(backConverter,  backConverterOut, backConverterIn).join(" ");
+		backCommandLineArgs = prepareSpecialistConverterArgs(backConverter,  backConverterOut, backConverterIn);
+		backCommandLine = backCommandLineArgs.join(" ");
 	}
 
 	// prepare central conversion:
-	midCommandLine = getQuotedArgs(prepareMidConverterArgs(midConverterOut, midConverterIn)).join(" ");
+	midCommandLineArgs = getQuotedArgs(prepareMidConverterArgs(midConverterOut, midConverterIn));
+	midCommandLine = midCommandLineArgs.join(" ");
 
+	QList<QStringList> combinedArgsList;
 	QStringList combinedArgs;
-	if (!frontCommandLine.isEmpty())
+	if (!frontCommandLine.isEmpty()) {
+		combinedArgsList.append(frontCommandLineArgs);
 		combinedArgs << frontCommandLine;
+	}
 
 	if (!midCommandLine.isEmpty()) {
+		combinedArgsList.append(midCommandLineArgs);
 		combinedArgs << midCommandLine;
 		if (!frontConverterOut.isEmpty()) {
 			combinedArgs << QString{"%1 %2"}.arg(delCommand, frontConverterOut);  // add command to delete temp file
@@ -820,6 +831,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 	}
 
 	if (!backCommandLine.isEmpty()) {
+		combinedArgsList.append(backCommandLineArgs);
 		combinedArgs << backCommandLine;
 		if (!midConverterOut.isEmpty()) {
 			combinedArgs << QString{"%1 %2"}.arg(delCommand, midConverterOut);  // add command to delete temp file
@@ -835,21 +847,30 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 			QTimer::singleShot(25, this, [this] {
 				on_ConverterFinished(0, QProcess::NormalExit);
 			});
-		}
-		else {
+		} else {
 			process.setProcessChannelMode(QProcess::SeparateChannels);
 
+			if (false /*combinedArgsList.size() == 1*/) { // there is only one program to run
+
+				QStringList c = combinedArgsList.at(0);
+
+				qDebug().noquote() << "line= " << c.join(" ");
+				//process.start(c.takeFirst(), c);
+				process.start(completeCmdLine);
+			} else { // multiple programs need to be run via system's commandline interpreter
+
 #ifdef Q_OS_WIN
-			process.start(completeCmdLine);
-		//	process.start("cmd.exe /c " + completeCmdLine);
+				// process.start(completeCmdLine);
+				//	process.start("cmd.exe /c " + completeCmdLine);
 #else
-			process.start("bash", QStringList() << "-c" << completeCmdLine);
+				process.start("bash", QStringList() << "-c" << completeCmdLine);
 #endif
+			}
+
+
 
 		}
-	}
-
-	else if (launchType == LaunchType::Clipboard) {
+	} else if (launchType == LaunchType::Clipboard) {
 
 		// get current clipboard text and append new line to it:
 		QString clipText = QGuiApplication::clipboard()->text();
