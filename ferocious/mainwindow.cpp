@@ -335,7 +335,7 @@ void MainWindow::processConverterOutput(QString converterOutput, int channel)
 		converterOutput.remove(progressRx);
 	}
 
-	qDebug() << converterOutput;
+	qDebug().noquote() << converterOutput;
 	static const QRegularExpression rxNewline{"\\r?\\n"};
 	converterOutput.replace(rxNewline, QStringLiteral("<br/>"));
 
@@ -776,10 +776,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 	QStringList frontCommandLineArgs;
 	QStringList midCommandLineArgs;
 	QStringList backCommandLineArgs;
-
-	QString frontCommandLine;
-	QString midCommandLine;
-	QString backCommandLine;
+	QList<QStringList> commands;
 
 #ifdef Q_OS_WIN
 	const QString delCommand{"del"};
@@ -796,7 +793,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		frontConverterOut = QDir::toNativeSeparators(QDir::tempPath() + "/" + getRandomString(8) + ".wav");
 		midConverterIn = frontConverterOut;
 		frontCommandLineArgs = prepareSpecialistConverterArgs(frontConverter, frontConverterOut, frontConverterIn);
-		frontCommandLine = frontCommandLineArgs.join(" ");
 	}
 
 	// is the output format to be handled by a specialist converter ?
@@ -808,67 +804,61 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		backConverterIn = midConverterOut;
 		backConverterOut = outfn;
 		backCommandLineArgs = prepareSpecialistConverterArgs(backConverter,  backConverterOut, backConverterIn);
-		backCommandLine = backCommandLineArgs.join(" ");
 	}
 
 	// prepare central conversion:
-	midCommandLineArgs = getQuotedArgs(prepareMidConverterArgs(midConverterOut, midConverterIn));
-	midCommandLine = midCommandLineArgs.join(" ");
+	midCommandLineArgs = prepareMidConverterArgs(midConverterOut, midConverterIn);
 
-	QList<QStringList> combinedArgsList;
-	QStringList combinedArgs;
-	if (!frontCommandLine.isEmpty()) {
-		combinedArgsList.append(frontCommandLineArgs);
-		combinedArgs << frontCommandLine;
+	if (!frontCommandLineArgs.isEmpty()) {
+		commands.append(frontCommandLineArgs);
 	}
 
-	if (!midCommandLine.isEmpty()) {
-		combinedArgsList.append(midCommandLineArgs);
-		combinedArgs << midCommandLine;
+	if (!midCommandLineArgs.isEmpty()) {
+		commands.append(midCommandLineArgs);
+
 		if (!frontConverterOut.isEmpty()) {
-			combinedArgs << QString{"%1 %2"}.arg(delCommand, frontConverterOut);  // add command to delete temp file
+			// add delete command to remove output from front converter
+			commands.append({delCommand, frontConverterOut});  // add command to delete temp file
 		}
 	}
 
-	if (!backCommandLine.isEmpty()) {
-		combinedArgsList.append(backCommandLineArgs);
-		combinedArgs << backCommandLine;
+	if (!backCommandLineArgs.isEmpty()) {
+		commands.append(backCommandLineArgs);
+
 		if (!midConverterOut.isEmpty()) {
-			combinedArgs << QString{"%1 %2"}.arg(delCommand, midConverterOut);  // add command to delete temp file
+			// add delete command to remove output from mid converter
+			commands.append({delCommand, midConverterOut});  // add command to delete temp file
 		}
 	}
 
-	QString completeCmdLine = combinedArgs.join(QByteArray(" && "));
+	// build complete command-line
+	const QString completeCmdLine = [](const QList<QStringList> commands) {
+		QStringList c;
+		for (const QStringList& l : commands) {
+			c.append(getQuotedArgs(l).join(" "));
+		}
+		return c.join(" && ");
+	}(commands);
 
 	if (launchType == LaunchType::Convert) {
-
 		if (ui->actionMock_Conversion->isChecked()) {
-			ui->ConverterOutputText->append(QString{"<font color=\"%1\"> mkdir %2 </font>"}.arg(consoleAmber, completeCmdLine));
+			ui->ConverterOutputText->append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleAmber, completeCmdLine));
 			QTimer::singleShot(25, this, [this] {
 				on_ConverterFinished(0, QProcess::NormalExit);
 			});
 		} else {
 			process.setProcessChannelMode(QProcess::SeparateChannels);
 
-			if (false /*combinedArgsList.size() == 1*/) { // there is only one program to run
-
-				QStringList c = combinedArgsList.at(0);
-
-				qDebug().noquote() << "line= " << c.join(" ");
-				//process.start(c.takeFirst(), c);
-				process.start(completeCmdLine);
+			if (commands.size() == 1) { // there is only one program to run
+				QStringList c = commands.at(0);
+				process.start(c.takeFirst(), c);
 			} else { // multiple programs need to be run via system's commandline interpreter
-
 #ifdef Q_OS_WIN
-				// process.start(completeCmdLine);
-				//	process.start("cmd.exe /c " + completeCmdLine);
+				process.start("cmd.exe /c " + completeCmdLine);
 #else
 				process.start("bash", QStringList() << "-c" << completeCmdLine);
 #endif
 			}
-
-
-
 		}
 	} else if (launchType == LaunchType::Clipboard) {
 
@@ -900,7 +890,7 @@ ConverterDefinition MainWindow::getSpecialistConverter(const QString& inExt, con
 
 QStringList MainWindow::getQuotedArgs(const QStringList& args)
 {
-	static const QRegularExpression rx{"[() \\\\]"};
+	static const QRegularExpression rx{"[() \\\\]"}; // matches strings containing parentheses, spaces, or backslashes
 	QStringList quotedArgs;
 	for (const QString& arg : args) {
 		quotedArgs.append(arg.contains(rx) ? "\"" + arg + "\"" : arg);
