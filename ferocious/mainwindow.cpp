@@ -335,7 +335,11 @@ void MainWindow::processConverterOutput(QString converterOutput, int channel)
 		converterOutput.remove(progressRx);
 	}
 
-	qDebug().noquote() << converterOutput;
+	const QString dbg = converterOutput.simplified();
+	if (!dbg.isEmpty()) {
+		qDebug().noquote() << dbg;
+	}
+
 	static const QRegularExpression rxNewline{"\\r?\\n"};
 	converterOutput.replace(rxNewline, QStringLiteral("<br/>"));
 
@@ -854,9 +858,9 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 				process.start(c.takeFirst(), c);
 			} else { // multiple programs need to be run via system's commandline interpreter
 #ifdef Q_OS_WIN
-				process.start("cmd.exe /c " + completeCmdLine);
+				process.start("cmd.exe /C " + completeCmdLine);
 #else
-				process.start("bash", QStringList() << "-c" << completeCmdLine);
+				process.start("/bin/sh", QStringList() << "-c" << completeCmdLine);
 #endif
 			}
 		}
