@@ -835,41 +835,54 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		}
 	}
 
+	// add an extra command (for testing)
+	// commands.append(QStringList{"echo", "hello World"});
+
 	// build complete command-line
-	const QString completeCmdLine = [](const QList<QStringList> commands) {
-		QStringList c;
-		for (const QStringList& l : commands) {
-			c.append(getQuotedArgs(l).join(" "));
+
+#ifdef Q_OS_WIN
+	const QString shell = "cmd.exe";
+	const QString option = "/c";
+#else
+	const QString shell = "/bin/sh";
+	const QString option = "-c";
+#endif
+
+	QStringList cmdline;
+
+	if (commands.size() > 1) {
+		// if running more than one program, we will need a shell to interpret the commands:
+		cmdline << shell << option;
+	}
+
+	// join all the commands together, with "&&" in-between
+	for (auto it = commands.cbegin(); it != commands.cend();) {
+		cmdline.append(*it);
+		if (++it != commands.cend()) {
+			cmdline.append("&&");
 		}
-		return c.join(" && ");
-	}(commands);
+	}
+
+	// flatten-out entire command line into a string version:
+	const QString cmdline_s = getQuotedArgs(cmdline).join(" ");
 
 	if (launchType == LaunchType::Convert) {
 		if (ui->actionMock_Conversion->isChecked()) {
-			ui->ConverterOutputText->append(QString{"<font color=\"%1\">%2</font>"}.arg(consoleAmber, completeCmdLine));
+			ui->ConverterOutputText->append(QString{"<font color=\"%1\">%2</font>"}
+											.arg(consoleAmber, cmdline_s));
 			QTimer::singleShot(25, this, [this] {
 				on_ConverterFinished(0, QProcess::NormalExit);
 			});
 		} else {
 			process.setProcessChannelMode(QProcess::SeparateChannels);
-
-			if (commands.size() == 1) { // there is only one program to run
-				QStringList c = commands.at(0);
-				process.start(c.takeFirst(), c);
-			} else { // multiple programs need to be run via system's commandline interpreter
-#ifdef Q_OS_WIN
-				process.start("cmd.exe /C " + completeCmdLine);
-#else
-				process.start("/bin/sh", QStringList() << "-c" << completeCmdLine);
-#endif
-			}
+			process.start(cmdline.takeFirst(), cmdline);
 		}
 	} else if (launchType == LaunchType::Clipboard) {
 
 		// get current clipboard text and append new line to it:
 		QString clipText = QGuiApplication::clipboard()->text();
 		QTextStream out(&clipText);
-		out << completeCmdLine << "\n";
+		out << cmdline_s << "\n";
 		QGuiApplication::clipboard()->setText(clipText);
 
 		QTimer::singleShot(5, this, [this] {
@@ -1409,7 +1422,7 @@ void MainWindow::applyStylesheet()
 
 void MainWindow::on_actionTheme_triggered()
 {
-//	stylesheetFilePath = QFileDialog::getOpenFileName(this, tr("Choose a Stylesheet"), QDir::currentPath(), tr("Style Sheets (*.qss *.css)"));
+	//	stylesheetFilePath = QFileDialog::getOpenFileName(this, tr("Choose a Stylesheet"), QDir::currentPath(), tr("Style Sheets (*.qss *.css)"));
 	auto d = new ThemeSelectionDialog(this);
 	if (d->exec() == QDialog::Accepted) {
 		stylesheetFilePath = d->getSelectedThemeFilename();

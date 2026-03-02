@@ -47,7 +47,7 @@ void FilenameGenerator::generateOutputFilename(QString &outFilename, const QStri
 
     if (useSpecificOutputDirectory) {
         if (!inFilename.isEmpty()) {
-            if (strOutFilename.find(sep)!=std::string::npos) { // replace input file path with user's output directory:
+			if (strOutFilename.find(sep) != std::string::npos) { // replace input file path with user's output directory:
                 if (subDirectory.isEmpty()) {
                     strOutFilename = outputDirectory.toStdString()
                         + sep
