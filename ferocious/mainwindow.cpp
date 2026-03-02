@@ -850,7 +850,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
 	QStringList cmdline;
 
-	if (commands.size() > 1) {
+	if (commands.size() > 1 && launchType == LaunchType::Convert && !ui->actionMock_Conversion->isChecked()) {
 		// if running more than one program, we will need a shell to interpret the commands:
 		cmdline << shell << option;
 	}
