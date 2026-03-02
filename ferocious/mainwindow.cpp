@@ -868,7 +868,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
 	if (launchType == LaunchType::Convert) {
 		if (ui->actionMock_Conversion->isChecked()) {
-			ui->ConverterOutputText->append(QString{"<font color=\"%1\">%2</font>"}
+			ui->ConverterOutputText->append(QStringLiteral("<font color=\"%1\">%2</font>")
 											.arg(consoleAmber, cmdline_s));
 			QTimer::singleShot(25, this, [this] {
 				on_ConverterFinished(0, QProcess::NormalExit);
