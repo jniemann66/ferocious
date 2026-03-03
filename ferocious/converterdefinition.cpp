@@ -22,7 +22,7 @@ void ConverterDefinition::fromJson(const QJsonObject &json)
     inputFileExt = json.value("inputfileext").toString();
     outputFileExt = json.value("outputfileext").toString();
     executable = json.value("executablename").toString();
-    executablePath = json.value("executablepath").toString();
+	executablePath = json.value("executablepath").toString();
     commandLine = json.value("commandline").toString();
 
     downloadLocations.clear();

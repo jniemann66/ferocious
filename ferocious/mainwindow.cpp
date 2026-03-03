@@ -876,17 +876,15 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 
 			} else { // multiple programs to run; will need an interpreter ...
 
-				// this is infuriatingly fiddly to get right ... but I think this approach works most of the time :-)
+				// this is infuriatingly fiddly to get right ... but I think this setup works most of the time :-)
 
 #ifdef Q_OS_WIN
-				// run cmd.exe with /c as 1st arg
-				// and the entire line as 2nd arg
-
-				process.start("cmd.exe", {"/c", cmdline_s});
+				// run cmd.exe with additional arg "/c" preceding all the other args
+				cmdline.push_front("/c");
+				process.start("cmd.exe", cmdline);
 #else
 				// run /bin/sh with -c as 1st arg,
 				// and the entire line as the 2nd arg
-
 				process.start("/bin/sh", {"-c", cmdline_s});
 #endif
 
