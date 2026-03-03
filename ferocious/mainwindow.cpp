@@ -782,12 +782,6 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 	QStringList backCommandLineArgs;
 	QList<QStringList> commands;
 
-#ifdef Q_OS_WIN
-	const QString delCommand{"del"};
-#else
-	const QString delCommand{"rm"};
-#endif
-
 	// is the input format to be handled by a specialist converter ?
 	ConverterDefinition frontConverter = getSpecialistConverter(infn_ext, "wav");
 	if (frontConverter.name.isEmpty()) {
@@ -817,6 +811,13 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		commands.append(frontCommandLineArgs);
 	}
 
+	// define what command to use for deleting files
+#ifdef Q_OS_WIN
+	const QString delCommand{"del"};
+#else
+	const QString delCommand{"rm"};
+#endif
+
 	if (!midCommandLineArgs.isEmpty()) {
 		commands.append(midCommandLineArgs);
 
@@ -835,25 +836,9 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		}
 	}
 
-	// add an extra command (for testing)
-	// commands.append(QStringList{"echo", "hello World"});
-
 	// build complete command-line
 
-#ifdef Q_OS_WIN
-	const QString shell = "cmd.exe";
-	const QString option = "/c";
-#else
-	const QString shell = "/bin/sh";
-	const QString option = "-c";
-#endif
-
 	QStringList cmdline;
-
-	if (commands.size() > 1 && launchType == LaunchType::Convert && !ui->actionMock_Conversion->isChecked()) {
-		// if running more than one program, we will need a shell to interpret the commands:
-		cmdline << shell << option;
-	}
 
 	// join all the commands together, with "&&" in-between
 	for (auto it = commands.cbegin(); it != commands.cend();) {
@@ -863,7 +848,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		}
 	}
 
-	// flatten-out entire command line into a string version:
+	// flatten-out entire command line into a single string.
+	// (it should be possible to paste this into a terminal, or add it to a script)
 	const QString cmdline_s = getQuotedArgs(cmdline).join(" ");
 
 	if (launchType == LaunchType::Convert) {
@@ -874,8 +860,37 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 				on_ConverterFinished(0, QProcess::NormalExit);
 			});
 		} else {
+
+			// for debugging list of args ...
+			// qDebug().noquote() << "final command line:";
+			// for (const QString& a : cmdline) {
+			// 	qDebug().noquote() << a;
+			// }
+
 			process.setProcessChannelMode(QProcess::SeparateChannels);
-			process.start(cmdline.takeFirst(), cmdline);
+
+
+			if (commands.size() == 1) { // only one program to run.
+				// just run it, with all the remaining items as individual args
+				process.start(cmdline.takeFirst(), cmdline);
+
+			} else { // multiple programs to run; will need an interpreter ...
+
+				// this is infuriatingly fiddly to get right ... but I think this approach works most of the time :-)
+
+#ifdef Q_OS_WIN
+				// run cmd.exe with /c as 1st arg
+				// and the entire line as 2nd arg
+
+				process.start("cmd.exe", {"/c", cmdline_s});
+#else
+				// run /bin/sh with -c as 1st arg,
+				// and the entire line as the 2nd arg
+
+				process.start("/bin/sh", {"-c", cmdline_s});
+#endif
+
+			}
 		}
 	} else if (launchType == LaunchType::Clipboard) {
 
@@ -918,10 +933,16 @@ QStringList MainWindow::getQuotedArgs(const QStringList& args)
 
 QStringList MainWindow::prepareSpecialistConverterArgs(const ConverterDefinition& converterDefinition, const QString& outfn, const QString& infn)
 {
-	QStringList args;
-	QString params = converterDefinition.commandLine;
-	params.replace("{i}", "\"" + infn + "\"").replace("{o}", "\"" + outfn + "\"");
-	args << converterDefinition.executablePath << params;
+	QStringList args{converterDefinition.executablePath};
+	args.append(converterDefinition.commandLine.split(" ", Qt::SkipEmptyParts));
+	for (auto it = args.begin(); it != args.end(); it++) {
+		if (*it == "{i}") {
+			*it = infn;
+		} else if (*it == "{o}") {
+			*it = outfn;
+		}
+	}
+
 	return args;
 }
 
