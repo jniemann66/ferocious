@@ -48,7 +48,7 @@ private:
     QLineEdit* commandLineEdit;
     QDialogButtonBox* dialogButtonBox;
 
-    bool showToolTips;
+    bool showToolTips{true};
 
     void promptForExecutableLocation();
 };

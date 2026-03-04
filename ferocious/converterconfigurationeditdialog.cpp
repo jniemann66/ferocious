@@ -15,7 +15,7 @@
 #include <QDesktopServices>
 
 ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *parent)
-    : QDialog(parent), showToolTips(true)
+    : QDialog(parent)
 {
     // layouts
     auto mainLayout = new QVBoxLayout;
