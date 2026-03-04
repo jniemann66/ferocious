@@ -59,4 +59,11 @@ void ThemeSelectionDialog::setSelectedTheme(const QString& val)
 	themeSelector->setText(val);
 }
 
-
+void ThemeSelectionDialog::setSelectedThemeFilename(const QString& val)
+{
+	static const QRegularExpression rx(R"(:\/Themes\/(.*).css)");
+	auto rxm = rx.match(val);
+	if (rxm.hasMatch()) {
+		themeSelector->setText(rxm.captured(1));
+	}
+}

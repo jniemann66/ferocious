@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
 
     // activate anti-aliasing on all fonts:
     QFont font = QApplication::font();
+
+    //font.setPointSize(font.pointSize() + 10);
     font.setStyleStrategy(QFont::PreferAntialias);
     a.setFont(font);
 

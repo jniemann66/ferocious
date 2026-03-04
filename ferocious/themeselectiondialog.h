@@ -18,6 +18,7 @@ public:
 	QString getSelectedThemeFilename() const;
 
 	void setSelectedTheme(const QString& val);
+	void setSelectedThemeFilename(const QString &val);
 
 private:
 	QLineEdit *themeSelector{nullptr};

@@ -59,7 +59,7 @@ ConverterConfigurationEditDialog::ConverterConfigurationEditDialog(QWidget *pare
     heading->setFont(headingFont);
 
     // configure widgets
-    setContentsMargins(12, 12, 12, 12);
+   // setContentsMargins(12, 12, 12, 12);
     heading->setAlignment(Qt::AlignHCenter);
     executablePathEdit->hideEditButton();
     QFontMetrics m(commentEdit->font());

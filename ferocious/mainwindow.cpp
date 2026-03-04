@@ -1412,15 +1412,9 @@ void MainWindow::on_actionEnable_Clipping_Protection_triggered()
 
 void MainWindow::applyStylesheet()
 {
-
 	if (stylesheetFilePath.isEmpty()) {
 		stylesheetFilePath = ":/Themes/ferocious.css"; // factory default
 	}
-
-	// if (stylesheetFilePath == ":/Themes/ferocious.css") {
-	// 	qDebug() << tr("using factory default theme");
-	// 	return;
-	// }
 
 	if (!fileExists(stylesheetFilePath)) {
 		qDebug() << tr("stylesheet ") << stylesheetFilePath << tr(" doesn't exist");
@@ -1443,6 +1437,7 @@ void MainWindow::on_actionTheme_triggered()
 {
 	//	stylesheetFilePath = QFileDialog::getOpenFileName(this, tr("Choose a Stylesheet"), QDir::currentPath(), tr("Style Sheets (*.qss *.css)"));
 	auto d = new ThemeSelectionDialog(this);
+	d->setSelectedThemeFilename(stylesheetFilePath);
 	if (d->exec() == QDialog::Accepted) {
 		stylesheetFilePath = d->getSelectedThemeFilename();
 		applyStylesheet();
