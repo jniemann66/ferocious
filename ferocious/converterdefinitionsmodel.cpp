@@ -107,6 +107,7 @@ QVector<ConverterDefinition> ConverterDefinitionsModel::getConverterDefinitions(
 
 void ConverterDefinitionsModel::setConverterDefinitions(const QVector<ConverterDefinition> &value)
 {
+    beginResetModel();
     converterDefinitions = value;
-    //  emit QAbstractItemModel::rowsInserted(this->mod, 0, converterDefinitions.count() - 1);
+    endResetModel();
 }
