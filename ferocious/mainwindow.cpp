@@ -16,6 +16,7 @@
 
 #include <QMessageBox>
 #include <QFileDialog>
+#include "soundfiledialog.h"
 #include <QDir>
 #include <QObject>
 #include <QSettings>
@@ -422,8 +423,8 @@ void MainWindow::onBrowseOutButtonRightClicked()
 }
 
 void MainWindow::on_browseInfileButton_clicked()
-{   
-	QFileDialog fileDialog(this);
+{
+	SoundFileDialog fileDialog(this);
 
 	QFileInfo fi(inFileBrowsePath);
 	QString inFileBrowseDir;

@@ -10,7 +10,7 @@ VERSION = 2.1.3
 # Define a preprocessor macro for the version:
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
-QT += core gui concurrent widgets
+QT += core gui concurrent widgets multimedia
 CONFIG += c++17
 TARGET = ferocious
 TEMPLATE = app
@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     cmdlinehighlighterdelegate.cpp \
     checkboxdelegate.cpp \
     converterdefinitionsmodel.cpp \
-    themeselectiondialog.cpp
+    themeselectiondialog.cpp \
+    soundfiledialog.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
@@ -45,7 +46,8 @@ HEADERS  += mainwindow.h \
     cmdlinehighlighterdelegate.h \
     checkboxdelegate.h \
     converterdefinitionsmodel.h \
-    themeselectiondialog.h
+    themeselectiondialog.h \
+    soundfiledialog.h
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui \
