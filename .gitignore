@@ -1,6 +1,7 @@
 # build
 build
 ferocious/build
+.claude/
 
 # kits
 build-ferocious-Desktop_*-Debug/
