@@ -78,7 +78,6 @@ QPushButton {
 	fx: 0.3, fy: -0.4,
 	radius: 1.35, stop: 0 #3E474F, stop: 1 #282D33);
 	min-width: 66px;
-	height: 9px;
 }
 
 QPushButton:hover {
