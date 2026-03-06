@@ -268,9 +268,12 @@ void ConverterConfigurationDialog::promptForResamplerLocation() {
     QString filter = "";
 #endif
 
-    const QString cp = QFileDialog::getOpenFileName(this, s, mainConverterPath,  filter);
-
-    if (!cp.isNull()) {
+    QFileDialog dialog(this);
+    dialog.setWindowTitle(s);
+    dialog.setDirectory(mainConverterPath);
+    dialog.setNameFilter(filter);
+    if (dialog.exec()) {
+        const QString cp = dialog.selectedFiles().first();
         mainConverterPath = cp;
         if (mainConverterPath.lastIndexOf(expectedMainConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
             mainConverterPath.clear();

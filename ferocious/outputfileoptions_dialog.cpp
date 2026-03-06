@@ -176,10 +176,15 @@ void OutputFileOptions_Dialog::on_OutputFileOptions_buttonBox_accepted()
 
 void OutputFileOptions_Dialog::on_pushButton_clicked()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Select Output Directory"),
-                                                   ui->outDirectory_lineEdit->text(),
-                                                    QFileDialog::ShowDirsOnly
-                                                    | QFileDialog::DontResolveSymlinks);
-    if (!dir.isNull() && !dir.isEmpty())
+    QFileDialog dialog(this);
+    dialog.setWindowTitle(tr("Select Output Directory"));
+    dialog.setDirectory(ui->outDirectory_lineEdit->text());
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.setOption(QFileDialog::ShowDirsOnly, true);
+    dialog.setOption(QFileDialog::DontResolveSymlinks, true);
+    QString dir;
+    if (dialog.exec())
+        dir = dialog.selectedFiles().first();
+    if (!dir.isEmpty())
         ui->outDirectory_lineEdit->setText(QDir::toNativeSeparators(dir));
 }

@@ -185,9 +185,12 @@ void ConverterConfigurationEditDialog::promptForExecutableLocation()
     QString filter = "";
 #endif
 
-    const QString cp = QFileDialog::getOpenFileName(this, s, "",  filter);
-
-    if (!cp.isNull()) {
+    QFileDialog dialog(this);
+    dialog.setWindowTitle(s);
+    dialog.setDirectory(QString());
+    dialog.setNameFilter(filter);
+    if (dialog.exec()) {
+        const QString cp = dialog.selectedFiles().first();
         executablePathEdit->setText(QDir::toNativeSeparators(cp));
     }
 }

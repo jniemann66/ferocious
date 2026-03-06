@@ -70,7 +70,15 @@ MainWindow::MainWindow(QWidget *parent)
 		QString filter = "";
 #endif
 
-		converterPath = QFileDialog::getOpenFileName(this, s, QDir::currentPath(), filter);
+		QFileDialog dialog(this);
+		dialog.setWindowTitle(s);
+		dialog.setDirectory(QDir::currentPath());
+		dialog.setNameFilter(filter);
+		if (dialog.exec()) {
+			converterPath = dialog.selectedFiles().first();
+		} else {
+			converterPath.clear();
+		}
 
 		if (converterPath.lastIndexOf(expectedConverter, -1, Qt::CaseInsensitive) == -1) { // safeguard against wrong executable being configured
 			converterPath.clear();
