@@ -9,6 +9,7 @@
 
 #include "mainwindow.h"
 #include <QApplication>
+#include <QSettings>
 #include <QStyleFactory>
 
 int main(int argc, char *argv[])
@@ -19,6 +20,11 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setApplicationVersion(APP_VERSION);
+
+    {
+        QSettings settings(QSettings::IniFormat, QSettings::UserScope, "JuddSoft", "Ferocious");
+        a.setAttribute(Qt::AA_DontUseNativeDialogs, settings.value("dontUseNativeDialogs", false).toBool());
+    }
 
     // activate anti-aliasing on all fonts:
     QFont font = QApplication::font();

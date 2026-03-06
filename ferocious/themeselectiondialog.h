@@ -1,6 +1,7 @@
 #ifndef THEMESELECTIONDIALOG_H
 #define THEMESELECTIONDIALOG_H
 
+#include <QCheckBox>
 #include <QDialog>
 #include <QComboBox>
 #include <QCompleter>
@@ -16,14 +17,17 @@ public:
 
 	QString getSelectedTheme() const;
 	QString getSelectedThemeFilename() const;
+	bool getUseNativeDialogs() const;
 
 	void setSelectedTheme(const QString& val);
 	void setSelectedThemeFilename(const QString &val);
+	void setUseNativeDialogs(bool val);
 
 private:
 	QLineEdit *themeSelector{nullptr};
 	QStringListModel *themeModel{nullptr};
 	QCompleter *completer{nullptr};
+	QCheckBox *useNativeDialogsCheckBox{nullptr};
 
 	static const QString defaultTheme;
 };

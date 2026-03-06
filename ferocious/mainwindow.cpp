@@ -432,8 +432,6 @@ void MainWindow::onBrowseOutButtonRightClicked()
 
 void MainWindow::on_browseInfileButton_clicked()
 {
-	SoundFileDialog fileDialog(this);
-
 	QFileInfo fi(inFileBrowsePath);
 	QString inFileBrowseDir;
 	if (fi.isDir()) {
@@ -442,14 +440,18 @@ void MainWindow::on_browseInfileButton_clicked()
 		inFileBrowseDir = fi.path();
 	}
 
-	fileDialog.setDirectory(inFileBrowseDir);
-	fileDialog.setFileMode(QFileDialog::ExistingFiles);
-	fileDialog.setNameFilter(getInfileFilter());
-	fileDialog.setViewMode(QFileDialog::Detail);
+	const bool useNative = !QApplication::testAttribute(Qt::AA_DontUseNativeDialogs);
+	QFileDialog *fileDialog = useNative ? new QFileDialog(this) : new SoundFileDialog(this);
+	fileDialog->setDirectory(inFileBrowseDir);
+	fileDialog->setFileMode(QFileDialog::ExistingFiles);
+	fileDialog->setNameFilter(getInfileFilter());
+	fileDialog->setViewMode(QFileDialog::Detail);
 	QStringList fileNames;
-	if (fileDialog.exec()) {
-		fileNames = fileDialog.selectedFiles();
-	} else {
+	if (fileDialog->exec()) {
+		fileNames = fileDialog->selectedFiles();
+	}
+	delete fileDialog;
+	if (fileNames.isEmpty()) {
 		return;
 	}
 
@@ -1447,9 +1449,14 @@ void MainWindow::on_actionTheme_triggered()
 	//	stylesheetFilePath = QFileDialog::getOpenFileName(this, tr("Choose a Stylesheet"), QDir::currentPath(), tr("Style Sheets (*.qss *.css)"));
 	auto d = new ThemeSelectionDialog(this);
 	d->setSelectedThemeFilename(stylesheetFilePath);
+	d->setUseNativeDialogs(!QApplication::testAttribute(Qt::AA_DontUseNativeDialogs));
 	if (d->exec() == QDialog::Accepted) {
 		stylesheetFilePath = d->getSelectedThemeFilename();
 		applyStylesheet();
+		const bool useNative = d->getUseNativeDialogs();
+		QApplication::setAttribute(Qt::AA_DontUseNativeDialogs, !useNative);
+		QSettings settings(QSettings::IniFormat, QSettings::UserScope, "JuddSoft", "Ferocious");
+		settings.setValue("dontUseNativeDialogs", !useNative);
 	}
 }
 
@@ -1766,7 +1773,6 @@ void MainWindow::openChooseOutputDirectory()
 	}
 
 	QFileDialog fileDialog(this);
-	fileDialog.setOption(QFileDialog::DontUseNativeDialog, true);
 	fileDialog.setWindowTitle(tr("Select Output Directory"));
 	fileDialog.setDirectory(outFileBrowseDir);
 	fileDialog.setFileMode(QFileDialog::Directory);

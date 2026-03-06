@@ -1,5 +1,6 @@
 #include "themeselectiondialog.h"
 
+#include <QCheckBox>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
@@ -20,6 +21,11 @@ ThemeSelectionDialog::ThemeSelectionDialog(QWidget *parent, Qt::WindowFlags f)
 					"native",
 					"square"
 				});
+	useNativeDialogsCheckBox = new QCheckBox(tr("Use Native Dialogs"));
+	useNativeDialogsCheckBox->setToolTip(tr("Use the operating system's built-in file dialogs.\n"
+											"Uncheck to use Qt's built-in dialogs, which support\n"
+											"audio preview when browsing for input files."));
+
 	auto mainLayout = new QVBoxLayout;
 	auto stdButtons = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
@@ -28,6 +34,7 @@ ThemeSelectionDialog::ThemeSelectionDialog(QWidget *parent, Qt::WindowFlags f)
 
 	mainLayout->addStretch();
 	mainLayout->addWidget(themeSelector);
+	mainLayout->addWidget(useNativeDialogsCheckBox);
 	mainLayout->addStretch();
 	mainLayout->addWidget(stdButtons);
 	setLayout(mainLayout);
@@ -52,6 +59,16 @@ QString ThemeSelectionDialog::getSelectedTheme() const
 QString ThemeSelectionDialog::getSelectedThemeFilename() const
 {
 	return QStringLiteral(":/Themes/%1.css").arg(getSelectedTheme());
+}
+
+bool ThemeSelectionDialog::getUseNativeDialogs() const
+{
+	return useNativeDialogsCheckBox->isChecked();
+}
+
+void ThemeSelectionDialog::setUseNativeDialogs(bool val)
+{
+	useNativeDialogsCheckBox->setChecked(val);
 }
 
 void ThemeSelectionDialog::setSelectedTheme(const QString& val)
