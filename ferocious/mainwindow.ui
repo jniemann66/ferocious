@@ -97,7 +97,8 @@
        </font>
       </property>
       <property name="toolTip">
-       <string>Begin conversion using files and settings as currently displayed.</string>
+       <string>Begin conversion using files and settings as currently displayed.
+(Right-click for more options)</string>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -338,7 +339,8 @@
        </font>
       </property>
       <property name="toolTip">
-       <string>Select an input file for processing.</string>
+       <string>Select an input file for procesing
+(Right-click for more options)</string>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -575,7 +577,8 @@ Only recommended when converting to a lower bit depth
        </font>
       </property>
       <property name="toolTip">
-       <string>Select location and name of output file.</string>
+       <string>Select location and name of output file.
+(Right-click for more options)</string>
       </property>
       <property name="styleSheet">
        <string notr="true"/>

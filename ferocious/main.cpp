@@ -14,6 +14,7 @@
 
 int main(int argc, char *argv[])
 {
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -21,15 +22,14 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setApplicationVersion(APP_VERSION);
 
-    {
+	// read setting for whether to use Native Dialogs
+	{
         QSettings settings(QSettings::IniFormat, QSettings::UserScope, "JuddSoft", "Ferocious");
-        a.setAttribute(Qt::AA_DontUseNativeDialogs, settings.value("dontUseNativeDialogs", false).toBool());
+		a.setAttribute(Qt::AA_DontUseNativeDialogs, settings.value("dontUseNativeDialogs", true).toBool());
     }
 
     // activate anti-aliasing on all fonts:
     QFont font = QApplication::font();
-
-    //font.setPointSize(font.pointSize() + 10);
     font.setStyleStrategy(QFont::PreferAntialias);
     a.setFont(font);
 
