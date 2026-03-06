@@ -1767,7 +1767,7 @@ void MainWindow::openChooseOutputDirectory()
 
 	QFileDialog fileDialog(this);
 	fileDialog.setOption(QFileDialog::DontUseNativeDialog, true);
-	//fileDialog.setWindowTitle(tr("Select Output Directory"));
+	fileDialog.setWindowTitle(tr("Select Output Directory"));
 	fileDialog.setDirectory(outFileBrowseDir);
 	fileDialog.setFileMode(QFileDialog::Directory);
 	fileDialog.setViewMode(QFileDialog::Detail);
