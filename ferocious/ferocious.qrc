@@ -6,10 +6,12 @@
         <file>images/LeftArrow8x8.png</file>
         <file>images/RightArrow8x8.png</file>
         <file>Themes/amber-fluid.css</file>
+        <file>Themes/daylight.css</file>
         <file>Themes/ferocious-blue.css</file>
         <file>Themes/ferocious.css</file>
         <file>Themes/flat.css</file>
         <file>Themes/native.css</file>
         <file>Themes/square.css</file>
+        <file>Themes/wood.css</file>
     </qresource>
 </RCC>
