@@ -4,9 +4,6 @@
 #include <QCheckBox>
 #include <QDialog>
 #include <QComboBox>
-#include <QCompleter>
-#include <QStringListModel>
-#include <QLineEdit>
 
 class ThemeSelectionDialog : public QDialog
 {
@@ -24,9 +21,7 @@ public:
 	void setUseNativeDialogs(bool val);
 
 private:
-	QLineEdit *themeSelector{nullptr};
-	QStringListModel *themeModel{nullptr};
-	QCompleter *completer{nullptr};
+	QComboBox *themeSelector{nullptr};
 	QCheckBox *useNativeDialogsCheckBox{nullptr};
 
 	static const QString defaultTheme;

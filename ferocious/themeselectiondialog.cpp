@@ -1,6 +1,7 @@
 #include "themeselectiondialog.h"
 
 #include <QCheckBox>
+#include <QDir>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
@@ -10,17 +11,10 @@ const QString ThemeSelectionDialog::defaultTheme{"ferocious"};
 ThemeSelectionDialog::ThemeSelectionDialog(QWidget *parent, Qt::WindowFlags f)
 	: QDialog(parent, f)
 {
-	themeSelector = new QLineEdit;
-	completer = new QCompleter;
-	themeModel = new QStringListModel(
-				QStringList{
-					"amber-fluid",
-					"ferocious-blue",
-					"ferocious",
-					"flat",
-					"native",
-					"square"
-				});
+	themeSelector = new QComboBox;
+	for (const QFileInfo &fi : QDir(":/Themes").entryInfoList({"*.css"}, QDir::Files, QDir::Name)) {
+		themeSelector->addItem(fi.baseName());
+	}
 	useNativeDialogsCheckBox = new QCheckBox(tr("Use Native Dialogs"));
 	useNativeDialogsCheckBox->setToolTip(tr("Use the operating system's built-in file dialogs.\n"
 											"Uncheck to use Qt's built-in dialogs, which support\n"
@@ -29,9 +23,6 @@ ThemeSelectionDialog::ThemeSelectionDialog(QWidget *parent, Qt::WindowFlags f)
 	auto mainLayout = new QVBoxLayout;
 	auto stdButtons = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
-	completer->setModel(themeModel);
-	themeSelector->setCompleter(completer);
-
 	mainLayout->addStretch();
 	mainLayout->addWidget(themeSelector);
 	mainLayout->addWidget(useNativeDialogsCheckBox);
@@ -39,12 +30,11 @@ ThemeSelectionDialog::ThemeSelectionDialog(QWidget *parent, Qt::WindowFlags f)
 	mainLayout->addWidget(stdButtons);
 	setLayout(mainLayout);
 
-	completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
-	themeSelector->setText(ThemeSelectionDialog::defaultTheme);
+	themeSelector->setCurrentText(ThemeSelectionDialog::defaultTheme);
 
 	auto restoreBtn = stdButtons->button(QDialogButtonBox::RestoreDefaults);
-	connect (restoreBtn, &QPushButton::clicked, this, [this]{
-		themeSelector->setText(ThemeSelectionDialog::defaultTheme);
+	connect(restoreBtn, &QPushButton::clicked, this, [this]{
+		themeSelector->setCurrentText(ThemeSelectionDialog::defaultTheme);
 	});
 
 	connect(stdButtons, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -53,7 +43,7 @@ ThemeSelectionDialog::ThemeSelectionDialog(QWidget *parent, Qt::WindowFlags f)
 
 QString ThemeSelectionDialog::getSelectedTheme() const
 {
-	return themeSelector->text();
+	return themeSelector->currentText();
 }
 
 QString ThemeSelectionDialog::getSelectedThemeFilename() const
@@ -73,7 +63,7 @@ void ThemeSelectionDialog::setUseNativeDialogs(bool val)
 
 void ThemeSelectionDialog::setSelectedTheme(const QString& val)
 {
-	themeSelector->setText(val);
+	themeSelector->setCurrentText(val);
 }
 
 void ThemeSelectionDialog::setSelectedThemeFilename(const QString& val)
@@ -81,6 +71,6 @@ void ThemeSelectionDialog::setSelectedThemeFilename(const QString& val)
 	static const QRegularExpression rx(R"(:\/Themes\/(.*).css)");
 	auto rxm = rx.match(val);
 	if (rxm.hasMatch()) {
-		themeSelector->setText(rxm.captured(1));
+		themeSelector->setCurrentText(rxm.captured(1));
 	}
 }
