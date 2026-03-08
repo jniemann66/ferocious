@@ -35,10 +35,88 @@
     <normaloff>:/images/sine_sweep-32x32-buttonized.png</normaloff>:/images/sine_sweep-32x32-buttonized.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0" colspan="2">
+    <widget class="QLineEdit" name="outFilenameSuffix_lineEdit">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>(converted)</string>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0">
     <widget class="QCheckBox" name="useOutputDirectory_checkBox">
      <property name="text">
       <string>Use this output directory:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QRadioButton" name="setFileExt_radioButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Set to this File Type:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="FilenameSuffix_checkBox">
+     <property name="text">
+      <string>Append this suffix To Output File name:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="outputFileFormatLabel">
+     <property name="text">
+      <string>Output File Format:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="OutputFileOptions_buttonBox">
+     <property name="font">
+      <font>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QLineEdit" name="outDirectory_lineEdit">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>select output directory ...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The following options affect the generation of the output file name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -57,80 +135,21 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLineEdit" name="outFilenameSuffix_lineEdit">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <property name="text">
-      <string>(converted)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QLineEdit" name="outDirectory_lineEdit">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <property name="text">
-      <string>select output directory ...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="FilenameSuffix_checkBox">
-     <property name="text">
-      <string>Append this suffix To Output File name:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QRadioButton" name="SameFileExt_radioButton">
      <property name="text">
-      <string>Default to same file type as Input File</string>
+      <string>Same file type as Input File</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
-    <widget class="QRadioButton" name="setFileExt_radioButton">
-     <property name="text">
-      <string>Default to this File Type:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="OutputFileOptions_buttonBox">
-     <property name="font">
-      <font>
-       <stylestrategy>PreferAntialias</stylestrategy>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label">
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="outFileExt_lineEdit">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>10</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The following options affect the generation of the &lt;span style=&quot; font-style:italic;&quot;&gt;default&lt;/span&gt; output file name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLineEdit" name="outFileExt_lineEdit">
      <property name="styleSheet">
       <string notr="true"/>
      </property>

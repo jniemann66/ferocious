@@ -161,6 +161,7 @@ private:
 	void queryResamplerVersion();   // function to retrieve version number of main external converter
 	void queryResamplerSndfileVersion();
     void processOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
+    void syncOutputFormatControls(); // sync outputFormatCombo and fileFormatCheckbox from filenameGenerator
     void convert(const QString &outfn, const QString &infn); // execute a conversion task
     QStringList prepareMidConverterArgs(const QString &outfn, const QString &infn); // prepare commandline args for ReSampler
     void wildcardPushToQueue(const QString &inFilename); // interpret filename containing wildcards, and push tasks onto queue as appropraite

@@ -1,0 +1,11 @@
+--- ferocious/Themes/ferocious.css
++++ ferocious/Themes/ferocious.css
+@@ -151,7 +151,7 @@ QComboBox::drop-down:disabled {
+ 
+ QComboBox QAbstractItemView {
+ 	background-color: black;
+-	selection-background-color: #70e01a;
++    selection-background-color: rgb(0, 0, 127);
+ }
+ 
+ /* --- Vert scrollbar ---*/

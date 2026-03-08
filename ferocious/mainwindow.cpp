@@ -129,6 +129,33 @@ MainWindow::MainWindow(QWidget *parent)
 		loadConverterDefinitions(":/converters.json");
 	}
 
+	// populate output format combo:
+	{
+		QRegularExpression rx(R"(\(([^)]+)\))");
+		auto match = rx.match(getOutfileFilter());
+		if (match.hasMatch()) {
+			QStringList formats = match.captured(1).split(' ', Qt::SkipEmptyParts);
+			formats.replaceInStrings(QRegularExpression(R"(\*\.)"), "");
+			formats.sort(Qt::CaseInsensitive);
+			ui->outputFormatCombo->addItems(formats);
+		}
+	}
+
+	syncOutputFormatControls();
+
+	connect(ui->outputFormatCombo, &QComboBox::currentTextChanged, this, [this](const QString& text) {
+		filenameGenerator.fileExt = text;
+		processOutfileExtension();
+		on_InfileEdit_editingFinished();
+	});
+
+	connect(ui->fileFormatCheckbox, &QCheckBox::toggled, this, [this](bool checked) {
+		filenameGenerator.useSpecificFileExt = checked;
+		ui->outputFormatCombo->setEnabled(checked);
+		processOutfileExtension();
+		on_InfileEdit_editingFinished();
+	});
+
 	connect(&process, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
 	connect(&process, &QProcess::readyReadStandardError, this, &MainWindow::on_StderrAvailable);
 	connect(&process, &QProcess::started, this, &MainWindow::on_ConverterStarted);
@@ -492,7 +519,7 @@ void MainWindow::processInputFilenames(const QStringList& fileNames)
 			// conditionally auto-generate output filename:
 			if (bRefreshOutFilename) {
 				QString outFileName;
-				filenameGenerator.generateOutputFilename(outFileName,ui->InfileEdit->text());
+				filenameGenerator.generateOutputFilename(outFileName, ui->InfileEdit->text());
 				if (!outFileName.isNull() && !outFileName.isEmpty()) {
 					ui->OutfileEdit->setText(outFileName);
 					ui->OutfileEdit->update();
@@ -1301,10 +1328,18 @@ void MainWindow::on_OutfileEdit_editingFinished()
 	processOutfileExtension(); // trigger an update of options if user changed the file extension
 }
 
+void MainWindow::syncOutputFormatControls()
+{
+	QSignalBlocker b1(ui->outputFormatCombo);
+	QSignalBlocker b2(ui->fileFormatCheckbox);
+	ui->outputFormatCombo->setCurrentText(filenameGenerator.fileExt);
+	ui->fileFormatCheckbox->setChecked(filenameGenerator.useSpecificFileExt);
+	ui->outputFormatCombo->setEnabled(filenameGenerator.useSpecificFileExt);
+}
+
 // ProcessoutFileExtension() - analyze extension of outfile and update subformats dropdown accordingly
 void MainWindow::processOutfileExtension()
 {
-
 	QString fileName = ui->OutfileEdit->text();
 	int extidx = fileName.lastIndexOf(".");
 	if (extidx > -1) { // filename must have a "." to contain a file extension ...
@@ -1313,7 +1348,7 @@ void MainWindow::processOutfileExtension()
 		// if user has changed the extension (ie type) of the filename, then repopulate subformats combobox:
 		if (ext != lastOutputFileExt) {
 			populateBitFormats(fileName);
-			lastOutputFileExt=ext;
+			lastOutputFileExt = ext;
 		}
 	}
 }
@@ -1355,6 +1390,7 @@ void MainWindow::on_actionOutput_File_Options_triggered()
 {
 	OutputFileOptions_Dialog d(filenameGenerator);
 	d.exec();
+	syncOutputFormatControls();
 	on_InfileEdit_editingFinished(); // trigger change of output file if relevant
 }
 
