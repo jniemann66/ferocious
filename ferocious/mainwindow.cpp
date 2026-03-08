@@ -130,16 +130,7 @@ MainWindow::MainWindow(QWidget *parent)
 	}
 
 	// populate output format combo:
-	{
-		QRegularExpression rx(R"(\(([^)]+)\))");
-		auto match = rx.match(getOutfileFilter());
-		if (match.hasMatch()) {
-			QStringList formats = match.captured(1).split(' ', Qt::SkipEmptyParts);
-			formats.replaceInStrings(QRegularExpression(R"(\*\.)"), "");
-			formats.sort(Qt::CaseInsensitive);
-			ui->outputFormatCombo->addItems(formats);
-		}
-	}
+	ui->outputFormatCombo->addItems(getOutfileFormatList());
 
 	syncOutputFormatControls();
 
@@ -1388,7 +1379,7 @@ void MainWindow::on_actionConverter_Location_triggered()
 
 void MainWindow::on_actionOutput_File_Options_triggered()
 {
-	OutputFileOptions_Dialog d(filenameGenerator);
+	OutputFileOptions_Dialog d(filenameGenerator, getOutfileFormatList());
 	d.exec();
 	syncOutputFormatControls();
 	on_InfileEdit_editingFinished(); // trigger change of output file if relevant
@@ -1738,7 +1729,7 @@ QString MainWindow::getInfileFilter()
 	return QString{"Audio Files (%1)"}.arg(infileFormats.values().join(" "));
 }
 
-QString MainWindow::getOutfileFilter()
+QStringList MainWindow::getOutfileFormatList()
 {
 	QSet<QString> outfileFormats{
 		"*.aiff",
@@ -1775,7 +1766,17 @@ QString MainWindow::getOutfileFilter()
 		}
 	}
 
-	return QString{"Audio Files (%1)"}.arg(outfileFormats.values().join(" "));
+	QStringList formats = outfileFormats.values();
+	formats.replaceInStrings(QRegularExpression(R"(\*\.)"), "");
+	formats.sort(Qt::CaseInsensitive);
+	return formats;
+}
+
+QString MainWindow::getOutfileFilter()
+{
+	QStringList formats = getOutfileFormatList();
+	formats.replaceInStrings(QRegularExpression("^"), "*."); // re-add *. prefix for filter string
+	return QString{"Audio Files (%1)"}.arg(formats.join(" "));
 }
 
 // check if each executable exists and disable if not found

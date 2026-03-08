@@ -18,6 +18,7 @@
 #include <QSettings>
 #include <QDir>
 #include <QDebug>
+#include <QStringList>
 
 // class FilenameGenerator. Purpose:
 // 1. Keep a persistent record of user preferences for naming of output file
@@ -53,7 +54,7 @@ class OutputFileOptions_Dialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, QWidget *parent = nullptr);
+    explicit OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, const QStringList& formats, QWidget *parent = nullptr);
     ~OutputFileOptions_Dialog() override;
 
 private slots:

@@ -109,25 +109,28 @@ void FilenameGenerator::loadSettings(QSettings &settings)
     settings.endGroup();
 }
 
-OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, QWidget *parent)
+OutputFileOptions_Dialog::OutputFileOptions_Dialog(FilenameGenerator& filenameGenerator, const QStringList& formats, QWidget *parent)
     : QDialog(parent), ui(new Ui::OutputFileOptions_Dialog)
 {
     ui->setupUi(this);
     pFilenameGenerator = &filenameGenerator; // keep a pointer to caller's referenced object
 
-    // populate controls using members of OFN object
+    // populate and configure outputFileformatCombo:
+    ui->outputFileformatCombo->addItems(formats);
+
+    // populate controls using members of OFN object:
     ui->FilenameSuffix_checkBox->setChecked(pFilenameGenerator->appendSuffix);
     ui->outFilenameSuffix_lineEdit->setText(pFilenameGenerator->suffix);
     ui->useOutputDirectory_checkBox->setChecked(pFilenameGenerator->useSpecificOutputDirectory);
     ui->outDirectory_lineEdit->setText(pFilenameGenerator->outputDirectory);
     ui->SameFileExt_radioButton->setChecked(!pFilenameGenerator->useSpecificFileExt);
     ui->setFileExt_radioButton->setChecked(pFilenameGenerator->useSpecificFileExt);
-    ui->outFileExt_lineEdit->setText(pFilenameGenerator->fileExt);
+    ui->outputFileformatCombo->setCurrentText(pFilenameGenerator->fileExt);
 
-    // enable relevant lineEdit boxes:
+    // enable relevant controls:
     ui->outFilenameSuffix_lineEdit->setEnabled(pFilenameGenerator->appendSuffix);
     ui->outDirectory_lineEdit->setEnabled(pFilenameGenerator->useSpecificOutputDirectory);
-    ui->outFileExt_lineEdit->setEnabled(pFilenameGenerator->useSpecificFileExt);
+    ui->outputFileformatCombo->setEnabled(pFilenameGenerator->useSpecificFileExt);
 }
 
 OutputFileOptions_Dialog::~OutputFileOptions_Dialog()
@@ -147,12 +150,12 @@ void OutputFileOptions_Dialog::on_useOutputDirectory_checkBox_clicked()
 
 void OutputFileOptions_Dialog::on_setFileExt_radioButton_clicked()
 {
-    ui->outFileExt_lineEdit->setEnabled(ui->setFileExt_radioButton->isChecked());
+    ui->outputFileformatCombo->setEnabled(ui->setFileExt_radioButton->isChecked());
 }
 
 void OutputFileOptions_Dialog::on_SameFileExt_radioButton_clicked()
 {
-    ui->outFileExt_lineEdit->setEnabled(ui->setFileExt_radioButton->isChecked());
+    ui->outputFileformatCombo->setEnabled(ui->setFileExt_radioButton->isChecked());
 }
 
 void OutputFileOptions_Dialog::on_OutputFileOptions_buttonBox_accepted()
@@ -169,9 +172,7 @@ void OutputFileOptions_Dialog::on_OutputFileOptions_buttonBox_accepted()
 
     // File extension Settings:
     pFilenameGenerator->useSpecificFileExt=ui->setFileExt_radioButton->isChecked();
-    pFilenameGenerator->fileExt=ui->outFileExt_lineEdit->text();
-    if (pFilenameGenerator->fileExt.left(1) == ".")
-        pFilenameGenerator->fileExt = pFilenameGenerator->fileExt.right(pFilenameGenerator->fileExt.length()-1); // remove leading "." from file extension
+    pFilenameGenerator->fileExt=ui->outputFileformatCombo->currentText();
 }
 
 void OutputFileOptions_Dialog::on_pushButton_clicked()

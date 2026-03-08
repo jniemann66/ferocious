@@ -181,6 +181,7 @@ private:
     static QString getRandomString(int length);
     QString getInfileFilter();
     QString getOutfileFilter();
+    QStringList getOutfileFormatList();
     void checkConverterAvailability();
 	void openChooseOutputDirectory();
 };
