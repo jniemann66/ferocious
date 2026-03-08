@@ -13,5 +13,6 @@
         <file>Themes/native.css</file>
         <file>Themes/square.css</file>
         <file>Themes/wood.css</file>
+        <file>images/checkmark.png</file>
     </qresource>
 </RCC>

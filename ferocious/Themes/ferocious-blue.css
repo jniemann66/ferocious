@@ -541,7 +541,7 @@ QRadioButton::indicator {
 }
 
 QRadioButton::indicator:unchecked {
-	background-color: black;
+	background-color: rgba(0, 0, 0, 0);
 }
 
 QRadioButton::indicator:checked {
@@ -549,3 +549,28 @@ QRadioButton::indicator:checked {
 		fx: 0.4, fy: -0.1,
 		radius: 1.35, stop: 0 #1B7EE0, stop: 1 #0E4378);
 }
+
+QCheckBox {
+	spacing: 8px; /* Space between indicator and text */
+}
+
+QCheckBox::indicator {
+	width: 15px;
+	height: 15px;
+	border: 1.5px solid #262B30;
+	border-radius: 6px;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+QCheckBox::indicator:hover {
+	border: 1.5px solid #1B7EE0;
+}
+
+QCheckBox::indicator:checked {
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #1B7EE0, stop: 1 #0E4378);
+	border: 1.5px solid rgba(0, 0, 0, 0);
+	image: url(:/images/checkmark.png); /* Need a white tick icon */
+}
+
