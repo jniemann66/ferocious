@@ -538,8 +538,8 @@ QLabel{
 QRadioButton::indicator {
 	width: 12px;
 	height: 12px;
-	border-radius: 8px;
-	border: 2px solid #2E302C;
+	border-radius: 6px;
+	border: 0px solid #2E302C;
 }
 
 QRadioButton::indicator:unchecked {
@@ -550,4 +550,28 @@ QRadioButton::indicator:checked {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 		fx: 0.4, fy: -0.1,
 		radius: 1.35, stop: 0 #E0771B, stop: 1 #78400E);
+}
+
+QCheckBox {
+	spacing: 8px;
+}
+
+QCheckBox::indicator {
+	width: 15px;
+	height: 15px;
+	border: 1.5px solid #2E302C;
+	border-radius: 6px;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+QCheckBox::indicator:hover {
+	border: 1.5px solid #E0771B;
+}
+
+QCheckBox::indicator:checked {
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #E0771B, stop: 1 #78400E);
+	border: 1.5px solid rgba(0, 0, 0, 0);
+	image: url(:/images/checkmark.png);
 }

@@ -68,7 +68,6 @@ FancyLineEdit:disabled {
 	border-color: #2e1e14;
 }
 
-
 QPushButton {
 	color: #fff;
 	border: 1px solid #150d08;
@@ -358,6 +357,7 @@ QMenuBar {
 	background: qradialgradient(cx: 0.3, cy: -0.4,
 	fx: 0.3, fy: -0.4,
 	radius: 1.35, stop: 0 #4e3826, stop: 1 #301e12);
+
 	min-width: 66px;
 	max-height: 30px;
 }
@@ -549,4 +549,28 @@ QRadioButton::indicator:checked {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 		fx: 0.4, fy: -0.1,
 		radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+}
+
+QCheckBox {
+	spacing: 8px;
+}
+
+QCheckBox::indicator {
+	width: 15px;
+	height: 15px;
+	border: 1.5px solid #2e1e14;
+	border-radius: 6px;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+QCheckBox::indicator:hover {
+	border: 1.5px solid #d4940a;
+}
+
+QCheckBox::indicator:checked {
+	background: qradialgradient(cx: 0.4, cy: -0.1,
+	fx: 0.4, fy: -0.1,
+	radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+	border: 1.5px solid rgba(0, 0, 0, 0);
+	image: url(:/images/checkmark.png);
 }

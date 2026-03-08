@@ -444,8 +444,8 @@ QDoubleSpinBox::down-arrow {
 QRadioButton::indicator {
 	width: 12px;
 	height: 12px;
-	border-radius: 8px;
-	border: 2px solid #2b3126;
+	border-radius: 6px;
+	border: 0px solid #2b3126;
 }
 
 QRadioButton::indicator:unchecked {
