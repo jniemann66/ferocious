@@ -524,3 +524,7 @@ QRadioButton::indicator:checked {
 		fx: 0.4, fy: -0.1,
 		radius: 1.35, stop: 0 #70e01a, stop: 1 #3b770e);
 }
+
+QFileDialog QAbstractItemView::item:selected {
+	background-color: rgba(32, 32, 64, 192);
+}

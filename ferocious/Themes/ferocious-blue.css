@@ -574,3 +574,6 @@ QCheckBox::indicator:checked {
 	image: url(:/images/checkmark.png); /* Need a white tick icon */
 }
 
+QFileDialog QAbstractItemView::item:selected {
+	background-color: rgba(32, 32, 64, 192);
+}

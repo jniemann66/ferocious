@@ -455,3 +455,7 @@ QRadioButton::indicator:unchecked {
 QRadioButton::indicator:checked {
 	background-color: #70e01a;
 }
+
+QFileDialog QAbstractItemView::item:selected {
+	background-color: rgba(32, 32, 64, 192);
+}
