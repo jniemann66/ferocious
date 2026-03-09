@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
+    <width>908</width>
     <height>703</height>
    </rect>
   </property>
@@ -48,7 +48,7 @@
        <bool>false</bool>
       </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -317,7 +317,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
        <bool>false</bool>
       </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -457,7 +457,20 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
      </widget>
     </item>
     <item row="3" column="5">
-     <widget class="QComboBox" name="outputFormatCombo"/>
+     <widget class="QComboBox" name="outputFormatCombo">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>22</height>
+       </size>
+      </property>
+     </widget>
     </item>
     <item row="5" column="1">
      <widget class="QCheckBox" name="BitDepthCheckBox">
@@ -489,7 +502,7 @@ Linear Phase is the default. (If you are unsure, use Linear Phase)</string>
     <item row="6" column="0">
      <widget class="QComboBox" name="SamplerateCombo">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -708,7 +721,7 @@ Post- ringing only.</string>
        <bool>false</bool>
       </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -942,8 +955,8 @@ Post- ringing only.</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>818</width>
-     <height>17</height>
+     <width>908</width>
+     <height>27</height>
     </rect>
    </property>
    <property name="sizePolicy">
