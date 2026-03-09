@@ -283,14 +283,14 @@ void ConverterConfigurationDialog::onEditRequested(const QModelIndex& modelIndex
 
     auto dlg = new ConverterConfigurationEditDialog(this);
     dlg->setShowToolTips(showToolTips);
-    if (!editDialogGeometry.isNull()) {
-        dlg->setGeometry(editDialogGeometry);
+    if (!editDialogGeometry.isEmpty()) {
+        dlg->restoreGeometry(editDialogGeometry);
     }
 
     if (row < converterDefinitions.count()) {
         dlg->setConverterDefinition(converterDefinitions.at(row));
         int result = dlg->exec();
-        editDialogGeometry = dlg->geometry();
+        editDialogGeometry = dlg->saveGeometry();
         if (result == QDialog::Accepted) {
             converterDefinitions[row] = dlg->getConverterDefinition();
             convertersModel.setConverterDefinitions(converterDefinitions);
@@ -365,12 +365,12 @@ void ConverterConfigurationDialog::onRestoreDefaults()
     setConverterDefinitions(ConverterDefinition::loadConverterDefinitions(":/converters.json"));
 }
 
-QRect ConverterConfigurationDialog::getEditDialogGeometry() const
+QByteArray ConverterConfigurationDialog::getEditDialogGeometry() const
 {
     return editDialogGeometry;
 }
 
-void ConverterConfigurationDialog::setEditDialogGeometry(const QRect &value)
+void ConverterConfigurationDialog::setEditDialogGeometry(const QByteArray &value)
 {
     editDialogGeometry = value;
 }

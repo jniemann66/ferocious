@@ -27,12 +27,12 @@ public:
     QString getExpectedMainConverter() const;
     QString getMainConverterPath() const;
     QVector<ConverterDefinition> getConverterDefinitions() const;
-    QRect getEditDialogGeometry() const;
+    QByteArray getEditDialogGeometry() const;
     void setExpectedMainConverter(const QString &value);
     void setMainConverterPath(const QString &value);
     void setConverterDefinitions(const QVector<ConverterDefinition> &value);
     void setShowToolTips(bool value);
-    void setEditDialogGeometry(const QRect &value);
+    void setEditDialogGeometry(const QByteArray &value);
 
 public slots:
 
@@ -60,7 +60,7 @@ private:
     ConverterDefinitionsModel convertersModel;
     QString expectedMainConverter;
     QString mainConverterPath;
-    QRect editDialogGeometry;
+    QByteArray editDialogGeometry;
     bool showToolTips;
 
     void promptForResamplerLocation();

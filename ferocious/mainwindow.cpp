@@ -36,6 +36,7 @@
 #include <QJsonDocument>
 #include <QTime>
 #include <QRandomGenerator>
+#include <QCloseEvent>
 
 #define RECURSIVE_DIR_TRAVERSAL
 
@@ -163,8 +164,13 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-	writeSettings();
 	delete ui;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+	writeSettings();
+	QMainWindow::closeEvent(event);
 }
 
 bool MainWindow::fileExists(const QString& path)
@@ -180,15 +186,10 @@ void MainWindow::readSettings()
 	qDebug() << "Reading settings file: " << settings.fileName();
 
 	settings.beginGroup("WindowGeometry");
+	restoreGeometry(settings.value("MainWindowGeometry").toByteArray());
 	if (converterConfigurationDialog != nullptr) {
-		QRect converterConfigDialogGeometry = settings.value("ConverterConfigurationDialogGeometry").toRect();
-		if (!converterConfigDialogGeometry.isNull()) {
-			converterConfigurationDialog->setGeometry(converterConfigDialogGeometry);
-		}
-		QRect converterConfigEditDialogGeometry = settings.value("ConverterConfigurationEditDialogGeometry").toRect();
-		if (!converterConfigEditDialogGeometry.isNull()) {
-			converterConfigurationDialog->setEditDialogGeometry(converterConfigEditDialogGeometry);
-		}
+		converterConfigurationDialog->restoreGeometry(settings.value("ConverterConfigurationDialogGeometry").toByteArray());
+		converterConfigurationDialog->setEditDialogGeometry(settings.value("ConverterConfigurationEditDialogGeometry").toByteArray());
 	}
 	settings.endGroup();
 
@@ -280,10 +281,12 @@ void MainWindow::writeSettings()
 	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "JuddSoft", "Ferocious");
 
 	settings.beginGroup("WindowGeometry");
+	settings.setValue("MainWindowGeometry", saveGeometry());
 	if (converterConfigurationDialog != nullptr) {
-		settings.setValue("ConverterConfigurationDialogGeometry", converterConfigurationDialog->geometry());
-		if (!converterConfigurationDialog->getEditDialogGeometry().isNull()) {
-			settings.setValue("ConverterConfigurationEditDialogGeometry", converterConfigurationDialog->getEditDialogGeometry());
+		settings.setValue("ConverterConfigurationDialogGeometry", converterConfigurationDialog->saveGeometry());
+		const QByteArray editDialogGeometry = converterConfigurationDialog->getEditDialogGeometry();
+		if (!editDialogGeometry.isEmpty()) {
+			settings.setValue("ConverterConfigurationEditDialogGeometry", editDialogGeometry);
 		}
 	}
 	settings.endGroup();
