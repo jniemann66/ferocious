@@ -19,7 +19,6 @@
 #include <QHeaderView>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QToolButton>
 #include <QVBoxLayout>
 
 ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::WindowFlags f)
@@ -30,8 +29,8 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     mainConverterLocationLabel = new QLabel("Location of Main Converter:");
     mainConverterLocationEdit = new FancyLineEdit;
     contextMenu = new QMenu(this);
-    contextToolBar = new QToolBar(this);
     browseButton = new QPushButton("Browse ...");
+    auto tableHintLabel = new QLabel(tr("Right-click a row for options  \u2022  Double-click to edit"));
     additionalConvertersLabel = new QLabel("Additional converters:");
     auto stdButtons = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults | QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     auto mainLayout = new QVBoxLayout;
@@ -54,15 +53,15 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     tableView.setContextMenuPolicy(Qt::CustomContextMenu);
     tableView.horizontalHeader()->setStretchLastSection(true);
 
-    // configure menu & toolbar
+    // configure menu
     initMenu();
-    initToolBar();
-    contextToolBar->hide();
 
     // configure fonts
     QFont defaultFont{qApp->font()};
     QFont heading2Font{defaultFont};
     QFont heading1Font{defaultFont};
+    QFont hintFont{defaultFont};
+    hintFont.setPointSize(defaultFont.pointSize() - 1);
 
     // configure widgets
     headingLabel->setFont(heading1Font);
@@ -70,6 +69,9 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     mainConverterLocationEdit->hideEditButton();
     mainConverterLocationLabel->setFont(heading2Font);
     additionalConvertersLabel->setFont(heading2Font);
+    tableHintLabel->setFont(hintFont);
+    tableHintLabel->setAlignment(Qt::AlignRight);
+    tableHintLabel->setForegroundRole(QPalette::Mid);
 
     // attach widgets to main layout
     mainLayout->addWidget(headingLabel);
@@ -81,6 +83,7 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     mainLayout->addSpacing(6);
     mainLayout->addWidget(additionalConvertersLabel);
     mainLayout->addWidget(&tableView);
+    mainLayout->addWidget(tableHintLabel);
     mainLayout->addWidget(stdButtons);
     setLayout(mainLayout);
 
@@ -101,20 +104,12 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
     });
 
     connect(browseButton, &QPushButton::clicked, this, &ConverterConfigurationDialog::promptForResamplerLocation);
-    connect(&tableView, &QWidget::customContextMenuRequested, this, [this](const QPoint& pos){
-        contextMenu->popup(QPoint{this->mapToGlobal(pos).x(), this->mapToGlobal(pos).y() + contextMenu->sizeHint().height()});
-        contextToolBar->hide();
+    connect(&tableView, &QTableView::doubleClicked, this, [this](const QModelIndex& modelIndex) {
+        onEditRequested(modelIndex);
     });
 
-    connect(&tableView, &QTableView::clicked, this, [this](const QModelIndex& modelIndex) {
-        if (modelIndex.column() == 1)
-            return;
-
-        QPoint p{tableView.columnViewportPosition(4), tableView.rowViewportPosition(modelIndex.row())};
-        QPoint q = tableView.mapTo(this, p + QPoint{0, tableView.rowHeight(modelIndex.row()) / 2});
-        contextToolBar->move(q);
-        contextToolBar->show();
-        contextToolBar->raise();
+    connect(&tableView, &QWidget::customContextMenuRequested, this, [this](const QPoint& pos){
+        contextMenu->popup(QPoint{this->mapToGlobal(pos).x(), this->mapToGlobal(pos).y() + contextMenu->sizeHint().height()});
     });
 
     connect(stdButtons, &QDialogButtonBox::clicked, this, [this, stdButtons](QAbstractButton* b) {
@@ -152,56 +147,6 @@ void ConverterConfigurationDialog::initMenu()
 	contextMenu->addAction(tr("Move Down"), this, [this] {
         onMoveDownRequested(tableView.currentIndex());
     });
-}
-
-void ConverterConfigurationDialog::initToolBar()
-{
-    QList<QAction*> actions;
-
-	actions.append(contextToolBar->addAction(tr("New"), this, [this] {
-       onNewRequested(tableView.currentIndex());
-       contextToolBar->hide();
-    }));
-
-	actions.append(contextToolBar->addAction(tr("Edit ..."), this, [this] {
-       onEditRequested(tableView.currentIndex());
-       contextToolBar->hide();
-    }));
-
-	actions.append(contextToolBar->addAction(tr("Clone"), this, [this] {
-       onCloneRequested(tableView.currentIndex());
-       contextToolBar->hide();
-    }));
-
-	actions.append(contextToolBar->addAction(tr("Delete"), this, [this] {
-       onDeleteRequested(tableView.currentIndex());
-       contextToolBar->hide();
-    }));
-
-	actions.append(contextToolBar->addAction(tr("Move Up"), this, [this] {
-        onMoveUpRequested(tableView.currentIndex());
-    }));
-
-	actions.append(contextToolBar->addAction(tr("Move Down"), this, [this] {
-        onMoveDownRequested(tableView.currentIndex());
-    }));
-
-    contextToolBar->setContentsMargins(0, 0, 0, 0);
-    contextToolBar->setMinimumWidth(tableView.width() / 2);
-    contextToolBar->setMaximumWidth(tableView.width());
-    contextToolBar->setFixedHeight(40);
-    contextToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    contextToolBar->setStyleSheet("QToolBar {background-color: rgba(0, 0, 0, 0);}");
-
-    for (QAction* a : actions) {
-        QWidget* w = contextToolBar->widgetForAction(a);
-        if (QString(w->metaObject()->className()) == "QToolButton") {
-            auto* t = qobject_cast<QToolButton*>(w);
-            if (t != nullptr) {
-                t->setStyleSheet("QToolButton {padding: 5px; border-radius: 3px}");
-            }
-        }
-    }
 }
 
 void ConverterConfigurationDialog::showEvent(QShowEvent* event)

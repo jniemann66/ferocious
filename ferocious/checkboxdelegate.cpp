@@ -23,11 +23,21 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         painter->fillRect(option.rect, option.palette.highlight());
     }
 
-    QStyleOptionButton cbIndicator;
-    cbIndicator.rect = option.rect;
-    bool isChecked = index.data().toBool();
-    cbIndicator.state = QStyle::State_Enabled | (isChecked ? QStyle::State_On : QStyle::State_Off);
-    QApplication::style()->drawControl(QStyle::CE_CheckBox, &cbIndicator, painter);
+    // Center the indicator in the cell
+    const int iw = cb.style()->pixelMetric(QStyle::PM_IndicatorWidth, nullptr, &cb);
+    const int ih = cb.style()->pixelMetric(QStyle::PM_IndicatorHeight, nullptr, &cb);
+    const QRect indicatorRect(
+        option.rect.left() + (option.rect.width() - iw) / 2,
+        option.rect.top() + (option.rect.height() - ih) / 2,
+        iw, ih
+    );
+
+    QStyleOptionButton opt;
+    opt.initFrom(&cb);
+    opt.rect = indicatorRect;
+    opt.state = QStyle::State_Enabled | (index.data().toBool() ? QStyle::State_On : QStyle::State_Off);
+    cb.style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &opt, painter, &cb);
+
     painter->restore();
 }
 

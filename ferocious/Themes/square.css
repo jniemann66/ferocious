@@ -21,7 +21,7 @@ QDialog {
 QLineEdit {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
@@ -31,7 +31,7 @@ QLineEdit {
 QLineEdit:disabled {
 	background-color:   #32392d;
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
@@ -46,7 +46,7 @@ QLineEdit:read-only{
 FancyLineEdit {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
@@ -56,7 +56,7 @@ FancyLineEdit {
 FancyLineEdit:disabled {
 	background-color:   #32392d;
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
@@ -103,7 +103,7 @@ QPushButton:disabled[flashing="true"] {
 QComboBox {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
@@ -126,7 +126,7 @@ QComboBox::down-arrow:enabled {
 QComboBox::disabled {
 	background-color:   #32392d;
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
@@ -137,7 +137,7 @@ QComboBox::disabled {
 QComboBox::drop-down:disabled {
 	background-color:   #32392d;
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 0px;
 	border-style: inset;
@@ -147,7 +147,7 @@ QComboBox::drop-down:disabled {
 
 QComboBox QAbstractItemView {
 	background-color: black;
-    selection-background-color: rgb(0, 0, 127);
+    selection-background-color: rgba(32, 32, 64, 192);
 }
 
 /* --- Vert scrollbar ---*/
@@ -325,7 +325,7 @@ QHeaderView::section {
 QTextBrowser {
 	background-color: rgb(0, 0, 0);
 	color: #70e01a;
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
@@ -335,7 +335,7 @@ QTextBrowser {
 QPlainTextEdit {
 	background-color: rgb(0, 0, 0);
 	color: #ffffff;
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
 	border-style: inset;
@@ -423,7 +423,7 @@ QToolButton:pressed {
 QSpinBox {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	padding-right: 15px;
 	border-width: 2px;
@@ -468,7 +468,7 @@ QSpinBox::down-arrow {
 QDoubleSpinBox {
 	background-color: rgb(0, 0, 0);
 	color: rgb(225, 225, 225);
-	selection-background-color: rgb(0, 0, 127);
+	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	padding-right: 15px;
 	border-width: 2px;

@@ -13,6 +13,7 @@
 #include <QObject>
 #include <QStyledItemDelegate>
 #include <QPainter>
+#include <QCheckBox>
 
 class CheckBoxDelegate : public QStyledItemDelegate
 {
@@ -22,6 +23,10 @@ public:
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+
+private:
+    // cb : persistent Checkbox, used for drawing a checkbox in the currently-selected style during paint()
+    mutable QCheckBox cb;
 };
 
 #endif // CHECKBOXDELEGATE_H

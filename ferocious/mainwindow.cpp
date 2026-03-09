@@ -1783,7 +1783,13 @@ QString MainWindow::getOutfileFilter()
 void MainWindow::checkConverterAvailability()
 {
 	for (ConverterDefinition& d : converterDefinitions) {
-		d.enabled = d.enabled && !d.executablePath.isEmpty() && QFile::exists(d.executablePath);
+		const bool available = (!d.executablePath.isEmpty() && QFile::exists(d.executablePath));
+		if (!available) {
+			qDebug().noquote() << QStringLiteral("Converter '%1' not found")
+								  .arg(d.executablePath);
+		}
+
+	//	d.enabled = d.enabled && !d.executablePath.isEmpty() && QFile::exists(d.executablePath); // deactivate if not found
 	}
 }
 
