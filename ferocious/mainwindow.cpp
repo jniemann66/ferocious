@@ -464,7 +464,7 @@ void MainWindow::on_browseInfileButton_clicked()
 	}
 
 	const bool useNative = !QApplication::testAttribute(Qt::AA_DontUseNativeDialogs);
-	QFileDialog *fileDialog = useNative ? new QFileDialog(this) : new SoundFileDialog(this);
+	QFileDialog *fileDialog = useNative ? new QFileDialog(this) : new SoundFileDialog(this, converterPath, reSamplerCmdlineOptions.contains("--info"));
 	fileDialog->setDirectory(inFileBrowseDir);
 	fileDialog->setFileMode(QFileDialog::ExistingFiles);
 	fileDialog->setNameFilter(getInfileFilter());
