@@ -112,6 +112,8 @@ MainWindow::MainWindow(QWidget *parent)
 	// get converter version:
 	queryResamplerVersion();
 	queryResamplerSndfileVersion();
+	reSamplerCmdlineOptions = queryResamplerCapabilities();
+	qDebug().noquote() << reSamplerCmdlineOptions;
 
 	// retrieve dither profiles and add them to menu:
 	populateDitherProfileMenu();
@@ -1317,7 +1319,7 @@ QStringList MainWindow::queryResampler(const QStringList& cmdlineOptions)
 	return lines;
 }
 
-QStringList MainWindow::getResamplerCapabilities()
+QStringList MainWindow::queryResamplerCapabilities()
 {
 	QStringList capabilities;
 	const QStringList helpOutput = queryResampler({"--help"});
