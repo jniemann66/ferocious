@@ -158,9 +158,10 @@ private:
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file
     void readSettings();        // read settings from ini file
-	QString queryResampler(const QStringList &cmdlineOptions);
+    QStringList queryResampler(const QStringList &cmdlineOptions);
 	void queryResamplerVersion();   // function to retrieve version number of main external converter
 	void queryResamplerSndfileVersion();
+	QStringList getResamplerCapabilities(); // returns list of --switches supported by the available ReSampler binary
     void processOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void syncOutputFormatControls(); // sync outputFormatCombo and fileFormatCheckbox from filenameGenerator
     void convert(const QString &outfn, const QString &infn); // execute a conversion task

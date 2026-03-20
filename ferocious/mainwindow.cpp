@@ -1272,7 +1272,7 @@ void MainWindow::populateBitFormats(const QString& fileName)
 // Query Converter for version number:
 void MainWindow::queryResamplerVersion()
 {
-	const QString v = queryResampler({"--version"});
+	const QString v = queryResampler({"--version"}).join("").simplified();
 
 	// split the version number into components:
 	QStringList ResamplerVersionNumbers = v.split(".");
@@ -1291,7 +1291,7 @@ void MainWindow::queryResamplerSndfileVersion()
 {
 	static const QRegularExpression rx{".*(?:\\d+)\\.(\\d+)\\.(?:\\d+)"};
 
-	resamplerSndfileVersion = queryResampler({"--sndfile-version"});
+	resamplerSndfileVersion = queryResampler({"--sndfile-version"}).join("").simplified();
 	auto rxm = rx.match(resamplerSndfileVersion);
 
 	if (rxm.hasMatch()) {
@@ -1299,9 +1299,9 @@ void MainWindow::queryResamplerSndfileVersion()
 	}
 }
 
-QString MainWindow::queryResampler(const QStringList& cmdlineOptions)
+QStringList MainWindow::queryResampler(const QStringList& cmdlineOptions)
 {
-	QString v;
+	QStringList lines;
 	QProcess ConverterQuery;
 	ConverterQuery.start(converterPath, cmdlineOptions); // ask converter for its version number
 
@@ -1311,10 +1311,35 @@ QString MainWindow::queryResampler(const QStringList& cmdlineOptions)
 
 	ConverterQuery.setReadChannel(QProcess::StandardOutput);
 	while (ConverterQuery.canReadLine()) {
-		v += (QString::fromLocal8Bit(ConverterQuery.readLine())).simplified();
+		lines.append((QString::fromLocal8Bit(ConverterQuery.readLine())).simplified());
 	}
 
-	return v;
+	return lines;
+}
+
+QStringList MainWindow::getResamplerCapabilities()
+{
+	QStringList capabilities;
+	const QStringList helpOutput = queryResampler({"--help"});
+
+	// Switches are listed after the "Additional options:" section header
+	bool inAdditionalOptions = false;
+	static const QRegularExpression switchRx{R"(^(--\S+))"};
+
+	for (const QString& line : helpOutput) {
+		if (line.contains("Additional options", Qt::CaseInsensitive)) {
+			inAdditionalOptions = true;
+			continue;
+		}
+		if (inAdditionalOptions) {
+			auto m = switchRx.match(line);
+			if (m.hasMatch()) {
+				capabilities.append(m.captured(1));
+			}
+		}
+	}
+
+	return capabilities;
 }
 
 void MainWindow::on_OutfileEdit_editingFinished()
