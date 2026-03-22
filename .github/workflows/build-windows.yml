@@ -35,8 +35,8 @@ jobs:
 
       - name: Add Qt and MinGW to PATH
         run: |
-          echo "${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/mingw_64/bin" >> $GITHUB_PATH
-          echo "${{ env.QT_INSTALL_DIR }}/Tools/mingw1310_64/bin" >> $GITHUB_PATH
+          echo "$(cygpath -u "${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/mingw_64/bin")" >> $GITHUB_PATH
+          echo "$(cygpath -u "${{ env.QT_INSTALL_DIR }}/Tools/mingw1310_64/bin")" >> $GITHUB_PATH
 
       - name: Extract version from ferocious.pro
         run: |
