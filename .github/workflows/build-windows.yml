@@ -51,8 +51,9 @@ jobs:
 
       - name: Build
         run: |
+          export PATH=$(echo "$PATH" | tr ':' '\n' | grep -v '^/c/mingw64' | tr '\n' ':')
           echo "which gcc: $(which gcc)"
-          echo "gcc version: $(gcc --version | head -1)"
+          echo "which ld: $(which ld)"
           cd ferocious
           qmake ferocious.pro CONFIG+=release
           mingw32-make -j$(nproc)
