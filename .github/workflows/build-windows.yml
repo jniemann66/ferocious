@@ -9,7 +9,7 @@ on:
 env:
   QT_VERSION: '6.10.1'
   QT_ARCH: 'win64_mingw'
-  QT_INSTALL_DIR: '${{ github.workspace }}/Qt'
+  QT_INSTALL_DIR: 'C:/Qt'
 
 jobs:
   build-windows:
