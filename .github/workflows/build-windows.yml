@@ -34,7 +34,10 @@ jobs:
             --outputdir ${{ env.QT_INSTALL_DIR }}
 
       - name: Inspect Qt install layout
-        run: find "${{ env.QT_INSTALL_DIR }}" -maxdepth 4 -type d
+        run: |
+          find C:/Qt -maxdepth 4 -type d
+          echo "--- Tools dir ---"
+          ls C:/Qt/Tools/ || echo "(no Tools dir)"
 
       - name: Add Qt and MinGW to PATH
         run: |
@@ -48,6 +51,8 @@ jobs:
 
       - name: Build
         run: |
+          echo "which gcc: $(which gcc)"
+          echo "gcc version: $(gcc --version | head -1)"
           cd ferocious
           qmake ferocious.pro CONFIG+=release
           mingw32-make -j$(nproc)
