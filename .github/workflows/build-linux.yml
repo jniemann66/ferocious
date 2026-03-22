@@ -26,7 +26,8 @@ jobs:
             libgl1-mesa-dev \
             libglib2.0-0 \
             libdbus-1-3 \
-            imagemagick   # for .ico -> .png conversion
+            libpulse-dev \
+            imagemagick
 
       - name: Install aqtinstall
         run: pip install aqtinstall
