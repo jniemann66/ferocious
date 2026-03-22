@@ -33,12 +33,6 @@ jobs:
           aqt install-tool windows desktop tools_mingw1310 \
             --outputdir ${{ env.QT_INSTALL_DIR }}
 
-      - name: Inspect Qt install layout
-        run: |
-          find C:/Qt -maxdepth 4 -type d
-          echo "--- Tools dir ---"
-          ls C:/Qt/Tools/ || echo "(no Tools dir)"
-
       - name: Add Qt and MinGW to PATH
         run: |
           echo "$(cygpath -u "${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/mingw_64/bin")" >> $GITHUB_PATH
@@ -52,8 +46,6 @@ jobs:
       - name: Build
         run: |
           export PATH=$(echo "$PATH" | tr ':' '\n' | grep -v '^/c/mingw64' | tr '\n' ':')
-          echo "which gcc: $(which gcc)"
-          echo "which ld: $(which ld)"
           cd ferocious
           qmake ferocious.pro CONFIG+=release
           mingw32-make -j$(nproc)
