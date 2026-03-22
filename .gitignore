@@ -41,6 +41,7 @@ ui_*.h
 Makefile*
 *build-*
 !howto-build*
+!.github/**
 
 # QtCreator
 

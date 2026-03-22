@@ -1,0 +1,79 @@
+name: Build Linux
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  QT_VERSION: '6.10.1'
+  QT_ARCH: 'linux_gcc_64'
+  QT_INSTALL_DIR: '${{ github.workspace }}/Qt'
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            libgl1-mesa-dev \
+            libglib2.0-0 \
+            libdbus-1-3 \
+            imagemagick   # for .ico -> .png conversion
+
+      - name: Install aqtinstall
+        run: pip install aqtinstall
+
+      - name: Install Qt
+        run: |
+          aqt install-qt linux desktop ${{ env.QT_VERSION }} ${{ env.QT_ARCH }} \
+            --outputdir ${{ env.QT_INSTALL_DIR }} \
+            -m qtmultimedia
+
+      - name: Build
+        run: |
+          cd ferocious
+          ${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/gcc_64/bin/qmake ferocious.pro CONFIG+=release
+          make -j$(nproc)
+
+      - name: Convert icon
+        run: |
+          convert ferocious/ferocious.ico[0] -resize 256x256 installer/linux/ferocious.png
+
+      - name: Set up AppDir
+        run: |
+          mkdir -p AppDir/usr/bin
+          cp ferocious/ferocious AppDir/usr/bin/
+          cp installer/linux/ferocious.desktop AppDir/
+          cp installer/linux/ferocious.png AppDir/
+
+      - name: Download linuxdeployqt
+        run: |
+          wget -q -O linuxdeployqt \
+            https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+          chmod +x linuxdeployqt
+
+      - name: Create AppImage
+        run: |
+          export PATH=${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/gcc_64/bin:$PATH
+          ./linuxdeployqt --appimage-extract-and-run \
+            AppDir/usr/bin/ferocious \
+            -qmake=${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/gcc_64/bin/qmake \
+            -appimage \
+            -no-translations
+        env:
+          VERSION: ${{ github.ref_name }}
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: ferocious-linux
+          path: '*.AppImage'
+          if-no-files-found: error
