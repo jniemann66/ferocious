@@ -72,7 +72,8 @@ jobs:
       - name: Build Inno Setup installer
         run: |
           ISCC="/c/Program Files (x86)/Inno Setup 6/ISCC.exe"
-          "$ISCC" /DAppVersion=${{ env.APP_VERSION }} installer/windows/ferocious.iss
+          ISS="$(cygpath -w installer/windows/ferocious.iss)"
+          "$ISCC" /DAppVersion=${{ env.APP_VERSION }} "$ISS"
 
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
