@@ -1,0 +1,78 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  QT_VERSION: '6.10.1'
+  QT_ARCH: 'win64_mingw'
+  QT_INSTALL_DIR: '${{ github.workspace }}/Qt'
+
+jobs:
+  build-windows:
+    runs-on: windows-2022
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install aqtinstall
+        run: pip install aqtinstall
+
+      - name: Install Qt and MinGW
+        run: |
+          aqt install-qt windows desktop ${{ env.QT_VERSION }} ${{ env.QT_ARCH }} \
+            --outputdir ${{ env.QT_INSTALL_DIR }} \
+            -m qtmultimedia
+          aqt install-tool windows desktop tools_mingw1310 \
+            --outputdir ${{ env.QT_INSTALL_DIR }}
+
+      - name: Extract version from ferocious.pro
+        run: |
+          VERSION=$(grep -m1 '^VERSION' ferocious/ferocious.pro | sed 's/.*=\s*//' | tr -d '[:space:]')
+          echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Build
+        run: |
+          export PATH="${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/mingw_64/bin:${{ env.QT_INSTALL_DIR }}/Tools/mingw1310_64/bin:$PATH"
+          cd ferocious
+          qmake ferocious.pro CONFIG+=release
+          mingw32-make -j$(nproc)
+
+      - name: Run windeployqt
+        run: |
+          export PATH="${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/mingw_64/bin:${{ env.QT_INSTALL_DIR }}/Tools/mingw1310_64/bin:$PATH"
+          mkdir -p installer/windows/deploy
+          cp ferocious/release/ferocious.exe installer/windows/deploy/
+          windeployqt --release --no-translations installer/windows/deploy/ferocious.exe
+
+      - name: Create zip archive
+        run: |
+          cd installer/windows/deploy
+          7z a "../../../ferocious-${{ env.APP_VERSION }}-windows.zip" *
+
+      - name: Build Inno Setup installer
+        run: |
+          "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" \
+            /DAppVersion=${{ env.APP_VERSION }} \
+            installer/windows/ferocious.iss
+
+      - name: Upload zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ferocious-windows-zip
+          path: ferocious-${{ env.APP_VERSION }}-windows.zip
+          if-no-files-found: error
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ferocious-windows-installer
+          path: installer/windows/ferocious-${{ env.APP_VERSION }}-windows-setup.exe
+          if-no-files-found: error

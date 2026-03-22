@@ -153,7 +153,16 @@ void ConverterConfigurationDialog::showEvent(QShowEvent* event)
 {
 
 	if (mainConverterPath.isEmpty() || !QFile::exists(mainConverterPath)) {
-       promptForResamplerLocation();
+#if defined(Q_OS_WIN)
+        const QString defaultPath = QString("C:/Program Files/ReSampler/bin/%1").arg(expectedMainConverter);
+        if (QFile::exists(defaultPath)) {
+            mainConverterPath = defaultPath;
+        } else {
+            promptForResamplerLocation();
+        }
+#else
+        promptForResamplerLocation();
+#endif
 	}
 
     mainConverterLocationLabel->setText(QString{"Location of Main Converter (%1):"}.arg(expectedMainConverter));
