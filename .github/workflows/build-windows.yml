@@ -33,6 +33,9 @@ jobs:
           aqt install-tool windows desktop tools_mingw1310 \
             --outputdir ${{ env.QT_INSTALL_DIR }}
 
+      - name: Inspect Qt install layout
+        run: find "${{ env.QT_INSTALL_DIR }}" -maxdepth 4 -type d
+
       - name: Add Qt and MinGW to PATH
         run: |
           echo "$(cygpath -u "${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/mingw_64/bin")" >> $GITHUB_PATH
