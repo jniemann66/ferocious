@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Ferocious File Converter
-Comment=Graphical front-end for ReSampler audio converter
-Exec=ferocious
-Icon=ferocious
-Categories=Audio;AudioVideo;
-Keywords=audio;convert;resample;wav;flac;
-Terminal=false

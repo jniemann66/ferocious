@@ -11,6 +11,10 @@ build-ferocious-Desktop_*-Release/
 ferocious-resampler64-pkg/
 ferocious-resampler-pkg/
 
+# AppImage build artifacts
+AppDir/
+linuxdeployqt
+
 #powershell script
 makepkg.ps1
 
