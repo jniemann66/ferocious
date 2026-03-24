@@ -1,0 +1,4 @@
+2026-03-22 17:16:09,282 - aqt.helper - DEBUG - helper 140559041709696 Attempt to download checksum at https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6101/qt6_6101/Updates.xml.sha256
+2026-03-22 17:16:29,018 - aqt.helper - DEBUG - helper 139720222676608 Attempt to download checksum at https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6101/qt6_6101/Updates.xml.sha256
+2026-03-22 17:16:32,017 - aqt.helper - DEBUG - helper 139720222676608 Attempt to download checksum at https://download.qt.io/online/qtsdkrepository/linux_x64/extensions/qtpdf/6101/x86_64/Updates.xml.sha256
+2026-03-22 17:16:34,940 - aqt.helper - DEBUG - helper 139720222676608 Attempt to download checksum at https://download.qt.io/online/qtsdkrepository/linux_x64/extensions/qtwebengine/6101/x86_64/Updates.xml.sha256

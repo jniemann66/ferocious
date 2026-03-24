@@ -113,7 +113,6 @@ MainWindow::MainWindow(QWidget *parent)
 	queryResamplerVersion();
 	queryResamplerSndfileVersion();
 	reSamplerCmdlineOptions = queryResamplerCapabilities();
-	qDebug().noquote() << reSamplerCmdlineOptions;
 
 	// retrieve dither profiles and add them to menu:
 	populateDitherProfileMenu();
@@ -150,14 +149,8 @@ MainWindow::MainWindow(QWidget *parent)
 		on_InfileEdit_editingFinished();
 	});
 
-	connect(&process, &QProcess::readyReadStandardOutput, this, &MainWindow::on_StdoutAvailable);
-	connect(&process, &QProcess::readyReadStandardError, this, &MainWindow::on_StderrAvailable);
-	connect(&process, &QProcess::started, this, &MainWindow::on_ConverterStarted);
-	connect(&process,
-			static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-			this,
-			static_cast<void(MainWindow::*)(int, QProcess::ExitStatus)>(&MainWindow::on_ConverterFinished)
-			);
+	// worker pool is set up after readSettings() so numWorkersOverride is already populated
+	setupWorkerPool((numWorkersOverride > 0) ? numWorkersOverride : MainWindow::numWorkers());
 	connect(ui->convertButton, &FlashingPushButton::stopRequested, this, &MainWindow::on_stopRequested);
 	connect(ui->convertButton, &FlashingPushButton::rightClicked, this, &MainWindow::onConvertButtonRightClicked);
 	connect(ui->browseInfileButton, &FlashingPushButton::rightClicked, this, &MainWindow::onBrowseInButtonRightClicked);
@@ -219,6 +212,7 @@ void MainWindow::readSettings()
 	MainWindow::bEnableMultithreading=settings.value("enableMultithreading", true).toBool();
 	MainWindow::bSingleStage=settings.value("singleStage", false).toBool();
 	MainWindow::bNoTempFile=settings.value("noTempFile", false).toBool();
+	MainWindow::numWorkersOverride=settings.value("numWorkersOverride", 0).toInt();
 
 	// Note: "on/off" options are to be stored the way they are used in ReSampler's commandline.
 	// However, in the UI, the options may be represented in the inverse form. eg:
@@ -314,6 +308,7 @@ void MainWindow::writeSettings()
 	settings.setValue("enableMultithreading", MainWindow::bEnableMultithreading);
 	settings.setValue("singleStage", MainWindow::bSingleStage);
 	settings.setValue("noTempFile", MainWindow::bNoTempFile);
+	settings.setValue("numWorkersOverride", MainWindow::numWorkersOverride);
 	settings.endGroup();
 
 	settings.beginGroup("LPFSettings");
@@ -338,39 +333,11 @@ void MainWindow::writeSettings()
 	filenameGenerator.saveSettings(settings);
 }
 
-void MainWindow::on_StderrAvailable()
-{
-	processConverterOutput(process.readAllStandardError(), 2);
-}
-
-void MainWindow::on_StdoutAvailable()
-{
-	processConverterOutput(process.readAllStandardOutput(), 1);
-}
-
 void MainWindow::processConverterOutput(QString converterOutput, int channel)
-{	
-	// capture progress updates
+{
+	// strip progress sequences (eg "42%\b\b\b") — not used for the progress bar in batch mode
 	static const QRegularExpression progressRx("\\d+%[\\b]+");
-	auto rxMatches = progressRx.globalMatch(converterOutput);
-	QStringList progressUpdates;
-	while (rxMatches.hasNext()) {
-		progressUpdates.append(rxMatches.next().captured(0));
-	}
-
-	if (!progressUpdates.isEmpty()) {
-		// Use last progress update to set progress bar.
-		static const QRegularExpression rx{"[^0-9]"};
-		ui->progressBar->setValue(progressUpdates.last().remove(rx).toInt());
-
-		// clean-out progress updates from converter output
-		converterOutput.remove(progressRx);
-	}
-
-	const QString dbg = converterOutput.simplified();
-	if (!dbg.isEmpty()) {
-		qDebug().noquote() << dbg;
-	}
+	converterOutput.remove(progressRx);
 
 	static const QRegularExpression rxNewline{"\\r?\\n"};
 	converterOutput.replace(rxNewline, QStringLiteral("<br/>"));
@@ -386,24 +353,40 @@ void MainWindow::processConverterOutput(QString converterOutput, int channel)
 void MainWindow::on_ConverterStarted()
 {
 	ui->convertButton->setIsActive(true);
-	ui->progressBar->setValue(0);
 	if (bShowProgressBar) {
 		ui->progressBar->setVisible(true);
 	}
 }
 
-void MainWindow::on_ConverterFinished(int exitCode, QProcess::ExitStatus exitStatus)
+void MainWindow::on_ConverterFinished(int workerIndex, int exitCode, QProcess::ExitStatus exitStatus)
 {
 	Q_UNUSED(exitCode);
 	Q_UNUSED(exitStatus);
 
+	// flush buffered output for this worker atomically
+	if (!workerOutputs[workerIndex].stdoutBuffer.isEmpty()) {
+		processConverterOutput(workerOutputs[workerIndex].stdoutBuffer, 1);
+		workerOutputs[workerIndex].stdoutBuffer.clear();
+	}
+
+	if (!workerOutputs[workerIndex].stderrBuffer.isEmpty()) {
+		processConverterOutput(workerOutputs[workerIndex].stderrBuffer, 2);
+		workerOutputs[workerIndex].stderrBuffer.clear();
+	}
+
+	ui->progressBar->setValue(++completedTasks);
+
 	if (!MainWindow::conversionQueue.isEmpty()) {
-		MainWindow::convertNext();
-		ui->progressBar->setValue(0);
+		MainWindow::convertNext(workerIndex);
 	} else {
-		ui->progressBar->setVisible(false);
-		ui->StatusLabel->setText("Status: Ready");
-		ui->convertButton->setIsActive(false);
+		const bool allDone = std::all_of(workers.constBegin(), workers.constEnd(), [](QProcess* p) {
+			return p->state() == QProcess::NotRunning;
+		});
+		if (allDone) {
+			ui->progressBar->setVisible(false);
+			ui->StatusLabel->setText("Status: Ready");
+			ui->convertButton->setIsActive(false);
+		}
 	}
 }
 
@@ -601,7 +584,16 @@ void MainWindow::launch()
 
 	ui->StatusLabel->setText("Status: Ready");
 	QApplication::restoreOverrideCursor();
-	MainWindow::convertNext();
+
+	totalTasks = conversionQueue.size();
+	completedTasks = 0;
+	ui->progressBar->setRange(0, totalTasks);
+	ui->progressBar->setFormat(tr("%v / %m files"));
+	ui->progressBar->setValue(0);
+
+	for (int i = 0; i < workers.size() && !conversionQueue.isEmpty(); ++i) {
+		MainWindow::convertNext(i);
+	}
 }
 
 // wildcardPushtoQueue() - expand wildcard in filespec, and push matching filenames into queue:
@@ -766,24 +758,64 @@ void MainWindow::wildcardPushToQueue(const QString& inFilename)
 	}
 }
 
+// setupWorkerPool() - (re)create the pool of worker QProcess objects.
+// Safe to call at any time provided no conversion is currently in progress.
+
+void MainWindow::setupWorkerPool(int n)
+{
+	for (QProcess* w : workers) {
+		w->disconnect();
+		delete w;
+	}
+	workers.clear();
+	workerOutputs.clear();
+
+	workers.resize(n);
+	workerOutputs.resize(n);
+	for (int i = 0; i < n; ++i) {
+		workers[i] = new QProcess(this);
+		connect(workers[i], &QProcess::readyReadStandardOutput, this, [this, i]() {
+			workerOutputs[i].stdoutBuffer += workers[i]->readAllStandardOutput();
+		});
+		connect(workers[i], &QProcess::readyReadStandardError, this, [this, i]() {
+			workerOutputs[i].stderrBuffer += workers[i]->readAllStandardError();
+		});
+		connect(workers[i], &QProcess::started, this, &MainWindow::on_ConverterStarted);
+		connect(workers[i],
+				static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+				this,
+				[this, i](int exitCode, QProcess::ExitStatus exitStatus) {
+					on_ConverterFinished(i, exitCode, exitStatus);
+				});
+	}
+}
+
+// numWorkers() - calculate how many parallel conversion processes to run.
+// Heuristic: assumes 2 threads per process (one per channel for stereo files).
+// Reserves 2 threads for the UI and OS, then divides the remainder by 2.
+
+int MainWindow::numWorkers()
+{
+	const int hwThreads = static_cast<int>(std::thread::hardware_concurrency());
+	return std::max(1, (hwThreads - 2) / 2);
+}
+
 // convertNext() - take the next conversion task from the front of the queue, convert it, then remove it from queue.
 
-void MainWindow::convertNext()
+void MainWindow::convertNext(int workerIndex)
 {
 	if (!conversionQueue.empty()) {
-		ConversionTask& nextTask = MainWindow::conversionQueue.first();
+		const ConversionTask nextTask = MainWindow::conversionQueue.takeFirst();
 		ui->StatusLabel->setText(tr("Status: processing ") + nextTask.inFilename);
-		ui->progressBar->setFormat(tr("Status: processing ") + nextTask.inFilename);
 		this->repaint();
-		MainWindow::convert(nextTask.outFilename, nextTask.inFilename);
-		conversionQueue.removeFirst();
+		MainWindow::convert(nextTask.outFilename, nextTask.inFilename, workerIndex);
 	}
 }
 
 // convert() - the function that actually launches the converter(s)
 // converts file infn to outfn using current parameters
 
-void MainWindow::convert(const QString &outfn, const QString& infn)
+void MainWindow::convert(const QString &outfn, const QString& infn, int workerIndex)
 {
 	if (outfn.isEmpty() || infn.isEmpty()) {
 		return;
@@ -890,8 +922,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		if (ui->actionMock_Conversion->isChecked()) {
 			ui->ConverterOutputText->append(QStringLiteral("<font color=\"%1\">%2</font>")
 											.arg(consoleAmber, cmdline_s));
-			QTimer::singleShot(25, this, [this] {
-				on_ConverterFinished(0, QProcess::NormalExit);
+			QTimer::singleShot(25, this, [this, workerIndex] {
+				on_ConverterFinished(workerIndex, 0, QProcess::NormalExit);
 			});
 		} else {
 
@@ -901,12 +933,12 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 			// 	qDebug().noquote() << a;
 			// }
 
-			process.setProcessChannelMode(QProcess::SeparateChannels);
+			workers[workerIndex]->setProcessChannelMode(QProcess::SeparateChannels);
 
 
 			if (commands.size() == 1) { // only one program to run.
 				// just run it, with all the remaining items as individual args
-				process.start(cmdline.takeFirst(), cmdline);
+				workers[workerIndex]->start(cmdline.takeFirst(), cmdline);
 
 			} else { // multiple programs to run; will need an interpreter ...
 
@@ -915,11 +947,11 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 #ifdef Q_OS_WIN
 				// run cmd.exe with additional arg "/c" preceding all the other args
 				cmdline.push_front("/c");
-				process.start("cmd.exe", cmdline);
+				workers[workerIndex]->start("cmd.exe", cmdline);
 #else
 				// run /bin/sh with -c as 1st arg,
 				// and the entire line as the 2nd arg
-				process.start("/bin/sh", {"-c", cmdline_s});
+				workers[workerIndex]->start("/bin/sh", {"-c", cmdline_s});
 #endif
 
 			}
@@ -932,8 +964,8 @@ void MainWindow::convert(const QString &outfn, const QString& infn)
 		out << cmdline_s << "\n";
 		QGuiApplication::clipboard()->setText(clipText);
 
-		QTimer::singleShot(5, this, [this] {
-			on_ConverterFinished(0, QProcess::NormalExit);
+		QTimer::singleShot(5, this, [this, workerIndex] {
+			on_ConverterFinished(workerIndex, 0, QProcess::NormalExit);
 		});
 	}
 }
@@ -1333,6 +1365,7 @@ QStringList MainWindow::queryResamplerCapabilities()
 			inAdditionalOptions = true;
 			continue;
 		}
+
 		if (inAdditionalOptions) {
 			auto m = switchRx.match(line);
 			if (m.hasMatch()) {
@@ -1691,6 +1724,8 @@ void MainWindow::onConvertButtonRightClicked()
 		launchType = LaunchType::Clipboard;
 		launch();
 	});
+	convertTaskMenu->addSeparator();
+	convertTaskMenu->addAction(tr("Concurrent Conversions ..."), this, &MainWindow::on_actionConcurrentConversions_triggered);
 
 	convertTaskMenu->popup(QCursor::pos());
 }
@@ -1698,7 +1733,9 @@ void MainWindow::onConvertButtonRightClicked()
 void MainWindow::on_stopRequested()
 {
 	conversionQueue.clear();
-	process.kill();
+	for (QProcess* w : workers) {
+		w->kill();
+	}
 	ui->StatusLabel->setText(tr("Status: conversion stopped"));
 }
 
@@ -1710,6 +1747,30 @@ void MainWindow::on_actionMultiStageConversion_triggered(bool checked)
 void MainWindow::on_actionUse_a_temp_file_triggered(bool checked)
 {
 	bNoTempFile = !checked;
+}
+
+void MainWindow::on_actionConcurrentConversions_triggered()
+{
+	const int recommended = MainWindow::numWorkers();
+	const int maxValue = std::max(recommended, static_cast<int>(std::thread::hardware_concurrency()));
+	const int current = (numWorkersOverride > 0) ? numWorkersOverride : recommended;
+
+	auto* d = new ConcurrentConversionsDialog(current, recommended, maxValue, this);
+	if (d->exec() == QDialog::Accepted) {
+		const int chosen = d->getValue();
+		if (chosen != static_cast<int>(workers.size())) {
+			const bool conversionRunning = std::any_of(workers.constBegin(), workers.constEnd(), [](QProcess* p) {
+				return p->state() != QProcess::NotRunning;
+			});
+			if (conversionRunning) {
+				QMessageBox::information(this, tr("Concurrent Conversions"),
+					tr("The new setting will take effect after the current batch completes."));
+			} else {
+				setupWorkerPool(chosen);
+			}
+		}
+		numWorkersOverride = chosen;
+	}
 }
 
 // getInfileFiler() : returns a filename filter, taking into consideration all file formats which can be handled in the current state

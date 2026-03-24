@@ -10,11 +10,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "concurrentconversionsdialog.h"
 #include "converterconfigurationdialog.h"
 
 #include <QMainWindow>
 #include <QProcess>
 #include <QMenu>
+#include <algorithm>
+#include <thread>
 
 #if defined (Q_OS_WIN)
 const char expectedConverter[] ="resampler.exe";
@@ -78,10 +81,8 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 private slots:
-    void on_StdoutAvailable();
-    void on_StderrAvailable();
     void on_ConverterStarted();
-    void on_ConverterFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void on_ConverterFinished(int workerIndex, int exitCode, QProcess::ExitStatus exitStatus);
     void on_browseInfileButton_clicked();
     void on_convertButton_clicked();
     void on_InfileEdit_editingFinished();
@@ -114,6 +115,7 @@ private slots:
     void on_actionCustom_Parameters_triggered();
 	void onConvertButtonRightClicked();
     void on_stopRequested();
+    void on_actionConcurrentConversions_triggered();
 	void onBrowseInButtonRightClicked();
 	void onBrowseOutButtonRightClicked();
 
@@ -126,7 +128,17 @@ private:
     ConverterConfigurationDialog* converterConfigurationDialog;
 
     // state
-    QProcess process;
+    QVector<QProcess*> workers;
+
+    struct WorkerOutput {
+        QString stdoutBuffer;
+        QString stderrBuffer;
+    };
+    QVector<WorkerOutput> workerOutputs;
+    int totalTasks{0};
+    int completedTasks{0};
+    int numWorkersOverride{0};  // 0 = use auto heuristic
+
     QVector<ConversionTask> conversionQueue;
     QString lastOutputFileExt;  // used for tracking if user changed the file extension when changing the output filename
     QString inFileBrowsePath;   // used for storing the the path on "open input file" Dialog
@@ -165,10 +177,12 @@ private:
     QStringList queryResamplerCapabilities(); // returns list of --switches supported by the available ReSampler binary
     void processOutfileExtension(); // function to update combobox etc when a new output file extension is chosen
     void syncOutputFormatControls(); // sync outputFormatCombo and fileFormatCheckbox from filenameGenerator
-    void convert(const QString &outfn, const QString &infn); // execute a conversion task
+    void convert(const QString &outfn, const QString &infn, int workerIndex); // execute a conversion task
     QStringList prepareMidConverterArgs(const QString &outfn, const QString &infn); // prepare commandline args for ReSampler
     void wildcardPushToQueue(const QString &inFilename); // interpret filename containing wildcards, and push tasks onto queue as appropraite
-    void convertNext(); // perform conversion task from front of queue, then remove task from queue
+    void convertNext(int workerIndex); // perform conversion task from front of queue, then remove task from queue
+    static int numWorkers(); // calculate number of parallel worker processes based on hardware
+    void setupWorkerPool(int n); // (re)create the worker process pool
     void applyStylesheet();
     void populateDitherProfileMenu();
     void clearNoiseShapingMenu();

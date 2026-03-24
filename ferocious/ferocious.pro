@@ -30,7 +30,8 @@ SOURCES += main.cpp \
     checkboxdelegate.cpp \
     converterdefinitionsmodel.cpp \
     themeselectiondialog.cpp \
-    soundfiledialog.cpp
+    soundfiledialog.cpp \
+    concurrentconversionsdialog.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
@@ -47,7 +48,8 @@ HEADERS  += mainwindow.h \
     checkboxdelegate.h \
     converterdefinitionsmodel.h \
     themeselectiondialog.h \
-    soundfiledialog.h
+    soundfiledialog.h \
+    concurrentconversionsdialog.h
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui \
