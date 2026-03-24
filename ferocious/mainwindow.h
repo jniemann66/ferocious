@@ -119,6 +119,8 @@ private slots:
 	void onBrowseInButtonRightClicked();
 	void onBrowseOutButtonRightClicked();
 
+    void on_actionConcurrency_triggered();
+
 private:
     // resources
     Ui::MainWindow *ui;

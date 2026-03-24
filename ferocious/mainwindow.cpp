@@ -1921,3 +1921,9 @@ void MainWindow::openChooseOutputDirectory()
 		}
 	}
 }
+
+void MainWindow::on_actionConcurrency_triggered()
+{
+
+}
+

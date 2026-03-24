@@ -6,7 +6,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <thread>
 
 ConcurrentConversionsDialog::ConcurrentConversionsDialog(int current, int recommended, int maxValue, QWidget* parent)
     : QDialog(parent), recommended(recommended)
@@ -25,10 +24,9 @@ ConcurrentConversionsDialog::ConcurrentConversionsDialog(int current, int recomm
     lineEdit->setAlignment(Qt::AlignRight);
     lineEdit->setText(QString::number(current));
 
-    const int hwThreads = static_cast<int>(std::thread::hardware_concurrency());
-    auto* hintLabel = new QLabel(tr("Recommended: %1  (detected %2 hardware threads)")
-                                     .arg(recommended)
-                                     .arg(hwThreads));
+    auto* hintLabel = new QLabel(tr("Recommended: 1-%1")
+                                     .arg(recommended));
+
     hintLabel->setAlignment(Qt::AlignCenter);
 
     auto* sliderRow = new QHBoxLayout;
