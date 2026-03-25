@@ -88,7 +88,7 @@ QPushButton:hover {
 QPushButton:pressed {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+	radius: 1.35, stop: 0 #bf9422, stop: 1 #6e4a10);
 }
 
 QPushButton:disabled {
@@ -100,7 +100,7 @@ QPushButton:disabled {
 QPushButton:disabled[flashing="true"] {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+	radius: 1.35, stop: 0 #bf9422, stop: 1 #6e4a10);
 }
 
 QComboBox {
@@ -330,7 +330,7 @@ QHeaderView::section {
 
 QTextBrowser {
 	background-color: rgb(0, 0, 0);
-	color: #d4940a;
+	color: #bf9422;
 	selection-background-color: rgba(32, 32, 64, 192);
 	selection-color: rgb(255, 255, 255);
 	border-width: 2px;
@@ -399,7 +399,7 @@ QMenu:hover {
 QMenu:pressed {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+	radius: 1.35, stop: 0 #bf9422, stop: 1 #6e4a10);
 }
 
 QToolButton {
@@ -421,7 +421,7 @@ QToolButton:hover {
 QToolButton:pressed {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+	radius: 1.35, stop: 0 #bf9422, stop: 1 #6e4a10);
 }
 
 
@@ -527,7 +527,7 @@ QProgressBar{
 QProgressBar::chunk{
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+	radius: 1.35, stop: 0 #bf9422, stop: 1 #6e4a10);
 }
 
 QLabel{
@@ -548,7 +548,7 @@ QRadioButton::indicator:unchecked {
 QRadioButton::indicator:checked {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 		fx: 0.4, fy: -0.1,
-		radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+		radius: 1.35, stop: 0 #bf9422, stop: 1 #6e4a10);
 }
 
 QCheckBox {
@@ -564,13 +564,13 @@ QCheckBox::indicator {
 }
 
 QCheckBox::indicator:hover {
-	border: 1.5px solid #d4940a;
+	border: 1.5px solid #bf9422;
 }
 
 QCheckBox::indicator:checked {
 	background: qradialgradient(cx: 0.4, cy: -0.1,
 	fx: 0.4, fy: -0.1,
-	radius: 1.35, stop: 0 #d4940a, stop: 1 #7a4e00);
+	radius: 1.35, stop: 0 #bf9422, stop: 1 #6e4a10);
 	border: 1.5px solid rgba(0, 0, 0, 0);
 	image: url(:/images/checkmark.png);
 }

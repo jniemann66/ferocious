@@ -90,7 +90,7 @@ private:
             grad.setColorAt(0.0, QColor(0,   0,   0, 120));
             grad.setColorAt(1.0, QColor(0,   0,   0, 210));
         } else if (flashing || pressed) {
-            grad.setColorAt(0.0, QColor(212, 148, 10, 120));
+            grad.setColorAt(0.0, QColor(191, 148, 34, 120));
             grad.setColorAt(1.0, QColor(0,   0,   0, 200));
         } else if (hovered) {
             grad.setColorAt(0.0, QColor(255, 255, 255, 55));
