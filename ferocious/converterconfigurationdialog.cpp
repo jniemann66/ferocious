@@ -124,21 +124,21 @@ ConverterConfigurationDialog::ConverterConfigurationDialog(QWidget* parent, Qt::
 
 void ConverterConfigurationDialog::initMenu()
 {
-	contextMenu->addAction(tr("New"), this, [this] {
+	contextMenu->addAction(tr("New"), QKeySequence::New, this, [this] {
        onNewRequested(tableView.currentIndex());
-    }, QKeySequence::New);
+    });
 
 	contextMenu->addAction(tr("Edit ..."), this, [this] {
        onEditRequested(tableView.currentIndex());
     });
 
-	contextMenu->addAction(tr("Clone"), this, [this] {
+	contextMenu->addAction(tr("Clone"), QKeySequence::Copy, this, [this] {
        onCloneRequested(tableView.currentIndex());
-    }, QKeySequence::Copy);
+    });
 
-	contextMenu->addAction(tr("Delete"), this, [this] {
+	contextMenu->addAction(tr("Delete"), QKeySequence::Delete, this, [this] {
        onDeleteRequested(tableView.currentIndex());
-    }, {QKeySequence::Delete});
+    });
 
 	contextMenu->addAction(tr("Move Up"), this, [this] {
         onMoveUpRequested(tableView.currentIndex());
