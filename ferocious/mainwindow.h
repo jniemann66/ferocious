@@ -13,11 +13,13 @@
 #include "concurrentconversionsdialog.h"
 #include "converterconfigurationdialog.h"
 
+#include <QDateTime>
 #include <QMainWindow>
 #include <QProcess>
 #include <QMenu>
 #include <algorithm>
 #include <thread>
+#include <variant>
 
 #if defined (Q_OS_WIN)
 const char expectedConverter[] ="resampler.exe";
@@ -35,6 +37,7 @@ const QString consoleLtGreen{"#a3c785"};
 const QString consoleYellow{"#D6C878"};
 const QString consoleAmber{"#D6953E"};
 const QString consoleRed{"#ff8080"};
+const QString consoleGrey{"#808080"};
 
 
 class ConversionTask
@@ -116,6 +119,7 @@ private slots:
 	void onConvertButtonRightClicked();
     void on_stopRequested();
     void on_actionConcurrentConversions_triggered();
+    void on_actionTimestampFormat_triggered();
 	void onBrowseInButtonRightClicked();
 	void onBrowseOutButtonRightClicked();
 
@@ -135,6 +139,8 @@ private:
     struct WorkerOutput {
         QString stdoutBuffer;
         QString stderrBuffer;
+        QDateTime startTime;
+        QDateTime endTime;
     };
     QVector<WorkerOutput> workerOutputs;
     int totalTasks{0};
@@ -167,8 +173,15 @@ private:
     LaunchType launchType{LaunchType::Convert};
     QVector<ConverterDefinition> converterDefinitions;
     QStringList reSamplerCmdlineOptions;
+    std::variant<Qt::DateFormat, QString> dateFormat{Qt::ISODateWithMs};
+    bool showStartTime{true};
+    bool showEndTime{true};
+    QString timestampSeparator{" -- "};
 
     // functions
+    QString formatDateTime(const QDateTime& dt) const {
+        return std::visit([&dt](auto&& fmt) { return dt.toString(fmt); }, dateFormat);
+    }
     void populateBitFormats(const QString& fileName);   // poulate combobox with list of subformats returned from query to converter
     bool fileExists(const QString& path);   // detect if file represented by path exists
     void writeSettings();       // write settings to ini file

@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     converterdefinitionsmodel.cpp \
     themeselectiondialog.cpp \
     soundfiledialog.cpp \
-    concurrentconversionsdialog.cpp
+    concurrentconversionsdialog.cpp \
+    dateformatdialog.cpp
 
 HEADERS  += mainwindow.h \
     flashingpushbutton.h \
@@ -49,7 +50,8 @@ HEADERS  += mainwindow.h \
     converterdefinitionsmodel.h \
     themeselectiondialog.h \
     soundfiledialog.h \
-    concurrentconversionsdialog.h
+    concurrentconversionsdialog.h \
+    dateformatdialog.h
 
 FORMS    += mainwindow.ui \
     outputfileoptions_dialog.ui \

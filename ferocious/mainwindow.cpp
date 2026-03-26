@@ -13,6 +13,7 @@
 #include "fancylineedit.h"
 #include "lpfparametersdlg.h"
 #include "themeselectiondialog.h"
+#include "dateformatdialog.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -265,6 +266,17 @@ void MainWindow::readSettings()
 			ui->actionNoiseShapingStandard->setChecked(true);
 	}
 	settings.endGroup();
+
+	settings.beginGroup("TimestampSettings");
+	showStartTime = settings.value("showStartTime", true).toBool();
+	showEndTime = settings.value("showEndTime", true).toBool();
+	timestampSeparator = settings.value("timestampSeparator", QStringLiteral(" -- ")).toString();
+	if (settings.value("dateFormatIsString", false).toBool())
+		dateFormat = settings.value("dateFormatString", QString{}).toString();
+	else
+		dateFormat = static_cast<Qt::DateFormat>(settings.value("dateFormatEnum", static_cast<int>(Qt::ISODateWithMs)).toInt());
+	settings.endGroup();
+
 	filenameGenerator.loadSettings(settings);
 
 	QString converterDefinitionsFilename =
@@ -324,6 +336,18 @@ void MainWindow::writeSettings()
 	settings.setValue("ditherProfile", MainWindow::ditherProfile);
 	settings.endGroup();
 
+	settings.beginGroup("TimestampSettings");
+	settings.setValue("showStartTime", showStartTime);
+	settings.setValue("showEndTime", showEndTime);
+	settings.setValue("timestampSeparator", timestampSeparator);
+	const bool dateFormatIsString = std::holds_alternative<QString>(dateFormat);
+	settings.setValue("dateFormatIsString", dateFormatIsString);
+	if (dateFormatIsString)
+		settings.setValue("dateFormatString", std::get<QString>(dateFormat));
+	else
+		settings.setValue("dateFormatEnum", static_cast<int>(std::get<Qt::DateFormat>(dateFormat)));
+	settings.endGroup();
+
 	if (!converterDefinitions.isEmpty()) {
 		QString converterDefinitionsFilename =
 				QDir::toNativeSeparators(QFileInfo(settings.fileName()).path() + "/" + "converters.json");
@@ -363,7 +387,26 @@ void MainWindow::on_ConverterFinished(int workerIndex, int exitCode, QProcess::E
 	Q_UNUSED(exitCode);
 	Q_UNUSED(exitStatus);
 
-	// flush buffered output for this worker atomically
+	// flush buffered output for this worker atomically, bracketed by its timestamps
+	workerOutputs[workerIndex].endTime = QDateTime::currentDateTime();
+
+	const bool realConversion = (launchType == LaunchType::Convert && !ui->actionMock_Conversion->isChecked());
+
+	if (realConversion) {
+		QString range;
+		if (showStartTime)
+			range = formatDateTime(workerOutputs[workerIndex].startTime);
+		if (showEndTime) {
+			if (!range.isEmpty())
+				range += timestampSeparator;
+			range += formatDateTime(workerOutputs[workerIndex].endTime);
+		}
+		if (!range.isEmpty()) {
+			ui->ConverterOutputText->append(QStringLiteral("<font color=\"%1\">%2</font>")
+											.arg(consoleGrey, range));
+		}
+	}
+
 	if (!workerOutputs[workerIndex].stdoutBuffer.isEmpty()) {
 		processConverterOutput(workerOutputs[workerIndex].stdoutBuffer, 1);
 		workerOutputs[workerIndex].stdoutBuffer.clear();
@@ -935,6 +978,7 @@ void MainWindow::convert(const QString &outfn, const QString& infn, int workerIn
 
 			workers[workerIndex]->setProcessChannelMode(QProcess::SeparateChannels);
 
+			workerOutputs[workerIndex].startTime = QDateTime::currentDateTime();
 
 			if (commands.size() == 1) { // only one program to run.
 				// just run it, with all the remaining items as individual args
@@ -1720,12 +1764,15 @@ void MainWindow::onConvertButtonRightClicked()
 
 	convertTaskMenu->addAction(tr("Convert"), this, &MainWindow::on_convertButton_clicked);
 	convertTaskMenu->addAction(tr("Copy Command Line to Clipboard"), [this] {
-		QGuiApplication::clipboard()->clear();
-		launchType = LaunchType::Clipboard;
-		launch();
+		QMetaObject::invokeMethod(this, [this] {
+			QGuiApplication::clipboard()->clear();
+			launchType = LaunchType::Clipboard;
+			launch();
+		}, Qt::QueuedConnection);
 	});
 	convertTaskMenu->addSeparator();
 	convertTaskMenu->addAction(tr("Concurrent Conversions ..."), this, &MainWindow::on_actionConcurrentConversions_triggered);
+	convertTaskMenu->addAction(tr("Timestamp Format ..."), this, &MainWindow::on_actionTimestampFormat_triggered);
 
 	convertTaskMenu->popup(QCursor::pos());
 }
@@ -1770,6 +1817,21 @@ void MainWindow::on_actionConcurrentConversions_triggered()
 			}
 		}
 		numWorkersOverride = chosen;
+	}
+}
+
+void MainWindow::on_actionTimestampFormat_triggered()
+{
+	DateFormatDialog d(this);
+	d.setDateFormat(dateFormat);
+	d.setShowStartTime(showStartTime);
+	d.setShowEndTime(showEndTime);
+	d.setTimestampSeparator(timestampSeparator);
+	if (d.exec() == QDialog::Accepted) {
+		dateFormat = d.getDateFormat();
+		showStartTime = d.getShowStartTime();
+		showEndTime = d.getShowEndTime();
+		timestampSeparator = d.getTimestampSeparator();
 	}
 }
 
