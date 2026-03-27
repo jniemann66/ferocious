@@ -150,6 +150,9 @@ MainWindow::MainWindow(QWidget *parent)
 		on_InfileEdit_editingFinished();
 	});
 
+	connect(ui->actionTimestamp_format, &QAction::triggered, this, &MainWindow::on_actionTimestampFormat_triggered);
+	connect(ui->actionConcurrent_Conversions, &QAction::triggered, this, &MainWindow::on_actionConcurrentConversions_triggered);
+
 	// worker pool is set up after readSettings() so numWorkersOverride is already populated
 	setupWorkerPool((numWorkersOverride > 0) ? numWorkersOverride : MainWindow::numWorkers());
 	connect(ui->convertButton, &FlashingPushButton::stopRequested, this, &MainWindow::on_stopRequested);
